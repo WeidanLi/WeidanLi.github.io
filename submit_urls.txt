@@ -1,5 +1,5 @@
-http://weidanli.github.io/Computer/Network/4-TCP-UDP/
-http://weidanli.github.io/Computer/Network/3-IP/
-http://weidanli.github.io/uncategorized/hello-world/
-http://weidanli.github.io/Computer/Network/1-Find-Computer-Network/
-http://weidanli.github.io/Computer/Network/2-TCP-IP-PROTOCOL/
+https://ssn.liweidan.cn/Computer/Network/4-TCP-UDP/
+https://ssn.liweidan.cn/Computer/Network/3-IP/
+https://ssn.liweidan.cn/uncategorized/hello-world/
+https://ssn.liweidan.cn/Computer/Network/1-Find-Computer-Network/
+https://ssn.liweidan.cn/Computer/Network/2-TCP-IP-PROTOCOL/
