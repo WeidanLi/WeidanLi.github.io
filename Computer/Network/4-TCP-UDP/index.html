@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <h1 id="计算机碎碎念"><a href="#计算机碎碎念" class="headerlink" title="计算机碎碎念"></a>计算机碎碎念</h1><h2 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h2><ul>
 <li><a href="/Computer/Network/1-Find-Computer-Network/">生活中的网络</a></li>
 <li><a href="/Computer/Network/2-TCP-IP-PROTOCOL/">TCP/IP之数据链路层</a></li>
-<li><a href="/Computer/Network/3-IP/">TCP/IP之传输层IP协议</a></li>
+<li><a href="/Computer/Network/3-IP/">TCP/IP之互联网层IP协议</a></li>
 </ul>
 
 </div>
@@ -123,7 +123,31 @@ function sidebar_toggle() {
         </div>
         <div class="book-content">
           <div class="book-post">
-  
+  <h1 id="传输层协议"><a href="#传输层协议" class="headerlink" title="传输层协议"></a>传输层协议</h1><p>既然了解了 <strong>IP协议</strong> 的内容，上一篇通篇没有说到数据的安全性，因为 <strong>IP协议</strong> 只负责将数据运输到对应的计算机而已，不会对数据做任何操作，也不会验证数据是否完整到达或者有没有被破坏，或者交给哪个程序进行处理。而这些操作，是由 <strong>传输层协议</strong> 来做保证的。</p>
+<p>传输层目前我们最流行的协议应该是 <strong>TCP</strong> 和 <strong>UDP</strong> 了吧。前者是有连接的情况下传输数据，而后者则不会考虑数据是否完整到达，但是效率会比 <strong>TCP</strong> 略胜一筹。当然两者都有合适的使用场景。<strong>TCP</strong> 很多时候会用于设备之间的连接和数据传递，比如仓库 PDA 的使用。而 <strong>UDP</strong> 则多用于通话、视频方面的应用，还有我们熟知的 <strong>微信QQ</strong>，也是使用 <strong>UDP</strong> 作为传输协议的，他利用了 <strong>UDP</strong> 的效率，然后在 <strong>应用层</strong> 适配了数据完整性的校验。所以很多时候我们会有这种场景，我这边发送的消息显示个红色的❌，但是其实对方已经接受到刚刚发送的消息了，但是我们以为没有接收到又重新发了一次。还有直播类型的 <strong>应用层协议</strong> 多用 <strong>UDP协议</strong>。</p>
+<p>那，既然 <strong>IP协议</strong> 已经将数据传送到当前服务器了，服务器就应该具有一定的程序进行处理，要不然服务器也会懵逼。这个过程就通过解开客户端发送的数据，里面包含了一个参数称为 <strong>端口号</strong>，服务器系统就会交给监听这个 <strong>端口</strong> 对应的应用程序进行处理。依然是拿快递行业做类比，我们知道我们的地址一般会写到家里或者附近的地方，<strong>IP协议</strong> 就是负责将这个件送给对应的这个区域而已，但是这个区域有那么多人，根本不知道要交给谁，所以这时候快递员就需要用电话联系快递单号上的收件人电话，然后将件交给收件人。那么这个 <strong>收件人电话</strong> 就相当于端口号了。</p>
+<p>这些服务端处理的 <strong>程序</strong>，将会监听着服务器系统上的 <strong>空闲端口</strong>。当这些端口有数据进来的时候，自然他们就可以接收到数据进行处理。当然如果这个 <strong>端口</strong> 被占用的话，程序是会启动失败的。但是不同的协议是可以监听同一个端口的，比方说当前有个 <strong>Tomcat</strong> 程序监听着 <strong>8080</strong>，我们还可以用另外一个程序，以 <strong>UDP</strong> 的协议继续监听这个 <strong>端口</strong>。</p>
+<p>一般来说，<strong>0 ~ 1023</strong> 留给一些知名程序进行处理（比如 <strong>sshd</strong> <strong>HTTP</strong>），如果我们需要占用端口，一般从 <strong>1024</strong> 开始，最大的端口号是 <strong>65535</strong>。当然这些端口也可能被我们启动的某些比较有名的程序占用，比如 <strong>Redis</strong> 占用 <strong>6379</strong>，<strong>Tomcat</strong> 占用 <strong>8080</strong> 等等。但是通常如果不需要这些程序的话，我们是可以使用这些端口的。</p>
+<h1 id="UDP协议"><a href="#UDP协议" class="headerlink" title="UDP协议"></a>UDP协议</h1><p><strong>UDP（User Datagram Protocol）</strong> 的内容比较简单，先来说说 <strong>UDP</strong>。</p>
+<p><strong>UDP协议</strong> 一般用来做 <strong>效率要求第一但数据不要求一定要完整</strong> 的场景，比如 <strong>通话</strong> <strong>视频直播</strong>。这两项总不能用 <strong>TCP</strong> 来做，加入用 <strong>TCP</strong> 来做的话，有可能这个包不完整然后发送端又重新发了，那么将会导致 <strong>视频</strong> 重复播放某一帧，这显然是不允许的。</p>
+<p><strong>UDP协议</strong> 只实现了最简单的功能，也就是 <strong>应用程序</strong> 数据的传输，它可以保证收到的数据是完整的（先放下分包的问题），但是不能保证一定能到达接收方。因此我们也不用在我们自己的消息体中设置一个分隔符或者消息长度，因为收到的消息基本是一个固定的包，客户端是怎样的，接收端就是怎样的。</p>
+<h2 id="UDP首部信息"><a href="#UDP首部信息" class="headerlink" title="UDP首部信息"></a>UDP首部信息</h2><p><strong>UDP</strong> 的首部信息包含四个内容：<strong>源端口号（2byte）</strong>、<strong>目标端口号（2byte）</strong>、<strong>包长度（2byte）</strong> 以及 <strong>校验和（2byte）</strong>。一共 <strong>8byte</strong> 的长度。</p>
+<ul>
+<li>源端口号：可选项，如果客户端不需要接收返回的消息，则可以设置为 <strong>0</strong>；</li>
+<li>目标端口号：一般存储服务器处理程序监听的端口号；</li>
+<li>包长度：<strong>UDP头部信息</strong> 长度 和 <strong>数据部分</strong> 的长度之和；</li>
+<li>校验和：该字段为了提供可靠的 <strong>UDP首部</strong> 和 <strong>数据</strong> 而设计的，协议的校验需要 <strong>源和目标的IP地址</strong>、<strong>协议号</strong>、还有 <strong>发送接收端两边的端口号</strong> 参与计算（称为 <strong>伪首部</strong>）。这个校验和是为了验证 <strong>IP</strong> <strong>端口</strong> <strong>协议</strong> 三个关键值的正确以防止数据对其他的 <strong>应用</strong> 产生干扰而设置的。</li>
+</ul>
+<h2 id="UDP的分包问题"><a href="#UDP的分包问题" class="headerlink" title="UDP的分包问题"></a>UDP的分包问题</h2><p>上面我们说了，<strong>UDP</strong> 可以保证接收到的信息是完整的。但是这里有个前提条件，就是不需要被 <strong>IP协议</strong> 进行分包的信息。比方说，我发送了 <strong>ABCD</strong>，接收端要么没收到，要么就收到 <strong>ABCD</strong>，毕竟这四个字符如果用 <strong>UTF-8</strong> 进行编码的话，也只是需要 <strong>4byte</strong>。</p>
+<p>而如果我们分包大于系统设置的默认 <strong>MTU</strong> 从导致一个消息被分成多个 <strong>分片</strong> 的情况下，要么所有 <strong>分片</strong> 都接受到了，系统重组成功返回给 <strong>应用程序</strong>，要么 <strong>分片</strong> 不完整或者受损导致无法重组从而系统将整个 <strong>UDP</strong> 消息丢弃。</p>
+<p>那我们来推断一下，数据应该在多少字节的情况下能够安全的发送消息，首先我们知道一个 <strong>以太网帧</strong> 是 <strong>1500byte</strong>，而 <strong>IP协议首部信息</strong> 占用了 <strong>20byte</strong>（没有可选参数的情况下），说明 <strong>IP数据包</strong> 的 <strong>数据部分</strong> 只有 <strong>1480byte</strong>，而 <strong>UDP首部信息</strong> 的长度是 <strong>8byte</strong>，所以一个 <strong>MTU</strong> 中我们可以存放的空间是 <strong>1472byte</strong>。</p>
+<p>但是但是，我们之前已经说了，如果传播图中有个设备小于 <strong>MTU</strong>，则使用的是最小的 <strong>MTU</strong> 进行数据传输（木桶定理）所以即使是 <strong>MTU=1500</strong> 的情况下，如果需要转发的 <strong>设备</strong> 过多的话，这个值 <strong>1472byte</strong> 也不是一个稳定的值，所以我们只能在我们知道设备信息的情况下（比如办公室局域网），<strong>应用程序</strong> 以 <strong>1472byte</strong> 进行分包发送数据。那如果需要发送到公网的数据咋办，我们就只能使用 <strong>Internet上的标准MTU值 576byte（其实也就是目前互联网上可能存在的旧设备链路处理的 MTU 值）</strong> 的内容进行数据传输，才不容易出现奇怪的问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Network             MTU (bytes)</span><br><span class="line">-------------------------------</span><br><span class="line">16 Mbps Token Ring        17914</span><br><span class="line">4 Mbps Token Ring          4464</span><br><span class="line">FDDI                       4352</span><br><span class="line">Ethernet                   1500</span><br><span class="line">IEEE 802.3&#x2F;802.2           1492</span><br><span class="line">PPPoE (WAN Miniport)       1480</span><br><span class="line">X.25                        576</span><br><span class="line"></span><br><span class="line">via https:&#x2F;&#x2F;support.microsoft.com&#x2F;en-hk&#x2F;help&#x2F;314496&#x2F;the-default-mtu-sizes-for-different-network-topologies</span><br></pre></td></tr></table></figure>
+
+<h1 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h1><p><strong>UDP</strong> 只是一个简单的过度 <strong>传输层</strong> 的协议，但 <strong>TCP</strong> 就不一样了，<strong>TCP</strong> 会给予承诺说所有的数据使用 <strong>TCP</strong> 协议的话基本上是不会丢失的。即使 <strong>IP数据包</strong> 经过很多跳 <strong>路由器</strong> 被丢弃了，但是 <strong>TCP</strong> 的发送端会接听接收端的接收情况，如果一直在一定的时长内没有收到接收端的接收确认，他将会继续将这一部分数据进行 <strong>重发</strong>，直到所有数据发送完毕为止。</p>
+<p>我们可以假想使用 <strong>TCP协议</strong> 连接的两个应用程序中连接了一条 <strong>管道</strong>（但其实 <strong>IP层</strong> 并没有任何的管道，都是靠一问一答的方式来实现这个虚拟的假想的），就类似于 <strong>水管</strong> 一样，水就是 <strong>数据</strong>，但是水是会连连不断的 <strong>传输</strong> 过来的，所以我们的 <strong>应用程序</strong> 就需要使用自己的一些规范，比如 <strong>分隔符</strong> 或者 <strong>换行符</strong> 来切割每次发送端发送的不在同一个业务内的 <strong>数据</strong>。</p>
+<h2 id="TCP连接的开始与结束"><a href="#TCP连接的开始与结束" class="headerlink" title="TCP连接的开始与结束"></a>TCP连接的开始与结束</h2><p>这也就是我们最熟悉的 <strong>三次握手，四次挥手</strong> 了，由于 <strong>HTTP</strong> 的传输层用的是 <strong>TCP</strong>，又由于他是短连接的协议，所以如果我们没有设置 <strong>Connection: Keep-alive</strong> 和 <strong>Keep-Alive: timeout=20</strong> 这两个 <strong>HTTP Header</strong> 的话，那么一个页面的每一次连接（<strong>CSS</strong>、<strong>JS</strong> 以及 <strong>异步调用</strong>），都需要经历 <strong>三次握手，四次挥手</strong>。</p>
+<h2 id="TCP数据传输的方式"><a href="#TCP数据传输的方式" class="headerlink" title="TCP数据传输的方式"></a>TCP数据传输的方式</h2><h2 id="TCP滑动窗口加快传输"><a href="#TCP滑动窗口加快传输" class="headerlink" title="TCP滑动窗口加快传输"></a>TCP滑动窗口加快传输</h2><h2 id="提高网络利用率"><a href="#提高网络利用率" class="headerlink" title="提高网络利用率"></a>提高网络利用率</h2>
 </div>
 
 
