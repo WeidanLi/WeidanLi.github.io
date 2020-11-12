@@ -1,3 +1,4 @@
+https://liweidan.cn/db/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log/
 https://liweidan.cn/frame/spring-boot/%E5%BE%AE%E6%9C%8D%E5%8A%A1feign%E6%9C%AC%E5%9C%B0%E5%A5%91%E7%BA%A6%E6%B5%8B%E8%AF%95-springcloudcontract/
 https://liweidan.cn/Java/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/
 https://liweidan.cn/frame/spring-boot/%E6%B5%8B%E8%AF%95%E4%BD%A0%E7%9A%84-springboot-%E9%A1%B9%E7%9B%AE/
@@ -7,4 +8,3 @@ https://liweidan.cn/computer-basic/asm/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%
 https://liweidan.cn/db/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%9B%9B-mysql-innodb%E8%A1%A8%E7%B4%A2%E5%BC%95%E5%92%8Cb%E6%A0%91/
 https://liweidan.cn/frame/spring-boot/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%85%A5%E9%97%A8-web-%E9%A1%B9%E7%9B%AE/
 https://liweidan.cn/java/Tomcat/%E4%B8%89-tomcat%E5%90%AF%E5%8A%A8%EF%BC%88%E4%B8%8B%EF%BC%89/
-https://liweidan.cn/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE%E7%AE%97%E6%B3%95/
