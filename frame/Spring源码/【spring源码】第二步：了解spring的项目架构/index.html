@@ -1,142 +1,293 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
-
-    
-      <link rel="icon" href="/favicon.png" />
-    
-
-    <title>
-        
-          【Spring源码】第二步：了解Spring的项目架构 - 丹崽的技术博客
-        
-    </title>
-
-    <!-- Spectre.css framework -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-exp.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-icons.min.css">
-
-    <!-- theme css & js -->
-    
-<link rel="stylesheet" href="/css/book.css">
-
-    
-<script src="/js/book.js"></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
 
 
-    <!-- tocbot -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
-    
-    <!-- katex -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    
-    
-<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const zooming = new Zooming()
-    zooming.listen('.book-content img')
-})
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="Spring项目模块下了源码一看，我去（我其实没有那么惊讶毕竟功能强大，多也正常），Spring 居然有这么多的模块划分，但是这些模块都是做什么的，可能我们平常观察项目集成的时候，能够感受一些东西出来。比如：spring-web 是 SpringMVC 的内容。所以在日常中，把 SpringMVC 当成一个独立框架是一个很有问题的说法，他其实也就是 Spring 家族中的一个小模块而已。除了这个模">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Spring源码】第二步：了解Spring的项目架构">
+<meta property="og:url" content="http://weidanli.github.io/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90spring%E6%BA%90%E7%A0%81%E3%80%91%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E4%BA%86%E8%A7%A3spring%E7%9A%84%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84/index.html">
+<meta property="og:site_name" content="丹崽的技术博客">
+<meta property="og:description" content="Spring项目模块下了源码一看，我去（我其实没有那么惊讶毕竟功能强大，多也正常），Spring 居然有这么多的模块划分，但是这些模块都是做什么的，可能我们平常观察项目集成的时候，能够感受一些东西出来。比如：spring-web 是 SpringMVC 的内容。所以在日常中，把 SpringMVC 当成一个独立框架是一个很有问题的说法，他其实也就是 Spring 家族中的一个小模块而已。除了这个模">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144307.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144320.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144343.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144307.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144320.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144343.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144307.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144320.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144343.png">
+<meta property="article:published_time" content="2019-12-03T11:37:22.000Z">
+<meta property="article:modified_time" content="2020-11-10T06:43:53.579Z">
+<meta property="article:author" content="Weidan">
+<meta property="article:tag" content="spring">
+<meta property="article:tag" content="spring源码">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144307.png">
+
+
+<link rel="canonical" href="http://weidanli.github.io/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90spring%E6%BA%90%E7%A0%81%E3%80%91%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E4%BA%86%E8%A7%A3spring%E7%9A%84%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
 </script>
 
-    
-<script type="text/javascript">
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?66f61662f62178eebb934fa943e5df84";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-<meta name="generator" content="Hexo 5.2.0"></head>
-
-<body>
-
-<div class="book-container">
-  <div class="book-sidebar">
-    <div class="book-brand">
-  <a href="/">
-    <img src="/favicon.png">
-    <span>丹崽的技术博客</span>
-  </a>
-</div>
-    <div id="menu" class="book-menu hide">
-  <ul>
-<li><a href="/">Home</a></li>
-</ul>
-<h1 id="计算机碎碎念"><a href="#计算机碎碎念" class="headerlink" title="计算机碎碎念"></a>计算机碎碎念</h1><h2 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h2><ul>
-<li><a href="/Computer/Network/1-Find-Computer-Network/">生活中的网络</a></li>
-<li><a href="/Computer/Network/2-TCP-IP-PROTOCOL/">TCP/IP之数据链路层</a></li>
-<li><a href="/Computer/Network/3-IP/">TCP/IP之网络层IP协议</a></li>
-<li><a href="/Computer/Network/4-TCP-UDP/">TCP/IP之传输层TCP/UDP协议</a></li>
-</ul>
-
-</div>
+  <title>【Spring源码】第二步：了解Spring的项目架构 | 丹崽的技术博客</title>
+  
 
 
-<script src="/js/book-menu.js"></script>
 
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+    </div>
   </div>
 
-  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
-  <div class="sidebar-toggle-inner"></div>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">丹崽的技术博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">丹崽的计算机知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
 
-<script>
-function add_inner() {
-  let inner = document.querySelector('.sidebar-toggle-inner')
-  inner.classList.add('show')  
-}
 
-function remove_inner() {
-  let inner = document.querySelector('.sidebar-toggle-inner')
-  inner.classList.remove('show')
-}
 
-function sidebar_toggle() {
-    let sidebar_toggle = document.querySelector('.sidebar-toggle')
-    let sidebar = document.querySelector('.book-sidebar')
-    let content = document.querySelector('.off-canvas-content')
-    if (sidebar_toggle.classList.contains('extend')) { // show
-        sidebar_toggle.classList.remove('extend')
-        sidebar.classList.remove('hide')
-        content.classList.remove('extend')
-    }
-    else { // hide
-        sidebar_toggle.classList.add('extend')
-        sidebar.classList.add('hide')
-        content.classList.add('extend')
-    }
-}
-</script>
 
-  <div class="off-canvas-content">
-    <div class="columns">
-      <div class="column col-10 col-lg-12">
-        <div class="book-navbar">
-          <!-- For Responsive Layout -->
 
-<header class="navbar">
-  <section class="navbar-section">
-    <a onclick="open_sidebar()">
-      <i class="icon icon-menu"></i>
-    </a>
-  </section>
-</header>
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97"><span class="nav-number">1.</span> <span class="nav-text">Spring项目模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97-1"><span class="nav-number">2.</span> <span class="nav-text">Spring项目模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-core%E9%A1%B9%E7%9B%AE"><span class="nav-number">3.</span> <span class="nav-text">spring-core项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-core%E9%A1%B9%E7%9B%AE-1"><span class="nav-number">4.</span> <span class="nav-text">spring-core项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97-2"><span class="nav-number">5.</span> <span class="nav-text">Spring项目模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-core%E9%A1%B9%E7%9B%AE-2"><span class="nav-number">6.</span> <span class="nav-text">spring-core项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97-3"><span class="nav-number">7.</span> <span class="nav-text">Spring项目模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-core%E9%A1%B9%E7%9B%AE-3"><span class="nav-number">8.</span> <span class="nav-text">spring-core项目</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Weidan</p>
+  <div class="site-description" itemprop="description">计算机基础 计算机网络 Java Vue 前端 后端</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90spring%E6%BA%90%E7%A0%81%E3%80%91%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E4%BA%86%E8%A7%A3spring%E7%9A%84%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Spring源码】第二步：了解Spring的项目架构
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-12-03 19:37:22" itemprop="dateCreated datePublished" datetime="2019-12-03T19:37:22+08:00">2019-12-03</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-10 14:43:53" itemprop="dateModified" datetime="2020-11-10T14:43:53+08:00">2020-11-10</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/" itemprop="url" rel="index"><span itemprop="name">frame</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/Spring%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Spring源码</span></a>
+        </span>
+    </span>
+
+  
+</div>
 
         </div>
-        <div class="book-content">
-          <div class="book-post">
-  <h2 id="Spring项目模块"><a href="#Spring项目模块" class="headerlink" title="Spring项目模块"></a>Spring项目模块</h2><p>下了源码一看，我去（我其实没有那么惊讶毕竟功能强大，多也正常），<code>Spring</code> 居然有这么多的模块划分，但是这些模块都是做什么的，可能我们平常观察项目集成的时候，能够感受一些东西出来。比如：<code>spring-web</code> 是 <code>SpringMVC</code> 的内容。所以在日常中，把 <code>SpringMVC</code> 当成一个独立框架是一个很有问题的说法，他其实也就是 <code>Spring</code> 家族中的一个小模块而已。除了这个模块比较常见，我们还使用了 <code>AOP</code> <code>Transction</code> 这些模块，因为很多时候，在框架的集成中，已经依赖好了这些中间对接模块，但是他其实存在于每一个基本的 <code>web</code> 项目中。 我一直很喜欢 <code>Spring</code> 提供的说明书：<a target="_blank" rel="noopener" href="https://docs.spring.io/spring/docs/current/spring-framework-reference/index.html">说明书链接</a> 这个说明书开头就已经把所有模块，做什么事情的都总结好了，需要用到哪个模块的说明，进入对应的链接就好了： </p>
-<p>476</p>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="Spring项目模块"><a href="#Spring项目模块" class="headerlink" title="Spring项目模块"></a>Spring项目模块</h2><p>下了源码一看，我去（我其实没有那么惊讶毕竟功能强大，多也正常），<code>Spring</code> 居然有这么多的模块划分，但是这些模块都是做什么的，可能我们平常观察项目集成的时候，能够感受一些东西出来。比如：<code>spring-web</code> 是 <code>SpringMVC</code> 的内容。所以在日常中，把 <code>SpringMVC</code> 当成一个独立框架是一个很有问题的说法，他其实也就是 <code>Spring</code> 家族中的一个小模块而已。除了这个模块比较常见，我们还使用了 <code>AOP</code> <code>Transction</code> 这些模块，因为很多时候，在框架的集成中，已经依赖好了这些中间对接模块，但是他其实存在于每一个基本的 <code>web</code> 项目中。 我一直很喜欢 <code>Spring</code> 提供的说明书：<a target="_blank" rel="noopener" href="https://docs.spring.io/spring/docs/current/spring-framework-reference/index.html">说明书链接</a> 这个说明书开头就已经把所有模块，做什么事情的都总结好了，需要用到哪个模块的说明，进入对应的链接就好了： </p>
+<h2 id="Spring项目模块-1"><a href="#Spring项目模块-1" class="headerlink" title="Spring项目模块"></a>Spring项目模块</h2><p>下了源码一看，我去（我其实没有那么惊讶毕竟功能强大，多也正常），<code>Spring</code> 居然有这么多的模块划分，但是这些模块都是做什么的，可能我们平常观察项目集成的时候，能够感受一些东西出来。比如：<code>spring-web</code> 是 <code>SpringMVC</code> 的内容。所以在日常中，把 <code>SpringMVC</code> 当成一个独立框架是一个很有问题的说法，他其实也就是 <code>Spring</code> 家族中的一个小模块而已。除了这个模块比较常见，我们还使用了 <code>AOP</code> <code>Transction</code> 这些模块，因为很多时候，在框架的集成中，已经依赖好了这些中间对接模块，但是他其实存在于每一个基本的 <code>web</code> 项目中。 我一直很喜欢 <code>Spring</code> 提供的说明书：<a target="_blank" rel="noopener" href="https://docs.spring.io/spring/docs/current/spring-framework-reference/index.html">说明书链接</a> 这个说明书开头就已经把所有模块，做什么事情的都总结好了，需要用到哪个模块的说明，进入对应的链接就好了： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144307.png" alt="image-20191202151902551"></p>
 <p> 简单说说：</p>
 <ol>
 <li>总览：介绍 <code>Spring</code> 的背景故事；</li>
@@ -147,81 +298,173 @@ function sidebar_toggle() {
 <li><code>Integration集成模块</code>：这个模块可能用的不是很多？有远程调用过时的 <code>JMS</code> 技术，<code>Email</code>，任务，调度以及缓存模块；</li>
 <li><code>Language</code> 就不用说啦，支持的编程语言。</li>
 </ol>
-<h2 id="spring-core项目"><a href="#spring-core项目" class="headerlink" title="spring-core项目"></a>spring-core项目</h2><p>1190</p>
+<h2 id="spring-core项目"><a href="#spring-core项目" class="headerlink" title="spring-core项目"></a>spring-core项目</h2><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144320.png"></p>
 <p> 有点报错，但是不影响运行呀~ 为啥这个模块要在这里说，因为这个模块是最基础的一个，基本 <code>Spring</code> 所有的子模块都以来这个项目，那么他有什么用，因为他是一个工具人工具模块，比如这个 <code>StringUtils</code>： </p>
-<p>1370 </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144343.png"> </p>
+<p>还有个点，他的 <code>utils</code> 都是抽象类的（防止实例化），提供静态方法使用。在日常业务搬砖中，也可以直接使用这些工具类，节省了很多依赖包。 好了，可以开始进入源码的阶段了，这篇稍稍短点，但是那时候知道文档地址的时候简直如获珍宝，一切我们所需要的东西都可以在这里找到。</p>
+<p> 简单说说：</p>
+<ol>
+<li>总览：介绍 <code>Spring</code> 的背景故事；</li>
+<li><code>Core核心模块</code>：<code>Spring</code> 的核心是什么，就是 <code>容器+AOP</code>。一切的事情都是基于这两个模块而来，现有容器，容器装着我们定义的 <code>Bean</code> 配置，然后再是 <code>AOP</code>，<code>AOP</code> 可以增强很多额外的功能，比如 <code>spring-cache</code> 缓存。然而这里的介绍还包含了事件通知、资源管理、<code>i18n</code>、数据校验、数据绑定以及类型转变；</li>
+<li><code>Testing测试模块</code>：我们公司倒是很少写测试用例，然而这个模块包含了一系列的测试模块，包括 <code>Mock数据</code>、测试的Spring上下文、<code>SpringMVC</code> 的测试等等；</li>
+<li><code>DataAccess数据访问模块</code>：包含了数据库事务，<code>Dao层</code> 的支持，也就是常见的 <code>MyBatis</code> 整合 <code>Spring</code> 需要用到的一些接口，还有 <code>jdbcTemplate</code>；</li>
+<li><code>WebServlet 和 WebReactive</code>：包含有新版才有的 <code>WebFlux</code> 模块还有他的客户端，我们常见的 <code>SpringMVC</code>，<code>WebSocket</code>；</li>
+<li><code>Integration集成模块</code>：这个模块可能用的不是很多？有远程调用过时的 <code>JMS</code> 技术，<code>Email</code>，任务，调度以及缓存模块；</li>
+<li><code>Language</code> 就不用说啦，支持的编程语言。</li>
+</ol>
+<h2 id="spring-core项目-1"><a href="#spring-core项目-1" class="headerlink" title="spring-core项目"></a>spring-core项目</h2><h2 id="Spring项目模块-2"><a href="#Spring项目模块-2" class="headerlink" title="Spring项目模块"></a>Spring项目模块</h2><p>下了源码一看，我去（我其实没有那么惊讶毕竟功能强大，多也正常），<code>Spring</code> 居然有这么多的模块划分，但是这些模块都是做什么的，可能我们平常观察项目集成的时候，能够感受一些东西出来。比如：<code>spring-web</code> 是 <code>SpringMVC</code> 的内容。所以在日常中，把 <code>SpringMVC</code> 当成一个独立框架是一个很有问题的说法，他其实也就是 <code>Spring</code> 家族中的一个小模块而已。除了这个模块比较常见，我们还使用了 <code>AOP</code> <code>Transction</code> 这些模块，因为很多时候，在框架的集成中，已经依赖好了这些中间对接模块，但是他其实存在于每一个基本的 <code>web</code> 项目中。 我一直很喜欢 <code>Spring</code> 提供的说明书：<a target="_blank" rel="noopener" href="https://docs.spring.io/spring/docs/current/spring-framework-reference/index.html">说明书链接</a> 这个说明书开头就已经把所有模块，做什么事情的都总结好了，需要用到哪个模块的说明，进入对应的链接就好了： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144307.png" alt="image-20191202151902551"></p>
+<p> 简单说说：</p>
+<ol>
+<li>总览：介绍 <code>Spring</code> 的背景故事；</li>
+<li><code>Core核心模块</code>：<code>Spring</code> 的核心是什么，就是 <code>容器+AOP</code>。一切的事情都是基于这两个模块而来，现有容器，容器装着我们定义的 <code>Bean</code> 配置，然后再是 <code>AOP</code>，<code>AOP</code> 可以增强很多额外的功能，比如 <code>spring-cache</code> 缓存。然而这里的介绍还包含了事件通知、资源管理、<code>i18n</code>、数据校验、数据绑定以及类型转变；</li>
+<li><code>Testing测试模块</code>：我们公司倒是很少写测试用例，然而这个模块包含了一系列的测试模块，包括 <code>Mock数据</code>、测试的Spring上下文、<code>SpringMVC</code> 的测试等等；</li>
+<li><code>DataAccess数据访问模块</code>：包含了数据库事务，<code>Dao层</code> 的支持，也就是常见的 <code>MyBatis</code> 整合 <code>Spring</code> 需要用到的一些接口，还有 <code>jdbcTemplate</code>；</li>
+<li><code>WebServlet 和 WebReactive</code>：包含有新版才有的 <code>WebFlux</code> 模块还有他的客户端，我们常见的 <code>SpringMVC</code>，<code>WebSocket</code>；</li>
+<li><code>Integration集成模块</code>：这个模块可能用的不是很多？有远程调用过时的 <code>JMS</code> 技术，<code>Email</code>，任务，调度以及缓存模块；</li>
+<li><code>Language</code> 就不用说啦，支持的编程语言。</li>
+</ol>
+<h2 id="spring-core项目-2"><a href="#spring-core项目-2" class="headerlink" title="spring-core项目"></a>spring-core项目</h2><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144320.png"></p>
+<p> 有点报错，但是不影响运行呀~ 为啥这个模块要在这里说，因为这个模块是最基础的一个，基本 <code>Spring</code> 所有的子模块都以来这个项目，那么他有什么用，因为他是一个工具人工具模块，比如这个 <code>StringUtils</code>： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144343.png"> </p>
+<p>还有个点，他的 <code>utils</code> 都是抽象类的（防止实例化），提供静态方法使用。在日常业务搬砖中，也可以直接使用这些工具类，节省了很多依赖包。 好了，可以开始进入源码的阶段了，这篇稍稍短点，但是那时候知道文档地址的时候简直如获珍宝，一切我们所需要的东西都可以在这里找到。</p>
+<p> 有点报错，但是不影响运行呀~ 为啥这个模块要在这里说，因为这个模块是最基础的一个，基本 <code>Spring</code> 所有的子模块都以来这个项目，那么他有什么用，因为他是一个工具人工具模块，比如这个 <code>StringUtils</code>： </p>
+<h2 id="Spring项目模块-3"><a href="#Spring项目模块-3" class="headerlink" title="Spring项目模块"></a>Spring项目模块</h2><p>下了源码一看，我去（我其实没有那么惊讶毕竟功能强大，多也正常），<code>Spring</code> 居然有这么多的模块划分，但是这些模块都是做什么的，可能我们平常观察项目集成的时候，能够感受一些东西出来。比如：<code>spring-web</code> 是 <code>SpringMVC</code> 的内容。所以在日常中，把 <code>SpringMVC</code> 当成一个独立框架是一个很有问题的说法，他其实也就是 <code>Spring</code> 家族中的一个小模块而已。除了这个模块比较常见，我们还使用了 <code>AOP</code> <code>Transction</code> 这些模块，因为很多时候，在框架的集成中，已经依赖好了这些中间对接模块，但是他其实存在于每一个基本的 <code>web</code> 项目中。 我一直很喜欢 <code>Spring</code> 提供的说明书：<a target="_blank" rel="noopener" href="https://docs.spring.io/spring/docs/current/spring-framework-reference/index.html">说明书链接</a> 这个说明书开头就已经把所有模块，做什么事情的都总结好了，需要用到哪个模块的说明，进入对应的链接就好了： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144307.png" alt="image-20191202151902551"></p>
+<p> 简单说说：</p>
+<ol>
+<li>总览：介绍 <code>Spring</code> 的背景故事；</li>
+<li><code>Core核心模块</code>：<code>Spring</code> 的核心是什么，就是 <code>容器+AOP</code>。一切的事情都是基于这两个模块而来，现有容器，容器装着我们定义的 <code>Bean</code> 配置，然后再是 <code>AOP</code>，<code>AOP</code> 可以增强很多额外的功能，比如 <code>spring-cache</code> 缓存。然而这里的介绍还包含了事件通知、资源管理、<code>i18n</code>、数据校验、数据绑定以及类型转变；</li>
+<li><code>Testing测试模块</code>：我们公司倒是很少写测试用例，然而这个模块包含了一系列的测试模块，包括 <code>Mock数据</code>、测试的Spring上下文、<code>SpringMVC</code> 的测试等等；</li>
+<li><code>DataAccess数据访问模块</code>：包含了数据库事务，<code>Dao层</code> 的支持，也就是常见的 <code>MyBatis</code> 整合 <code>Spring</code> 需要用到的一些接口，还有 <code>jdbcTemplate</code>；</li>
+<li><code>WebServlet 和 WebReactive</code>：包含有新版才有的 <code>WebFlux</code> 模块还有他的客户端，我们常见的 <code>SpringMVC</code>，<code>WebSocket</code>；</li>
+<li><code>Integration集成模块</code>：这个模块可能用的不是很多？有远程调用过时的 <code>JMS</code> 技术，<code>Email</code>，任务，调度以及缓存模块；</li>
+<li><code>Language</code> 就不用说啦，支持的编程语言。</li>
+</ol>
+<h2 id="spring-core项目-3"><a href="#spring-core项目-3" class="headerlink" title="spring-core项目"></a>spring-core项目</h2><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144320.png"></p>
+<p> 有点报错，但是不影响运行呀~ 为啥这个模块要在这里说，因为这个模块是最基础的一个，基本 <code>Spring</code> 所有的子模块都以来这个项目，那么他有什么用，因为他是一个工具人工具模块，比如这个 <code>StringUtils</code>： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144343.png"> </p>
+<p>还有个点，他的 <code>utils</code> 都是抽象类的（防止实例化），提供静态方法使用。在日常业务搬砖中，也可以直接使用这些工具类，节省了很多依赖包。 好了，可以开始进入源码的阶段了，这篇稍稍短点，但是那时候知道文档地址的时候简直如获珍宝，一切我们所需要的东西都可以在这里找到。 </p>
 <p>还有个点，他的 <code>utils</code> 都是抽象类的（防止实例化），提供静态方法使用。在日常业务搬砖中，也可以直接使用这些工具类，节省了很多依赖包。 好了，可以开始进入源码的阶段了，这篇稍稍短点，但是那时候知道文档地址的时候简直如获珍宝，一切我们所需要的东西都可以在这里找到。</p>
 
-</div>
-
-
-
-
-<script src="/js/book-post.js"></script>
-
-        </div>
-      </div>
-      <div class="column col-2 hide-lg">
-        <div class="book-post-info">
-  
-    <div class="book-post-meta">
-
-  <div class="author">
-
-    <!-- Author image -->
-    <div class="author-img">
-      
-        <figure
-          class="avatar avatar-lg"
-          data-initial="W"
-          style="background-color: #3b4351;">
-        </figure>
-      
     </div>
 
-    <!-- Author title -->
-    <div class="author-title">
-      <div>Weidan</div>
-      <div>2019-12-03</div>
-    </div>
-  </div>
-
-  
-    <div class="divider"></div>
-
-    <div class="link">
-      <a class="category-link" href="/categories/frame/">frame</a> <a class="category-link" href="/categories/frame/Spring%E6%BA%90%E7%A0%81/">Spring源码</a>
-
-      <a class="tag-none-link" href="/tags/spring/" rel="tag">#spring</a> <a class="tag-none-link" href="/tags/spring%E6%BA%90%E7%A0%81/" rel="tag">#spring源码</a>
-    </div>
     
-  
+    
+    
 
-  <div class="divider"></div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/spring/" rel="tag"># spring</a>
+              <a href="/tags/spring%E6%BA%90%E7%A0%81/" rel="tag"># spring源码</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90spring%E6%BA%90%E7%A0%81%E3%80%91%E5%BC%80%E5%A7%8B%E8%AF%BB%E6%BA%90%E7%A0%81-%E5%9F%BA%E4%BA%8Eidea/" rel="prev" title="【Spring源码】第一步：开始读源码--基于idea">
+                  <i class="fa fa-chevron-left"></i> 【Spring源码】第一步：开始读源码--基于idea
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90spring%E6%BA%90%E7%A0%81%E3%80%91%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84beanfactory/" rel="next" title="【Spring源码】第三步：从一个简单的BeanFactory开始">
+                  【Spring源码】第三步：从一个简单的BeanFactory开始 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
 </div>
-  
-
-  <div class="book-tocbot">
-</div>
-<div class="book-tocbot-menu">
-  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
-  <a onclick="go_top()">Back to top</a>
-  <a onclick="go_bottom()">Go to bottom</a>
-</div>
 
 
-<script src="/js/book-toc.js"></script>
 
-</div>
-      </div>
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
     </div>
-  </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
   
-  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weidan</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
 
 </body>
 </html>
-
-
-<script src="/js/book.js"></script>

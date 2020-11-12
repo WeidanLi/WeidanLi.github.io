@@ -1,141 +1,282 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
-
-    
-      <link rel="icon" href="/favicon.png" />
-    
-
-    <title>
-        
-          【Spring源码】SpringBoot_MyBatis_starter源码（一） - 丹崽的技术博客
-        
-    </title>
-
-    <!-- Spectre.css framework -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-exp.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-icons.min.css">
-
-    <!-- theme css & js -->
-    
-<link rel="stylesheet" href="/css/book.css">
-
-    
-<script src="/js/book.js"></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
 
 
-    <!-- tocbot -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
-    
-    <!-- katex -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    
-    
-<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const zooming = new Zooming()
-    zooming.listen('.book-content img')
-})
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="准备一下由于我们使用 MyBatis 的时候，很少独立使用，所以我直接从 SpringBoot 自动装配，进入 MyBatis 来看看。 直接看 org.mybatis.spring.boot:mybatis-spring-boot-starter 源码目录结构 123456789101112131415161718192021222324252627282930313233343536├── L">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Spring源码】SpringBoot_MyBatis_starter源码（一）">
+<meta property="og:url" content="http://weidanli.github.io/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90spring%E6%BA%90%E7%A0%81%E3%80%91springboot-mybatis-starter%E6%BA%90%E7%A0%81%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="丹崽的技术博客">
+<meta property="og:description" content="准备一下由于我们使用 MyBatis 的时候，很少独立使用，所以我直接从 SpringBoot 自动装配，进入 MyBatis 来看看。 直接看 org.mybatis.spring.boot:mybatis-spring-boot-starter 源码目录结构 123456789101112131415161718192021222324252627282930313233343536├── L">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-12T05:57:09.000Z">
+<meta property="article:modified_time" content="2020-11-10T03:10:36.728Z">
+<meta property="article:author" content="Weidan">
+<meta property="article:tag" content="spring-boot">
+<meta property="article:tag" content="spring">
+<meta property="article:tag" content="spring源码">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://weidanli.github.io/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90spring%E6%BA%90%E7%A0%81%E3%80%91springboot-mybatis-starter%E6%BA%90%E7%A0%81%EF%BC%88%E4%B8%80%EF%BC%89/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
 </script>
 
-    
-<script type="text/javascript">
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?66f61662f62178eebb934fa943e5df84";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-<meta name="generator" content="Hexo 5.2.0"></head>
-
-<body>
-
-<div class="book-container">
-  <div class="book-sidebar">
-    <div class="book-brand">
-  <a href="/">
-    <img src="/favicon.png">
-    <span>丹崽的技术博客</span>
-  </a>
-</div>
-    <div id="menu" class="book-menu hide">
-  <ul>
-<li><a href="/">Home</a></li>
-</ul>
-<h1 id="计算机碎碎念"><a href="#计算机碎碎念" class="headerlink" title="计算机碎碎念"></a>计算机碎碎念</h1><h2 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h2><ul>
-<li><a href="/Computer/Network/1-Find-Computer-Network/">生活中的网络</a></li>
-<li><a href="/Computer/Network/2-TCP-IP-PROTOCOL/">TCP/IP之数据链路层</a></li>
-<li><a href="/Computer/Network/3-IP/">TCP/IP之网络层IP协议</a></li>
-<li><a href="/Computer/Network/4-TCP-UDP/">TCP/IP之传输层TCP/UDP协议</a></li>
-</ul>
-
-</div>
+  <title>【Spring源码】SpringBoot_MyBatis_starter源码（一） | 丹崽的技术博客</title>
+  
 
 
-<script src="/js/book-menu.js"></script>
 
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+    </div>
   </div>
 
-  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
-  <div class="sidebar-toggle-inner"></div>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">丹崽的技术博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">丹崽的计算机知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
 
-<script>
-function add_inner() {
-  let inner = document.querySelector('.sidebar-toggle-inner')
-  inner.classList.add('show')  
-}
 
-function remove_inner() {
-  let inner = document.querySelector('.sidebar-toggle-inner')
-  inner.classList.remove('show')
-}
 
-function sidebar_toggle() {
-    let sidebar_toggle = document.querySelector('.sidebar-toggle')
-    let sidebar = document.querySelector('.book-sidebar')
-    let content = document.querySelector('.off-canvas-content')
-    if (sidebar_toggle.classList.contains('extend')) { // show
-        sidebar_toggle.classList.remove('extend')
-        sidebar.classList.remove('hide')
-        content.classList.remove('extend')
-    }
-    else { // hide
-        sidebar_toggle.classList.add('extend')
-        sidebar.classList.add('hide')
-        content.classList.add('extend')
-    }
-}
-</script>
 
-  <div class="off-canvas-content">
-    <div class="columns">
-      <div class="column col-10 col-lg-12">
-        <div class="book-navbar">
-          <!-- For Responsive Layout -->
 
-<header class="navbar">
-  <section class="navbar-section">
-    <a onclick="open_sidebar()">
-      <i class="icon icon-menu"></i>
-    </a>
-  </section>
-</header>
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E4%B8%80%E4%B8%8B"><span class="nav-number">1.</span> <span class="nav-text">准备一下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">自动发现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-SqlSession"><span class="nav-number">3.</span> <span class="nav-text">配置 SqlSession</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96Mapper"><span class="nav-number">4.</span> <span class="nav-text">获取Mapper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90Configuration-xml"><span class="nav-number">5.</span> <span class="nav-text">解析Configuration.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90Mapper-xml"><span class="nav-number">6.</span> <span class="nav-text">解析Mapper.xml</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90Statement%E8%AF%AD%E5%8F%A5"><span class="nav-number">6.1.</span> <span class="nav-text">解析Statement语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%86%8CMapper%E5%88%B0MyBatis%E7%9A%84Registry"><span class="nav-number">6.2.</span> <span class="nav-text">注册Mapper到MyBatis的Registry</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MapperFactoryBean%E5%AF%B9%E6%8E%A5Spring"><span class="nav-number">7.</span> <span class="nav-text">MapperFactoryBean对接Spring</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E4%BB%A3%E7%90%86%E5%AF%B9%E8%B1%A1"><span class="nav-number">8.</span> <span class="nav-text">获取代理对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InvocationHandler%E4%BB%A3%E7%90%86"><span class="nav-number">9.</span> <span class="nav-text">InvocationHandler代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96MapperMethod"><span class="nav-number">10.</span> <span class="nav-text">获取MapperMethod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MapperMethod%E8%B0%83%E7%94%A8"><span class="nav-number">11.</span> <span class="nav-text">MapperMethod调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SqlSession%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="nav-number">12.</span> <span class="nav-text">SqlSession拦截器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E6%96%B9%E6%B3%95"><span class="nav-number">13.</span> <span class="nav-text">查询方法</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Weidan</p>
+  <div class="site-description" itemprop="description">计算机基础 计算机网络 Java Vue 前端 后端</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90spring%E6%BA%90%E7%A0%81%E3%80%91springboot-mybatis-starter%E6%BA%90%E7%A0%81%EF%BC%88%E4%B8%80%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Spring源码】SpringBoot_MyBatis_starter源码（一）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-12 13:57:09" itemprop="dateCreated datePublished" datetime="2020-01-12T13:57:09+08:00">2020-01-12</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-10 11:10:36" itemprop="dateModified" datetime="2020-11-10T11:10:36+08:00">2020-11-10</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/" itemprop="url" rel="index"><span itemprop="name">frame</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/Spring%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Spring源码</span></a>
+        </span>
+    </span>
+
+  
+</div>
 
         </div>
-        <div class="book-content">
-          <div class="book-post">
-  <h2 id="准备一下"><a href="#准备一下" class="headerlink" title="准备一下"></a>准备一下</h2><p>由于我们使用 <code>MyBatis</code> 的时候，很少独立使用，所以我直接从 <code>SpringBoot</code> 自动装配，进入 <code>MyBatis</code> 来看看。 直接看 <code>org.mybatis.spring.boot:mybatis-spring-boot-starter</code> 源码目录结构</p>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="准备一下"><a href="#准备一下" class="headerlink" title="准备一下"></a>准备一下</h2><p>由于我们使用 <code>MyBatis</code> 的时候，很少独立使用，所以我直接从 <code>SpringBoot</code> 自动装配，进入 <code>MyBatis</code> 来看看。 直接看 <code>org.mybatis.spring.boot:mybatis-spring-boot-starter</code> 源码目录结构</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">├── LICENSE</span><br><span class="line">├── README.md</span><br><span class="line">├── license.txt</span><br><span class="line">├── mvnw</span><br><span class="line">├── mvnw.cmd</span><br><span class="line">├── mybatis-spring-boot-autoconfigure</span><br><span class="line">│   ├── format.xml</span><br><span class="line">│   ├── license.txt</span><br><span class="line">│   ├── pom.xml</span><br><span class="line">│   └── src</span><br><span class="line">├── mybatis-spring-boot-samples</span><br><span class="line">│   ├── mybatis-spring-boot-sample-annotation</span><br><span class="line">│   ├── mybatis-spring-boot-sample-freemarker</span><br><span class="line">│   ├── mybatis-spring-boot-sample-freemarker-legacy</span><br><span class="line">│   ├── mybatis-spring-boot-sample-groovy</span><br><span class="line">│   ├── mybatis-spring-boot-sample-kotlin</span><br><span class="line">│   ├── mybatis-spring-boot-sample-thymeleaf</span><br><span class="line">│   ├── mybatis-spring-boot-sample-velocity</span><br><span class="line">│   ├── mybatis-spring-boot-sample-velocity-legacy</span><br><span class="line">│   ├── mybatis-spring-boot-sample-war</span><br><span class="line">│   ├── mybatis-spring-boot-sample-web</span><br><span class="line">│   ├── mybatis-spring-boot-sample-xml</span><br><span class="line">│   └── pom.xml</span><br><span class="line">├── mybatis-spring-boot-starter</span><br><span class="line">│   ├── license.txt</span><br><span class="line">│   └── pom.xml</span><br><span class="line">├── mybatis-spring-boot-starter-test</span><br><span class="line">│   └── pom.xml</span><br><span class="line">├── mybatis-spring-boot-test-autoconfigure</span><br><span class="line">│   ├── format.xml</span><br><span class="line">│   ├── pom.xml</span><br><span class="line">│   └── src</span><br><span class="line">├── pom.xml</span><br><span class="line">└── travis</span><br><span class="line">    ├── after_success.sh</span><br><span class="line">    └── settings.xml</span><br></pre></td></tr></table></figure>
 
 <p>在 <code>mybatis-spring-boot-samples/mybatis-spring-boot-sample-xml</code> 中刚好有我想要的示例，刚好不用自己写了，就使用这个示例来查看吧。</p>
@@ -247,76 +388,125 @@ function sidebar_toggle() {
 
 <h2 id="查询方法"><a href="#查询方法" class="headerlink" title="查询方法"></a>查询方法</h2><p>好，总体的开启 <code>SqlSession</code> 啊，对接事务的，有个了解，现在具体到怎么查询的问题，那就是 <code>SqlSession</code> 了。 算了，下集一起说……. <code>To Be Continue...</code></p>
 
-</div>
-
-
-
-
-<script src="/js/book-post.js"></script>
-
-        </div>
-      </div>
-      <div class="column col-2 hide-lg">
-        <div class="book-post-info">
-  
-    <div class="book-post-meta">
-
-  <div class="author">
-
-    <!-- Author image -->
-    <div class="author-img">
-      
-        <figure
-          class="avatar avatar-lg"
-          data-initial="W"
-          style="background-color: #3b4351;">
-        </figure>
-      
     </div>
 
-    <!-- Author title -->
-    <div class="author-title">
-      <div>Weidan</div>
-      <div>2020-01-12</div>
-    </div>
-  </div>
-
-  
-    <div class="divider"></div>
-
-    <div class="link">
-      <a class="category-link" href="/categories/frame/">frame</a> <a class="category-link" href="/categories/frame/Spring%E6%BA%90%E7%A0%81/">Spring源码</a>
-
-      <a class="tag-none-link" href="/tags/spring/" rel="tag">#spring</a> <a class="tag-none-link" href="/tags/spring-boot/" rel="tag">#spring-boot</a> <a class="tag-none-link" href="/tags/spring%E6%BA%90%E7%A0%81/" rel="tag">#spring源码</a>
-    </div>
     
-  
+    
+    
 
-  <div class="divider"></div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/spring-boot/" rel="tag"># spring-boot</a>
+              <a href="/tags/spring/" rel="tag"># spring</a>
+              <a href="/tags/spring%E6%BA%90%E7%A0%81/" rel="tag"># spring源码</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90spring%E6%BA%90%E7%A0%81%E3%80%91spring%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="prev" title="【Spring源码】Spring数据库事务源码解析">
+                  <i class="fa fa-chevron-left"></i> 【Spring源码】Spring数据库事务源码解析
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90spring%E6%BA%90%E7%A0%81%E3%80%91springboot-mybatis-starter%E6%BA%90%E7%A0%81%EF%BC%88%E4%BA%8C%EF%BC%89/" rel="next" title="【Spring源码】SpringBoot_MyBatis_starter源码（二）">
+                  【Spring源码】SpringBoot_MyBatis_starter源码（二） <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
 </div>
-  
-
-  <div class="book-tocbot">
-</div>
-<div class="book-tocbot-menu">
-  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
-  <a onclick="go_top()">Back to top</a>
-  <a onclick="go_bottom()">Go to bottom</a>
-</div>
 
 
-<script src="/js/book-toc.js"></script>
 
-</div>
-      </div>
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
     </div>
-  </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
   
-  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weidan</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
 
 </body>
 </html>
-
-
-<script src="/js/book.js"></script>

@@ -1,158 +1,329 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
-
-    
-      <link rel="icon" href="/favicon.png" />
-    
-
-    <title>
-        
-          一个Java程序猿眼中的汇编 - 丹崽的技术博客
-        
-    </title>
-
-    <!-- Spectre.css framework -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-exp.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-icons.min.css">
-
-    <!-- theme css & js -->
-    
-<link rel="stylesheet" href="/css/book.css">
-
-    
-<script src="/js/book.js"></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
 
 
-    <!-- tocbot -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
-    
-    <!-- katex -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    
-    
-<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const zooming = new Zooming()
-    zooming.listen('.book-content img')
-})
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="一、介绍在计算机中，CPU只能识别二进制，当需要CPU做事情的时候，都需要通过二进制去指挥CPU做什么事情。古人觉得二进制实在是难以理解，所以才发明了汇编语言以及后面的高级语言，所以汇编语言可以称作为比较接近机器语言的语言了。 当然后面的古人依然觉得汇编语言难以理解，所以发明了C、C++、Java来解决难以理解的问题。所以后面的语言越来越偏于人类自然语言，并且使用面向对象的思想来设计程序。当然这期">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个Java程序猿眼中的汇编">
+<meta property="og:url" content="http://weidanli.github.io/computer-basic/asm/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96/index.html">
+<meta property="og:site_name" content="丹崽的技术博客">
+<meta property="og:description" content="一、介绍在计算机中，CPU只能识别二进制，当需要CPU做事情的时候，都需要通过二进制去指挥CPU做什么事情。古人觉得二进制实在是难以理解，所以才发明了汇编语言以及后面的高级语言，所以汇编语言可以称作为比较接近机器语言的语言了。 当然后面的古人依然觉得汇编语言难以理解，所以发明了C、C++、Java来解决难以理解的问题。所以后面的语言越来越偏于人类自然语言，并且使用面向对象的思想来设计程序。当然这期">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152551.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152616.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152642.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152657.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152710.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152551.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152616.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152642.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152657.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152710.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152551.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152616.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152642.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152657.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152710.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152551.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152616.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152642.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152657.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152710.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152551.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152616.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152642.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152657.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152710.jpg">
+<meta property="article:published_time" content="2018-02-12T09:04:40.000Z">
+<meta property="article:modified_time" content="2020-11-10T07:28:59.844Z">
+<meta property="article:author" content="Weidan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152551.jpg">
+
+
+<link rel="canonical" href="http://weidanli.github.io/computer-basic/asm/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
 </script>
 
-    
-<script type="text/javascript">
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?66f61662f62178eebb934fa943e5df84";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-<meta name="generator" content="Hexo 5.2.0"></head>
-
-<body>
-
-<div class="book-container">
-  <div class="book-sidebar">
-    <div class="book-brand">
-  <a href="/">
-    <img src="/favicon.png">
-    <span>丹崽的技术博客</span>
-  </a>
-</div>
-    <div id="menu" class="book-menu hide">
-  <ul>
-<li><a href="/">Home</a></li>
-</ul>
-<h1 id="计算机碎碎念"><a href="#计算机碎碎念" class="headerlink" title="计算机碎碎念"></a>计算机碎碎念</h1><h2 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h2><ul>
-<li><a href="/Computer/Network/1-Find-Computer-Network/">生活中的网络</a></li>
-<li><a href="/Computer/Network/2-TCP-IP-PROTOCOL/">TCP/IP之数据链路层</a></li>
-<li><a href="/Computer/Network/3-IP/">TCP/IP之网络层IP协议</a></li>
-<li><a href="/Computer/Network/4-TCP-UDP/">TCP/IP之传输层TCP/UDP协议</a></li>
-</ul>
-
-</div>
+  <title>一个Java程序猿眼中的汇编 | 丹崽的技术博客</title>
+  
 
 
-<script src="/js/book-menu.js"></script>
 
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+    </div>
   </div>
 
-  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
-  <div class="sidebar-toggle-inner"></div>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">丹崽的技术博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">丹崽的计算机知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
 
-<script>
-function add_inner() {
-  let inner = document.querySelector('.sidebar-toggle-inner')
-  inner.classList.add('show')  
-}
 
-function remove_inner() {
-  let inner = document.querySelector('.sidebar-toggle-inner')
-  inner.classList.remove('show')
-}
 
-function sidebar_toggle() {
-    let sidebar_toggle = document.querySelector('.sidebar-toggle')
-    let sidebar = document.querySelector('.book-sidebar')
-    let content = document.querySelector('.off-canvas-content')
-    if (sidebar_toggle.classList.contains('extend')) { // show
-        sidebar_toggle.classList.remove('extend')
-        sidebar.classList.remove('hide')
-        content.classList.remove('extend')
-    }
-    else { // hide
-        sidebar_toggle.classList.add('extend')
-        sidebar.classList.add('hide')
-        content.classList.add('extend')
-    }
-}
-</script>
 
-  <div class="off-canvas-content">
-    <div class="columns">
-      <div class="column col-10 col-lg-12">
-        <div class="book-navbar">
-          <!-- For Responsive Layout -->
 
-<header class="navbar">
-  <section class="navbar-section">
-    <a onclick="open_sidebar()">
-      <i class="icon icon-menu"></i>
-    </a>
-  </section>
-</header>
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">一、介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">二、内存模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.1.</span> <span class="nav-text">（一）内存模型的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E5%A0%86%E7%A9%BA%E9%97%B4%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">2.2.</span> <span class="nav-text">（二）堆空间的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BB%8B%E7%BB%8D-1"><span class="nav-number">3.</span> <span class="nav-text">一、介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B-1"><span class="nav-number">4.</span> <span class="nav-text">二、内存模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BB%8B%E7%BB%8D-1"><span class="nav-number">4.1.</span> <span class="nav-text">（一）内存模型的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E5%A0%86%E7%A9%BA%E9%97%B4%E7%9A%84%E4%BD%BF%E7%94%A8-1"><span class="nav-number">4.2.</span> <span class="nav-text">（二）堆空间的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%89%EF%BC%89%E6%A0%88%E7%A9%BA%E9%97%B4%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">4.3.</span> <span class="nav-text">（三）栈空间的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">三、寄存器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%AF%84%E5%AD%98%E5%99%A8%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">5.1.</span> <span class="nav-text">（一）寄存器的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E5%AF%84%E5%AD%98%E5%99%A8%E7%9A%84%E7%A7%8D%E7%B1%BB"><span class="nav-number">5.2.</span> <span class="nav-text">（二）寄存器的种类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%A8%8B%E5%BA%8F"><span class="nav-number">6.</span> <span class="nav-text">四、一个简单的程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BB%8B%E7%BB%8D-2"><span class="nav-number">8.</span> <span class="nav-text">一、介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B-2"><span class="nav-number">9.</span> <span class="nav-text">二、内存模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BB%8B%E7%BB%8D-2"><span class="nav-number">9.1.</span> <span class="nav-text">（一）内存模型的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E5%A0%86%E7%A9%BA%E9%97%B4%E7%9A%84%E4%BD%BF%E7%94%A8-2"><span class="nav-number">9.2.</span> <span class="nav-text">（二）堆空间的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%89%EF%BC%89%E6%A0%88%E7%A9%BA%E9%97%B4%E7%9A%84%E4%BD%BF%E7%94%A8-1"><span class="nav-number">9.3.</span> <span class="nav-text">（三）栈空间的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AF%84%E5%AD%98%E5%99%A8-1"><span class="nav-number">10.</span> <span class="nav-text">三、寄存器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%AF%84%E5%AD%98%E5%99%A8%E7%9A%84%E4%BB%8B%E7%BB%8D-1"><span class="nav-number">10.1.</span> <span class="nav-text">（一）寄存器的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E5%AF%84%E5%AD%98%E5%99%A8%E7%9A%84%E7%A7%8D%E7%B1%BB-1"><span class="nav-number">10.2.</span> <span class="nav-text">（二）寄存器的种类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%A8%8B%E5%BA%8F-1"><span class="nav-number">11.</span> <span class="nav-text">四、一个简单的程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83-1"><span class="nav-number">12.</span> <span class="nav-text">参考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%89%EF%BC%89%E6%A0%88%E7%A9%BA%E9%97%B4%E7%9A%84%E4%BD%BF%E7%94%A8-2"><span class="nav-number">12.1.</span> <span class="nav-text">（三）栈空间的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BB%8B%E7%BB%8D-3"><span class="nav-number">13.</span> <span class="nav-text">一、介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B-3"><span class="nav-number">14.</span> <span class="nav-text">二、内存模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BB%8B%E7%BB%8D-3"><span class="nav-number">14.1.</span> <span class="nav-text">（一）内存模型的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E5%A0%86%E7%A9%BA%E9%97%B4%E7%9A%84%E4%BD%BF%E7%94%A8-3"><span class="nav-number">14.2.</span> <span class="nav-text">（二）堆空间的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%89%EF%BC%89%E6%A0%88%E7%A9%BA%E9%97%B4%E7%9A%84%E4%BD%BF%E7%94%A8-3"><span class="nav-number">14.3.</span> <span class="nav-text">（三）栈空间的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AF%84%E5%AD%98%E5%99%A8-2"><span class="nav-number">15.</span> <span class="nav-text">三、寄存器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%AF%84%E5%AD%98%E5%99%A8%E7%9A%84%E4%BB%8B%E7%BB%8D-2"><span class="nav-number">15.1.</span> <span class="nav-text">（一）寄存器的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E5%AF%84%E5%AD%98%E5%99%A8%E7%9A%84%E7%A7%8D%E7%B1%BB-2"><span class="nav-number">15.2.</span> <span class="nav-text">（二）寄存器的种类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%A8%8B%E5%BA%8F-2"><span class="nav-number">16.</span> <span class="nav-text">四、一个简单的程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83-2"><span class="nav-number">17.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AF%84%E5%AD%98%E5%99%A8-3"><span class="nav-number">18.</span> <span class="nav-text">三、寄存器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%AF%84%E5%AD%98%E5%99%A8%E7%9A%84%E4%BB%8B%E7%BB%8D-3"><span class="nav-number">18.1.</span> <span class="nav-text">（一）寄存器的介绍</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BB%8B%E7%BB%8D-4"><span class="nav-number">19.</span> <span class="nav-text">一、介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B-4"><span class="nav-number">20.</span> <span class="nav-text">二、内存模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BB%8B%E7%BB%8D-4"><span class="nav-number">20.1.</span> <span class="nav-text">（一）内存模型的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E5%A0%86%E7%A9%BA%E9%97%B4%E7%9A%84%E4%BD%BF%E7%94%A8-4"><span class="nav-number">20.2.</span> <span class="nav-text">（二）堆空间的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%89%EF%BC%89%E6%A0%88%E7%A9%BA%E9%97%B4%E7%9A%84%E4%BD%BF%E7%94%A8-4"><span class="nav-number">20.3.</span> <span class="nav-text">（三）栈空间的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AF%84%E5%AD%98%E5%99%A8-4"><span class="nav-number">21.</span> <span class="nav-text">三、寄存器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%AF%84%E5%AD%98%E5%99%A8%E7%9A%84%E4%BB%8B%E7%BB%8D-4"><span class="nav-number">21.1.</span> <span class="nav-text">（一）寄存器的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E5%AF%84%E5%AD%98%E5%99%A8%E7%9A%84%E7%A7%8D%E7%B1%BB-3"><span class="nav-number">21.2.</span> <span class="nav-text">（二）寄存器的种类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%A8%8B%E5%BA%8F-3"><span class="nav-number">22.</span> <span class="nav-text">四、一个简单的程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83-3"><span class="nav-number">23.</span> <span class="nav-text">参考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E5%AF%84%E5%AD%98%E5%99%A8%E7%9A%84%E7%A7%8D%E7%B1%BB-4"><span class="nav-number">23.1.</span> <span class="nav-text">（二）寄存器的种类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%A8%8B%E5%BA%8F-4"><span class="nav-number">24.</span> <span class="nav-text">四、一个简单的程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BB%8B%E7%BB%8D-5"><span class="nav-number">25.</span> <span class="nav-text">一、介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B-5"><span class="nav-number">26.</span> <span class="nav-text">二、内存模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BB%8B%E7%BB%8D-5"><span class="nav-number">26.1.</span> <span class="nav-text">（一）内存模型的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E5%A0%86%E7%A9%BA%E9%97%B4%E7%9A%84%E4%BD%BF%E7%94%A8-5"><span class="nav-number">26.2.</span> <span class="nav-text">（二）堆空间的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%89%EF%BC%89%E6%A0%88%E7%A9%BA%E9%97%B4%E7%9A%84%E4%BD%BF%E7%94%A8-5"><span class="nav-number">26.3.</span> <span class="nav-text">（三）栈空间的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AF%84%E5%AD%98%E5%99%A8-5"><span class="nav-number">27.</span> <span class="nav-text">三、寄存器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%AF%84%E5%AD%98%E5%99%A8%E7%9A%84%E4%BB%8B%E7%BB%8D-5"><span class="nav-number">27.1.</span> <span class="nav-text">（一）寄存器的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E5%AF%84%E5%AD%98%E5%99%A8%E7%9A%84%E7%A7%8D%E7%B1%BB-5"><span class="nav-number">27.2.</span> <span class="nav-text">（二）寄存器的种类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%A8%8B%E5%BA%8F-5"><span class="nav-number">28.</span> <span class="nav-text">四、一个简单的程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83-4"><span class="nav-number">29.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83-5"><span class="nav-number">30.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Weidan</p>
+  <div class="site-description" itemprop="description">计算机基础 计算机网络 Java Vue 前端 后端</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/computer-basic/asm/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一个Java程序猿眼中的汇编
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-02-12 17:04:40" itemprop="dateCreated datePublished" datetime="2018-02-12T17:04:40+08:00">2018-02-12</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-10 15:28:59" itemprop="dateModified" datetime="2020-11-10T15:28:59+08:00">2020-11-10</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/computer-basic/" itemprop="url" rel="index"><span itemprop="name">computer-basic</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/computer-basic/asm/" itemprop="url" rel="index"><span itemprop="name">asm</span></a>
+        </span>
+    </span>
+
+  
+</div>
 
         </div>
-        <div class="book-content">
-          <div class="book-post">
-  <h2 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h2><p>在计算机中，CPU只能识别二进制，当需要CPU做事情的时候，都需要通过二进制去指挥CPU做什么事情。古人觉得二进制实在是难以理解，所以才发明了汇编语言以及后面的高级语言，所以汇编语言可以称作为比较接近机器语言的语言了。 当然后面的古人依然觉得汇编语言难以理解，所以发明了C、C++、Java来解决难以理解的问题。所以后面的语言越来越偏于人类自然语言，并且使用面向对象的思想来设计程序。当然这期间经历的事情还挺多：C编译成汇编语言，汇编语言再翻译成二进制语言，这个过程即称为assembling。 学习汇编语言既需要下面两个概念的理解：<strong>内存模型</strong>和<strong>寄存器</strong></p>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h2><p>在计算机中，CPU只能识别二进制，当需要CPU做事情的时候，都需要通过二进制去指挥CPU做什么事情。古人觉得二进制实在是难以理解，所以才发明了汇编语言以及后面的高级语言，所以汇编语言可以称作为比较接近机器语言的语言了。 当然后面的古人依然觉得汇编语言难以理解，所以发明了C、C++、Java来解决难以理解的问题。所以后面的语言越来越偏于人类自然语言，并且使用面向对象的思想来设计程序。当然这期间经历的事情还挺多：C编译成汇编语言，汇编语言再翻译成二进制语言，这个过程即称为assembling。 学习汇编语言既需要下面两个概念的理解：<strong>内存模型</strong>和<strong>寄存器</strong></p>
 <h2 id="二、内存模型"><a href="#二、内存模型" class="headerlink" title="二、内存模型"></a>二、内存模型</h2><h3 id="（一）内存模型的介绍"><a href="#（一）内存模型的介绍" class="headerlink" title="（一）内存模型的介绍"></a>（一）内存模型的介绍</h3><p>内存通常被程序分为两个部分：<strong>堆（Heap）</strong>和<strong>栈（Stack）</strong> 当一个程序开始运行的时候，系统通常会为改程序开辟一块内存空间，而这块内存空间在该程序运行的时候，也会被划分成为上面最常见的两块区域，通常他们的作用如下：</p>
 <ol>
 <li>堆（Heap）：通常被动态的划分，用来存储程序运行的时候需要存储的数据，当程序结束以后，这块内存将被系统重新回收。当C语言中调用</li>
 <li>栈（Stack）：用于存储方法运行中需要使用到的临时变量的空间。Java中的栈，当需要的临时变量如果是对象的情况下，存储的是对象在堆中的引用地址，基本数据类型的话那就是直接存储数据了。</li>
 </ol>
 <h3 id="（二）堆空间的使用"><a href="#（二）堆空间的使用" class="headerlink" title="（二）堆空间的使用"></a>（二）堆空间的使用</h3><p>（内存模型引用阮老师的图片） 1.当一个程序被启动，系统中会在内存中为改程序划分一块空闲内存： </p>
-<p>670 </p>
+<h2 id="一、介绍-1"><a href="#一、介绍-1" class="headerlink" title="一、介绍"></a>一、介绍</h2><p>在计算机中，CPU只能识别二进制，当需要CPU做事情的时候，都需要通过二进制去指挥CPU做什么事情。古人觉得二进制实在是难以理解，所以才发明了汇编语言以及后面的高级语言，所以汇编语言可以称作为比较接近机器语言的语言了。 当然后面的古人依然觉得汇编语言难以理解，所以发明了C、C++、Java来解决难以理解的问题。所以后面的语言越来越偏于人类自然语言，并且使用面向对象的思想来设计程序。当然这期间经历的事情还挺多：C编译成汇编语言，汇编语言再翻译成二进制语言，这个过程即称为assembling。 学习汇编语言既需要下面两个概念的理解：<strong>内存模型</strong>和<strong>寄存器</strong></p>
+<h2 id="二、内存模型-1"><a href="#二、内存模型-1" class="headerlink" title="二、内存模型"></a>二、内存模型</h2><h3 id="（一）内存模型的介绍-1"><a href="#（一）内存模型的介绍-1" class="headerlink" title="（一）内存模型的介绍"></a>（一）内存模型的介绍</h3><p>内存通常被程序分为两个部分：<strong>堆（Heap）</strong>和<strong>栈（Stack）</strong> 当一个程序开始运行的时候，系统通常会为改程序开辟一块内存空间，而这块内存空间在该程序运行的时候，也会被划分成为上面最常见的两块区域，通常他们的作用如下：</p>
+<ol>
+<li>堆（Heap）：通常被动态的划分，用来存储程序运行的时候需要存储的数据，当程序结束以后，这块内存将被系统重新回收。当C语言中调用</li>
+<li>栈（Stack）：用于存储方法运行中需要使用到的临时变量的空间。Java中的栈，当需要的临时变量如果是对象的情况下，存储的是对象在堆中的引用地址，基本数据类型的话那就是直接存储数据了。</li>
+</ol>
+<h3 id="（二）堆空间的使用-1"><a href="#（二）堆空间的使用-1" class="headerlink" title="（二）堆空间的使用"></a>（二）堆空间的使用</h3><p>（内存模型引用阮老师的图片） 1.当一个程序被启动，系统中会在内存中为改程序划分一块空闲内存： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152551.jpg"> </p>
 <p>这块内存是从低到高进行划分的，当该程序需要分配对象的时候（使用<code>malloc</code>命令），系统将从这块内存的低位开始，按照对象的大小划分一块内存供这个对象存放： </p>
-<p>820</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152616.jpg"></p>
 <p> 图中的对象中用了32个字节： 具体计算（8进制）： <code>0x1000 + 32 = 0x1020</code> 堆空间必须手动释放或者通过程序的垃圾回收器，如果该对象被GC判定为无用的对象，那么GC将对这块内存进行释放。</p>
 <h3 id="（三）栈空间的使用"><a href="#（三）栈空间的使用" class="headerlink" title="（三）栈空间的使用"></a>（三）栈空间的使用</h3><p>栈空间用于存储一个函数运行过程中需要用到的数据的内存。 栈和堆不同的是：栈是从高位开始占用内存的，而且遵从LIFO (Last-In-First-Out)原则。 为啥是先进后出：因为函数调用的时候，最后一个调用的函数是最先结束的： 举个例子：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="keyword">int</span> a = <span class="number">2</span>;</span><br><span class="line">   <span class="keyword">int</span> b = <span class="number">3</span>;</span><br><span class="line">   <span class="keyword">return</span> add_a_and_b(a, b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>在这段代码中，main函数先入栈，其次调用了<code>add_a_and_b(a, b)</code>，该函数入栈。那么是不是<code>add_a_and_b(a, b)</code>函数先执行完成，再把结果返回给<code>main</code>方法，<code>main</code>再运行结束。 栈空间： </p>
-<p>2069</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152642.jpg"></p>
 <h2 id="三、寄存器"><a href="#三、寄存器" class="headerlink" title="三、寄存器"></a>三、寄存器</h2><h3 id="（一）寄存器的介绍"><a href="#（一）寄存器的介绍" class="headerlink" title="（一）寄存器的介绍"></a>（一）寄存器的介绍</h3><p>我们还要知道的另外一件事情是CPU只负责做事情，并不能够存储任何数据，包括运算过程中需要用到的临时数据，都需要通过缓存、内存以及寄存器来存储。 那么何为缓存：缓存是CPU能够够得到的第一级存储物质，再之是内存。为啥有内存了还需要这些东西呢，因为设计者认为，CPU的速度要远快于内存的速度，如果任何数据都通过去读取和写入内存操作的话，就会拖慢CPU的速度，所以在京东或者其他地方购买CPU的时候，是会出现缓存这个东西的： </p>
-<p>2376</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152657.jpg"></p>
 <p> 现在普通一点的CPU都会自带一级缓存二级缓存（图中还有三级缓存= =），说的就是这个事情，当然这个缓存也不是越大越好，仔细想想如果这个缓存过大，那么在同步缓存和内存的数据的时候，是不是也会变慢。这个东西和jvm虚拟机中的堆和栈大小是一致的，如果jvm中堆栈过大，放数据是爽很多了，但是在进行垃圾清理的时候就是悲剧了。 接下来还有寄存器的概念：设计者认为每次需要数据的时候去读取数据，都需要寻址读取，那么还是会变慢很多，那如果把数据的地址存放在一个地方，需要的时候直接取出这个地址，然后再在缓存中去取出来，就会快很多，这个过程就是寄存器需要做的事情了。寄存器相当于用于寄放地址的地方，当程序指示CPU去读取什么数据的时候，CPU优先从寄存器中取出数据的地址，然后从缓存读取数据进行运算。 那么计算机运行的过程相当于： 1. 用户告诉CPU启动一个程序 2. 程序把数据放入系统为其开辟的一块内存空间 3. CPU从内存读取数据放入缓存，以及在寄存器放入缓存数据的地址 4. CPU通过协调内存、寄存器、CPU缓存完成用户继续给予的指令。</p>
 <h3 id="（二）寄存器的种类"><a href="#（二）寄存器的种类" class="headerlink" title="（二）寄存器的种类"></a>（二）寄存器的种类</h3><p>一个CPU都会提供多种寄存器，用于存储不同的数据（不同程序使用不同的寄存器），在早期的x86处理器当中，CPU提供9种不同的寄存器，但是程序中可用的只有7中，其中2中用于做特殊作用：</p>
 <blockquote>
@@ -177,81 +348,340 @@ function sidebar_toggle() {
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">_main:</span><br><span class="line">   push 3 ;                        把第二个参数&#39;3&#39;Push（推）进内存</span><br><span class="line">   push 2 ;                        把第一个参数&#39;2&#39;Push进内存</span><br><span class="line">   call _add_a_and_b ;     调用add_a_and_b 函数：并且让当前程序运行的指针（在EIP寄存器中）</span><br><span class="line">                                        指向函数的第一条指令（push %ebx）</span><br><span class="line">   add %esp, 8 ;              将esp指针在栈上向上移动8个字节，弹出我们上面压入的两个值，此时第一个值已经变成计算以后的值了。</span><br><span class="line">   ret ;                               返回到调用main函数的函数中。</span><br><span class="line"></span><br><span class="line">_add_a_and_b:</span><br><span class="line">   push %ebx ;                    程序准备修改ebx寄存器中的值, 所以程序需要将ebx推入栈中</span><br><span class="line">                                            以便让后面程序运行结束以后可以还原数据</span><br><span class="line">   mov %eax, [%esp+8] ;    将第一个参数移入EAX（详看下图可以知道为什么是+8）</span><br><span class="line">   mov %ebx, [%esp+12] ;  将第二个参数移入EBX</span><br><span class="line">   add %eax, %ebx ;           将eax和ebx中的值进行相加，并且把结果存储在eax中</span><br><span class="line">   pop %ebx ;                      将ebx中的值弹出，以便还原ebx中的数据</span><br><span class="line">   ret ;                                   返回到main函数. 这个步骤将会把下一步运行地址弹出到栈内存中</span><br><span class="line">                                             (当call执行完以后的下一步地址) 放入eip寄存器</span><br></pre></td></tr></table></figure>
 
 <p>程序运行的时候，内存模型如下： </p>
-<p>6451 </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152710.jpg"> </p>
 <p>第一步：当main开始运行的时候，需要先把临时的值压入栈内存中： 所以有两个参数<code>3和2</code>被压入占中，这就是栈内存中前两个的值的地址。 第二步：临时变量已经准备好了，我们要把main函数压入栈中，因为main函数一共有四条指令，而一条指令只用<code>4</code>个字节，所以一共有16个字节被压入栈中 第三步：因为在函数<code>_add_a_and_b</code>中，我们用到了中间寄存器用来计算ebx，所以ebx被压入栈中。 经过了这三个步骤，那么esp（程序运行指针）被多次往下移动了16个字节，其中包括main函数四条命令4个字节以及两个参数8个字节，还有一个临时寄存器使用了4个字节， 当然图中那么画还不够具体。</p>
 <p>首先main函数入栈，将参数推入栈中。 然后运行到了<code>call _add_a_and_b</code>步骤，函数入栈，继续刚刚的操作 这里因为<code>call _add_a_and_b</code>中有个步骤是推入一个中间寄存器，所以esp在call部分又向下推一个4字节的空间。 所以在函数当中，需要访问第一个参数的时候，应该是通过<code>esp + 8</code>去获取，第二个就更需要<code>esp + 12</code>去获取了 这里有个重点，就是我们如何保证我们使用的寄存器不会被其他程序的执行而让我们的程序运行过程中遭到破坏。 很简单：当我们需要用到一个寄存器的时候，我们把一个寄存器的副本压入栈中，然后我们即可在函数中对这个寄存器进行使用以及清理。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html">阮一峰《汇编语言入门教程》</a> <a target="_blank" rel="noopener" href="http://kakaroto.homelinux.net/2017/11/introduction-to-reverse-engineering-and-assembly/">Introduction to reverse engineering and Assembly.</a> <a target="_blank" rel="noopener" href="http://blog.csdn.net/daleiwang/article/details/50579776">堆栈的工作原理</a> </p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html">阮一峰《汇编语言入门教程》</a> <a target="_blank" rel="noopener" href="http://kakaroto.homelinux.net/2017/11/introduction-to-reverse-engineering-and-assembly/">Introduction to reverse engineering and Assembly.</a> <a target="_blank" rel="noopener" href="http://blog.csdn.net/daleiwang/article/details/50579776">堆栈的工作原理</a>  </p>
+<p>这块内存是从低到高进行划分的，当该程序需要分配对象的时候（使用<code>malloc</code>命令），系统将从这块内存的低位开始，按照对象的大小划分一块内存供这个对象存放： </p>
+<h2 id="一、介绍-2"><a href="#一、介绍-2" class="headerlink" title="一、介绍"></a>一、介绍</h2><p>在计算机中，CPU只能识别二进制，当需要CPU做事情的时候，都需要通过二进制去指挥CPU做什么事情。古人觉得二进制实在是难以理解，所以才发明了汇编语言以及后面的高级语言，所以汇编语言可以称作为比较接近机器语言的语言了。 当然后面的古人依然觉得汇编语言难以理解，所以发明了C、C++、Java来解决难以理解的问题。所以后面的语言越来越偏于人类自然语言，并且使用面向对象的思想来设计程序。当然这期间经历的事情还挺多：C编译成汇编语言，汇编语言再翻译成二进制语言，这个过程即称为assembling。 学习汇编语言既需要下面两个概念的理解：<strong>内存模型</strong>和<strong>寄存器</strong></p>
+<h2 id="二、内存模型-2"><a href="#二、内存模型-2" class="headerlink" title="二、内存模型"></a>二、内存模型</h2><h3 id="（一）内存模型的介绍-2"><a href="#（一）内存模型的介绍-2" class="headerlink" title="（一）内存模型的介绍"></a>（一）内存模型的介绍</h3><p>内存通常被程序分为两个部分：<strong>堆（Heap）</strong>和<strong>栈（Stack）</strong> 当一个程序开始运行的时候，系统通常会为改程序开辟一块内存空间，而这块内存空间在该程序运行的时候，也会被划分成为上面最常见的两块区域，通常他们的作用如下：</p>
+<ol>
+<li>堆（Heap）：通常被动态的划分，用来存储程序运行的时候需要存储的数据，当程序结束以后，这块内存将被系统重新回收。当C语言中调用</li>
+<li>栈（Stack）：用于存储方法运行中需要使用到的临时变量的空间。Java中的栈，当需要的临时变量如果是对象的情况下，存储的是对象在堆中的引用地址，基本数据类型的话那就是直接存储数据了。</li>
+</ol>
+<h3 id="（二）堆空间的使用-2"><a href="#（二）堆空间的使用-2" class="headerlink" title="（二）堆空间的使用"></a>（二）堆空间的使用</h3><p>（内存模型引用阮老师的图片） 1.当一个程序被启动，系统中会在内存中为改程序划分一块空闲内存： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152551.jpg"> </p>
+<p>这块内存是从低到高进行划分的，当该程序需要分配对象的时候（使用<code>malloc</code>命令），系统将从这块内存的低位开始，按照对象的大小划分一块内存供这个对象存放： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152616.jpg"></p>
+<p> 图中的对象中用了32个字节： 具体计算（8进制）： <code>0x1000 + 32 = 0x1020</code> 堆空间必须手动释放或者通过程序的垃圾回收器，如果该对象被GC判定为无用的对象，那么GC将对这块内存进行释放。</p>
+<h3 id="（三）栈空间的使用-1"><a href="#（三）栈空间的使用-1" class="headerlink" title="（三）栈空间的使用"></a>（三）栈空间的使用</h3><p>栈空间用于存储一个函数运行过程中需要用到的数据的内存。 栈和堆不同的是：栈是从高位开始占用内存的，而且遵从LIFO (Last-In-First-Out)原则。 为啥是先进后出：因为函数调用的时候，最后一个调用的函数是最先结束的： 举个例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="keyword">int</span> a = <span class="number">2</span>;</span><br><span class="line">   <span class="keyword">int</span> b = <span class="number">3</span>;</span><br><span class="line">   <span class="keyword">return</span> add_a_and_b(a, b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-</div>
+<p>在这段代码中，main函数先入栈，其次调用了<code>add_a_and_b(a, b)</code>，该函数入栈。那么是不是<code>add_a_and_b(a, b)</code>函数先执行完成，再把结果返回给<code>main</code>方法，<code>main</code>再运行结束。 栈空间： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152642.jpg"></p>
+<h2 id="三、寄存器-1"><a href="#三、寄存器-1" class="headerlink" title="三、寄存器"></a>三、寄存器</h2><h3 id="（一）寄存器的介绍-1"><a href="#（一）寄存器的介绍-1" class="headerlink" title="（一）寄存器的介绍"></a>（一）寄存器的介绍</h3><p>我们还要知道的另外一件事情是CPU只负责做事情，并不能够存储任何数据，包括运算过程中需要用到的临时数据，都需要通过缓存、内存以及寄存器来存储。 那么何为缓存：缓存是CPU能够够得到的第一级存储物质，再之是内存。为啥有内存了还需要这些东西呢，因为设计者认为，CPU的速度要远快于内存的速度，如果任何数据都通过去读取和写入内存操作的话，就会拖慢CPU的速度，所以在京东或者其他地方购买CPU的时候，是会出现缓存这个东西的： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152657.jpg"></p>
+<p> 现在普通一点的CPU都会自带一级缓存二级缓存（图中还有三级缓存= =），说的就是这个事情，当然这个缓存也不是越大越好，仔细想想如果这个缓存过大，那么在同步缓存和内存的数据的时候，是不是也会变慢。这个东西和jvm虚拟机中的堆和栈大小是一致的，如果jvm中堆栈过大，放数据是爽很多了，但是在进行垃圾清理的时候就是悲剧了。 接下来还有寄存器的概念：设计者认为每次需要数据的时候去读取数据，都需要寻址读取，那么还是会变慢很多，那如果把数据的地址存放在一个地方，需要的时候直接取出这个地址，然后再在缓存中去取出来，就会快很多，这个过程就是寄存器需要做的事情了。寄存器相当于用于寄放地址的地方，当程序指示CPU去读取什么数据的时候，CPU优先从寄存器中取出数据的地址，然后从缓存读取数据进行运算。 那么计算机运行的过程相当于： 1. 用户告诉CPU启动一个程序 2. 程序把数据放入系统为其开辟的一块内存空间 3. CPU从内存读取数据放入缓存，以及在寄存器放入缓存数据的地址 4. CPU通过协调内存、寄存器、CPU缓存完成用户继续给予的指令。</p>
+<h3 id="（二）寄存器的种类-1"><a href="#（二）寄存器的种类-1" class="headerlink" title="（二）寄存器的种类"></a>（二）寄存器的种类</h3><p>一个CPU都会提供多种寄存器，用于存储不同的数据（不同程序使用不同的寄存器），在早期的x86处理器当中，CPU提供9种不同的寄存器，但是程序中可用的只有7中，其中2中用于做特殊作用：</p>
+<blockquote>
+<p>现在的寄存器已经有100多个了，都变成通用寄存器，不特别指定用途了，但是早期寄存器的名字都被保存了下来。</p>
+</blockquote>
+<ol>
+<li>EAX</li>
+<li>EBX</li>
+<li>ECX</li>
+<li>EDX</li>
+<li>EDI</li>
+<li>ESI</li>
+<li>EBP</li>
+<li>ESP 记录内存中栈空间的地址</li>
+<li>EIP 记录当前指令执行的位置</li>
+</ol>
+<p>汇编语言要做的事情就是指挥这些寄存器中做的动作。</p>
+<h2 id="四、一个简单的程序-1"><a href="#四、一个简单的程序-1" class="headerlink" title="四、一个简单的程序"></a>四、一个简单的程序</h2><p>现在使用一个C语言的代码来表述计算机做了什么事情：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> add_a_and_b(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add_a_and_b</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>运行编译，他将会被编译成以下的汇编语言：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">_main:</span><br><span class="line">   push 3 ;                        把第二个参数&#39;3&#39;Push（推）进内存</span><br><span class="line">   push 2 ;                        把第一个参数&#39;2&#39;Push进内存</span><br><span class="line">   call _add_a_and_b ;     调用add_a_and_b 函数：并且让当前程序运行的指针（在EIP寄存器中）</span><br><span class="line">                                        指向函数的第一条指令（push %ebx）</span><br><span class="line">   add %esp, 8 ;              将esp指针在栈上向上移动8个字节，弹出我们上面压入的两个值，此时第一个值已经变成计算以后的值了。</span><br><span class="line">   ret ;                               返回到调用main函数的函数中。</span><br><span class="line"></span><br><span class="line">_add_a_and_b:</span><br><span class="line">   push %ebx ;                    程序准备修改ebx寄存器中的值, 所以程序需要将ebx推入栈中</span><br><span class="line">                                            以便让后面程序运行结束以后可以还原数据</span><br><span class="line">   mov %eax, [%esp+8] ;    将第一个参数移入EAX（详看下图可以知道为什么是+8）</span><br><span class="line">   mov %ebx, [%esp+12] ;  将第二个参数移入EBX</span><br><span class="line">   add %eax, %ebx ;           将eax和ebx中的值进行相加，并且把结果存储在eax中</span><br><span class="line">   pop %ebx ;                      将ebx中的值弹出，以便还原ebx中的数据</span><br><span class="line">   ret ;                                   返回到main函数. 这个步骤将会把下一步运行地址弹出到栈内存中</span><br><span class="line">                                             (当call执行完以后的下一步地址) 放入eip寄存器</span><br></pre></td></tr></table></figure>
 
+<p>程序运行的时候，内存模型如下： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152710.jpg"> </p>
+<p>第一步：当main开始运行的时候，需要先把临时的值压入栈内存中： 所以有两个参数<code>3和2</code>被压入占中，这就是栈内存中前两个的值的地址。 第二步：临时变量已经准备好了，我们要把main函数压入栈中，因为main函数一共有四条指令，而一条指令只用<code>4</code>个字节，所以一共有16个字节被压入栈中 第三步：因为在函数<code>_add_a_and_b</code>中，我们用到了中间寄存器用来计算ebx，所以ebx被压入栈中。 经过了这三个步骤，那么esp（程序运行指针）被多次往下移动了16个字节，其中包括main函数四条命令4个字节以及两个参数8个字节，还有一个临时寄存器使用了4个字节， 当然图中那么画还不够具体。</p>
+<p>首先main函数入栈，将参数推入栈中。 然后运行到了<code>call _add_a_and_b</code>步骤，函数入栈，继续刚刚的操作 这里因为<code>call _add_a_and_b</code>中有个步骤是推入一个中间寄存器，所以esp在call部分又向下推一个4字节的空间。 所以在函数当中，需要访问第一个参数的时候，应该是通过<code>esp + 8</code>去获取，第二个就更需要<code>esp + 12</code>去获取了 这里有个重点，就是我们如何保证我们使用的寄存器不会被其他程序的执行而让我们的程序运行过程中遭到破坏。 很简单：当我们需要用到一个寄存器的时候，我们把一个寄存器的副本压入栈中，然后我们即可在函数中对这个寄存器进行使用以及清理。</p>
+<h2 id="参考-1"><a href="#参考-1" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html">阮一峰《汇编语言入门教程》</a> <a target="_blank" rel="noopener" href="http://kakaroto.homelinux.net/2017/11/introduction-to-reverse-engineering-and-assembly/">Introduction to reverse engineering and Assembly.</a> <a target="_blank" rel="noopener" href="http://blog.csdn.net/daleiwang/article/details/50579776">堆栈的工作原理</a> </p>
+<p> 图中的对象中用了32个字节： 具体计算（8进制）： <code>0x1000 + 32 = 0x1020</code> 堆空间必须手动释放或者通过程序的垃圾回收器，如果该对象被GC判定为无用的对象，那么GC将对这块内存进行释放。</p>
+<h3 id="（三）栈空间的使用-2"><a href="#（三）栈空间的使用-2" class="headerlink" title="（三）栈空间的使用"></a>（三）栈空间的使用</h3><p>栈空间用于存储一个函数运行过程中需要用到的数据的内存。 栈和堆不同的是：栈是从高位开始占用内存的，而且遵从LIFO (Last-In-First-Out)原则。 为啥是先进后出：因为函数调用的时候，最后一个调用的函数是最先结束的： 举个例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="keyword">int</span> a = <span class="number">2</span>;</span><br><span class="line">   <span class="keyword">int</span> b = <span class="number">3</span>;</span><br><span class="line">   <span class="keyword">return</span> add_a_and_b(a, b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>在这段代码中，main函数先入栈，其次调用了<code>add_a_and_b(a, b)</code>，该函数入栈。那么是不是<code>add_a_and_b(a, b)</code>函数先执行完成，再把结果返回给<code>main</code>方法，<code>main</code>再运行结束。 栈空间： </p>
+<h2 id="一、介绍-3"><a href="#一、介绍-3" class="headerlink" title="一、介绍"></a>一、介绍</h2><p>在计算机中，CPU只能识别二进制，当需要CPU做事情的时候，都需要通过二进制去指挥CPU做什么事情。古人觉得二进制实在是难以理解，所以才发明了汇编语言以及后面的高级语言，所以汇编语言可以称作为比较接近机器语言的语言了。 当然后面的古人依然觉得汇编语言难以理解，所以发明了C、C++、Java来解决难以理解的问题。所以后面的语言越来越偏于人类自然语言，并且使用面向对象的思想来设计程序。当然这期间经历的事情还挺多：C编译成汇编语言，汇编语言再翻译成二进制语言，这个过程即称为assembling。 学习汇编语言既需要下面两个概念的理解：<strong>内存模型</strong>和<strong>寄存器</strong></p>
+<h2 id="二、内存模型-3"><a href="#二、内存模型-3" class="headerlink" title="二、内存模型"></a>二、内存模型</h2><h3 id="（一）内存模型的介绍-3"><a href="#（一）内存模型的介绍-3" class="headerlink" title="（一）内存模型的介绍"></a>（一）内存模型的介绍</h3><p>内存通常被程序分为两个部分：<strong>堆（Heap）</strong>和<strong>栈（Stack）</strong> 当一个程序开始运行的时候，系统通常会为改程序开辟一块内存空间，而这块内存空间在该程序运行的时候，也会被划分成为上面最常见的两块区域，通常他们的作用如下：</p>
+<ol>
+<li>堆（Heap）：通常被动态的划分，用来存储程序运行的时候需要存储的数据，当程序结束以后，这块内存将被系统重新回收。当C语言中调用</li>
+<li>栈（Stack）：用于存储方法运行中需要使用到的临时变量的空间。Java中的栈，当需要的临时变量如果是对象的情况下，存储的是对象在堆中的引用地址，基本数据类型的话那就是直接存储数据了。</li>
+</ol>
+<h3 id="（二）堆空间的使用-3"><a href="#（二）堆空间的使用-3" class="headerlink" title="（二）堆空间的使用"></a>（二）堆空间的使用</h3><p>（内存模型引用阮老师的图片） 1.当一个程序被启动，系统中会在内存中为改程序划分一块空闲内存： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152551.jpg"> </p>
+<p>这块内存是从低到高进行划分的，当该程序需要分配对象的时候（使用<code>malloc</code>命令），系统将从这块内存的低位开始，按照对象的大小划分一块内存供这个对象存放： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152616.jpg"></p>
+<p> 图中的对象中用了32个字节： 具体计算（8进制）： <code>0x1000 + 32 = 0x1020</code> 堆空间必须手动释放或者通过程序的垃圾回收器，如果该对象被GC判定为无用的对象，那么GC将对这块内存进行释放。</p>
+<h3 id="（三）栈空间的使用-3"><a href="#（三）栈空间的使用-3" class="headerlink" title="（三）栈空间的使用"></a>（三）栈空间的使用</h3><p>栈空间用于存储一个函数运行过程中需要用到的数据的内存。 栈和堆不同的是：栈是从高位开始占用内存的，而且遵从LIFO (Last-In-First-Out)原则。 为啥是先进后出：因为函数调用的时候，最后一个调用的函数是最先结束的： 举个例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="keyword">int</span> a = <span class="number">2</span>;</span><br><span class="line">   <span class="keyword">int</span> b = <span class="number">3</span>;</span><br><span class="line">   <span class="keyword">return</span> add_a_and_b(a, b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<script src="/js/book-post.js"></script>
+<p>在这段代码中，main函数先入栈，其次调用了<code>add_a_and_b(a, b)</code>，该函数入栈。那么是不是<code>add_a_and_b(a, b)</code>函数先执行完成，再把结果返回给<code>main</code>方法，<code>main</code>再运行结束。 栈空间： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152642.jpg"></p>
+<h2 id="三、寄存器-2"><a href="#三、寄存器-2" class="headerlink" title="三、寄存器"></a>三、寄存器</h2><h3 id="（一）寄存器的介绍-2"><a href="#（一）寄存器的介绍-2" class="headerlink" title="（一）寄存器的介绍"></a>（一）寄存器的介绍</h3><p>我们还要知道的另外一件事情是CPU只负责做事情，并不能够存储任何数据，包括运算过程中需要用到的临时数据，都需要通过缓存、内存以及寄存器来存储。 那么何为缓存：缓存是CPU能够够得到的第一级存储物质，再之是内存。为啥有内存了还需要这些东西呢，因为设计者认为，CPU的速度要远快于内存的速度，如果任何数据都通过去读取和写入内存操作的话，就会拖慢CPU的速度，所以在京东或者其他地方购买CPU的时候，是会出现缓存这个东西的： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152657.jpg"></p>
+<p> 现在普通一点的CPU都会自带一级缓存二级缓存（图中还有三级缓存= =），说的就是这个事情，当然这个缓存也不是越大越好，仔细想想如果这个缓存过大，那么在同步缓存和内存的数据的时候，是不是也会变慢。这个东西和jvm虚拟机中的堆和栈大小是一致的，如果jvm中堆栈过大，放数据是爽很多了，但是在进行垃圾清理的时候就是悲剧了。 接下来还有寄存器的概念：设计者认为每次需要数据的时候去读取数据，都需要寻址读取，那么还是会变慢很多，那如果把数据的地址存放在一个地方，需要的时候直接取出这个地址，然后再在缓存中去取出来，就会快很多，这个过程就是寄存器需要做的事情了。寄存器相当于用于寄放地址的地方，当程序指示CPU去读取什么数据的时候，CPU优先从寄存器中取出数据的地址，然后从缓存读取数据进行运算。 那么计算机运行的过程相当于： 1. 用户告诉CPU启动一个程序 2. 程序把数据放入系统为其开辟的一块内存空间 3. CPU从内存读取数据放入缓存，以及在寄存器放入缓存数据的地址 4. CPU通过协调内存、寄存器、CPU缓存完成用户继续给予的指令。</p>
+<h3 id="（二）寄存器的种类-2"><a href="#（二）寄存器的种类-2" class="headerlink" title="（二）寄存器的种类"></a>（二）寄存器的种类</h3><p>一个CPU都会提供多种寄存器，用于存储不同的数据（不同程序使用不同的寄存器），在早期的x86处理器当中，CPU提供9种不同的寄存器，但是程序中可用的只有7中，其中2中用于做特殊作用：</p>
+<blockquote>
+<p>现在的寄存器已经有100多个了，都变成通用寄存器，不特别指定用途了，但是早期寄存器的名字都被保存了下来。</p>
+</blockquote>
+<ol>
+<li>EAX</li>
+<li>EBX</li>
+<li>ECX</li>
+<li>EDX</li>
+<li>EDI</li>
+<li>ESI</li>
+<li>EBP</li>
+<li>ESP 记录内存中栈空间的地址</li>
+<li>EIP 记录当前指令执行的位置</li>
+</ol>
+<p>汇编语言要做的事情就是指挥这些寄存器中做的动作。</p>
+<h2 id="四、一个简单的程序-2"><a href="#四、一个简单的程序-2" class="headerlink" title="四、一个简单的程序"></a>四、一个简单的程序</h2><p>现在使用一个C语言的代码来表述计算机做了什么事情：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> add_a_and_b(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add_a_and_b</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        </div>
-      </div>
-      <div class="column col-2 hide-lg">
-        <div class="book-post-info">
-  
-    <div class="book-post-meta">
+<p>运行编译，他将会被编译成以下的汇编语言：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">_main:</span><br><span class="line">   push 3 ;                        把第二个参数&#39;3&#39;Push（推）进内存</span><br><span class="line">   push 2 ;                        把第一个参数&#39;2&#39;Push进内存</span><br><span class="line">   call _add_a_and_b ;     调用add_a_and_b 函数：并且让当前程序运行的指针（在EIP寄存器中）</span><br><span class="line">                                        指向函数的第一条指令（push %ebx）</span><br><span class="line">   add %esp, 8 ;              将esp指针在栈上向上移动8个字节，弹出我们上面压入的两个值，此时第一个值已经变成计算以后的值了。</span><br><span class="line">   ret ;                               返回到调用main函数的函数中。</span><br><span class="line"></span><br><span class="line">_add_a_and_b:</span><br><span class="line">   push %ebx ;                    程序准备修改ebx寄存器中的值, 所以程序需要将ebx推入栈中</span><br><span class="line">                                            以便让后面程序运行结束以后可以还原数据</span><br><span class="line">   mov %eax, [%esp+8] ;    将第一个参数移入EAX（详看下图可以知道为什么是+8）</span><br><span class="line">   mov %ebx, [%esp+12] ;  将第二个参数移入EBX</span><br><span class="line">   add %eax, %ebx ;           将eax和ebx中的值进行相加，并且把结果存储在eax中</span><br><span class="line">   pop %ebx ;                      将ebx中的值弹出，以便还原ebx中的数据</span><br><span class="line">   ret ;                                   返回到main函数. 这个步骤将会把下一步运行地址弹出到栈内存中</span><br><span class="line">                                             (当call执行完以后的下一步地址) 放入eip寄存器</span><br></pre></td></tr></table></figure>
 
-  <div class="author">
+<p>程序运行的时候，内存模型如下： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152710.jpg"> </p>
+<p>第一步：当main开始运行的时候，需要先把临时的值压入栈内存中： 所以有两个参数<code>3和2</code>被压入占中，这就是栈内存中前两个的值的地址。 第二步：临时变量已经准备好了，我们要把main函数压入栈中，因为main函数一共有四条指令，而一条指令只用<code>4</code>个字节，所以一共有16个字节被压入栈中 第三步：因为在函数<code>_add_a_and_b</code>中，我们用到了中间寄存器用来计算ebx，所以ebx被压入栈中。 经过了这三个步骤，那么esp（程序运行指针）被多次往下移动了16个字节，其中包括main函数四条命令4个字节以及两个参数8个字节，还有一个临时寄存器使用了4个字节， 当然图中那么画还不够具体。</p>
+<p>首先main函数入栈，将参数推入栈中。 然后运行到了<code>call _add_a_and_b</code>步骤，函数入栈，继续刚刚的操作 这里因为<code>call _add_a_and_b</code>中有个步骤是推入一个中间寄存器，所以esp在call部分又向下推一个4字节的空间。 所以在函数当中，需要访问第一个参数的时候，应该是通过<code>esp + 8</code>去获取，第二个就更需要<code>esp + 12</code>去获取了 这里有个重点，就是我们如何保证我们使用的寄存器不会被其他程序的执行而让我们的程序运行过程中遭到破坏。 很简单：当我们需要用到一个寄存器的时候，我们把一个寄存器的副本压入栈中，然后我们即可在函数中对这个寄存器进行使用以及清理。</p>
+<h2 id="参考-2"><a href="#参考-2" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html">阮一峰《汇编语言入门教程》</a> <a target="_blank" rel="noopener" href="http://kakaroto.homelinux.net/2017/11/introduction-to-reverse-engineering-and-assembly/">Introduction to reverse engineering and Assembly.</a> <a target="_blank" rel="noopener" href="http://blog.csdn.net/daleiwang/article/details/50579776">堆栈的工作原理</a> </p>
+<h2 id="三、寄存器-3"><a href="#三、寄存器-3" class="headerlink" title="三、寄存器"></a>三、寄存器</h2><h3 id="（一）寄存器的介绍-3"><a href="#（一）寄存器的介绍-3" class="headerlink" title="（一）寄存器的介绍"></a>（一）寄存器的介绍</h3><p>我们还要知道的另外一件事情是CPU只负责做事情，并不能够存储任何数据，包括运算过程中需要用到的临时数据，都需要通过缓存、内存以及寄存器来存储。 那么何为缓存：缓存是CPU能够够得到的第一级存储物质，再之是内存。为啥有内存了还需要这些东西呢，因为设计者认为，CPU的速度要远快于内存的速度，如果任何数据都通过去读取和写入内存操作的话，就会拖慢CPU的速度，所以在京东或者其他地方购买CPU的时候，是会出现缓存这个东西的： </p>
+<h2 id="一、介绍-4"><a href="#一、介绍-4" class="headerlink" title="一、介绍"></a>一、介绍</h2><p>在计算机中，CPU只能识别二进制，当需要CPU做事情的时候，都需要通过二进制去指挥CPU做什么事情。古人觉得二进制实在是难以理解，所以才发明了汇编语言以及后面的高级语言，所以汇编语言可以称作为比较接近机器语言的语言了。 当然后面的古人依然觉得汇编语言难以理解，所以发明了C、C++、Java来解决难以理解的问题。所以后面的语言越来越偏于人类自然语言，并且使用面向对象的思想来设计程序。当然这期间经历的事情还挺多：C编译成汇编语言，汇编语言再翻译成二进制语言，这个过程即称为assembling。 学习汇编语言既需要下面两个概念的理解：<strong>内存模型</strong>和<strong>寄存器</strong></p>
+<h2 id="二、内存模型-4"><a href="#二、内存模型-4" class="headerlink" title="二、内存模型"></a>二、内存模型</h2><h3 id="（一）内存模型的介绍-4"><a href="#（一）内存模型的介绍-4" class="headerlink" title="（一）内存模型的介绍"></a>（一）内存模型的介绍</h3><p>内存通常被程序分为两个部分：<strong>堆（Heap）</strong>和<strong>栈（Stack）</strong> 当一个程序开始运行的时候，系统通常会为改程序开辟一块内存空间，而这块内存空间在该程序运行的时候，也会被划分成为上面最常见的两块区域，通常他们的作用如下：</p>
+<ol>
+<li>堆（Heap）：通常被动态的划分，用来存储程序运行的时候需要存储的数据，当程序结束以后，这块内存将被系统重新回收。当C语言中调用</li>
+<li>栈（Stack）：用于存储方法运行中需要使用到的临时变量的空间。Java中的栈，当需要的临时变量如果是对象的情况下，存储的是对象在堆中的引用地址，基本数据类型的话那就是直接存储数据了。</li>
+</ol>
+<h3 id="（二）堆空间的使用-4"><a href="#（二）堆空间的使用-4" class="headerlink" title="（二）堆空间的使用"></a>（二）堆空间的使用</h3><p>（内存模型引用阮老师的图片） 1.当一个程序被启动，系统中会在内存中为改程序划分一块空闲内存： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152551.jpg"> </p>
+<p>这块内存是从低到高进行划分的，当该程序需要分配对象的时候（使用<code>malloc</code>命令），系统将从这块内存的低位开始，按照对象的大小划分一块内存供这个对象存放： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152616.jpg"></p>
+<p> 图中的对象中用了32个字节： 具体计算（8进制）： <code>0x1000 + 32 = 0x1020</code> 堆空间必须手动释放或者通过程序的垃圾回收器，如果该对象被GC判定为无用的对象，那么GC将对这块内存进行释放。</p>
+<h3 id="（三）栈空间的使用-4"><a href="#（三）栈空间的使用-4" class="headerlink" title="（三）栈空间的使用"></a>（三）栈空间的使用</h3><p>栈空间用于存储一个函数运行过程中需要用到的数据的内存。 栈和堆不同的是：栈是从高位开始占用内存的，而且遵从LIFO (Last-In-First-Out)原则。 为啥是先进后出：因为函数调用的时候，最后一个调用的函数是最先结束的： 举个例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="keyword">int</span> a = <span class="number">2</span>;</span><br><span class="line">   <span class="keyword">int</span> b = <span class="number">3</span>;</span><br><span class="line">   <span class="keyword">return</span> add_a_and_b(a, b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    <!-- Author image -->
-    <div class="author-img">
-      
-        <figure
-          class="avatar avatar-lg"
-          data-initial="W"
-          style="background-color: #3b4351;">
-        </figure>
-      
+<p>在这段代码中，main函数先入栈，其次调用了<code>add_a_and_b(a, b)</code>，该函数入栈。那么是不是<code>add_a_and_b(a, b)</code>函数先执行完成，再把结果返回给<code>main</code>方法，<code>main</code>再运行结束。 栈空间： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152642.jpg"></p>
+<h2 id="三、寄存器-4"><a href="#三、寄存器-4" class="headerlink" title="三、寄存器"></a>三、寄存器</h2><h3 id="（一）寄存器的介绍-4"><a href="#（一）寄存器的介绍-4" class="headerlink" title="（一）寄存器的介绍"></a>（一）寄存器的介绍</h3><p>我们还要知道的另外一件事情是CPU只负责做事情，并不能够存储任何数据，包括运算过程中需要用到的临时数据，都需要通过缓存、内存以及寄存器来存储。 那么何为缓存：缓存是CPU能够够得到的第一级存储物质，再之是内存。为啥有内存了还需要这些东西呢，因为设计者认为，CPU的速度要远快于内存的速度，如果任何数据都通过去读取和写入内存操作的话，就会拖慢CPU的速度，所以在京东或者其他地方购买CPU的时候，是会出现缓存这个东西的： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152657.jpg"></p>
+<p> 现在普通一点的CPU都会自带一级缓存二级缓存（图中还有三级缓存= =），说的就是这个事情，当然这个缓存也不是越大越好，仔细想想如果这个缓存过大，那么在同步缓存和内存的数据的时候，是不是也会变慢。这个东西和jvm虚拟机中的堆和栈大小是一致的，如果jvm中堆栈过大，放数据是爽很多了，但是在进行垃圾清理的时候就是悲剧了。 接下来还有寄存器的概念：设计者认为每次需要数据的时候去读取数据，都需要寻址读取，那么还是会变慢很多，那如果把数据的地址存放在一个地方，需要的时候直接取出这个地址，然后再在缓存中去取出来，就会快很多，这个过程就是寄存器需要做的事情了。寄存器相当于用于寄放地址的地方，当程序指示CPU去读取什么数据的时候，CPU优先从寄存器中取出数据的地址，然后从缓存读取数据进行运算。 那么计算机运行的过程相当于： 1. 用户告诉CPU启动一个程序 2. 程序把数据放入系统为其开辟的一块内存空间 3. CPU从内存读取数据放入缓存，以及在寄存器放入缓存数据的地址 4. CPU通过协调内存、寄存器、CPU缓存完成用户继续给予的指令。</p>
+<h3 id="（二）寄存器的种类-3"><a href="#（二）寄存器的种类-3" class="headerlink" title="（二）寄存器的种类"></a>（二）寄存器的种类</h3><p>一个CPU都会提供多种寄存器，用于存储不同的数据（不同程序使用不同的寄存器），在早期的x86处理器当中，CPU提供9种不同的寄存器，但是程序中可用的只有7中，其中2中用于做特殊作用：</p>
+<blockquote>
+<p>现在的寄存器已经有100多个了，都变成通用寄存器，不特别指定用途了，但是早期寄存器的名字都被保存了下来。</p>
+</blockquote>
+<ol>
+<li>EAX</li>
+<li>EBX</li>
+<li>ECX</li>
+<li>EDX</li>
+<li>EDI</li>
+<li>ESI</li>
+<li>EBP</li>
+<li>ESP 记录内存中栈空间的地址</li>
+<li>EIP 记录当前指令执行的位置</li>
+</ol>
+<p>汇编语言要做的事情就是指挥这些寄存器中做的动作。</p>
+<h2 id="四、一个简单的程序-3"><a href="#四、一个简单的程序-3" class="headerlink" title="四、一个简单的程序"></a>四、一个简单的程序</h2><p>现在使用一个C语言的代码来表述计算机做了什么事情：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> add_a_and_b(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add_a_and_b</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行编译，他将会被编译成以下的汇编语言：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">_main:</span><br><span class="line">   push 3 ;                        把第二个参数&#39;3&#39;Push（推）进内存</span><br><span class="line">   push 2 ;                        把第一个参数&#39;2&#39;Push进内存</span><br><span class="line">   call _add_a_and_b ;     调用add_a_and_b 函数：并且让当前程序运行的指针（在EIP寄存器中）</span><br><span class="line">                                        指向函数的第一条指令（push %ebx）</span><br><span class="line">   add %esp, 8 ;              将esp指针在栈上向上移动8个字节，弹出我们上面压入的两个值，此时第一个值已经变成计算以后的值了。</span><br><span class="line">   ret ;                               返回到调用main函数的函数中。</span><br><span class="line"></span><br><span class="line">_add_a_and_b:</span><br><span class="line">   push %ebx ;                    程序准备修改ebx寄存器中的值, 所以程序需要将ebx推入栈中</span><br><span class="line">                                            以便让后面程序运行结束以后可以还原数据</span><br><span class="line">   mov %eax, [%esp+8] ;    将第一个参数移入EAX（详看下图可以知道为什么是+8）</span><br><span class="line">   mov %ebx, [%esp+12] ;  将第二个参数移入EBX</span><br><span class="line">   add %eax, %ebx ;           将eax和ebx中的值进行相加，并且把结果存储在eax中</span><br><span class="line">   pop %ebx ;                      将ebx中的值弹出，以便还原ebx中的数据</span><br><span class="line">   ret ;                                   返回到main函数. 这个步骤将会把下一步运行地址弹出到栈内存中</span><br><span class="line">                                             (当call执行完以后的下一步地址) 放入eip寄存器</span><br></pre></td></tr></table></figure>
+
+<p>程序运行的时候，内存模型如下： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152710.jpg"> </p>
+<p>第一步：当main开始运行的时候，需要先把临时的值压入栈内存中： 所以有两个参数<code>3和2</code>被压入占中，这就是栈内存中前两个的值的地址。 第二步：临时变量已经准备好了，我们要把main函数压入栈中，因为main函数一共有四条指令，而一条指令只用<code>4</code>个字节，所以一共有16个字节被压入栈中 第三步：因为在函数<code>_add_a_and_b</code>中，我们用到了中间寄存器用来计算ebx，所以ebx被压入栈中。 经过了这三个步骤，那么esp（程序运行指针）被多次往下移动了16个字节，其中包括main函数四条命令4个字节以及两个参数8个字节，还有一个临时寄存器使用了4个字节， 当然图中那么画还不够具体。</p>
+<p>首先main函数入栈，将参数推入栈中。 然后运行到了<code>call _add_a_and_b</code>步骤，函数入栈，继续刚刚的操作 这里因为<code>call _add_a_and_b</code>中有个步骤是推入一个中间寄存器，所以esp在call部分又向下推一个4字节的空间。 所以在函数当中，需要访问第一个参数的时候，应该是通过<code>esp + 8</code>去获取，第二个就更需要<code>esp + 12</code>去获取了 这里有个重点，就是我们如何保证我们使用的寄存器不会被其他程序的执行而让我们的程序运行过程中遭到破坏。 很简单：当我们需要用到一个寄存器的时候，我们把一个寄存器的副本压入栈中，然后我们即可在函数中对这个寄存器进行使用以及清理。</p>
+<h2 id="参考-3"><a href="#参考-3" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html">阮一峰《汇编语言入门教程》</a> <a target="_blank" rel="noopener" href="http://kakaroto.homelinux.net/2017/11/introduction-to-reverse-engineering-and-assembly/">Introduction to reverse engineering and Assembly.</a> <a target="_blank" rel="noopener" href="http://blog.csdn.net/daleiwang/article/details/50579776">堆栈的工作原理</a> </p>
+<p> 现在普通一点的CPU都会自带一级缓存二级缓存（图中还有三级缓存= =），说的就是这个事情，当然这个缓存也不是越大越好，仔细想想如果这个缓存过大，那么在同步缓存和内存的数据的时候，是不是也会变慢。这个东西和jvm虚拟机中的堆和栈大小是一致的，如果jvm中堆栈过大，放数据是爽很多了，但是在进行垃圾清理的时候就是悲剧了。 接下来还有寄存器的概念：设计者认为每次需要数据的时候去读取数据，都需要寻址读取，那么还是会变慢很多，那如果把数据的地址存放在一个地方，需要的时候直接取出这个地址，然后再在缓存中去取出来，就会快很多，这个过程就是寄存器需要做的事情了。寄存器相当于用于寄放地址的地方，当程序指示CPU去读取什么数据的时候，CPU优先从寄存器中取出数据的地址，然后从缓存读取数据进行运算。 那么计算机运行的过程相当于： 1. 用户告诉CPU启动一个程序 2. 程序把数据放入系统为其开辟的一块内存空间 3. CPU从内存读取数据放入缓存，以及在寄存器放入缓存数据的地址 4. CPU通过协调内存、寄存器、CPU缓存完成用户继续给予的指令。</p>
+<h3 id="（二）寄存器的种类-4"><a href="#（二）寄存器的种类-4" class="headerlink" title="（二）寄存器的种类"></a>（二）寄存器的种类</h3><p>一个CPU都会提供多种寄存器，用于存储不同的数据（不同程序使用不同的寄存器），在早期的x86处理器当中，CPU提供9种不同的寄存器，但是程序中可用的只有7中，其中2中用于做特殊作用：</p>
+<blockquote>
+<p>现在的寄存器已经有100多个了，都变成通用寄存器，不特别指定用途了，但是早期寄存器的名字都被保存了下来。</p>
+</blockquote>
+<ol>
+<li>EAX</li>
+<li>EBX</li>
+<li>ECX</li>
+<li>EDX</li>
+<li>EDI</li>
+<li>ESI</li>
+<li>EBP</li>
+<li>ESP 记录内存中栈空间的地址</li>
+<li>EIP 记录当前指令执行的位置</li>
+</ol>
+<p>汇编语言要做的事情就是指挥这些寄存器中做的动作。</p>
+<h2 id="四、一个简单的程序-4"><a href="#四、一个简单的程序-4" class="headerlink" title="四、一个简单的程序"></a>四、一个简单的程序</h2><p>现在使用一个C语言的代码来表述计算机做了什么事情：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> add_a_and_b(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add_a_and_b</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行编译，他将会被编译成以下的汇编语言：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">_main:</span><br><span class="line">   push 3 ;                        把第二个参数&#39;3&#39;Push（推）进内存</span><br><span class="line">   push 2 ;                        把第一个参数&#39;2&#39;Push进内存</span><br><span class="line">   call _add_a_and_b ;     调用add_a_and_b 函数：并且让当前程序运行的指针（在EIP寄存器中）</span><br><span class="line">                                        指向函数的第一条指令（push %ebx）</span><br><span class="line">   add %esp, 8 ;              将esp指针在栈上向上移动8个字节，弹出我们上面压入的两个值，此时第一个值已经变成计算以后的值了。</span><br><span class="line">   ret ;                               返回到调用main函数的函数中。</span><br><span class="line"></span><br><span class="line">_add_a_and_b:</span><br><span class="line">   push %ebx ;                    程序准备修改ebx寄存器中的值, 所以程序需要将ebx推入栈中</span><br><span class="line">                                            以便让后面程序运行结束以后可以还原数据</span><br><span class="line">   mov %eax, [%esp+8] ;    将第一个参数移入EAX（详看下图可以知道为什么是+8）</span><br><span class="line">   mov %ebx, [%esp+12] ;  将第二个参数移入EBX</span><br><span class="line">   add %eax, %ebx ;           将eax和ebx中的值进行相加，并且把结果存储在eax中</span><br><span class="line">   pop %ebx ;                      将ebx中的值弹出，以便还原ebx中的数据</span><br><span class="line">   ret ;                                   返回到main函数. 这个步骤将会把下一步运行地址弹出到栈内存中</span><br><span class="line">                                             (当call执行完以后的下一步地址) 放入eip寄存器</span><br></pre></td></tr></table></figure>
+
+<p>程序运行的时候，内存模型如下： </p>
+<h2 id="一、介绍-5"><a href="#一、介绍-5" class="headerlink" title="一、介绍"></a>一、介绍</h2><p>在计算机中，CPU只能识别二进制，当需要CPU做事情的时候，都需要通过二进制去指挥CPU做什么事情。古人觉得二进制实在是难以理解，所以才发明了汇编语言以及后面的高级语言，所以汇编语言可以称作为比较接近机器语言的语言了。 当然后面的古人依然觉得汇编语言难以理解，所以发明了C、C++、Java来解决难以理解的问题。所以后面的语言越来越偏于人类自然语言，并且使用面向对象的思想来设计程序。当然这期间经历的事情还挺多：C编译成汇编语言，汇编语言再翻译成二进制语言，这个过程即称为assembling。 学习汇编语言既需要下面两个概念的理解：<strong>内存模型</strong>和<strong>寄存器</strong></p>
+<h2 id="二、内存模型-5"><a href="#二、内存模型-5" class="headerlink" title="二、内存模型"></a>二、内存模型</h2><h3 id="（一）内存模型的介绍-5"><a href="#（一）内存模型的介绍-5" class="headerlink" title="（一）内存模型的介绍"></a>（一）内存模型的介绍</h3><p>内存通常被程序分为两个部分：<strong>堆（Heap）</strong>和<strong>栈（Stack）</strong> 当一个程序开始运行的时候，系统通常会为改程序开辟一块内存空间，而这块内存空间在该程序运行的时候，也会被划分成为上面最常见的两块区域，通常他们的作用如下：</p>
+<ol>
+<li>堆（Heap）：通常被动态的划分，用来存储程序运行的时候需要存储的数据，当程序结束以后，这块内存将被系统重新回收。当C语言中调用</li>
+<li>栈（Stack）：用于存储方法运行中需要使用到的临时变量的空间。Java中的栈，当需要的临时变量如果是对象的情况下，存储的是对象在堆中的引用地址，基本数据类型的话那就是直接存储数据了。</li>
+</ol>
+<h3 id="（二）堆空间的使用-5"><a href="#（二）堆空间的使用-5" class="headerlink" title="（二）堆空间的使用"></a>（二）堆空间的使用</h3><p>（内存模型引用阮老师的图片） 1.当一个程序被启动，系统中会在内存中为改程序划分一块空闲内存： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152551.jpg"> </p>
+<p>这块内存是从低到高进行划分的，当该程序需要分配对象的时候（使用<code>malloc</code>命令），系统将从这块内存的低位开始，按照对象的大小划分一块内存供这个对象存放： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152616.jpg"></p>
+<p> 图中的对象中用了32个字节： 具体计算（8进制）： <code>0x1000 + 32 = 0x1020</code> 堆空间必须手动释放或者通过程序的垃圾回收器，如果该对象被GC判定为无用的对象，那么GC将对这块内存进行释放。</p>
+<h3 id="（三）栈空间的使用-5"><a href="#（三）栈空间的使用-5" class="headerlink" title="（三）栈空间的使用"></a>（三）栈空间的使用</h3><p>栈空间用于存储一个函数运行过程中需要用到的数据的内存。 栈和堆不同的是：栈是从高位开始占用内存的，而且遵从LIFO (Last-In-First-Out)原则。 为啥是先进后出：因为函数调用的时候，最后一个调用的函数是最先结束的： 举个例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="keyword">int</span> a = <span class="number">2</span>;</span><br><span class="line">   <span class="keyword">int</span> b = <span class="number">3</span>;</span><br><span class="line">   <span class="keyword">return</span> add_a_and_b(a, b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这段代码中，main函数先入栈，其次调用了<code>add_a_and_b(a, b)</code>，该函数入栈。那么是不是<code>add_a_and_b(a, b)</code>函数先执行完成，再把结果返回给<code>main</code>方法，<code>main</code>再运行结束。 栈空间： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152642.jpg"></p>
+<h2 id="三、寄存器-5"><a href="#三、寄存器-5" class="headerlink" title="三、寄存器"></a>三、寄存器</h2><h3 id="（一）寄存器的介绍-5"><a href="#（一）寄存器的介绍-5" class="headerlink" title="（一）寄存器的介绍"></a>（一）寄存器的介绍</h3><p>我们还要知道的另外一件事情是CPU只负责做事情，并不能够存储任何数据，包括运算过程中需要用到的临时数据，都需要通过缓存、内存以及寄存器来存储。 那么何为缓存：缓存是CPU能够够得到的第一级存储物质，再之是内存。为啥有内存了还需要这些东西呢，因为设计者认为，CPU的速度要远快于内存的速度，如果任何数据都通过去读取和写入内存操作的话，就会拖慢CPU的速度，所以在京东或者其他地方购买CPU的时候，是会出现缓存这个东西的： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152657.jpg"></p>
+<p> 现在普通一点的CPU都会自带一级缓存二级缓存（图中还有三级缓存= =），说的就是这个事情，当然这个缓存也不是越大越好，仔细想想如果这个缓存过大，那么在同步缓存和内存的数据的时候，是不是也会变慢。这个东西和jvm虚拟机中的堆和栈大小是一致的，如果jvm中堆栈过大，放数据是爽很多了，但是在进行垃圾清理的时候就是悲剧了。 接下来还有寄存器的概念：设计者认为每次需要数据的时候去读取数据，都需要寻址读取，那么还是会变慢很多，那如果把数据的地址存放在一个地方，需要的时候直接取出这个地址，然后再在缓存中去取出来，就会快很多，这个过程就是寄存器需要做的事情了。寄存器相当于用于寄放地址的地方，当程序指示CPU去读取什么数据的时候，CPU优先从寄存器中取出数据的地址，然后从缓存读取数据进行运算。 那么计算机运行的过程相当于： 1. 用户告诉CPU启动一个程序 2. 程序把数据放入系统为其开辟的一块内存空间 3. CPU从内存读取数据放入缓存，以及在寄存器放入缓存数据的地址 4. CPU通过协调内存、寄存器、CPU缓存完成用户继续给予的指令。</p>
+<h3 id="（二）寄存器的种类-5"><a href="#（二）寄存器的种类-5" class="headerlink" title="（二）寄存器的种类"></a>（二）寄存器的种类</h3><p>一个CPU都会提供多种寄存器，用于存储不同的数据（不同程序使用不同的寄存器），在早期的x86处理器当中，CPU提供9种不同的寄存器，但是程序中可用的只有7中，其中2中用于做特殊作用：</p>
+<blockquote>
+<p>现在的寄存器已经有100多个了，都变成通用寄存器，不特别指定用途了，但是早期寄存器的名字都被保存了下来。</p>
+</blockquote>
+<ol>
+<li>EAX</li>
+<li>EBX</li>
+<li>ECX</li>
+<li>EDX</li>
+<li>EDI</li>
+<li>ESI</li>
+<li>EBP</li>
+<li>ESP 记录内存中栈空间的地址</li>
+<li>EIP 记录当前指令执行的位置</li>
+</ol>
+<p>汇编语言要做的事情就是指挥这些寄存器中做的动作。</p>
+<h2 id="四、一个简单的程序-5"><a href="#四、一个简单的程序-5" class="headerlink" title="四、一个简单的程序"></a>四、一个简单的程序</h2><p>现在使用一个C语言的代码来表述计算机做了什么事情：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> add_a_and_b(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add_a_and_b</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行编译，他将会被编译成以下的汇编语言：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">_main:</span><br><span class="line">   push 3 ;                        把第二个参数&#39;3&#39;Push（推）进内存</span><br><span class="line">   push 2 ;                        把第一个参数&#39;2&#39;Push进内存</span><br><span class="line">   call _add_a_and_b ;     调用add_a_and_b 函数：并且让当前程序运行的指针（在EIP寄存器中）</span><br><span class="line">                                        指向函数的第一条指令（push %ebx）</span><br><span class="line">   add %esp, 8 ;              将esp指针在栈上向上移动8个字节，弹出我们上面压入的两个值，此时第一个值已经变成计算以后的值了。</span><br><span class="line">   ret ;                               返回到调用main函数的函数中。</span><br><span class="line"></span><br><span class="line">_add_a_and_b:</span><br><span class="line">   push %ebx ;                    程序准备修改ebx寄存器中的值, 所以程序需要将ebx推入栈中</span><br><span class="line">                                            以便让后面程序运行结束以后可以还原数据</span><br><span class="line">   mov %eax, [%esp+8] ;    将第一个参数移入EAX（详看下图可以知道为什么是+8）</span><br><span class="line">   mov %ebx, [%esp+12] ;  将第二个参数移入EBX</span><br><span class="line">   add %eax, %ebx ;           将eax和ebx中的值进行相加，并且把结果存储在eax中</span><br><span class="line">   pop %ebx ;                      将ebx中的值弹出，以便还原ebx中的数据</span><br><span class="line">   ret ;                                   返回到main函数. 这个步骤将会把下一步运行地址弹出到栈内存中</span><br><span class="line">                                             (当call执行完以后的下一步地址) 放入eip寄存器</span><br></pre></td></tr></table></figure>
+
+<p>程序运行的时候，内存模型如下： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152710.jpg"> </p>
+<p>第一步：当main开始运行的时候，需要先把临时的值压入栈内存中： 所以有两个参数<code>3和2</code>被压入占中，这就是栈内存中前两个的值的地址。 第二步：临时变量已经准备好了，我们要把main函数压入栈中，因为main函数一共有四条指令，而一条指令只用<code>4</code>个字节，所以一共有16个字节被压入栈中 第三步：因为在函数<code>_add_a_and_b</code>中，我们用到了中间寄存器用来计算ebx，所以ebx被压入栈中。 经过了这三个步骤，那么esp（程序运行指针）被多次往下移动了16个字节，其中包括main函数四条命令4个字节以及两个参数8个字节，还有一个临时寄存器使用了4个字节， 当然图中那么画还不够具体。</p>
+<p>首先main函数入栈，将参数推入栈中。 然后运行到了<code>call _add_a_and_b</code>步骤，函数入栈，继续刚刚的操作 这里因为<code>call _add_a_and_b</code>中有个步骤是推入一个中间寄存器，所以esp在call部分又向下推一个4字节的空间。 所以在函数当中，需要访问第一个参数的时候，应该是通过<code>esp + 8</code>去获取，第二个就更需要<code>esp + 12</code>去获取了 这里有个重点，就是我们如何保证我们使用的寄存器不会被其他程序的执行而让我们的程序运行过程中遭到破坏。 很简单：当我们需要用到一个寄存器的时候，我们把一个寄存器的副本压入栈中，然后我们即可在函数中对这个寄存器进行使用以及清理。</p>
+<h2 id="参考-4"><a href="#参考-4" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html">阮一峰《汇编语言入门教程》</a> <a target="_blank" rel="noopener" href="http://kakaroto.homelinux.net/2017/11/introduction-to-reverse-engineering-and-assembly/">Introduction to reverse engineering and Assembly.</a> <a target="_blank" rel="noopener" href="http://blog.csdn.net/daleiwang/article/details/50579776">堆栈的工作原理</a>  </p>
+<p>第一步：当main开始运行的时候，需要先把临时的值压入栈内存中： 所以有两个参数<code>3和2</code>被压入占中，这就是栈内存中前两个的值的地址。 第二步：临时变量已经准备好了，我们要把main函数压入栈中，因为main函数一共有四条指令，而一条指令只用<code>4</code>个字节，所以一共有16个字节被压入栈中 第三步：因为在函数<code>_add_a_and_b</code>中，我们用到了中间寄存器用来计算ebx，所以ebx被压入栈中。 经过了这三个步骤，那么esp（程序运行指针）被多次往下移动了16个字节，其中包括main函数四条命令4个字节以及两个参数8个字节，还有一个临时寄存器使用了4个字节， 当然图中那么画还不够具体。</p>
+<p>首先main函数入栈，将参数推入栈中。 然后运行到了<code>call _add_a_and_b</code>步骤，函数入栈，继续刚刚的操作 这里因为<code>call _add_a_and_b</code>中有个步骤是推入一个中间寄存器，所以esp在call部分又向下推一个4字节的空间。 所以在函数当中，需要访问第一个参数的时候，应该是通过<code>esp + 8</code>去获取，第二个就更需要<code>esp + 12</code>去获取了 这里有个重点，就是我们如何保证我们使用的寄存器不会被其他程序的执行而让我们的程序运行过程中遭到破坏。 很简单：当我们需要用到一个寄存器的时候，我们把一个寄存器的副本压入栈中，然后我们即可在函数中对这个寄存器进行使用以及清理。</p>
+<h2 id="参考-5"><a href="#参考-5" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html">阮一峰《汇编语言入门教程》</a> <a target="_blank" rel="noopener" href="http://kakaroto.homelinux.net/2017/11/introduction-to-reverse-engineering-and-assembly/">Introduction to reverse engineering and Assembly.</a> <a target="_blank" rel="noopener" href="http://blog.csdn.net/daleiwang/article/details/50579776">堆栈的工作原理</a> </p>
+
     </div>
 
-    <!-- Author title -->
-    <div class="author-title">
-      <div>Weidan</div>
-      <div>2018-02-12</div>
-    </div>
-  </div>
-
-  
-    <div class="divider"></div>
-
-    <div class="link">
-      <a class="category-link" href="/categories/computer-basic/">computer-basic</a> <a class="category-link" href="/categories/computer-basic/asm/">asm</a>
-
-      
-    </div>
     
-  
+    
+    
 
-  <div class="divider"></div>
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/frame/spring-boot/spring-boot-%E7%9A%84-web-%E5%BC%80%E5%8F%91%E9%A1%B9%E7%9B%AE/" rel="next" title="spring-boot 的 web 开发项目">
+                  spring-boot 的 web 开发项目 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
 </div>
-  
-
-  <div class="book-tocbot">
-</div>
-<div class="book-tocbot-menu">
-  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
-  <a onclick="go_top()">Back to top</a>
-  <a onclick="go_bottom()">Go to bottom</a>
-</div>
 
 
-<script src="/js/book-toc.js"></script>
 
-</div>
-      </div>
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
     </div>
-  </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
   
-  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weidan</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
 
 </body>
 </html>
-
-
-<script src="/js/book.js"></script>

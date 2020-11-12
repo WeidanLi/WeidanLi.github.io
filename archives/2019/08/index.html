@@ -1,719 +1,339 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
-
-    
-      <link rel="icon" href="/favicon.png" />
-    
-
-    <title>
-        
-          丹崽的技术博客
-        
-    </title>
-
-    <!-- Spectre.css framework -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-exp.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-icons.min.css">
-
-    <!-- theme css & js -->
-    
-<link rel="stylesheet" href="/css/book.css">
-
-    
-<script src="/js/book.js"></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
 
 
-    <!-- tocbot -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
-    
-    <!-- katex -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    
-    
-<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const zooming = new Zooming()
-    zooming.listen('.book-content img')
-})
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+<meta property="og:type" content="website">
+<meta property="og:title" content="丹崽的技术博客">
+<meta property="og:url" content="http://weidanli.github.io/archives/2019/08/index.html">
+<meta property="og:site_name" content="丹崽的技术博客">
+<meta property="og:description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Weidan">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://weidanli.github.io/archives/2019/08/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
 </script>
 
-    
-<script type="text/javascript">
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?66f61662f62178eebb934fa943e5df84";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-<meta name="generator" content="Hexo 5.2.0"></head>
-
-<body>
-
-<div class="book-container">
-  <div class="book-sidebar">
-    <div class="book-brand">
-  <a href="/">
-    <img src="/favicon.png">
-    <span>丹崽的技术博客</span>
-  </a>
-</div>
-    <div id="menu" class="book-menu hide">
-  <ul>
-<li><a href="/">Home</a></li>
-</ul>
-<h1 id="计算机碎碎念"><a href="#计算机碎碎念" class="headerlink" title="计算机碎碎念"></a>计算机碎碎念</h1><h2 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h2><ul>
-<li><a href="/Computer/Network/1-Find-Computer-Network/">生活中的网络</a></li>
-<li><a href="/Computer/Network/2-TCP-IP-PROTOCOL/">TCP/IP之数据链路层</a></li>
-<li><a href="/Computer/Network/3-IP/">TCP/IP之网络层IP协议</a></li>
-<li><a href="/Computer/Network/4-TCP-UDP/">TCP/IP之传输层TCP/UDP协议</a></li>
-</ul>
-
-</div>
+  <title>归档 | 丹崽的技术博客</title>
+  
 
 
-<script src="/js/book-menu.js"></script>
 
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+    </div>
   </div>
 
-  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
-  <div class="sidebar-toggle-inner"></div>
-</div>
+  <div class="site-meta">
 
-<script>
-function add_inner() {
-  let inner = document.querySelector('.sidebar-toggle-inner')
-  inner.classList.add('show')  
-}
-
-function remove_inner() {
-  let inner = document.querySelector('.sidebar-toggle-inner')
-  inner.classList.remove('show')
-}
-
-function sidebar_toggle() {
-    let sidebar_toggle = document.querySelector('.sidebar-toggle')
-    let sidebar = document.querySelector('.book-sidebar')
-    let content = document.querySelector('.off-canvas-content')
-    if (sidebar_toggle.classList.contains('extend')) { // show
-        sidebar_toggle.classList.remove('extend')
-        sidebar.classList.remove('hide')
-        content.classList.remove('extend')
-    }
-    else { // hide
-        sidebar_toggle.classList.add('extend')
-        sidebar.classList.add('hide')
-        content.classList.add('extend')
-    }
-}
-</script>
-
-  <div class="off-canvas-content">
-    <div class="columns">
-      <div class="column col-10 col-lg-12">
-        <div class="book-navbar">
-          <!-- For Responsive Layout -->
-
-<header class="navbar">
-  <section class="navbar-section">
-    <a onclick="open_sidebar()">
-      <i class="icon icon-menu"></i>
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">丹崽的技术博客</h1>
+      <i class="logo-line"></i>
     </a>
-  </section>
-</header>
+      <p class="site-subtitle" itemprop="description">丹崽的计算机知识博客</p>
+  </div>
 
-        </div>
-        <div class="book-content">
-          <div class='book-archive'>
-  <!-- Title -->
-  
-    <h1>Archives</h1>
-  
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
 
+
+
+
+
+
+
+</div>
+        
   
-    <!-- Split post by year -->
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Weidan</p>
+  <div class="site-description" itemprop="description">计算机基础 计算机网络 Java Vue 前端 后端</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
     
-  
-
-  
-      <div class="years">
-          <h2>2020</h2>
-          <ul class="archive-list-item">
-          
-              <li>
-                <span>2020-10-17</span>
-                <a href="/Computer/Network/4-TCP-UDP/">
-                  传输层的协议-TCP/UDP
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-10-07</span>
-                <a href="/Computer/Network/3-IP/">
-                  网络层的协议-IP协议簇
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-09-28</span>
-                <a href="/Computer/Network/2-TCP-IP-PROTOCOL/">
-                  熟悉又陌生的TCP/IP
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-09-25</span>
-                <a href="/Computer/Network/1-Find-Computer-Network/">
-                  初识计算机网络
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-07-23</span>
-                <a href="/数据结构/图算法/">
-                  图算法
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-06-25</span>
-                <a href="/数据结构/字典查找树/">
-                  【编程基础】字典查找树
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-06-08</span>
-                <a href="/Java/排序算法/">
-                  【编程基础】排序算法
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-05-10</span>
-                <a href="/frame/Spring源码/【springcloud】spring-cloud-common解析/">
-                  【SpringCloud】Spring-Cloud-Common解析
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-04-19</span>
-                <a href="/java/Tomcat/【tomcat】四-tomcat处理请求（下）/">
-                  【Tomcat】四.Tomcat处理请求（下）
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-04-19</span>
-                <a href="/java/Tomcat/【tomcat】四-tomcat处理请求（上）/">
-                  【Tomcat】四.Tomcat处理请求（上）
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-04-19</span>
-                <a href="/java/Tomcat/【tomcat】三-tomcat启动（下）/">
-                  【Tomcat】三.Tomcat启动（下）
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-04-19</span>
-                <a href="/java/Tomcat/三-tomcat启动（下）/">
-                  【Tomcat】三.Tomcat启动（上）
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-04-19</span>
-                <a href="/java/Tomcat/【tomcat】二-tomcat启动初始化boostrap/">
-                  【Tomcat】二.Tomcat启动初始化Boostrap
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-04-19</span>
-                <a href="/java/Tomcat/【tomcat】一-初识tomcat以及调试tomcat/">
-                  【Tomcat】一.初识Tomcat以及调试Tomcat
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-04-01</span>
-                <a href="/db/mysql/【聊聊mysql】十一-mysql-innodb的数据库事务锁/">
-                  【聊聊MySQL】十一.MySQL-InnoDB的数据库事务锁
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-03-20</span>
-                <a href="/db/mysql/【聊聊mysql】十-mysql-innodb的数据库事务的执行之mvcc/">
-                  【聊聊MySQL】十.MySQL-InnoDB的数据库事务的执行之MVCC
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-03-17</span>
-                <a href="/db/mysql/【聊聊mysql】九-mysql-innodb的数据库事务的执行之undo-log/">
-                  【聊聊MySQL】九.MySQL-InnoDB的数据库事务的执行之UNDO_LOG
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-03-11</span>
-                <a href="/db/mysql/【聊聊mysql】七-mysql-innodb的数据库事务介绍/">
-                  【聊聊MySQL】七.MySQL-InnoDB的数据库事务介绍
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-03-07</span>
-                <a href="/uncategorized/【聊聊mysql】八-mysql-innodb的数据库事务的执行之redo-log/">
-                  Untitled
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-03-04</span>
-                <a href="/db/mysql/【聊聊mysql】六-mysql-innodb的数据库事务背景-bufferpool/">
-                  【聊聊MySQL】六.MySQL-InnoDB的数据库事务背景_BufferPool
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-02-25</span>
-                <a href="/db/mysql/【聊聊mysql】五-mysql-子查询的过程/">
-                  【聊聊MySQL】五.MySQL-子查询的过程
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-01-17</span>
-                <a href="/db/mysql/【聊聊mysql】四-mysql-innodb表索引和b树/">
-                  【聊聊MySQL】四.MySQL-InnoDB表索引和B+树
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-01-12</span>
-                <a href="/frame/Spring源码/【spring源码】springboot-mybatis-starter源码（二）/">
-                  【Spring源码】SpringBoot_MyBatis_starter源码（二）
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-01-12</span>
-                <a href="/frame/Spring源码/【spring源码】springboot-mybatis-starter源码（一）/">
-                  【Spring源码】SpringBoot_MyBatis_starter源码（一）
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-01-07</span>
-                <a href="/frame/Spring源码/【spring源码】spring数据库事务源码解析/">
-                  【Spring源码】Spring数据库事务源码解析
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-01-06</span>
-                <a href="/frame/Spring源码/【spring源码】springweb容器-基于springboot/">
-                  【Spring源码】SpringWeb容器_基于SpringBoot
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-01-02</span>
-                <a href="/frame/Spring源码/【spring源码】springboot扫描与解析/">
-                  【Spring源码】SpringBoot扫描与解析
-                </a>
-              </li>
-          
-          </ul>
-      </div>
-  
-      <div class="years">
-          <h2>2019</h2>
-          <ul class="archive-list-item">
-          
-              <li>
-                <span>2019-12-15</span>
-                <a href="/frame/Spring源码/【spring源码】一个我们日常使用的aop实现/">
-                  【Spring源码】一个我们日常使用的AOP实现
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-12-10</span>
-                <a href="/frame/Spring源码/【spring源码】一个我们日常接触的applicationcontext/">
-                  【Spring源码】一个我们日常接触的ApplicationContext
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-12-04</span>
-                <a href="/工作站/【工作台】黑苹果-osx-catalina-10-15-安装教程/">
-                  【工作台】黑苹果 osx_catalina_10.15 安装教程
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-12-03</span>
-                <a href="/frame/Spring源码/【spring源码】一个简单的beanfactory/">
-                  【Spring源码】第三步：从一个简单的BeanFactory开始
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-12-03</span>
-                <a href="/frame/Spring源码/【spring源码】第二步：了解spring的项目架构/">
-                  【Spring源码】第二步：了解Spring的项目架构
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-12-03</span>
-                <a href="/frame/Spring源码/【spring源码】开始读源码-基于idea/">
-                  【Spring源码】第一步：开始读源码--基于idea
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-12-02</span>
-                <a href="/db/mysql/【聊聊mysql】三-innodb的表结构和行记录结构/">
-                  【聊聊MySQL】三.InnoDB的表结构和行记录结构
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-09-05</span>
-                <a href="/db/mysql/【聊聊mysql】二-innodb体系结构/">
-                  【聊聊MySQL】二. InnoDB体系结构
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-09-05</span>
-                <a href="/db/mysql/【聊聊mysql】一-mysql存储引擎/">
-                  【聊聊MySQL】一. MySQL存储引擎
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-08-04</span>
-                <a href="/frame/Netty/netty处理websocket，nginx配置/">
-                  Netty处理WebSocket，Nginx配置
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-07-27</span>
-                <a href="/frame/Netty/netty之bytebuf以及编解码器/">
-                  Netty之ByteBuf以及编解码器
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-07-18</span>
-                <a href="/frame/Netty/netty组件以及入门体验/">
-                  Netty组件以及入门体验
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-06-17</span>
-                <a href="/frame/spring-cloud/ddd和微服务/">
-                  DDD和微服务
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-04-16</span>
-                <a href="/frame/spring-cloud/springcloud服务使用protolbuffer编码进行传值/">
-                  SpringCloud服务使用ProtolBuffer编码进行传值
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-04-06</span>
-                <a href="/frame/spring-cloud/springcloud介绍/">
-                  SpringCloud介绍
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-04-06</span>
-                <a href="/db/redis/redis-集群部署方式/">
-                  Redis 集群部署方式
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-04-06</span>
-                <a href="/db/redis/redis-持久化机制/">
-                  Redis 持久化机制
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-04-06</span>
-                <a href="/db/mysql/mysql-8-0-15-主从复制配置/">
-                  MySQL 8.0.15 主从复制配置
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-03-05</span>
-                <a href="/front/front-backend-ajax-permission-due-iview/">
-                  关于前后端分离权限的控制（元素细粒度 iview-admin实现）
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-02-05</span>
-                <a href="/frame/spring-boot/springboot-的打包与单独部署-部署到-tomcat/">
-                  springboot 的打包与单独部署 部署到 tomcat
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-02-05</span>
-                <a href="/frame/spring-boot/springboot-监控-结合-spring-boot-admin-实现项目监控/">
-                  springboot 监控 结合 spring-boot-admin 实现项目监控
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-01-25</span>
-                <a href="/frame/spring-boot/测试你的-springboot-项目/">
-                  测试你的 springboot 项目
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-01-08</span>
-                <a href="/frame/spring-boot/springboot-与-redis-处理缓存/">
-                  springboot 与 redis 处理缓存
-                </a>
-              </li>
-          
-          </ul>
-      </div>
-  
-      <div class="years">
-          <h2>2018</h2>
-          <ul class="archive-list-item">
-          
-              <li>
-                <span>2018-12-28</span>
-                <a href="/frame/spring-boot/springboot-与-mongodb-数据处理/">
-                  springboot 与 MongoDB 数据处理
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-12-27</span>
-                <a href="/frame/spring-boot/springboot与mybatis，配合-tkmybatis-pagehelper-数据读取/">
-                  springboot与mybatis，配合 tkmybatis/PageHelper 数据读取
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-12-20</span>
-                <a href="/frame/spring-boot/springbootjpa-与-ddd-开发/">
-                  SpringBootJpa 与 DDD 开发
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-12-20</span>
-                <a href="/frame/spring-boot/springboot-与-jpa-的简单使用/">
-                  SpringBoot 与 jpa 的简单使用
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-12-20</span>
-                <a href="/frame/spring-boot/spring-boot-使用-aop/">
-                  spring-boot 使用 aop
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-12-20</span>
-                <a href="/frame/spring-boot/springboot-日志使用（logback）/">
-                  springboot 日志使用（LogBack）
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-12-20</span>
-                <a href="/frame/spring-boot/springboot-的多配置环境配置/">
-                  springboot 的多配置环境配置
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-12-20</span>
-                <a href="/frame/spring-boot/springboot-与-security-保护-web-安全/">
-                  springboot 与 security 保护 web 安全
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-12-20</span>
-                <a href="/frame/spring-boot/springboot-与接口文档系统-swagger/">
-                  springboot 与接口文档系统 swagger
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-12-20</span>
-                <a href="/frame/spring-boot/springboot-与-freemark-模板/">
-                  springboot 与 freemark 模板
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-12-20</span>
-                <a href="/frame/spring-boot/springboot-与数据验证/">
-                  springboot 与数据验证
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-12-20</span>
-                <a href="/frame/spring-boot/springboot-与数据接口/">
-                  springboot 与数据接口
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-12-20</span>
-                <a href="/frame/spring-boot/springboot-与-web-拦截器/">
-                  springboot 与 web 拦截器
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-12-20</span>
-                <a href="/frame/spring-boot/springboot-常用异常信息返回/">
-                  springboot 常用异常信息返回
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-12-20</span>
-                <a href="/frame/spring-boot/一个简单的入门-web-项目/">
-                  一个简单的入门 web 项目
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-12-20</span>
-                <a href="/frame/spring-boot/什么是-spring-boot/">
-                  什么是 spring-boot
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-12-11</span>
-                <a href="/frame/spring-boot/微服务feign本地契约测试-springcloudcontract/">
-                  微服务Feign本地契约测试--SpringCloudContract
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-08-30</span>
-                <a href="/frame/spring-boot/spring-boot-使用-jpa-进行数据库访问/">
-                  spring-boot 使用 jpa 进行数据库访问
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-08-30</span>
-                <a href="/frame/spring-boot/spring-boot-的-web-开发项目/">
-                  spring-boot 的 web 开发项目
-                </a>
-              </li>
-          
-              <li>
-                <span>2018-02-12</span>
-                <a href="/computer-basic/asm/一个java程序猿眼中的汇编/">
-                  一个Java程序猿眼中的汇编
-                </a>
-              </li>
-          
-          </ul>
-      </div>
-  
-
-  
-</div>
-        </div>
-      </div>
-      <div class="column col-2 hide-lg">
-        <div class="book-post-info">
-  
-    <div class="book-post-meta">
-
-  <div class="author">
-
-    <!-- Author image -->
-    <div class="author-img">
-      
-        <figure
-          class="avatar avatar-lg"
-          data-initial="W"
-          style="background-color: #3b4351;">
-        </figure>
-      
-    </div>
-
-    <!-- Author title -->
-    <div class="author-title">
-      <div>Weidan</div>
-      <div></div>
-    </div>
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
   </div>
 
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner archive posts-collapse">
+      
+
+      
+
   
-
-  <div class="divider"></div>
-</div>
   
-
-  <div class="book-tocbot">
-</div>
-<div class="book-tocbot-menu">
-  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
-  <a onclick="go_top()">Back to top</a>
-  <a onclick="go_bottom()">Go to bottom</a>
-</div>
-
-
-<script src="/js/book-toc.js"></script>
-
-</div>
+  
+  <div class="post-block">
+    <div class="post-content">
+      <div class="collection-title">
+        
+        <span class="collection-header">不错! 目前共计 70 篇日志。 继续努力。</span>
       </div>
+
+      
+    <div class="collection-year">
+      <span class="collection-header">2019</span>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+      <div class="post-meta-container">
+        <time itemprop="dateCreated"
+              datetime="2019-08-04T16:41:00+08:00"
+              content="2019-08-04">
+          08-04
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/frame/Netty/netty%E5%A4%84%E7%90%86websocket%EF%BC%8Cnginx%E9%85%8D%E7%BD%AE/" itemprop="url">
+            <span itemprop="name">Netty处理WebSocket，Nginx配置</span>
+          </a>
+      </div>
+
+      
+    </header>
+  </article>
+
+
     </div>
   </div>
   
-  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+  
+  
+
+  
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weidan</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
 
 </body>
 </html>
-
-
-<script src="/js/book.js"></script>

@@ -1,142 +1,285 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
-
-    
-      <link rel="icon" href="/favicon.png" />
-    
-
-    <title>
-        
-          【Tomcat】三.Tomcat启动（下） - 丹崽的技术博客
-        
-    </title>
-
-    <!-- Spectre.css framework -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-exp.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-icons.min.css">
-
-    <!-- theme css & js -->
-    
-<link rel="stylesheet" href="/css/book.css">
-
-    
-<script src="/js/book.js"></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
 
 
-    <!-- tocbot -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
-    
-    <!-- katex -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    
-    
-<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const zooming = new Zooming()
-    zooming.listen('.book-content img')
-})
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="上一篇的时序图：  上一篇的时序图：   一. StandardRoot启动12345678910111213141516171819202122232425262728293031323334public class StandardRoot extends LifecycleMBeanBase implements WebResourceRoot &amp;#123;  @Override  prot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Tomcat】三.Tomcat启动（下）">
+<meta property="og:url" content="http://weidanli.github.io/java/Tomcat/%E3%80%90tomcat%E3%80%91%E4%B8%89-tomcat%E5%90%AF%E5%8A%A8%EF%BC%88%E4%B8%8B%EF%BC%89/index.html">
+<meta property="og:site_name" content="丹崽的技术博客">
+<meta property="og:description" content="上一篇的时序图：  上一篇的时序图：   一. StandardRoot启动12345678910111213141516171819202122232425262728293031323334public class StandardRoot extends LifecycleMBeanBase implements WebResourceRoot &amp;#123;  @Override  prot">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201109161155.jpeg">
+<meta property="article:published_time" content="2020-04-19T09:28:02.000Z">
+<meta property="article:modified_time" content="2020-11-10T03:10:36.738Z">
+<meta property="article:author" content="Weidan">
+<meta property="article:tag" content="tomcat">
+<meta property="article:tag" content="tomcat源码">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201109161155.jpeg">
+
+
+<link rel="canonical" href="http://weidanli.github.io/java/Tomcat/%E3%80%90tomcat%E3%80%91%E4%B8%89-tomcat%E5%90%AF%E5%8A%A8%EF%BC%88%E4%B8%8B%EF%BC%89/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
 </script>
 
-    
-<script type="text/javascript">
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?66f61662f62178eebb934fa943e5df84";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-<meta name="generator" content="Hexo 5.2.0"></head>
-
-<body>
-
-<div class="book-container">
-  <div class="book-sidebar">
-    <div class="book-brand">
-  <a href="/">
-    <img src="/favicon.png">
-    <span>丹崽的技术博客</span>
-  </a>
-</div>
-    <div id="menu" class="book-menu hide">
-  <ul>
-<li><a href="/">Home</a></li>
-</ul>
-<h1 id="计算机碎碎念"><a href="#计算机碎碎念" class="headerlink" title="计算机碎碎念"></a>计算机碎碎念</h1><h2 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h2><ul>
-<li><a href="/Computer/Network/1-Find-Computer-Network/">生活中的网络</a></li>
-<li><a href="/Computer/Network/2-TCP-IP-PROTOCOL/">TCP/IP之数据链路层</a></li>
-<li><a href="/Computer/Network/3-IP/">TCP/IP之网络层IP协议</a></li>
-<li><a href="/Computer/Network/4-TCP-UDP/">TCP/IP之传输层TCP/UDP协议</a></li>
-</ul>
-
-</div>
+  <title>【Tomcat】三.Tomcat启动（下） | 丹崽的技术博客</title>
+  
 
 
-<script src="/js/book-menu.js"></script>
 
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+    </div>
   </div>
 
-  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
-  <div class="sidebar-toggle-inner"></div>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">丹崽的技术博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">丹崽的计算机知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
 
-<script>
-function add_inner() {
-  let inner = document.querySelector('.sidebar-toggle-inner')
-  inner.classList.add('show')  
-}
 
-function remove_inner() {
-  let inner = document.querySelector('.sidebar-toggle-inner')
-  inner.classList.remove('show')
-}
 
-function sidebar_toggle() {
-    let sidebar_toggle = document.querySelector('.sidebar-toggle')
-    let sidebar = document.querySelector('.book-sidebar')
-    let content = document.querySelector('.off-canvas-content')
-    if (sidebar_toggle.classList.contains('extend')) { // show
-        sidebar_toggle.classList.remove('extend')
-        sidebar.classList.remove('hide')
-        content.classList.remove('extend')
-    }
-    else { // hide
-        sidebar_toggle.classList.add('extend')
-        sidebar.classList.add('hide')
-        content.classList.add('extend')
-    }
-}
-</script>
 
-  <div class="off-canvas-content">
-    <div class="columns">
-      <div class="column col-10 col-lg-12">
-        <div class="book-navbar">
-          <!-- For Responsive Layout -->
 
-<header class="navbar">
-  <section class="navbar-section">
-    <a onclick="open_sidebar()">
-      <i class="icon icon-menu"></i>
-    </a>
-  </section>
-</header>
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-StandardRoot%E5%90%AF%E5%8A%A8"><span class="nav-number">1.</span> <span class="nav-text">一. StandardRoot启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E5%8F%91%E9%80%81%E4%BA%8B%E4%BB%B6%E9%80%9A%E7%9F%A5%E5%8A%A0%E8%BD%BDweb%E5%BA%94%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">二. 发送事件通知加载web应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 加载配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-StandardPipeline%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 StandardPipeline初始化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-StandardManager%E5%90%AF%E5%8A%A8"><span class="nav-number">3.</span> <span class="nav-text">三. StandardManager启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B-%E7%AE%A1%E7%90%86%E8%BF%9E%E6%8E%A5%E7%9A%84%E7%B1%BBNioEndpoint"><span class="nav-number">4.</span> <span class="nav-text">四. 管理连接的类NioEndpoint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-StandardRoot%E5%90%AF%E5%8A%A8-1"><span class="nav-number">5.</span> <span class="nav-text">一. StandardRoot启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E5%8F%91%E9%80%81%E4%BA%8B%E4%BB%B6%E9%80%9A%E7%9F%A5%E5%8A%A0%E8%BD%BDweb%E5%BA%94%E7%94%A8-1"><span class="nav-number">6.</span> <span class="nav-text">二. 发送事件通知加载web应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE-1"><span class="nav-number">6.1.</span> <span class="nav-text">2.1 加载配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-StandardPipeline%E5%88%9D%E5%A7%8B%E5%8C%96-1"><span class="nav-number">6.2.</span> <span class="nav-text">2.2 StandardPipeline初始化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-StandardManager%E5%90%AF%E5%8A%A8-1"><span class="nav-number">7.</span> <span class="nav-text">三. StandardManager启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B-%E7%AE%A1%E7%90%86%E8%BF%9E%E6%8E%A5%E7%9A%84%E7%B1%BBNioEndpoint-1"><span class="nav-number">8.</span> <span class="nav-text">四. 管理连接的类NioEndpoint</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Weidan</p>
+  <div class="site-description" itemprop="description">计算机基础 计算机网络 Java Vue 前端 后端</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/java/Tomcat/%E3%80%90tomcat%E3%80%91%E4%B8%89-tomcat%E5%90%AF%E5%8A%A8%EF%BC%88%E4%B8%8B%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Tomcat】三.Tomcat启动（下）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-04-19 17:28:02" itemprop="dateCreated datePublished" datetime="2020-04-19T17:28:02+08:00">2020-04-19</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-10 11:10:36" itemprop="dateModified" datetime="2020-11-10T11:10:36+08:00">2020-11-10</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/Tomcat/" itemprop="url" rel="index"><span itemprop="name">Tomcat</span></a>
+        </span>
+    </span>
+
+  
+</div>
 
         </div>
-        <div class="book-content">
-          <div class="book-post">
-  <p>上一篇的时序图： </p>
-<p>12</p>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>上一篇的时序图： </p>
+<p>上一篇的时序图： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201109161155.jpeg"></p>
 <h2 id="一-StandardRoot启动"><a href="#一-StandardRoot启动" class="headerlink" title="一. StandardRoot启动"></a>一. StandardRoot启动</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StandardRoot</span> <span class="keyword">extends</span> <span class="title">LifecycleMBeanBase</span> <span class="keyword">implements</span> <span class="title">WebResourceRoot</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">startInternal</span><span class="params">()</span> <span class="keyword">throws</span> LifecycleException </span>&#123;</span><br><span class="line">    mainResources.clear();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 根据类型，创建对应的资源包实例</span></span><br><span class="line">    main = createMainResourceSet();</span><br><span class="line"></span><br><span class="line">    mainResources.add(main);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 一次启动此类指定的资源</span></span><br><span class="line">    <span class="keyword">for</span> (List&lt;WebResourceSet&gt; list : allResources) &#123;</span><br><span class="line">      <span class="comment">// Skip class resources since they are started below</span></span><br><span class="line">      <span class="keyword">if</span> (list != classResources) &#123;</span><br><span class="line">        <span class="keyword">for</span> (WebResourceSet webResourceSet : list) &#123;</span><br><span class="line">          webResourceSet.start();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 扫描lib下的所有jar包</span></span><br><span class="line">    processWebInfLib();</span><br><span class="line">    <span class="comment">// Need to start the newly found resources</span></span><br><span class="line">    <span class="keyword">for</span> (WebResourceSet classResource : classResources) &#123;</span><br><span class="line">      classResource.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cache.enforceObjectMaxSizeLimit();</span><br><span class="line"></span><br><span class="line">    setState(LifecycleState.STARTING);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>那我们知道，一个 <code>webapp</code> 入口是 <code>WEB-INF</code> ，因为里边包含了 <code>web.xml</code> 以及 <code>lib包</code>，所以此时就是扫描 <code>lib</code> 下所有的 <code>jar</code> 包，然后加载到 <code>webapp</code> 的 <code>ClassLoader</code> 中去。所以这个时候 <code>StandardRoot</code> 做的事情就是加载所有的 <code>jar</code> 包。</p>
@@ -155,77 +298,143 @@ function sidebar_toggle() {
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NioEndpoint</span> <span class="keyword">extends</span> <span class="title">AbstractJsseEndpoint</span>&lt;<span class="title">NioChannel</span>&gt; </span>&#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startInternal</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">// 启动Connector的时候顺带启动NioEndpoint</span></span><br><span class="line">    <span class="keyword">if</span> (!running) &#123;</span><br><span class="line">      running = <span class="keyword">true</span>;</span><br><span class="line">      paused = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">      processorCache = <span class="keyword">new</span> SynchronizedStack&lt;&gt;(SynchronizedStack.DEFAULT_SIZE,</span><br><span class="line">                                               socketProperties.getProcessorCache());</span><br><span class="line">      eventCache = <span class="keyword">new</span> SynchronizedStack&lt;&gt;(SynchronizedStack.DEFAULT_SIZE,</span><br><span class="line">                                           socketProperties.getEventCache());</span><br><span class="line">      nioChannels = <span class="keyword">new</span> SynchronizedStack&lt;&gt;(SynchronizedStack.DEFAULT_SIZE,</span><br><span class="line">                                            socketProperties.getBufferPool());</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 创建任务队列</span></span><br><span class="line">      <span class="keyword">if</span> ( getExecutor() == <span class="keyword">null</span> ) &#123;</span><br><span class="line">        createExecutor();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 初始化最大连接数，默认是10000</span></span><br><span class="line">      initializeConnectionLatch();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 开启 poller 所有的线程</span></span><br><span class="line">      pollers = <span class="keyword">new</span> Poller[getPollerThreadCount()];</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;pollers.length; i++) &#123;</span><br><span class="line">        pollers[i] = <span class="keyword">new</span> Poller();</span><br><span class="line">        Thread pollerThread = <span class="keyword">new</span> Thread(pollers[i], getName() + <span class="string">&quot;-ClientPoller-&quot;</span>+i);</span><br><span class="line">        pollerThread.setPriority(threadPriority);</span><br><span class="line">        pollerThread.setDaemon(<span class="keyword">true</span>);</span><br><span class="line">        pollerThread.start();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 开启Acceptor所有的线程</span></span><br><span class="line">      startAcceptorThreads();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">startAcceptorThreads</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = getAcceptorThreadCount();</span><br><span class="line">    acceptors = <span class="keyword">new</span> Acceptor[count];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">      acceptors[i] = createAcceptor();</span><br><span class="line">      String threadName = getName() + <span class="string">&quot;-Acceptor-&quot;</span> + i;</span><br><span class="line">      acceptors[i].setThreadName(threadName);</span><br><span class="line">      Thread t = <span class="keyword">new</span> Thread(acceptors[i], threadName);</span><br><span class="line">      t.setPriority(getAcceptorThreadPriority());</span><br><span class="line">      t.setDaemon(getDaemon());</span><br><span class="line">      t.start();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 创建Worker线程，用来处理请求</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createExecutor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    internalExecutor = <span class="keyword">true</span>;</span><br><span class="line">    TaskQueue taskqueue = <span class="keyword">new</span> TaskQueue();</span><br><span class="line">    TaskThreadFactory tf = <span class="keyword">new</span> TaskThreadFactory(getName() + <span class="string">&quot;-exec-&quot;</span>, daemon, getThreadPriority());</span><br><span class="line">    executor = <span class="keyword">new</span> ThreadPoolExecutor(getMinSpareThreads(), getMaxThreads(), <span class="number">60</span>, TimeUnit.SECONDS,taskqueue, tf);</span><br><span class="line">    taskqueue.setParent( (ThreadPoolExecutor) executor);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 初始化连接限流器</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> LimitLatch <span class="title">initializeConnectionLatch</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (maxConnections==-<span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">if</span> (connectionLimitLatch==<span class="keyword">null</span>) &#123;</span><br><span class="line">      connectionLimitLatch = <span class="keyword">new</span> LimitLatch(getMaxConnections());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> connectionLimitLatch;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>所以在这个开启中，启动了 <code>acceptors</code> <code>pollers</code> 以及 <code>workers</code> ，这些线程也是构成 <code>Tomcat</code> 处理请求返回响应的关键。</p>
+<h2 id="一-StandardRoot启动-1"><a href="#一-StandardRoot启动-1" class="headerlink" title="一. StandardRoot启动"></a>一. StandardRoot启动</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StandardRoot</span> <span class="keyword">extends</span> <span class="title">LifecycleMBeanBase</span> <span class="keyword">implements</span> <span class="title">WebResourceRoot</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">startInternal</span><span class="params">()</span> <span class="keyword">throws</span> LifecycleException </span>&#123;</span><br><span class="line">    mainResources.clear();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 根据类型，创建对应的资源包实例</span></span><br><span class="line">    main = createMainResourceSet();</span><br><span class="line"></span><br><span class="line">    mainResources.add(main);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 一次启动此类指定的资源</span></span><br><span class="line">    <span class="keyword">for</span> (List&lt;WebResourceSet&gt; list : allResources) &#123;</span><br><span class="line">      <span class="comment">// Skip class resources since they are started below</span></span><br><span class="line">      <span class="keyword">if</span> (list != classResources) &#123;</span><br><span class="line">        <span class="keyword">for</span> (WebResourceSet webResourceSet : list) &#123;</span><br><span class="line">          webResourceSet.start();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 扫描lib下的所有jar包</span></span><br><span class="line">    processWebInfLib();</span><br><span class="line">    <span class="comment">// Need to start the newly found resources</span></span><br><span class="line">    <span class="keyword">for</span> (WebResourceSet classResource : classResources) &#123;</span><br><span class="line">      classResource.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cache.enforceObjectMaxSizeLimit();</span><br><span class="line"></span><br><span class="line">    setState(LifecycleState.STARTING);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-</div>
+<p>那我们知道，一个 <code>webapp</code> 入口是 <code>WEB-INF</code> ，因为里边包含了 <code>web.xml</code> 以及 <code>lib包</code>，所以此时就是扫描 <code>lib</code> 下所有的 <code>jar</code> 包，然后加载到 <code>webapp</code> 的 <code>ClassLoader</code> 中去。所以这个时候 <code>StandardRoot</code> 做的事情就是加载所有的 <code>jar</code> 包。</p>
+<h2 id="二-发送事件通知加载web应用-1"><a href="#二-发送事件通知加载web应用-1" class="headerlink" title="二. 发送事件通知加载web应用"></a>二. 发送事件通知加载web应用</h2><p>上面图我们可以看到，<code>fireLifecycleEvent</code> 通知了 <code>ContextConfig</code> 加载 <code>webapp</code> 的配置、加载所有 <code>Pipeline</code>。 先看第一个：</p>
+<h3 id="2-1-加载配置-1"><a href="#2-1-加载配置-1" class="headerlink" title="2.1 加载配置"></a>2.1 加载配置</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ContextConfig</span> <span class="keyword">implements</span> <span class="title">LifecycleListener</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">configureStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Called from StandardContext.start()</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (log.isDebugEnabled()) &#123;</span><br><span class="line">      log.debug(sm.getString(<span class="string">&quot;contextConfig.start&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (log.isDebugEnabled()) &#123;</span><br><span class="line">      log.debug(sm.getString(<span class="string">&quot;contextConfig.xmlSettings&quot;</span>,</span><br><span class="line">                             context.getName(),</span><br><span class="line">                             Boolean.valueOf(context.getXmlValidation()),</span><br><span class="line">                             Boolean.valueOf(context.getXmlNamespaceAware())));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 配置webConfig，会将项目中的web.xml跟tomcat目录下的web.xml合并</span></span><br><span class="line">    <span class="comment">// 并且加载所有必要的jar包</span></span><br><span class="line">    webConfig();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!context.getIgnoreAnnotations()) &#123;</span><br><span class="line">      applicationAnnotationsConfig();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ok) &#123;</span><br><span class="line">      <span class="comment">// 一堆配置鉴权的东西，tomcat-users.xml配置的东西</span></span><br><span class="line">      validateSecurityRoles();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (ok) &#123;</span><br><span class="line">      authenticatorConfig();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (log.isDebugEnabled()) &#123;</span><br><span class="line">      log.debug(<span class="string">&quot;Pipeline Configuration:&quot;</span>);</span><br><span class="line">      Pipeline pipeline = context.getPipeline();</span><br><span class="line">      Valve valves[] = <span class="keyword">null</span>;</span><br><span class="line">      <span class="keyword">if</span> (pipeline != <span class="keyword">null</span>) &#123;</span><br><span class="line">        valves = pipeline.getValves();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (valves != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; valves.length; i++) &#123;</span><br><span class="line">          log.debug(<span class="string">&quot;  &quot;</span> + valves[i].getClass().getName());</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      log.debug(<span class="string">&quot;======================&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Make our application available if no problems were encountered</span></span><br><span class="line">    <span class="keyword">if</span> (ok) &#123;</span><br><span class="line">      context.setConfigured(<span class="keyword">true</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      log.error(sm.getString(<span class="string">&quot;contextConfig.unavailable&quot;</span>));</span><br><span class="line">      context.setConfigured(<span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">webConfig</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    WebXmlParser webXmlParser = <span class="keyword">new</span> WebXmlParser(context.getXmlNamespaceAware(),</span><br><span class="line">                                                 context.getXmlValidation(), context.getXmlBlockExternal());</span><br><span class="line">    <span class="comment">// 加载全局的web.xml</span></span><br><span class="line">    Set&lt;WebXml&gt; defaults = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">    defaults.add(getDefaultWebXmlFragment(webXmlParser));</span><br><span class="line"></span><br><span class="line">    WebXml webXml = createWebXml();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 开始解析webapp的web.xml</span></span><br><span class="line">    InputSource contextWebXml = getContextWebXmlSource();</span><br><span class="line">    <span class="keyword">if</span> (!webXmlParser.parseWebXml(contextWebXml, webXml, <span class="keyword">false</span>)) &#123;</span><br><span class="line">      ok = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ServletContext sContext = context.getServletContext();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Ordering is important here</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Step 1. 加载所有jar包的web-fragment.xml</span></span><br><span class="line">    Map&lt;String,WebXml&gt; fragments = processJarsForWebFragments(webXml, webXmlParser);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Step 2. 排序上面加载的web-fragment.xml.</span></span><br><span class="line">    Set&lt;WebXml&gt; orderedFragments = <span class="keyword">null</span>;</span><br><span class="line">    orderedFragments =</span><br><span class="line">      WebXml.orderWebFragments(webXml, fragments, sContext);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Step 3. 查找ServletContainerInitializer接口实现类</span></span><br><span class="line">    <span class="keyword">if</span> (ok) &#123;</span><br><span class="line">      processServletContainerInitializers();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>  (!webXml.isMetadataComplete()  typeInitializerMap.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="comment">// 处理web-fragment.xml</span></span><br><span class="line">      processClasses(webXml, orderedFragments);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!webXml.isMetadataComplete()) &#123;</span><br><span class="line">      <span class="comment">// Step 6. 合并所有的web-fragment.xml</span></span><br><span class="line">      <span class="keyword">if</span> (ok) &#123;</span><br><span class="line">        ok = webXml.merge(orderedFragments);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Step 7. 合并默认配置</span></span><br><span class="line">      webXml.merge(defaults);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Step 8. JSP转Servlet</span></span><br><span class="line">      <span class="keyword">if</span> (ok) &#123;</span><br><span class="line">        convertJsps(webXml);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Step 9. 应用合并以后的web.xml对象</span></span><br><span class="line">      <span class="keyword">if</span> (ok) &#123;</span><br><span class="line">        configureContext(webXml);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      webXml.merge(defaults);</span><br><span class="line">      convertJsps(webXml);</span><br><span class="line">      configureContext(webXml);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (context.getLogEffectiveWebXml()) &#123;</span><br><span class="line">      log.info(<span class="string">&quot;web.xml:\n&quot;</span> + webXml.toXml());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Step 10. 查找静态资源</span></span><br><span class="line">    <span class="keyword">if</span> (ok) &#123;</span><br><span class="line">      <span class="comment">// Spec does not define an order.</span></span><br><span class="line">      <span class="comment">// Use ordered JARs followed by remaining JARs</span></span><br><span class="line">      Set&lt;WebXml&gt; resourceJars = <span class="keyword">new</span> LinkedHashSet&lt;&gt;();</span><br><span class="line">      <span class="keyword">for</span> (WebXml fragment : orderedFragments) &#123;</span><br><span class="line">        resourceJars.add(fragment);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">for</span> (WebXml fragment : fragments.values()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!resourceJars.contains(fragment)) &#123;</span><br><span class="line">          resourceJars.add(fragment);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      processResourceJARs(resourceJars);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Step 11. 应用ServletContainerInitializer配置</span></span><br><span class="line">    <span class="keyword">if</span> (ok) &#123;</span><br><span class="line">      <span class="keyword">for</span> (Map.Entry&lt;ServletContainerInitializer,</span><br><span class="line">           Set&lt;Class&lt;?&gt;&gt;&gt; entry :</span><br><span class="line">           initializerClassMap.entrySet()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (entry.getValue().isEmpty()) &#123;</span><br><span class="line">          context.addServletContainerInitializer(</span><br><span class="line">            entry.getKey(), <span class="keyword">null</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          context.addServletContainerInitializer(</span><br><span class="line">            entry.getKey(), entry.getValue());</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h3 id="2-2-StandardPipeline初始化-1"><a href="#2-2-StandardPipeline初始化-1" class="headerlink" title="2.2 StandardPipeline初始化"></a>2.2 StandardPipeline初始化</h3><p><code>BasicAuthenticator</code> 和 <code>StandardContextValue</code> 分别初始化，<code>Pipeline</code> 的内容打算后面请求的时候再看…</p>
+<h2 id="三-StandardManager启动-1"><a href="#三-StandardManager启动-1" class="headerlink" title="三. StandardManager启动"></a>三. StandardManager启动</h2><p><code>StandardManager</code> 就负责了 <code>Session</code> 的事情：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StandardManager</span> <span class="keyword">extends</span> <span class="title">ManagerBase</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">startInternal</span><span class="params">()</span> <span class="keyword">throws</span> LifecycleException </span>&#123;</span><br><span class="line">        <span class="comment">// 在父级抽象，准备Session的一些工具容器</span></span><br><span class="line">    <span class="keyword">super</span>.startInternal();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 读取被序列化到硬盘的session</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      load();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">      ExceptionUtils.handleThrowable(t);</span><br><span class="line">      log.error(sm.getString(<span class="string">&quot;standardManager.managerLoad&quot;</span>), t);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    setState(LifecycleState.STARTING);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>到这里为止，所以异步启动容器的任务就都完成了，接下来就看看怎么处理请求。</p>
+<h2 id="四-管理连接的类NioEndpoint-1"><a href="#四-管理连接的类NioEndpoint-1" class="headerlink" title="四. 管理连接的类NioEndpoint"></a>四. 管理连接的类NioEndpoint</h2><p>之前说过，在启动 <code>StandardService</code> 的时候，会初始化 <code>connectors</code>，这时候 <code>Connector[HTTP/1.1-8080]</code> 也会被初始化，这是一个处理 <code>HTTP请求</code> 的关键连接器。而这个连接器有一个 <code>protocolHandler</code>，也就是 <code>协议处理器</code>，现在 <code>8.5</code> 使用的是 <code>Http11NioProtocol</code> 这个处理类来处理。 <code>Connector[HTTP/1.1-8080]</code> 在初始化的时候，就会初始化 <code>Http11NioProtocol</code>，<code>Http11NioProtocol</code> 就包含了 <code>Endpoint</code>，理解为 <code>终端口</code> 吧，也就是请求进来的地方，在 <code>NioEndpoint</code> 初始化的时候，就会绑定到系统的端口里面：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NioEndpoint</span> <span class="keyword">extends</span> <span class="title">AbstractJsseEndpoint</span>&lt;<span class="title">NioChannel</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bind</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!getUseInheritedChannel()) &#123;</span><br><span class="line">      <span class="comment">// 打开ServerSocketChannel</span></span><br><span class="line">      serverSock = ServerSocketChannel.open();</span><br><span class="line">      socketProperties.setProperties(serverSock.socket());</span><br><span class="line">      InetSocketAddress addr = (getAddress()!=<span class="keyword">null</span>?<span class="keyword">new</span> InetSocketAddress(getAddress(),getPort()):<span class="keyword">new</span> InetSocketAddress(getPort()));</span><br><span class="line">      <span class="comment">// 绑定端口</span></span><br><span class="line">      serverSock.socket().bind(addr,getAcceptCount());</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// Retrieve the channel provided by the OS</span></span><br><span class="line">      Channel ic = System.inheritedChannel();</span><br><span class="line">      <span class="keyword">if</span> (ic <span class="keyword">instanceof</span> ServerSocketChannel) &#123;</span><br><span class="line">        serverSock = (ServerSocketChannel) ic;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (serverSock == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(sm.getString(<span class="string">&quot;endpoint.init.bind.inherited&quot;</span>));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    serverSock.configureBlocking(<span class="keyword">true</span>); <span class="comment">//mimic APR behavior</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化acceptor、poller的线程数</span></span><br><span class="line">    <span class="keyword">if</span> (acceptorThreadCount == <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="comment">// <span class="doctag">FIXME:</span> Doesn&#x27;t seem to work that well with multiple accept threads</span></span><br><span class="line">      acceptorThreadCount = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (pollerThreadCount &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="comment">//minimum one poller thread</span></span><br><span class="line">      pollerThreadCount = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    setStopLatch(<span class="keyword">new</span> CountDownLatch(pollerThreadCount));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Initialize SSL if needed</span></span><br><span class="line">    initialiseSsl();</span><br><span class="line"></span><br><span class="line">    selectorPool.open();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>初始化完成以后，<code>StandardService</code> 会经过 <code>startInternal</code> 函数，即开启容器内部所有的组件，那么 <code>NioEndpoint</code> 相对应的组件 <code>Acceptor</code> <code>Poller</code> 即会被开启线程：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NioEndpoint</span> <span class="keyword">extends</span> <span class="title">AbstractJsseEndpoint</span>&lt;<span class="title">NioChannel</span>&gt; </span>&#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startInternal</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">// 启动Connector的时候顺带启动NioEndpoint</span></span><br><span class="line">    <span class="keyword">if</span> (!running) &#123;</span><br><span class="line">      running = <span class="keyword">true</span>;</span><br><span class="line">      paused = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">      processorCache = <span class="keyword">new</span> SynchronizedStack&lt;&gt;(SynchronizedStack.DEFAULT_SIZE,</span><br><span class="line">                                               socketProperties.getProcessorCache());</span><br><span class="line">      eventCache = <span class="keyword">new</span> SynchronizedStack&lt;&gt;(SynchronizedStack.DEFAULT_SIZE,</span><br><span class="line">                                           socketProperties.getEventCache());</span><br><span class="line">      nioChannels = <span class="keyword">new</span> SynchronizedStack&lt;&gt;(SynchronizedStack.DEFAULT_SIZE,</span><br><span class="line">                                            socketProperties.getBufferPool());</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 创建任务队列</span></span><br><span class="line">      <span class="keyword">if</span> ( getExecutor() == <span class="keyword">null</span> ) &#123;</span><br><span class="line">        createExecutor();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 初始化最大连接数，默认是10000</span></span><br><span class="line">      initializeConnectionLatch();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 开启 poller 所有的线程</span></span><br><span class="line">      pollers = <span class="keyword">new</span> Poller[getPollerThreadCount()];</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;pollers.length; i++) &#123;</span><br><span class="line">        pollers[i] = <span class="keyword">new</span> Poller();</span><br><span class="line">        Thread pollerThread = <span class="keyword">new</span> Thread(pollers[i], getName() + <span class="string">&quot;-ClientPoller-&quot;</span>+i);</span><br><span class="line">        pollerThread.setPriority(threadPriority);</span><br><span class="line">        pollerThread.setDaemon(<span class="keyword">true</span>);</span><br><span class="line">        pollerThread.start();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 开启Acceptor所有的线程</span></span><br><span class="line">      startAcceptorThreads();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">startAcceptorThreads</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = getAcceptorThreadCount();</span><br><span class="line">    acceptors = <span class="keyword">new</span> Acceptor[count];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">      acceptors[i] = createAcceptor();</span><br><span class="line">      String threadName = getName() + <span class="string">&quot;-Acceptor-&quot;</span> + i;</span><br><span class="line">      acceptors[i].setThreadName(threadName);</span><br><span class="line">      Thread t = <span class="keyword">new</span> Thread(acceptors[i], threadName);</span><br><span class="line">      t.setPriority(getAcceptorThreadPriority());</span><br><span class="line">      t.setDaemon(getDaemon());</span><br><span class="line">      t.start();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 创建Worker线程，用来处理请求</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createExecutor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    internalExecutor = <span class="keyword">true</span>;</span><br><span class="line">    TaskQueue taskqueue = <span class="keyword">new</span> TaskQueue();</span><br><span class="line">    TaskThreadFactory tf = <span class="keyword">new</span> TaskThreadFactory(getName() + <span class="string">&quot;-exec-&quot;</span>, daemon, getThreadPriority());</span><br><span class="line">    executor = <span class="keyword">new</span> ThreadPoolExecutor(getMinSpareThreads(), getMaxThreads(), <span class="number">60</span>, TimeUnit.SECONDS,taskqueue, tf);</span><br><span class="line">    taskqueue.setParent( (ThreadPoolExecutor) executor);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 初始化连接限流器</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> LimitLatch <span class="title">initializeConnectionLatch</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (maxConnections==-<span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">if</span> (connectionLimitLatch==<span class="keyword">null</span>) &#123;</span><br><span class="line">      connectionLimitLatch = <span class="keyword">new</span> LimitLatch(getMaxConnections());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> connectionLimitLatch;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<script src="/js/book-post.js"></script>
+<p>所以在这个开启中，启动了 <code>acceptors</code> <code>pollers</code> 以及 <code>workers</code> ，这些线程也是构成 <code>Tomcat</code> 处理请求返回响应的关键。</p>
 
-        </div>
-      </div>
-      <div class="column col-2 hide-lg">
-        <div class="book-post-info">
-  
-    <div class="book-post-meta">
-
-  <div class="author">
-
-    <!-- Author image -->
-    <div class="author-img">
-      
-        <figure
-          class="avatar avatar-lg"
-          data-initial="W"
-          style="background-color: #3b4351;">
-        </figure>
-      
     </div>
 
-    <!-- Author title -->
-    <div class="author-title">
-      <div>Weidan</div>
-      <div>2020-04-19</div>
-    </div>
-  </div>
-
-  
-    <div class="divider"></div>
-
-    <div class="link">
-      <a class="category-link" href="/categories/java/">java</a> <a class="category-link" href="/categories/java/Tomcat/">Tomcat</a>
-
-      <a class="tag-none-link" href="/tags/tomcat/" rel="tag">#tomcat</a> <a class="tag-none-link" href="/tags/tomcat%E6%BA%90%E7%A0%81/" rel="tag">#tomcat源码</a>
-    </div>
     
-  
+    
+    
 
-  <div class="divider"></div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/tomcat/" rel="tag"># tomcat</a>
+              <a href="/tags/tomcat%E6%BA%90%E7%A0%81/" rel="tag"># tomcat源码</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/java/Tomcat/%E4%B8%89-tomcat%E5%90%AF%E5%8A%A8%EF%BC%88%E4%B8%8B%EF%BC%89/" rel="prev" title="【Tomcat】三.Tomcat启动（上）">
+                  <i class="fa fa-chevron-left"></i> 【Tomcat】三.Tomcat启动（上）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/java/Tomcat/%E3%80%90tomcat%E3%80%91%E5%9B%9B-tomcat%E5%A4%84%E7%90%86%E8%AF%B7%E6%B1%82%EF%BC%88%E4%B8%8A%EF%BC%89/" rel="next" title="【Tomcat】四.Tomcat处理请求（上）">
+                  【Tomcat】四.Tomcat处理请求（上） <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
 </div>
-  
-
-  <div class="book-tocbot">
-</div>
-<div class="book-tocbot-menu">
-  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
-  <a onclick="go_top()">Back to top</a>
-  <a onclick="go_bottom()">Go to bottom</a>
-</div>
 
 
-<script src="/js/book-toc.js"></script>
 
-</div>
-      </div>
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
     </div>
-  </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
   
-  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weidan</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
 
 </body>
 </html>
-
-
-<script src="/js/book.js"></script>

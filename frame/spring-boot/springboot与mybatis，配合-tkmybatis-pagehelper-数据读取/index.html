@@ -1,141 +1,283 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
-
-    
-      <link rel="icon" href="/favicon.png" />
-    
-
-    <title>
-        
-          springboot与mybatis，配合 tkmybatis/PageHelper 数据读取 - 丹崽的技术博客
-        
-    </title>
-
-    <!-- Spectre.css framework -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-exp.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-icons.min.css">
-
-    <!-- theme css & js -->
-    
-<link rel="stylesheet" href="/css/book.css">
-
-    
-<script src="/js/book.js"></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
 
 
-    <!-- tocbot -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
-    
-    <!-- katex -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    
-    
-<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const zooming = new Zooming()
-    zooming.listen('.book-content img')
-})
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="一. 简述MyBatis 是一个简单粗暴的 orm 框架，与 hibernate 相比起来，速度要快一点，封装也要少一点。如果要说封装程度的话，那就是对查询、返回结果的过程进行封装。 SpringBoot 只要简单的使用 MyBatis 官方提供的 starter ，稍微配置下就可以使用了。 二. 开发(一) 集成 MyBatis1. mvn依赖12345678910111213141516171">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springboot与mybatis，配合 tkmybatis&#x2F;PageHelper 数据读取">
+<meta property="og:url" content="http://weidanli.github.io/frame/spring-boot/springboot%E4%B8%8Emybatis%EF%BC%8C%E9%85%8D%E5%90%88-tkmybatis-pagehelper-%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%8F%96/index.html">
+<meta property="og:site_name" content="丹崽的技术博客">
+<meta property="og:description" content="一. 简述MyBatis 是一个简单粗暴的 orm 框架，与 hibernate 相比起来，速度要快一点，封装也要少一点。如果要说封装程度的话，那就是对查询、返回结果的过程进行封装。 SpringBoot 只要简单的使用 MyBatis 官方提供的 starter ，稍微配置下就可以使用了。 二. 开发(一) 集成 MyBatis1. mvn依赖12345678910111213141516171">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110164225.png">
+<meta property="article:published_time" content="2018-12-27T12:51:11.000Z">
+<meta property="article:modified_time" content="2020-11-10T08:42:35.349Z">
+<meta property="article:author" content="Weidan">
+<meta property="article:tag" content="spring-boot">
+<meta property="article:tag" content="mybatis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110164225.png">
+
+
+<link rel="canonical" href="http://weidanli.github.io/frame/spring-boot/springboot%E4%B8%8Emybatis%EF%BC%8C%E9%85%8D%E5%90%88-tkmybatis-pagehelper-%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%8F%96/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
 </script>
 
-    
-<script type="text/javascript">
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?66f61662f62178eebb934fa943e5df84";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-<meta name="generator" content="Hexo 5.2.0"></head>
-
-<body>
-
-<div class="book-container">
-  <div class="book-sidebar">
-    <div class="book-brand">
-  <a href="/">
-    <img src="/favicon.png">
-    <span>丹崽的技术博客</span>
-  </a>
-</div>
-    <div id="menu" class="book-menu hide">
-  <ul>
-<li><a href="/">Home</a></li>
-</ul>
-<h1 id="计算机碎碎念"><a href="#计算机碎碎念" class="headerlink" title="计算机碎碎念"></a>计算机碎碎念</h1><h2 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h2><ul>
-<li><a href="/Computer/Network/1-Find-Computer-Network/">生活中的网络</a></li>
-<li><a href="/Computer/Network/2-TCP-IP-PROTOCOL/">TCP/IP之数据链路层</a></li>
-<li><a href="/Computer/Network/3-IP/">TCP/IP之网络层IP协议</a></li>
-<li><a href="/Computer/Network/4-TCP-UDP/">TCP/IP之传输层TCP/UDP协议</a></li>
-</ul>
-
-</div>
+  <title>springboot与mybatis，配合 tkmybatis/PageHelper 数据读取 | 丹崽的技术博客</title>
+  
 
 
-<script src="/js/book-menu.js"></script>
 
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+    </div>
   </div>
 
-  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
-  <div class="sidebar-toggle-inner"></div>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">丹崽的技术博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">丹崽的计算机知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
 
-<script>
-function add_inner() {
-  let inner = document.querySelector('.sidebar-toggle-inner')
-  inner.classList.add('show')  
-}
 
-function remove_inner() {
-  let inner = document.querySelector('.sidebar-toggle-inner')
-  inner.classList.remove('show')
-}
 
-function sidebar_toggle() {
-    let sidebar_toggle = document.querySelector('.sidebar-toggle')
-    let sidebar = document.querySelector('.book-sidebar')
-    let content = document.querySelector('.off-canvas-content')
-    if (sidebar_toggle.classList.contains('extend')) { // show
-        sidebar_toggle.classList.remove('extend')
-        sidebar.classList.remove('hide')
-        content.classList.remove('extend')
-    }
-    else { // hide
-        sidebar_toggle.classList.add('extend')
-        sidebar.classList.add('hide')
-        content.classList.add('extend')
-    }
-}
-</script>
 
-  <div class="off-canvas-content">
-    <div class="columns">
-      <div class="column col-10 col-lg-12">
-        <div class="book-navbar">
-          <!-- For Responsive Layout -->
 
-<header class="navbar">
-  <section class="navbar-section">
-    <a onclick="open_sidebar()">
-      <i class="icon icon-menu"></i>
-    </a>
-  </section>
-</header>
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E7%AE%80%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">一. 简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E5%BC%80%E5%8F%91"><span class="nav-number">2.</span> <span class="nav-text">二. 开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80-%E9%9B%86%E6%88%90-MyBatis"><span class="nav-number">2.1.</span> <span class="nav-text">(一) 集成 MyBatis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-mvn%E4%BE%9D%E8%B5%96"><span class="nav-number">2.1.1.</span> <span class="nav-text">1. mvn依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E7%94%A8%E6%88%B7%E7%B1%BB%E5%92%8C%E4%BB%93%E5%BA%93"><span class="nav-number">2.1.2.</span> <span class="nav-text">2. 用户类和仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-SpringBoot%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.3.</span> <span class="nav-text">3. SpringBoot配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%8E%A5%E5%8F%A3%E5%B1%82"><span class="nav-number">2.1.4.</span> <span class="nav-text">3. 接口层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E6%B5%8B%E8%AF%95"><span class="nav-number">2.1.5.</span> <span class="nav-text">4. 测试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C-%E9%9B%86%E6%88%90-TkMybatis-%E5%92%8C-PageHelper"><span class="nav-number">2.2.</span> <span class="nav-text">(二) 集成 TkMybatis 和 PageHelper</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%8A%A0%E5%85%A5-mvn-%E4%BE%9D%E8%B5%96"><span class="nav-number">2.2.1.</span> <span class="nav-text">1. 加入 mvn 依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%90%AF%E5%8A%A8%E7%B1%BB%E6%88%96%E9%85%8D%E7%BD%AE%E7%B1%BB%E5%8A%A0%E4%B8%8A-MapperScan-%E6%B3%A8%E8%A7%A3"><span class="nav-number">2.2.2.</span> <span class="nav-text">2. 启动类或配置类加上 MapperScan 注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-DBO-%E5%8A%A0%E4%B8%8A-jpa%E6%B3%A8%E8%A7%A3"><span class="nav-number">2.2.3.</span> <span class="nav-text">3. DBO 加上 jpa注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Mapper%E6%8E%A5%E5%8F%A3%E4%BF%AE%E6%94%B9"><span class="nav-number">2.2.4.</span> <span class="nav-text">4. Mapper接口修改</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E7%AE%80%E8%BF%B0-1"><span class="nav-number">3.</span> <span class="nav-text">一. 简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E5%BC%80%E5%8F%91-1"><span class="nav-number">4.</span> <span class="nav-text">二. 开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80-%E9%9B%86%E6%88%90-MyBatis-1"><span class="nav-number">4.1.</span> <span class="nav-text">(一) 集成 MyBatis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-mvn%E4%BE%9D%E8%B5%96-1"><span class="nav-number">4.1.1.</span> <span class="nav-text">1. mvn依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E7%94%A8%E6%88%B7%E7%B1%BB%E5%92%8C%E4%BB%93%E5%BA%93-1"><span class="nav-number">4.1.2.</span> <span class="nav-text">2. 用户类和仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-SpringBoot%E9%85%8D%E7%BD%AE-1"><span class="nav-number">4.1.3.</span> <span class="nav-text">3. SpringBoot配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%8E%A5%E5%8F%A3%E5%B1%82-1"><span class="nav-number">4.1.4.</span> <span class="nav-text">3. 接口层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E6%B5%8B%E8%AF%95-1"><span class="nav-number">4.1.5.</span> <span class="nav-text">4. 测试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C-%E9%9B%86%E6%88%90-TkMybatis-%E5%92%8C-PageHelper-1"><span class="nav-number">4.2.</span> <span class="nav-text">(二) 集成 TkMybatis 和 PageHelper</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%8A%A0%E5%85%A5-mvn-%E4%BE%9D%E8%B5%96-1"><span class="nav-number">4.2.1.</span> <span class="nav-text">1. 加入 mvn 依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%90%AF%E5%8A%A8%E7%B1%BB%E6%88%96%E9%85%8D%E7%BD%AE%E7%B1%BB%E5%8A%A0%E4%B8%8A-MapperScan-%E6%B3%A8%E8%A7%A3-1"><span class="nav-number">4.2.2.</span> <span class="nav-text">2. 启动类或配置类加上 MapperScan 注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-DBO-%E5%8A%A0%E4%B8%8A-jpa%E6%B3%A8%E8%A7%A3-1"><span class="nav-number">4.2.3.</span> <span class="nav-text">3. DBO 加上 jpa注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Mapper%E6%8E%A5%E5%8F%A3%E4%BF%AE%E6%94%B9-1"><span class="nav-number">4.2.4.</span> <span class="nav-text">4. Mapper接口修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E8%B0%83%E7%94%A8"><span class="nav-number">4.2.5.</span> <span class="nav-text">5. 调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E5%88%86%E9%A1%B5%E5%8A%A9%E6%89%8B%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">4.2.6.</span> <span class="nav-text">6. 分页助手的使用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">三. 总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E8%B0%83%E7%94%A8-1"><span class="nav-number">5.0.1.</span> <span class="nav-text">5. 调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E5%88%86%E9%A1%B5%E5%8A%A9%E6%89%8B%E7%9A%84%E4%BD%BF%E7%94%A8-1"><span class="nav-number">5.0.2.</span> <span class="nav-text">6. 分页助手的使用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-%E6%80%BB%E7%BB%93-1"><span class="nav-number">6.</span> <span class="nav-text">三. 总结</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Weidan</p>
+  <div class="site-description" itemprop="description">计算机基础 计算机网络 Java Vue 前端 后端</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/frame/spring-boot/springboot%E4%B8%8Emybatis%EF%BC%8C%E9%85%8D%E5%90%88-tkmybatis-pagehelper-%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%8F%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          springboot与mybatis，配合 tkmybatis/PageHelper 数据读取
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-12-27 20:51:11" itemprop="dateCreated datePublished" datetime="2018-12-27T20:51:11+08:00">2018-12-27</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-10 16:42:35" itemprop="dateModified" datetime="2020-11-10T16:42:35+08:00">2020-11-10</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/" itemprop="url" rel="index"><span itemprop="name">frame</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/spring-boot/" itemprop="url" rel="index"><span itemprop="name">spring-boot</span></a>
+        </span>
+    </span>
+
+  
+</div>
 
         </div>
-        <div class="book-content">
-          <div class="book-post">
-  <h2 id="一-简述"><a href="#一-简述" class="headerlink" title="一. 简述"></a>一. 简述</h2><p><code>MyBatis</code> 是一个简单粗暴的 <code>orm</code> 框架，与 <code>hibernate</code> 相比起来，速度要快一点，封装也要少一点。如果要说封装程度的话，那就是对查询、返回结果的过程进行封装。 <code>SpringBoot</code> 只要简单的使用 <code>MyBatis</code> 官方提供的 <code>starter</code> ，稍微配置下就可以使用了。</p>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="一-简述"><a href="#一-简述" class="headerlink" title="一. 简述"></a>一. 简述</h2><p><code>MyBatis</code> 是一个简单粗暴的 <code>orm</code> 框架，与 <code>hibernate</code> 相比起来，速度要快一点，封装也要少一点。如果要说封装程度的话，那就是对查询、返回结果的过程进行封装。 <code>SpringBoot</code> 只要简单的使用 <code>MyBatis</code> 官方提供的 <code>starter</code> ，稍微配置下就可以使用了。</p>
 <h2 id="二-开发"><a href="#二-开发" class="headerlink" title="二. 开发"></a>二. 开发</h2><h3 id="一-集成-MyBatis"><a href="#一-集成-MyBatis" class="headerlink" title="(一) 集成 MyBatis"></a>(一) 集成 MyBatis</h3><h4 id="1-mvn依赖"><a href="#1-mvn依赖" class="headerlink" title="1. mvn依赖"></a>1. mvn依赖</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;mysql&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;mysql-connector-java&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.mybatis.spring.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;mybatis-spring-boot-starter&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;version&gt;1.3.2&lt;&#x2F;version&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br><span class="line"></span><br><span class="line">&lt;build&gt;</span><br><span class="line">    &lt;resources&gt;</span><br><span class="line">        &lt;resource&gt;</span><br><span class="line">            &lt;!-- 让 maven 把 mybatis 的 xml 拷贝到 classes --&gt;</span><br><span class="line">            &lt;directory&gt;src&#x2F;main&#x2F;resources&lt;&#x2F;directory&gt;</span><br><span class="line">            &lt;includes&gt;</span><br><span class="line">                &lt;include&gt;**.*&lt;&#x2F;include&gt;</span><br><span class="line">                &lt;include&gt;**&#x2F;**.*&lt;&#x2F;include&gt;</span><br><span class="line">            &lt;&#x2F;includes&gt;</span><br><span class="line">            &lt;filtering&gt;true&lt;&#x2F;filtering&gt;</span><br><span class="line">        &lt;&#x2F;resource&gt;</span><br><span class="line">    &lt;&#x2F;resources&gt;</span><br><span class="line">&lt;&#x2F;build&gt;</span><br></pre></td></tr></table></figure>
 
 <h4 id="2-用户类和仓库"><a href="#2-用户类和仓库" class="headerlink" title="2. 用户类和仓库"></a>2. 用户类和仓库</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 用户数据库映射类 */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserDo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String uuid;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String id;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Long salary;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Mapper</span> <span class="comment">// 使用注解让 SpringBoot 读取</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserMapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">UserDo <span class="title">selectUserById</span><span class="params">(<span class="meta">@Param(&quot;userUuid&quot;)</span> String uuid)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">addUser</span><span class="params">(UserDo userDo)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">List&lt;UserDo&gt; <span class="title">selectAllUser</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -162,7 +304,34 @@ function sidebar_toggle() {
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserMapper</span> <span class="keyword">extends</span> <span class="title">tk</span>.<span class="title">mybatis</span>.<span class="title">mapper</span>.<span class="title">common</span>.<span class="title">Mapper</span>&lt;<span class="title">UserDo</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">UserDo <span class="title">selectUserById</span><span class="params">(<span class="meta">@Param(&quot;userUuid&quot;)</span> String uuid)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">addUser</span><span class="params">(UserDo userDo)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">List&lt;UserDo&gt; <span class="title">selectAllUser</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>可使用方法： </p>
-<p>24953</p>
+<h2 id="一-简述-1"><a href="#一-简述-1" class="headerlink" title="一. 简述"></a>一. 简述</h2><p><code>MyBatis</code> 是一个简单粗暴的 <code>orm</code> 框架，与 <code>hibernate</code> 相比起来，速度要快一点，封装也要少一点。如果要说封装程度的话，那就是对查询、返回结果的过程进行封装。 <code>SpringBoot</code> 只要简单的使用 <code>MyBatis</code> 官方提供的 <code>starter</code> ，稍微配置下就可以使用了。</p>
+<h2 id="二-开发-1"><a href="#二-开发-1" class="headerlink" title="二. 开发"></a>二. 开发</h2><h3 id="一-集成-MyBatis-1"><a href="#一-集成-MyBatis-1" class="headerlink" title="(一) 集成 MyBatis"></a>(一) 集成 MyBatis</h3><h4 id="1-mvn依赖-1"><a href="#1-mvn依赖-1" class="headerlink" title="1. mvn依赖"></a>1. mvn依赖</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;mysql&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;mysql-connector-java&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.mybatis.spring.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;mybatis-spring-boot-starter&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;version&gt;1.3.2&lt;&#x2F;version&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br><span class="line"></span><br><span class="line">&lt;build&gt;</span><br><span class="line">    &lt;resources&gt;</span><br><span class="line">        &lt;resource&gt;</span><br><span class="line">            &lt;!-- 让 maven 把 mybatis 的 xml 拷贝到 classes --&gt;</span><br><span class="line">            &lt;directory&gt;src&#x2F;main&#x2F;resources&lt;&#x2F;directory&gt;</span><br><span class="line">            &lt;includes&gt;</span><br><span class="line">                &lt;include&gt;**.*&lt;&#x2F;include&gt;</span><br><span class="line">                &lt;include&gt;**&#x2F;**.*&lt;&#x2F;include&gt;</span><br><span class="line">            &lt;&#x2F;includes&gt;</span><br><span class="line">            &lt;filtering&gt;true&lt;&#x2F;filtering&gt;</span><br><span class="line">        &lt;&#x2F;resource&gt;</span><br><span class="line">    &lt;&#x2F;resources&gt;</span><br><span class="line">&lt;&#x2F;build&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-用户类和仓库-1"><a href="#2-用户类和仓库-1" class="headerlink" title="2. 用户类和仓库"></a>2. 用户类和仓库</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 用户数据库映射类 */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserDo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String uuid;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String id;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Long salary;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Mapper</span> <span class="comment">// 使用注解让 SpringBoot 读取</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserMapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">UserDo <span class="title">selectUserById</span><span class="params">(<span class="meta">@Param(&quot;userUuid&quot;)</span> String uuid)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">addUser</span><span class="params">(UserDo userDo)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">List&lt;UserDo&gt; <span class="title">selectAllUser</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-SpringBoot配置-1"><a href="#3-SpringBoot配置-1" class="headerlink" title="3. SpringBoot配置"></a>3. SpringBoot配置</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">spring-boot-data-jpa</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/mybatis_data?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true&amp;allowMultiQueries=true</span></span><br><span class="line"><span class="attr">mybatis:</span></span><br><span class="line">  <span class="attr">mapper-locations:</span> <span class="string">classpath*:/dbo-mapper/*.xml</span></span><br></pre></td></tr></table></figure>
+
+<p>连接的是本地数据库，需要创建表和库。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> mybatis_data.user_db</span><br><span class="line">(</span><br><span class="line">    user_uuid <span class="built_in">varchar</span>(<span class="number">36</span>) <span class="keyword">not</span> <span class="literal">null</span>,</span><br><span class="line">    user_name <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">not</span> <span class="literal">null</span>,</span><br><span class="line">    user_id <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">not</span> <span class="literal">null</span>,</span><br><span class="line">    user_salary <span class="built_in">bigint</span> <span class="literal">null</span>,</span><br><span class="line">    <span class="keyword">constraint</span> user_db_user_uuid_uindex</span><br><span class="line">        <span class="keyword">unique</span> (user_uuid)</span><br><span class="line">)</span><br><span class="line">;</span><br><span class="line"></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> mybatis_data.user_db</span><br><span class="line">    <span class="keyword">add</span> primary <span class="keyword">key</span> (user_uuid)</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-接口层-1"><a href="#3-接口层-1" class="headerlink" title="3. 接口层"></a>3. 接口层</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;user&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserEndpoint</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> UserMapper userMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UserEndpoint</span><span class="params">(UserMapper userMapper)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.userMapper = userMapper;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;UserDo&gt; <span class="title">selectAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> userMapper.selectAllUser();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addUser</span><span class="params">(<span class="meta">@RequestBody</span> UserDo userDo)</span> </span>&#123;</span><br><span class="line">        userDo.setUuid(UUID.randomUUID().toString());</span><br><span class="line">        userMapper.addUser(userDo);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;&#123;uid&#125;&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> UserDo <span class="title">selectByUId</span><span class="params">(<span class="meta">@PathVariable(&quot;uid&quot;)</span> String uid)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> userMapper.selectUserById(uid);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-测试-1"><a href="#4-测试-1" class="headerlink" title="4. 测试"></a>4. 测试</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">POST http:&#x2F;&#x2F;127.0.0.1:8080&#x2F;user</span><br><span class="line">Content-Type: application&#x2F;json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;gousheng&quot;,</span><br><span class="line">  &quot;salary&quot;: 1000,</span><br><span class="line">  &quot;id&quot;: &quot;44672938219&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">HTTP&#x2F;1.1 200 </span><br><span class="line">Content-Length: 0</span><br><span class="line">Date: Thu, 27 Dec 2018 11:38:09 GMT</span><br><span class="line"></span><br><span class="line">&lt;Response body is empty&gt;</span><br><span class="line"></span><br><span class="line">Response code: 200; Time: 298ms; Content length: 0 bytes</span><br><span class="line">--------------------------------------------------------</span><br><span class="line">GET http:&#x2F;&#x2F;127.0.0.1:8080&#x2F;user</span><br><span class="line"></span><br><span class="line">HTTP&#x2F;1.1 200 </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Thu, 27 Dec 2018 11:38:42 GMT</span><br><span class="line"></span><br><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;uuid&quot;: &quot;d2ae789c-1e95-443c-9c5b-2501d983c538&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;gousheng&quot;,</span><br><span class="line">    &quot;id&quot;: &quot;44672938219&quot;,</span><br><span class="line">    &quot;salary&quot;: 1000</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;uuid&quot;: &quot;f444edfb-2b4a-4ba6-b4ea-8a221087e787&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;goudan&quot;,</span><br><span class="line">    &quot;id&quot;: &quot;44672938219&quot;,</span><br><span class="line">    &quot;salary&quot;: 1000</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">Response code: 200; Time: 29ms; Content length: 197 bytes</span><br><span class="line">--------------------------------------------------------</span><br><span class="line">GET http:&#x2F;&#x2F;127.0.0.1:8080&#x2F;user&#x2F;f444edfb-2b4a-4ba6-b4ea-8a221087e787</span><br><span class="line"></span><br><span class="line">HTTP&#x2F;1.1 200 </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Thu, 27 Dec 2018 11:39:01 GMT</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;uuid&quot;: &quot;f444edfb-2b4a-4ba6-b4ea-8a221087e787&quot;,</span><br><span class="line">  &quot;name&quot;: &quot;goudan&quot;,</span><br><span class="line">  &quot;id&quot;: &quot;44672938219&quot;,</span><br><span class="line">  &quot;salary&quot;: 1000</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Response code: 200; Time: 67ms; Content length: 96 bytes</span><br></pre></td></tr></table></figure>
+
+<p>OK，测试通过了，如果只要单纯使用 <code>MyBatis</code> 的话，那就不需要下面的步骤了。</p>
+<h3 id="二-集成-TkMybatis-和-PageHelper-1"><a href="#二-集成-TkMybatis-和-PageHelper-1" class="headerlink" title="(二) 集成 TkMybatis 和 PageHelper"></a>(二) 集成 TkMybatis 和 PageHelper</h3><h4 id="1-加入-mvn-依赖-1"><a href="#1-加入-mvn-依赖-1" class="headerlink" title="1. 加入 mvn 依赖"></a>1. 加入 mvn 依赖</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;tk.mybatis&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mapper-spring-boot-starter&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.1.2&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.github.pagehelper&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;pagehelper-spring-boot-starter&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.2.10&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-启动类或配置类加上-MapperScan-注解-1"><a href="#2-启动类或配置类加上-MapperScan-注解-1" class="headerlink" title="2. 启动类或配置类加上 MapperScan 注解"></a>2. 启动类或配置类加上 MapperScan 注解</h4><p>启动类上要加入 <code>tkmybatis</code> 的 <code>MapperScan</code> 注解，需要指定扫描的 <code>Mapper</code> 接口的包位置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@MapperScan(basePackages = &quot;cn.liweidan.springboot.mybatis.mapper&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBatisApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(MyBatisApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-DBO-加上-jpa注解-1"><a href="#3-DBO-加上-jpa注解-1" class="headerlink" title="3. DBO 加上 jpa注解"></a>3. DBO 加上 jpa注解</h4><p>如果 <code>DBO</code> 类（数据库映射类）和数据库的表名不一样的话，还需要使用 <code>jpa</code> 注解，在类上指定：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Table(name = &quot;user_db&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserDo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Column(name = &quot;user_uuid&quot;)</span></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="keyword">private</span> String uuid;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Column(name = &quot;user_name&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Column(name = &quot;user_id&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String id;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Column(name = &quot;user_salary&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> Long salary;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-Mapper接口修改-1"><a href="#4-Mapper接口修改-1" class="headerlink" title="4. Mapper接口修改"></a>4. Mapper接口修改</h4><p><code>Mapper</code> 接口需要继承 <code>Mapper&lt;dbo&gt;</code> 以获取通用的查询方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserMapper</span> <span class="keyword">extends</span> <span class="title">tk</span>.<span class="title">mybatis</span>.<span class="title">mapper</span>.<span class="title">common</span>.<span class="title">Mapper</span>&lt;<span class="title">UserDo</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">UserDo <span class="title">selectUserById</span><span class="params">(<span class="meta">@Param(&quot;userUuid&quot;)</span> String uuid)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">addUser</span><span class="params">(UserDo userDo)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">List&lt;UserDo&gt; <span class="title">selectAllUser</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可使用方法： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110164225.png"></p>
 <h4 id="5-调用"><a href="#5-调用" class="headerlink" title="5. 调用"></a>5. 调用</h4><p>尝试修改 <code>GetByUID</code> 是用 <code>tkmybatis</code> 的方法</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;&#123;uid&#125;&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> UserDo <span class="title">selectByUId</span><span class="params">(<span class="meta">@PathVariable(&quot;uid&quot;)</span> String uid)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> userMapper.selectByPrimaryKey(uid);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -175,77 +344,137 @@ function sidebar_toggle() {
 
 <p>可以看到总数是 2 条，现在是查询 1 条记录。至此整合完毕</p>
 <h2 id="三-总结"><a href="#三-总结" class="headerlink" title="三. 总结"></a>三. 总结</h2><p>本文讲述了如何简单整合 <code>mybatis</code> 以及<code>mybatis</code> 插件进行日常开发使用，建议还是要第三方插件辅助支持，不然开发效率比较慢。</p>
+<h4 id="5-调用-1"><a href="#5-调用-1" class="headerlink" title="5. 调用"></a>5. 调用</h4><p>尝试修改 <code>GetByUID</code> 是用 <code>tkmybatis</code> 的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;&#123;uid&#125;&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> UserDo <span class="title">selectByUId</span><span class="params">(<span class="meta">@PathVariable(&quot;uid&quot;)</span> String uid)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> userMapper.selectByPrimaryKey(uid);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-</div>
+<p>查看是否可以正常返回：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">GET http:&#x2F;&#x2F;127.0.0.1:8080&#x2F;user&#x2F;f444edfb-2b4a-4ba6-b4ea-8a221087e787</span><br><span class="line"></span><br><span class="line">HTTP&#x2F;1.1 200 </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Thu, 27 Dec 2018 12:35:12 GMT</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;uuid&quot;: &quot;f444edfb-2b4a-4ba6-b4ea-8a221087e787&quot;,</span><br><span class="line">  &quot;name&quot;: &quot;goudan&quot;,</span><br><span class="line">  &quot;id&quot;: &quot;44672938219&quot;,</span><br><span class="line">  &quot;salary&quot;: 1000</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Response code: 200; Time: 212ms; Content length: 96 bytes</span><br></pre></td></tr></table></figure>
 
+<h4 id="6-分页助手的使用-1"><a href="#6-分页助手的使用-1" class="headerlink" title="6. 分页助手的使用"></a>6. 分页助手的使用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> PageInfo&lt;UserDo&gt; <span class="title">selectAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 在查询的上一步调用 startPage 注意页码是从 1 开始的，第二个参数是查询多少条记录</span></span><br><span class="line">    PageHelper.startPage(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 直接返回new一个新的pageInfo即包括分页常用所需要的信息了</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PageInfo&lt;&gt;(userMapper.selectAllUser());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">GET http:&#x2F;&#x2F;127.0.0.1:8080&#x2F;user</span><br><span class="line"></span><br><span class="line">HTTP&#x2F;1.1 200 </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Thu, 27 Dec 2018 12:37:32 GMT</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;total&quot;: 2,</span><br><span class="line">  &quot;list&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;uuid&quot;: &quot;d2ae789c-1e95-443c-9c5b-2501d983c538&quot;,</span><br><span class="line">      &quot;name&quot;: &quot;gousheng&quot;,</span><br><span class="line">      &quot;id&quot;: &quot;44672938219&quot;,</span><br><span class="line">      &quot;salary&quot;: 1000</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Response code: 200; Time: 186ms; Content length: 379 bytes</span><br></pre></td></tr></table></figure>
 
+<p>可以看到总数是 2 条，现在是查询 1 条记录。至此整合完毕</p>
+<h2 id="三-总结-1"><a href="#三-总结-1" class="headerlink" title="三. 总结"></a>三. 总结</h2><p>本文讲述了如何简单整合 <code>mybatis</code> 以及<code>mybatis</code> 插件进行日常开发使用，建议还是要第三方插件辅助支持，不然开发效率比较慢。</p>
 
-<script src="/js/book-post.js"></script>
-
-        </div>
-      </div>
-      <div class="column col-2 hide-lg">
-        <div class="book-post-info">
-  
-    <div class="book-post-meta">
-
-  <div class="author">
-
-    <!-- Author image -->
-    <div class="author-img">
-      
-        <figure
-          class="avatar avatar-lg"
-          data-initial="W"
-          style="background-color: #3b4351;">
-        </figure>
-      
     </div>
 
-    <!-- Author title -->
-    <div class="author-title">
-      <div>Weidan</div>
-      <div>2018-12-27</div>
-    </div>
-  </div>
-
-  
-    <div class="divider"></div>
-
-    <div class="link">
-      <a class="category-link" href="/categories/frame/">frame</a> <a class="category-link" href="/categories/frame/spring-boot/">spring-boot</a>
-
-      <a class="tag-none-link" href="/tags/mybatis/" rel="tag">#mybatis</a> <a class="tag-none-link" href="/tags/spring-boot/" rel="tag">#spring-boot</a>
-    </div>
     
-  
+    
+    
 
-  <div class="divider"></div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/spring-boot/" rel="tag"># spring-boot</a>
+              <a href="/tags/mybatis/" rel="tag"># mybatis</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/frame/spring-boot/springbootjpa-%E4%B8%8E-ddd-%E5%BC%80%E5%8F%91/" rel="prev" title="SpringBootJpa 与 DDD 开发">
+                  <i class="fa fa-chevron-left"></i> SpringBootJpa 与 DDD 开发
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/frame/spring-boot/springboot-%E4%B8%8E-mongodb-%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" rel="next" title="springboot 与 MongoDB 数据处理">
+                  springboot 与 MongoDB 数据处理 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
 </div>
-  
-
-  <div class="book-tocbot">
-</div>
-<div class="book-tocbot-menu">
-  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
-  <a onclick="go_top()">Back to top</a>
-  <a onclick="go_bottom()">Go to bottom</a>
-</div>
 
 
-<script src="/js/book-toc.js"></script>
 
-</div>
-      </div>
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
     </div>
-  </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
   
-  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weidan</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
 
 </body>
 </html>
-
-
-<script src="/js/book.js"></script>
