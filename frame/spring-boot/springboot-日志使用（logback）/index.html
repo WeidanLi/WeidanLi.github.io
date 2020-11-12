@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          springboot 日志使用（LogBack） - 丹崽的技术博客
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+
+<div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>丹崽的技术博客</span>
+  </a>
+</div>
+    <div id="menu" class="book-menu hide">
+  <ul>
+<li><a href="/">Home</a></li>
+</ul>
+<h1 id="计算机碎碎念"><a href="#计算机碎碎念" class="headerlink" title="计算机碎碎念"></a>计算机碎碎念</h1><h2 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h2><ul>
+<li><a href="/Computer/Network/1-Find-Computer-Network/">生活中的网络</a></li>
+<li><a href="/Computer/Network/2-TCP-IP-PROTOCOL/">TCP/IP之数据链路层</a></li>
+<li><a href="/Computer/Network/3-IP/">TCP/IP之网络层IP协议</a></li>
+<li><a href="/Computer/Network/4-TCP-UDP/">TCP/IP之传输层TCP/UDP协议</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <div class="book-post">
+  <h1 id="springboot-日志使用（LogBack）"><a href="#springboot-日志使用（LogBack）" class="headerlink" title="springboot 日志使用（LogBack）"></a>springboot 日志使用（<code>LogBack</code>）</h1><h2 id="一-简述"><a href="#一-简述" class="headerlink" title="一. 简述"></a>一. 简述</h2><p>在 <code>web</code> 开发中，大大小小的 <code>bug</code> 是难以避免的。这时候，记录起来的日志就可以用来解决问题或者回滚。当然日志也可以用来查询用户操作的东西，以便甩锅（刚刚说完我就接到了一个产品被认为设置成 330 元的日志查询任务，他应该是 30 元以内的）。<br>Github地址：<a target="_blank" rel="noopener" href="https://github.com/WeidanLi/spring-boot-tutorial">https://github.com/WeidanLi/spring-boot-tutorial</a> 项目演示：<code>globle-log-logback</code></p>
+<h2 id="二-开发"><a href="#二-开发" class="headerlink" title="二. 开发"></a>二. 开发</h2><h3 id="1-mvn-依赖"><a href="#1-mvn-依赖" class="headerlink" title="1. mvn 依赖"></a>1. <code>mvn</code> 依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 引入 web-starter --&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br></pre></td></tr></table></figure>
+
+<p>依然是引入这个万能的 <code>starter</code> 包即可（?）</p>
+<h3 id="2-一个-user-实体类"><a href="#2-一个-user-实体类" class="headerlink" title="2. 一个 user 实体类"></a>2. 一个 <code>user</code> 实体类</h3><p>为了掩饰这里就简单的使用 <code>user</code> 这个业务来做吧。也不设置 <code>service</code> 和 <code>repo</code> 层了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserDo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UserDo</span><span class="params">(Long id, String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UserDo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 省略 getter &amp; setter</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-一个-user-控制器"><a href="#3-一个-user-控制器" class="headerlink" title="3. 一个 user 控制器"></a>3. 一个 <code>user</code> 控制器</h3><p>一个控制器，用于查询所有用户以及新增用户，将会在这里记录查询和新增的参数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;user&quot;)</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserEndpoint</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    List&lt;UserDo&gt; userDos = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用 slf4j 去获取日志操作实例</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Logger logger = LoggerFactory.getLogger(UserEndpoint.class);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UserEndpoint</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        userDos.add(<span class="keyword">new</span> UserDo((<span class="keyword">long</span>) userDos.size(), <span class="string">&quot;Weidan&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;UserDo&gt; <span class="title">selectAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        logger.info(<span class="string">&quot;查询了用户列表&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> userDos;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.CREATED)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// info 记录操作</span></span><br><span class="line">        logger.info(<span class="string">&quot;新增一个用户，用户名称是&#123;&#125;&quot;</span>, name);</span><br><span class="line">        userDos.add(<span class="keyword">new</span> UserDo((<span class="keyword">long</span>) userDos.size(), name));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这里我建议使用 <code>slf4j</code> 去获取日志的实例，当然也不是建议啦，已经变成一种习惯了。</p>
+<h3 id="4-请求访问"><a href="#4-请求访问" class="headerlink" title="4. 请求访问"></a>4. 请求访问</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2018-12-04 08:58:28.775  INFO 1068 --- [nio-8080-exec-1] c.l.s.logback.endpoint.UserEndpoint      : 查询了用户列表</span><br><span class="line">2018-12-04 08:58:30.823  INFO 1068 --- [nio-8080-exec-2] c.l.s.logback.endpoint.UserEndpoint      : 新增一个用户，用户名称是XiaoMing</span><br></pre></td></tr></table></figure>
+
+<p>请求相对应的接口上面的日志将会被打印出来。（但还只是打印到控制台罢了）</p>
+<h2 id="三-日志配置"><a href="#三-日志配置" class="headerlink" title="三. 日志配置"></a>三. 日志配置</h2><p>日志配置的名称约定为 <code>logback-spring.xml</code> 项目启动的时候 <code>spring</code> 将会去读取这个日志配置文件。</p>
+<h3 id="1-指定日志存储位置"><a href="#1-指定日志存储位置" class="headerlink" title="1. 指定日志存储位置"></a>1. 指定日志存储位置</h3><p>像上面的范例，只是简单的在控制台记录日志，是不可行的，因为控制台的东西到了一定的大小会不断膨胀，也不利于日志的整理。所以我们一般使用每天生成一个文件的形式来记录日志。 示例中有完整的 <code>xml</code> 配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 文件保存日志的相关配置，同步 --&gt;</span><br><span class="line">&lt;appender name&#x3D;&quot;FILE&quot; class&#x3D;&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&gt;</span><br><span class="line">    &lt;!-- 保存日志文件的路径 --&gt;</span><br><span class="line">    &lt;file&gt;$&#123;log.path&#125;&#x2F;info.log&lt;&#x2F;file&gt;</span><br><span class="line">    &lt;!-- 日志格式 --&gt;</span><br><span class="line">    &lt;encoder&gt;</span><br><span class="line">        &lt;pattern&gt;%d&#123;yyyy-MM-dd HH:mm:ss&#125; %-4relative [%thread] %-5level %logger&#123;35&#125; - %msg %n&lt;&#x2F;pattern&gt;</span><br><span class="line">    &lt;&#x2F;encoder&gt;</span><br><span class="line">    &lt;!-- 过滤其它级别输出 --&gt;</span><br><span class="line">    &lt;!-- 循环政策：基于时间创建日志文件 --&gt;</span><br><span class="line">    &lt;rollingPolicy class&#x3D;&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;&gt;</span><br><span class="line">        &lt;!-- 日志文件名格式 --&gt;</span><br><span class="line">        &lt;fileNamePattern&gt;$&#123;log.path&#125;&#x2F;info-%d&#123;yyyy-MM-dd&#125;.log&lt;&#x2F;fileNamePattern&gt;</span><br><span class="line">    &lt;&#x2F;rollingPolicy&gt;</span><br><span class="line">&lt;&#x2F;appender&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-日志等级指定"><a href="#2-日志等级指定" class="headerlink" title="2. 日志等级指定"></a>2. 日志等级指定</h3><p>日志等级可以在 <code>application.yml</code> 指定：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">logging:</span></span><br><span class="line">  <span class="attr">level:</span></span><br><span class="line">    <span class="attr">cn.liweidan.springboot.logback.endpoint.UserEndpoint:</span> <span class="string">debug</span></span><br></pre></td></tr></table></figure>
+
+<p>比如我指定了用户控制器是 debug 等级的，然后在创建用户的时候加一个 debug 记录。那么请求用户创建就会记录下来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2018-12-04 09:35:11.027  INFO 1573 --- [nio-8080-exec-1] cn.liweidan.springboot.logback.endpoint.UserEndpoint : 新增一个用户，用户名称是XiaoMing</span><br><span class="line">2018-12-04 09:35:11.027 DEBUG 1573 --- [nio-8080-exec-1] cn.liweidan.springboot.logback.endpoint.UserEndpoint : 用户请求了用户创建接口</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-日志等级分组记录"><a href="#3-日志等级分组记录" class="headerlink" title="3. 日志等级分组记录"></a>3. 日志等级分组记录</h3><p>使用分组来简化 <code>log</code> 日志等级的配置</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">logging:</span> </span><br><span class="line">  <span class="attr">group:</span> </span><br><span class="line">    <span class="attr">user:</span> <span class="string">cn.liweidan.springboot.logback.endpoint.UserEndpoint,</span> <span class="string">...其他controller</span></span><br><span class="line">  <span class="attr">level:</span></span><br><span class="line">    <span class="attr">user:</span> <span class="string">debug</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2018-12-04 09:51:39.772  INFO 1709 --- [nio-8080-exec-1] cn.liweidan.springboot.logback.endpoint.UserEndpoint : 新增一个用户，用户名称是XiaoMing</span><br><span class="line">2018-12-04 09:51:39.772 DEBUG 1709 --- [nio-8080-exec-1] cn.liweidan.springboot.logback.endpoint.UserEndpoint : 用户请求了用户创建接口</span><br></pre></td></tr></table></figure>
+
+<h2 id="四-总结"><a href="#四-总结" class="headerlink" title="四. 总结"></a>四. 总结</h2><p>日志的配置可以这样分类： 1. 输出样式定义的放在 <code>xml</code> 中 2. 输出等级的定义放在 <code>application.yml</code> 中</p>
+
+</div>
+
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image -->
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="W"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div>
+
+    <!-- Author title -->
+    <div class="author-title">
+      <div>Weidan</div>
+      <div>2018-12-20</div>
+    </div>
+  </div>
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+      <a class="category-link" href="/categories/frame/">frame</a> <a class="category-link" href="/categories/frame/spring-boot/">spring-boot</a>
+
+      <a class="tag-none-link" href="/tags/spring-boot/" rel="tag">#spring-boot</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+</body>
+</html>
+
+
+<script src="/js/book.js"></script>

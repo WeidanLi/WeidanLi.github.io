@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          springboot 的多配置环境配置 - 丹崽的技术博客
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+
+<div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>丹崽的技术博客</span>
+  </a>
+</div>
+    <div id="menu" class="book-menu hide">
+  <ul>
+<li><a href="/">Home</a></li>
+</ul>
+<h1 id="计算机碎碎念"><a href="#计算机碎碎念" class="headerlink" title="计算机碎碎念"></a>计算机碎碎念</h1><h2 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h2><ul>
+<li><a href="/Computer/Network/1-Find-Computer-Network/">生活中的网络</a></li>
+<li><a href="/Computer/Network/2-TCP-IP-PROTOCOL/">TCP/IP之数据链路层</a></li>
+<li><a href="/Computer/Network/3-IP/">TCP/IP之网络层IP协议</a></li>
+<li><a href="/Computer/Network/4-TCP-UDP/">TCP/IP之传输层TCP/UDP协议</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <div class="book-post">
+  <h1 id="springboot-的多配置环境配置"><a href="#springboot-的多配置环境配置" class="headerlink" title="springboot 的多配置环境配置"></a>springboot 的多配置环境配置</h1><h2 id="一-简述"><a href="#一-简述" class="headerlink" title="一. 简述"></a>一. 简述</h2><p>多环境配置，这个东西无论在大厂小厂都是需要的，因为往往我们开发环境、测试环境、生产环境都不一样。数据库连接不说别的，起码 <code>url</code> 是不一样的。当然做法也有很多，可以通过 <code>properties</code> ，也可以通过 <code>mvn</code> 的配置以及 <code>spring</code> 的 <code>profile</code> 方式。 Github地址：<a target="_blank" rel="noopener" href="https://github.com/WeidanLi/spring-boot-tutorial">https://github.com/WeidanLi/spring-boot-tutorial</a> 演示项目：<code>globle-profiles</code></p>
+<h2 id="二-开发"><a href="#二-开发" class="headerlink" title="二. 开发"></a>二. 开发</h2><h3 id="1-mvn-依赖"><a href="#1-mvn-依赖" class="headerlink" title="1. mvn 依赖"></a>1. <code>mvn</code> 依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 引入 web-starter --&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br></pre></td></tr></table></figure>
+
+<p>感觉这个 <code>web-starter</code> 就是万能的依赖，有了它什么东西都有了。</p>
+<h3 id="2-编写不同-profile-的配置"><a href="#2-编写不同-profile-的配置" class="headerlink" title="2. 编写不同 profile 的配置"></a>2. 编写不同 <code>profile</code> 的配置</h3><p>共同的配置，类似于一个产量的名字啊等等均可以放在通用的配置里。 通用的配置取名是 <code>application.yml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">common:</span></span><br><span class="line">  <span class="attr">profile:</span> <span class="string">common-profile</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">profiles:</span></span><br><span class="line">    <span class="attr">active:</span> <span class="string">dev</span> <span class="comment"># 指定启动的环境，这里默认是开发环境</span></span><br></pre></td></tr></table></figure>
+
+<p>现在我用一个开发，一个生产环境的常亮来演示： <code>application-dev.yml</code> 可以看到，后缀就是环境的名称：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">diff:</span></span><br><span class="line">  <span class="attr">profile:</span> <span class="number">123456</span></span><br></pre></td></tr></table></figure>
+
+<p> <code>application-prod.yml</code> ：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">diff:</span></span><br><span class="line">  <span class="attr">profile:</span> <span class="number">789123</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-用于读取环境常亮的控制器"><a href="#3-用于读取环境常亮的控制器" class="headerlink" title="3. 用于读取环境常亮的控制器"></a>3. 用于读取环境常亮的控制器</h3><p>简单粗暴一点，直接使用 <code>SPel</code> 去读取到不同环境的变量然后注入到控制器中返回</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProfileEndpoint</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;common.profile&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String common;</span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;diff.profile&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String diffProfile;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, Object&gt; <span class="title">loadProfiles</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Map&lt;String, Object&gt; profileMap = <span class="keyword">new</span> HashMap&lt;&gt;(<span class="number">2</span>);</span><br><span class="line">        profileMap.put(<span class="string">&quot;common&quot;</span>, common);</span><br><span class="line">        profileMap.put(<span class="string">&quot;diffProfile&quot;</span>, diffProfile);</span><br><span class="line">        <span class="keyword">return</span> profileMap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-测试接口"><a href="#4-测试接口" class="headerlink" title="4. 测试接口"></a>4. 测试接口</h3><p>分别以 <code>dev</code> 环境和 <code>prod</code> 环境来启动项目，分别读取不同的配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">GET http:&#x2F;&#x2F;localhost:8080</span><br><span class="line"></span><br><span class="line">HTTP&#x2F;1.1 200 </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Sat, 01 Dec 2018 03:02:50 GMT</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;common&quot;: &quot;common-profile&quot;,</span><br><span class="line">  &quot;diffProfile&quot;: &quot;123456&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">---------------------------------------------------------</span><br><span class="line">GET http:&#x2F;&#x2F;localhost:8080</span><br><span class="line"></span><br><span class="line">HTTP&#x2F;1.1 200 </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Sat, 01 Dec 2018 03:03:45 GMT</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;common&quot;: &quot;common-profile&quot;,</span><br><span class="line">  &quot;diffProfile&quot;: &quot;789123&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-修改-profile-的方式"><a href="#5-修改-profile-的方式" class="headerlink" title="5. 修改 profile 的方式"></a>5. 修改 <code>profile</code> 的方式</h3><ol>
+<li>启动时命令行传入 <code>--spring.profiles.active=prod</code> （<code>java -jar -Dspring.profiles.active=production demo-0.0.1-SNAPSHOT.jar</code>）</li>
+<li>通过修改 <code>application.yml</code> 的 <code>spring.profiles.active</code></li>
+<li>设置系统变量 <code>spring.profiles.active</code></li>
+<li>操作系统环境变量 <code>SPRING_PROFILES_ACTIVE</code></li>
+</ol>
+<p>以上排序优先级从高到低，也就是说，如果在命令行输入了，那么下面的设置都会被覆盖掉。我们可以利用这个特性，去做一些定制化操作，例如默认是开发环境，只有运行在服务器的时候，通过命令修改环境（一般是通过 <code>Jenkins</code> 来启动项目）</p>
+<h2 id="三-总结"><a href="#三-总结" class="headerlink" title="三. 总结"></a>三. 总结</h2><p><code>profile</code> 可以让我们很快的变更环境而不需要每次部署都去关心所需要修改的配置。</p>
+
+</div>
+
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image -->
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="W"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div>
+
+    <!-- Author title -->
+    <div class="author-title">
+      <div>Weidan</div>
+      <div>2018-12-20</div>
+    </div>
+  </div>
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+      <a class="category-link" href="/categories/frame/">frame</a> <a class="category-link" href="/categories/frame/spring-boot/">spring-boot</a>
+
+      <a class="tag-none-link" href="/tags/spring-boot/" rel="tag">#spring-boot</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+</body>
+</html>
+
+
+<script src="/js/book.js"></script>

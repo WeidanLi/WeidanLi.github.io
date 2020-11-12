@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          Netty之ByteBuf以及编解码器 - 丹崽的技术博客
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+
+<div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>丹崽的技术博客</span>
+  </a>
+</div>
+    <div id="menu" class="book-menu hide">
+  <ul>
+<li><a href="/">Home</a></li>
+</ul>
+<h1 id="计算机碎碎念"><a href="#计算机碎碎念" class="headerlink" title="计算机碎碎念"></a>计算机碎碎念</h1><h2 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h2><ul>
+<li><a href="/Computer/Network/1-Find-Computer-Network/">生活中的网络</a></li>
+<li><a href="/Computer/Network/2-TCP-IP-PROTOCOL/">TCP/IP之数据链路层</a></li>
+<li><a href="/Computer/Network/3-IP/">TCP/IP之网络层IP协议</a></li>
+<li><a href="/Computer/Network/4-TCP-UDP/">TCP/IP之传输层TCP/UDP协议</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <div class="book-post">
+  <h2 id="一-数据传输的容器ByteBuf"><a href="#一-数据传输的容器ByteBuf" class="headerlink" title="一.数据传输的容器ByteBuf"></a>一.数据传输的容器ByteBuf</h2><h3 id="1-1-简单理解一下"><a href="#1-1-简单理解一下" class="headerlink" title="1.1. 简单理解一下"></a>1.1. 简单理解一下</h3><p>OK，上一篇文章我们大致了解了 <code>Netty</code> 在运行过程中所需要的一些组件。接下来需要慢慢的深入了解这些容器了。 为了方便回忆，我先贴一段上一篇的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">ByteBuf in = (ByteBuf) msg;</span><br><span class="line">String message = in.toString(Charset.defaultCharset());</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到，在服务端代码中，使用了 <code>ByteBuf</code> 来读取客户端所传递的消息，然后实现逻辑，再使用 <code>ByteBuf out = Unpooled.copiedBuffer(newMsg.getBytes(Charset.defaultCharset().name()));</code> 来将处理后的数据重新封装成字节，从而写出去，传递给客户端。 所以大概猜一下，<code>ByteBuf</code> 是一个装载着数据字节的容器，在 <code>Netty</code> 中通过网络进行传输。客户端又重新解码，读取出服务端返回的数据。 其实，<code>jdk</code> 自己的 <code>NIO</code> 也有个类似的类 <code>ByteBuffer</code>，但是这个类，他不太灵活，所以 <code>Netty</code> 才决定重写这个类，从而达到一些比较灵活的目的：</p>
+<ol>
+<li>可以被自定义缓冲区类型拓展；</li>
+<li>通过内置的符合缓冲区类型实现透明的零拷贝；</li>
+<li>容量可以自增；</li>
+<li>读写模式不需要来回切换（得益于读写指针）；</li>
+<li>支持链式调用、引用计数以及池化计数。</li>
+</ol>
+<h3 id="1-2-深入读写指针"><a href="#1-2-深入读写指针" class="headerlink" title="1.2. 深入读写指针"></a>1.2. 深入读写指针</h3><p>上一节说了，读写模式不需要来回切换，是因为 <code>ByteBuf</code> 内部提供了两个索引 <code>readIndex</code> 以及 <code>writeIndex</code>。当我们从 <code>ByteBuf</code> 读取数据的时候，<code>readIndex</code> 会慢慢的递增已经被读取的字节数，而写入时 <code>writeIndex</code> 同样也会进行移动。 </p>
+<p>1244 </p>
+<p>如上图所示，一个16字节的 <code>ByteBuf</code>，刚开始什么都没有的时候，读索引和写索引同在第 <code>0</code> 位上，随着数据慢慢写入，写索引会向右进行移动。这时候没有读取的发生，所以读索引还停留在第 <code>0</code> 位上，而随着我们业务的需求，会读取消息，所以读指针慢慢向后移动，但是这里有个需要注意的地方是，读索引不能超过写索引的位数（即使超过了读后面的消息也没什么意义），如果强行超过，<code>Netty</code> 会给你来一个 <code>IndexOutOfBoundsException</code>。 <code>ByteBuf</code> 自带有一些方法，通过调用 <code>read</code> 和 <code>write</code> 开头的方法，将会推进这两个相对应的索引位置，而如果说我们不想要推动索引而是想直接读取，则可以通过调用 <code>get</code> <code>set</code> 开头的方法，便可以直接操作 <code>ByteBuf</code> 中相对应位置的数据。 可以指定 <code>ByteBuf</code> 的最大容量，如果不指定默认是 <code>Integer.MAX_VALUE</code>。</p>
+<h3 id="1-3-不同内存下的-ByteBuf"><a href="#1-3-不同内存下的-ByteBuf" class="headerlink" title="1.3. 不同内存下的 ByteBuf"></a>1.3. 不同内存下的 <code>ByteBuf</code></h3><h4 id="1-1-3-1-堆缓冲区的ByteBuf"><a href="#1-1-3-1-堆缓冲区的ByteBuf" class="headerlink" title="1.1.3.1 堆缓冲区的ByteBuf"></a>1.1.3.1 堆缓冲区的ByteBuf</h4><p>最常用的模式下是堆缓冲区的 <code>ByteBuf</code>，顾名思义堆缓冲区 <code>ByteBuf</code> 是用于存储在 <code>JVM</code> 堆内存中的缓冲区。这种模式称为 <code>支撑数组</code>。他可以在 <code>Java</code> 程序中快速的创建以及被垃圾回收器回收，但是，如果需要写出到 <code>IO设备</code> 则需要经过以下这么几个步骤。 </p>
+<p>1933 </p>
+<p>上图所示，<code>Netty</code> 需要先将堆上的数据逐一拷贝到系统直接缓冲区，然后再发送出去。会造成多了一步拷贝的过程。 但是，<code>Java</code> 可以直接操作堆缓冲区的数据呀：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (heapBuf.hasArray()) &#123;</span><br><span class="line">    <span class="keyword">byte</span>[] arrays = heapBuf.array();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-1-3-2-直接缓冲区"><a href="#1-1-3-2-直接缓冲区" class="headerlink" title="1.1.3.2 直接缓冲区"></a>1.1.3.2 直接缓冲区</h4><p><code>JDK 1.4</code> 以后官方提供了直接向系统申请内存的方法，申请后的内存也不在垃圾回收器清理范围以内，所以当我们申请了直接内存缓冲区的时候，都需要进行手动释放，否则将会造成系统内存溢出。 直接缓冲区的优点刚好是堆缓冲区最不擅长的点，可以直接调用本地 <code>IO</code> 设备，不需要通过拷贝从而将数据传输出去。 但是另外的缺点也有：相比堆缓冲区，如果程序需要读取操作缓冲区的数据的时候，则需要跟以上第一步逆相反的步骤，将直接内存缓冲区的数据拷贝到堆缓冲区才可以进行操作。而且向系统申请和释放内存也会造成性能的降低。</p>
+<h4 id="1-1-3-3-复合缓冲区"><a href="#1-1-3-3-复合缓冲区" class="headerlink" title="1.1.3.3 复合缓冲区"></a>1.1.3.3 复合缓冲区</h4><p><code>jdk</code> 完全没有的一个功能，可以提供消息体复用的优势。 比如 <code>HTTP</code> 协议传输消息的时候，我们知道 <code>HTTP</code> 头部很多时候是相似或者说相同的，那么头部就可以存储在直接内存中，使用复合缓冲区 <code>CompositeByteBuf</code> 来聚合直接缓冲区中的头部信息以及堆内存中的消息体，然后进行写出。</p>
+<blockquote>
+<p>因为可能包含直接内存分配和非直接内存分配，如果只存在一个聚合ByteBuf元素，那么调用 <code>hasArray()</code> 将直接返回这个元素的结果，否则会返回 <code>false</code></p>
+</blockquote>
+<p>创建复合缓冲区：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CompositeByteBuf compBuf = Unpooled.compositeBuffer();</span><br><span class="line">ByteBuf head = ...;</span><br><span class="line">ByteBuf body = ...;</span><br><span class="line">compBuf.addComponents(head, body);</span><br></pre></td></tr></table></figure>
+
+<p>访问缓冲区数组：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CompositeByteBuf compBuf = Unpooled.compositeBuffer();</span><br><span class="line"><span class="keyword">int</span> length = compBuf.readableBytes();</span><br><span class="line"><span class="keyword">byte</span>[] arr = <span class="keyword">new</span> <span class="keyword">byte</span>[length];</span><br><span class="line">compBuf.getBytes(compBuf.readerIndex(), arr);<span class="comment">// 读取数据到数组中</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-1-3-4-池化缓冲区"><a href="#1-1-3-4-池化缓冲区" class="headerlink" title="1.1.3.4 池化缓冲区"></a>1.1.3.4 池化缓冲区</h4><p>一般来说，我们需要池化缓冲区，达到可以复用的效果，也可以减少计算机资源的开销，所以 <code>Netty</code> 提供了 <code>ByteBufAllocator</code> 来实现缓冲区的池化效果。 我们可以通过 <code>ByteBufAllocator.DEFAULT</code> 来获取 <code>ByteBufAllocator</code> 对象，从而调用以下方法，建立我们所需要的缓冲区：</p>
+<p>方法名称</p>
+<p>说明</p>
+<p>buffer()<br>buffer(int initialCapacity)<br>buffer(int initialCapacity, int maxCapacity)</p>
+<p>返回基于堆或者直接内存的 <code>ByteBuf</code></p>
+<p>heapBuffer()<br>heapBuffer(int initialCapacity)<br>heapBuffer(int initialCapacity, int maxCapacity)</p>
+<p>返回基于堆缓冲区的 <code>ByteBuf</code></p>
+<p>directBuffer()<br>directBuffer(int initialCapacity)<br>directBuffer(int initialCapacity, int maxCapacity)</p>
+<p>返回基于直接内存缓冲区的 <code>ByteBuf</code></p>
+<p>compositeBuffer()<br>compositeBuffer(int maxNumComponents)<br>compositeDirectBuffer()<br>compositeDirectBuffer(int maxNumComponents)<br>compositeHeapBuffer()<br>compositeHeapBuffer(int maxNumComponents)</p>
+<p>返回指定最大元素的基于堆或者直接内存的<br>缓冲区视图</p>
+<p>ioBuffer()</p>
+<p>返回基于 <code>Socket</code> 的 <code>IO</code> 操作的 <code>ByteBuf</code></p>
+<p>运行以下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;ByteBuf&gt; byteBufs = <span class="keyword">new</span> ArrayList&lt;ByteBuf&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10000000</span>; i++) &#123;</span><br><span class="line">  ByteBuf byteBuf2 = ByteBufAllocator.DEFAULT.directBuffer(<span class="number">200</span>);</span><br><span class="line">  byteBuf2.writeBytes(<span class="string">&quot;HelloWorld&quot;</span>.getBytes(Charset.defaultCharset().name()));</span><br><span class="line">  byteBufs.add(byteBuf2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>6330 </p>
+<p>可以看到，内存一直不断飙升，直到系统拒绝给出内存，抛出异常，程序终止，进程被干掉才结束。</p>
+<h4 id="1-1-3-5-非池化缓冲区"><a href="#1-1-3-5-非池化缓冲区" class="headerlink" title="1.1.3.5 非池化缓冲区"></a>1.1.3.5 非池化缓冲区</h4><p>即我第一篇中用到的 <code>Unpooled</code> 类，<code>api</code> 跟上面差不多，不再重复。 主要提供给其他不需要使用 <code>Netty</code> 的项目使用。</p>
+<h4 id="1-1-3-6-ByteBufUtil"><a href="#1-1-3-6-ByteBufUtil" class="headerlink" title="1.1.3.6 ByteBufUtil"></a>1.1.3.6 ByteBufUtil</h4><p>主要提供两个方法使用： <code>hexdump()</code> : 主要用于将缓冲区内容写入日志，易于调试，也可以还原成字节数组。 <code>equals(ByteBuf, ByteBuf)</code> : 传递两个 <code>ByteBuf</code> 用于比较相等性。</p>
+<h4 id="1-1-3-7-引用计数（TODO）"><a href="#1-1-3-7-引用计数（TODO）" class="headerlink" title="1.1.3.7 引用计数（TODO）"></a>1.1.3.7 引用计数（TODO）</h4><p>这块放在后面 <code>ChannelPipeline</code> 再说。</p>
+<h2 id="二-解码和编码"><a href="#二-解码和编码" class="headerlink" title="二.解码和编码"></a>二.解码和编码</h2><h3 id="2-1-啰嗦一下什么是编解码器"><a href="#2-1-啰嗦一下什么是编解码器" class="headerlink" title="2.1 啰嗦一下什么是编解码器"></a>2.1 啰嗦一下什么是编解码器</h3><p>本来应该不需要这个的，但是还是为了篇幅的完整性还是啰嗦一下。 我们知道在传递消息的时候，我们的 <code>Java</code> 对象是不能够实现网络传输的，必须将对象序列化成某种格式（Byte数组），然后网卡再编码成 <code>10101…</code> 传输给另外一台服务器，另外的一台服务器再从 <code>10101...</code> 去重新解码，解成我们所序列化后的数组，然后传递到我们程序再使用我们自己的规则去重新把对象信息还原回来（当然此时客户端的对象的元信息跟服务器端的没有半毛钱关系） 大白话说就是，通过某种规则，在客户端机器上创建一个数据一毛一样的对象。 我们网络开发常见的编解码器有哪些比较耳濡目染的，大概就是 <code>JSON</code> 了吧，可读性强，兼容性棒（各个语言都支持），都 <code>9012</code> 年了就不要来一句 <code>XML</code> 了吧，如果还说 <code>XML</code> 我立马把43码的鞋子pia到你脸上去。 然而，除了 <code>JSON</code> 格式，如果不需要考虑兼容性最强的话，我们也可以使用同行语言都懂的 <code>Byte</code> 数组进行传输，总的来说，使用 <code>Byte</code> 数组可以达到效率更高（编码和解码），传输容量更小，传输速度更快的目的。因为 <code>JSON</code> 格式毕竟都是字符串，传输容量还是属于比较大的，而且频繁操作 <code>String</code> 编码和解码的效率也更低。</p>
+<h3 id="2-2-Netty自带的编解码器"><a href="#2-2-Netty自带的编解码器" class="headerlink" title="2.2 Netty自带的编解码器"></a>2.2 Netty自带的编解码器</h3><ol>
+<li>ByteToMessageDecoder 和 ReplayingDecoder；</li>
+<li>MessageToMessageDecoder；</li>
+</ol>
+<h4 id="2-2-1-ByteToMessageDecoder"><a href="#2-2-1-ByteToMessageDecoder" class="headerlink" title="2.2.1 ByteToMessageDecoder"></a>2.2.1 ByteToMessageDecoder</h4><p><code>ByteToMessageDecoder</code> 是一个抽象的基类，通过我们做解码的方式去拓展。 我们可以编写自己的解码类，继承 <code>ByteToMessageDecoder</code> 类，需要编写以下的编码方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">decode</span><span class="params">(ChannelHandlerContext ctx, ByteBuf byteBuf, List&lt;Object&gt; list)</span></span></span><br><span class="line"><span class="function">          <span class="keyword">throws</span> Exception</span>;</span><br></pre></td></tr></table></figure>
+
+<p>比如，我们需要读取多个 <code>int</code> 值，我们也知道一个 <code>int</code> 值的长度是 <code>4</code>，所以我们在读取的时候，就需要判断 <code>ByteBuf</code> 的可读长度是否达到了 <code>4</code> ，才开始读取。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ToIntegerDecoderHandler</span> <span class="keyword">extends</span> <span class="title">ByteToMessageDecoder</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">decode</span><span class="params">(ChannelHandlerContext ctx, ByteBuf byteBuf, List&lt;Object&gt; list)</span></span></span><br><span class="line"><span class="function">          <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (byteBuf.readableBytes() &gt; <span class="number">4</span>) &#123;</span><br><span class="line">      list.add(byteBuf.readInt());</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>传递的参数中，<code>List&lt;Object&gt; list</code> 是用来保存解码信息的，当我们解码一个对象的时候，信息将保存在这里，<code>Netty</code> 将会为我们把这个 <code>list</code> 传递给 <code>ChannelPipeline</code> 的下一个 <code>ChannelInboundHandler</code> 处理器中。 当然，<code>ByteToMessageDecoder</code> 还提供了一个 <code>decodeLast</code> 方法，用来当 <code>Channel</code> 变成非活动状态的时候，调用最后一次解码。 来个例子： 现在有个需求，要求客户端发送 <code>RandomNum</code> 给服务端，服务端返回 <code>16</code> 个 <code>int</code> 类型的随机数，客户端接收并打印：</p>
+<h5 id="服务端Handler"><a href="#服务端Handler" class="headerlink" title="服务端Handler"></a>服务端Handler</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.liweidan.nettydemo.demo02.server;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.netty.buffer.ByteBuf;</span><br><span class="line"><span class="keyword">import</span> io.netty.buffer.Unpooled;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelFutureListener;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelHandler;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelHandlerContext;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelInboundHandlerAdapter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.nio.charset.Charset;</span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 随机数处理器.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> liweidan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019-07-20</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@email</span> toweidan@126.com</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/** 标记该 Channel 是线程安全的. */</span></span><br><span class="line"><span class="meta">@ChannelHandler</span>.Sharable</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IntegerHandler</span> <span class="keyword">extends</span> <span class="title">ChannelInboundHandlerAdapter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    ByteBuf in = (ByteBuf) msg;</span><br><span class="line">    String message = in.toString(Charset.defaultCharset());</span><br><span class="line">    System.out.println(message);</span><br><span class="line">    <span class="keyword">if</span> (message.equals(<span class="string">&quot;RandomNumber&quot;</span>)) &#123;</span><br><span class="line">      ByteBuf byteBuf = ctx.channel().alloc().heapBuffer();</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">16</span>; i++) &#123;</span><br><span class="line">        byteBuf.writeInt(<span class="keyword">new</span> Random().nextInt() * <span class="number">10000</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      ctx.writeAndFlush(byteBuf);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelReadComplete</span><span class="params">(ChannelHandlerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">/** 当客户端读取完毕的时候，关闭客户端 */</span></span><br><span class="line">    ctx.writeAndFlush(Unpooled.EMPTY_BUFFER)</span><br><span class="line">            .addListener(ChannelFutureListener.CLOSE);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx, Throwable cause)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">/** 可以覆写，实现出现异常的时候执行的逻辑 */</span></span><br><span class="line">    cause.printStackTrace();</span><br><span class="line">    ctx.close();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="服务端引导代码"><a href="#服务端引导代码" class="headerlink" title="服务端引导代码"></a>服务端引导代码</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.liweidan.nettydemo.demo02.server;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.netty.bootstrap.ServerBootstrap;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelFuture;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelInitializer;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.EventLoopGroup;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.nio.NioEventLoopGroup;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.socket.SocketChannel;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.socket.nio.NioServerSocketChannel;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 服务器引导类.</span></span><br><span class="line"><span class="comment"> * 主要实现：</span></span><br><span class="line"><span class="comment"> *  1. 绑定哪个端口；</span></span><br><span class="line"><span class="comment"> *  2. 绑定自己写的 Handler 以便执行业务.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> liweidan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019-07-17</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@email</span> toweidan@126.com</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServerLaunch</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="comment">/** 创建 EventLoopGroup */</span></span><br><span class="line">    EventLoopGroup group = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">    <span class="keyword">final</span> IntegerHandler handler = <span class="keyword">new</span> IntegerHandler();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      ServerBootstrap sb = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line">      sb.group(group)</span><br><span class="line">              <span class="comment">/** 指定所使用的的 NIO 传输的 Channel */</span></span><br><span class="line">              .channel(NioServerSocketChannel.class)</span><br><span class="line">              <span class="comment">/** 绑定服务器端口 */</span></span><br><span class="line">              .localAddress(<span class="number">8888</span>)</span><br><span class="line">              <span class="comment">/** 添加我们自己的业务处理 Handler 到子级的 Channel 的 ChannelPipeline中  */</span></span><br><span class="line">              .childHandler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">                <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel socketChannel)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                  <span class="comment">/** 添加我们自己的 Handler 实现，因为线程安全的，所以只使用一个实例 */</span></span><br><span class="line">                  socketChannel.pipeline()</span><br><span class="line">                          .addLast(handler);</span><br><span class="line">                &#125;</span><br><span class="line">              &#125;);</span><br><span class="line">      <span class="comment">/** 异步绑定服务器，阻塞到直到绑定完成 */</span></span><br><span class="line">      ChannelFuture future = sb.bind().sync();</span><br><span class="line">      <span class="comment">/** 获取 Channel 的 CloseFuture 阻塞到关闭完成 */</span></span><br><span class="line">      future.channel().closeFuture().sync();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      <span class="comment">/** 关闭 EventLoopGroup 释放资源 */</span></span><br><span class="line">      group.shutdownGracefully().sync();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="客户端解码器"><a href="#客户端解码器" class="headerlink" title="客户端解码器"></a>客户端解码器</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.liweidan.nettydemo.demo02.client;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.netty.buffer.ByteBuf;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelHandlerContext;</span><br><span class="line"><span class="keyword">import</span> io.netty.handler.codec.ByteToMessageDecoder;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * .</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> liweidan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019-07-20</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@email</span> toweidan@126.com</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ToIntegerDecoder</span> <span class="keyword">extends</span> <span class="title">ByteToMessageDecoder</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">decode</span><span class="params">(ChannelHandlerContext ctx, ByteBuf in, List&lt;Object&gt; out)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">/** 一个 int 是 4 个字节 */</span></span><br><span class="line">    <span class="keyword">while</span> (in.readableBytes() &gt;= <span class="number">4</span>) &#123;</span><br><span class="line">      out.add(in.readInt());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/** 触发下一个 handler 的读取操作 */</span></span><br><span class="line">    ctx.pipeline().fireChannelRead(out);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">decodeLast</span><span class="params">(ChannelHandlerContext ctx, ByteBuf in, List&lt;Object&gt; out)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="客户端处理Handler"><a href="#客户端处理Handler" class="headerlink" title="客户端处理Handler"></a>客户端处理Handler</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.liweidan.nettydemo.demo02.client;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.netty.buffer.ByteBuf;</span><br><span class="line"><span class="keyword">import</span> io.netty.buffer.Unpooled;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelHandler;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelHandlerContext;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.SimpleChannelInboundHandler;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.nio.charset.Charset;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 客户端请求处理器.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> liweidan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019-07-17</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@email</span> toweidan@126.com</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@ChannelHandler</span>.Sharable</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RequestHandler</span> <span class="keyword">extends</span> <span class="title">SimpleChannelInboundHandler</span>&lt;<span class="title">List</span>&lt;<span class="title">Object</span>&gt;&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelActive</span><span class="params">(ChannelHandlerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">/** Channel 建立连接完成后，执行的业务，发送一个 HelloWorld 的编码并使用 ByteBuf 包装 */</span></span><br><span class="line">    ctx.writeAndFlush(</span><br><span class="line">            Unpooled.copiedBuffer(</span><br><span class="line">                    <span class="string">&quot;RandomNumber&quot;</span>.getBytes(Charset.defaultCharset().name())));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx, Throwable cause)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">/** 发生异常时关闭 Channel */</span></span><br><span class="line">    cause.printStackTrace();</span><br><span class="line">    ctx.close();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">channelRead0</span><span class="params">(ChannelHandlerContext ctx, List&lt;Object&gt; out)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    System.out.println(out);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="客户端引导代码"><a href="#客户端引导代码" class="headerlink" title="客户端引导代码"></a>客户端引导代码</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.liweidan.nettydemo.demo02.client;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.netty.bootstrap.Bootstrap;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelFuture;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelInitializer;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.EventLoopGroup;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.nio.NioEventLoopGroup;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.socket.SocketChannel;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.socket.nio.NioSocketChannel;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.net.InetSocketAddress;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 客户端启动类.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> liweidan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019-07-17</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@email</span> toweidan@126.com</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClientLaunch</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    EventLoopGroup group = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      Bootstrap b = <span class="keyword">new</span> Bootstrap();</span><br><span class="line">      b.group(group)</span><br><span class="line">              .channel(NioSocketChannel.class)</span><br><span class="line">              .remoteAddress(<span class="keyword">new</span> InetSocketAddress(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">8888</span>))</span><br><span class="line">              .handler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">                <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel socketChannel)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                  socketChannel.pipeline()</span><br><span class="line">                          .addLast(<span class="keyword">new</span> ToIntegerDecoder(), <span class="keyword">new</span> RequestHandler());</span><br><span class="line">                &#125;</span><br><span class="line">              &#125;);</span><br><span class="line">      ChannelFuture future = b.connect().sync();</span><br><span class="line">      future.channel().closeFuture().sync();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      group.shutdownGracefully().sync();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="运行效果"><a href="#运行效果" class="headerlink" title="运行效果"></a>运行效果</h5><img src="/frame/Netty/netty%E4%B9%8Bbytebuf%E4%BB%A5%E5%8F%8A%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8/RandomNettyDemo.gif" class="">
+
+<h4 id="2-2-2-ReplayingDecoder"><a href="#2-2-2-ReplayingDecoder" class="headerlink" title="2.2.2 ReplayingDecoder"></a>2.2.2 ReplayingDecoder</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.liweidan.nettydemo.demo02.client;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.netty.buffer.ByteBuf;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelHandlerContext;</span><br><span class="line"><span class="keyword">import</span> io.netty.handler.codec.ByteToMessageDecoder;</span><br><span class="line"><span class="keyword">import</span> io.netty.handler.codec.ReplayingDecoder;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> liweidan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019-07-20</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@email</span> toweidan@126.com</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ToIntegerDecoder</span> <span class="keyword">extends</span> <span class="title">ReplayingDecoder</span>&lt;<span class="title">Void</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">decode</span><span class="params">(ChannelHandlerContext ctx, ByteBuf in, List&lt;Object&gt; out)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">/** 触发下一个 handler 的读取操作 */</span></span><br><span class="line">    out.add(in.readInt());</span><br><span class="line">    ctx.pipeline().fireChannelRead(out);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">decodeLast</span><span class="params">(ChannelHandlerContext ctx, ByteBuf in, List&lt;Object&gt; out)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>ReplayingDecoder</code> 有个泛型，表示需要处理的状态类型，使用 <code>Void</code> 表示没有状态需要处理。 与之前不同的是，每读取一次就会调用一次后面的处理器，因为每次解码都会发送。 需要注意 <code>ReplayingDecoder</code> 并不是支持所有的 <code>ByteBuf</code> 操作，如果调用不支持的方法，将会抛出异常。而且效率较上面的解码器比较低下。</p>
+<h4 id="2-2-3-MessageToMessageDecoder"><a href="#2-2-3-MessageToMessageDecoder" class="headerlink" title="2.2.3 MessageToMessageDecoder"></a>2.2.3 MessageToMessageDecoder</h4><p>这个的作用是将一种消息的格式转换为另外一种消息的格式。 不多说上代码就好了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IntegerToStringDecoder</span> <span class="keyword">extends</span> <span class="title">MessageToMessageDecoder</span>&lt;<span class="title">Integer</span>&gt; </span>&#123;<span class="comment">// 泛型表示传入的类型</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">decode</span><span class="params">(ChannelHandlerContext ctx, Integer msg, List&lt;Object&gt; out)</span></span></span><br><span class="line"><span class="function">          <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    out.add(<span class="string">&quot;String:&quot;</span> + String.valueOf(msg));</span><br><span class="line">    <span class="comment">/** 触发下一个 handler 的读取操作 */</span></span><br><span class="line">    ctx.pipeline().fireChannelRead(out);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-4-TooLongFrameException"><a href="#2-2-4-TooLongFrameException" class="headerlink" title="2.2.4 TooLongFrameException"></a>2.2.4 TooLongFrameException</h4><p>这是一个异常类，用于让我们自定义抛出异常的，主要作用是为了保护 <code>Netty</code> 程序的内存不至于被过大的消息体耗尽，所以我们可以定义一个 <code>Decoder</code>，用于判断消息体是否超出我们的需求，如果超出可以直接抛出异常，终止调用链的调用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RejectTooLongDecoder</span> <span class="keyword">extends</span> <span class="title">ByteToMessageDecoder</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ALLOW_LENGTH = <span class="number">1024</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">decode</span><span class="params">(ChannelHandlerContext ctx, ByteBuf in, List&lt;Object&gt; out)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> readableBytes = in.readableBytes();</span><br><span class="line">    <span class="keyword">if</span> (readableBytes &gt; ALLOW_LENGTH) &#123;</span><br><span class="line">        <span class="comment">// 清空ByteBuf</span></span><br><span class="line">      in.skipBytes(readableBytes);</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> TooLongFrameException(<span class="string">&quot;Bytes Too Long!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-5-MessageToByteEncoder-MessageToMessageEncoder"><a href="#2-2-5-MessageToByteEncoder-MessageToMessageEncoder" class="headerlink" title="2.2.5 MessageToByteEncoder/MessageToMessageEncoder"></a>2.2.5 MessageToByteEncoder/MessageToMessageEncoder</h4><p>其实与解码器相对应，方法参数差不多，偷懒不打算写了。</p>
+<h4 id="2-2-6-编解码一体"><a href="#2-2-6-编解码一体" class="headerlink" title="2.2.6 编解码一体"></a>2.2.6 编解码一体</h4><p>项目上，我们一般都会把编解码这种粗活交给一个 <code>Maven</code> 模块来做，当然这样子的话就需要在客户端服务端重复安装编解码器了。 聚合在一起的一种方式是使用 <code>ByteToMessageCodec</code>，通过集成他重写编码和解码两个方法达到重用。 还有另外一种方法是通过继承 <code>CombinedChannelDuplexHandler</code> ，在泛型中指定编解码的类来实现。 当然这两种方式看个人喜好使用，我的话偏向于后者：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CombinedIntegerCodec</span> <span class="keyword">extends</span> <span class="title">CombinedChannelDuplexHandler</span>&lt;<span class="title">IntegerDecoder</span>, <span class="title">IntegerEncoder</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">CombinedIntegerCodec</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(<span class="keyword">new</span> IntegerDecoder(), <span class="keyword">new</span> IntegerEncoder())</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>未完待续……</p>
+
+</div>
+
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image -->
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="W"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div>
+
+    <!-- Author title -->
+    <div class="author-title">
+      <div>Weidan</div>
+      <div>2019-07-27</div>
+    </div>
+  </div>
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+      <a class="category-link" href="/categories/frame/">frame</a> <a class="category-link" href="/categories/frame/Netty/">Netty</a>
+
+      <a class="tag-none-link" href="/tags/Netty/" rel="tag">#Netty</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+</body>
+</html>
+
+
+<script src="/js/book.js"></script>

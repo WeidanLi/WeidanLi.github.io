@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          【聊聊MySQL】十.MySQL-InnoDB的数据库事务的执行之MVCC - 丹崽的技术博客
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.9/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+
+<div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>丹崽的技术博客</span>
+  </a>
+</div>
+    <div id="menu" class="book-menu hide">
+  <ul>
+<li><a href="/">Home</a></li>
+</ul>
+<h1 id="计算机碎碎念"><a href="#计算机碎碎念" class="headerlink" title="计算机碎碎念"></a>计算机碎碎念</h1><h2 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h2><ul>
+<li><a href="/Computer/Network/1-Find-Computer-Network/">生活中的网络</a></li>
+<li><a href="/Computer/Network/2-TCP-IP-PROTOCOL/">TCP/IP之数据链路层</a></li>
+<li><a href="/Computer/Network/3-IP/">TCP/IP之网络层IP协议</a></li>
+<li><a href="/Computer/Network/4-TCP-UDP/">TCP/IP之传输层TCP/UDP协议</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <div class="book-post">
+  <h2 id="一-事务的隔离"><a href="#一-事务的隔离" class="headerlink" title="一.事务的隔离"></a>一.事务的隔离</h2><p>刚开始我们说了事务的四个特性：<code>原子性</code> <code>一致性</code> <code>隔离性</code> <code>持久性</code>。</p>
+<p>我们简单的分一下类： <code>redo log</code> 可以保证事务的 <code>原子性</code> 和 <code>持久性</code>，<code>undo log</code> 可以保证事务的 <code>一致性</code>，那么剩下的 <code>隔离性</code> 就由我们现在要说的 <code>MVCC</code> 来保证了。</p>
+<p>那么隔离性是个啥，之前说过了，也就是可能出现 <code>脏写</code> <code>脏读</code> <code>幻读</code> <code>不可重复读</code> 等等这些状况。</p>
+<p>简单回顾下：</p>
+<ul>
+<li>脏写：A事务提交的数据是B事务 <code>UPDATE</code> 的值 ，这个无论如何都不允许；</li>
+<li>脏读：A事务中读取到了B事务中 <code>UPDATE</code> 的值（B事务未提交）；</li>
+<li>不可重复读：A事务中两次读取，第二次读取到B事务已经提交的 <code>UPDATE</code> 的值（注意跟 <code>脏读</code> 的区别）；</li>
+<li>幻读：A事务两次读取，第二次读取到B事务中提交的 <code>INSERT</code> 的值，但是如果A事务两次读取，第二次读不到B事务 <code>DELETE</code> 的数据，不属于幻读，幻读强调第二次读取的时候，多了数据；</li>
+</ul>
+<h2 id="二-MVCC"><a href="#二-MVCC" class="headerlink" title="二.MVCC"></a>二.MVCC</h2><p><code>MVCC</code> 表示 <code>Multi-Version Concurrency Control</code>，<code>多版本并发控制</code>。也就是说在多个事务执行的情况下，可以控制事务读取到的数据版本的问题。</p>
+<p>而 <code>MVCC</code> 的关键就在于之前 <code>undo log</code> 所说的 <code>版本链</code> 上。</p>
+<h3 id="2-1-版本链"><a href="#2-1-版本链" class="headerlink" title="2.1 版本链"></a>2.1 版本链</h3><p>622</p>
+<p>之前说过这个图，第一次插入的时候，生成了第一条 <code>undo_insert_rec</code>，而对这个数据行做删除的时候，就会把数据行中的 <code>roll_pointer</code> 打断，连接到删除的 <code>undo log</code> 上，而 <code>undo log</code> 中的 <code>old_roll_pointer</code> 又指向了前一个插入的 <code>undo log</code> 中。</p>
+<p>由于上面太乱我重新画张图：</p>
+<p>870</p>
+<p>OK，这是一个产品入库的过程。两个事务对这个条数据发生了更新，假设事务A和事务B（事务A的 <code>trx_id=20</code>，事务B的 <code>trx_id=10</code>）。事务B修改库存为 <code>600</code>，而事务A做了两次修改，第一次是 <code>850</code> 第二次是 <code>1000</code>。所以上图中，比较低层的是旧的数据，比较高层的是新的数据。这个列表串起来就是一条数据的 <code>版本链</code>。</p>
+<p>有了这个版本链还不够，还需要一个 <code>ReadView</code> 来辅助查询。</p>
+<h3 id="2-2-ReadView"><a href="#2-2-ReadView" class="headerlink" title="2.2 ReadView"></a>2.2 ReadView</h3><p>这个名字也很好理解了：<code>读取视图</code>。他发生在 <code>SELECT</code> 的时候，每次 <code>SELECT</code> 都会从数据表中生成一个 <code>ReadView</code>。</p>
+<p><code>ReadView</code> 有几个非常重要的属性：</p>
+<ul>
+<li><code>m_ids</code>：生成时活跃的读写事务 <code>trx_id</code> 列表；</li>
+<li><code>min_trx_id</code>：上面 <code>m_ids</code> 最小的值；</li>
+<li><code>max_trx_id</code>：生成时应该分配给下一个事务的 <code>trx_id值</code>；</li>
+<li><code>creator_trx_id</code>：当前事务的 <code>trx_id值</code>；</li>
+</ul>
+<p>那我们要查询上面的某条记录的时候，就需要根据 <code>ReadView</code> 中的那些值与 <code>undo log</code> 或者 <code>数据行</code> 中的 <code>trx_id</code> 比较，来拿到满足条件的最新一条的记录，就是当前事务可以访问到的数据。</p>
+<p>怎么判断：</p>
+<ol>
+<li>如果 <code>数据行</code> 的 <code>trx_id</code> 与当前事务 <code>id</code> 相等，也就是与 <code>creator_trx_id</code> 说明这条数据在当前事务发生更改，所以当前事务可以访问；</li>
+<li>如果 <code>数据行</code> 的 <code>trx_id</code> 小于 <code>min_trx_id</code> 说明这个数据的改动在这个事务之前已经提交，所以可以被访问到；</li>
+<li>如果 <code>数据行</code> 的 <code>trx_id</code> 大于或等于 <code>max_trx_id</code>，说明该版本在这个事务之后发生的更改，所以这个版本不可见，继续遍历下一个版本；</li>
+<li>如果 <code>数据行</code> 的 <code>trx_id</code> 介于 <code>min_trx_id</code> 和 <code>max_trx_id</code> 之间，则需要判断事务是否存在于 <code>m_ids</code> 中：<ol>
+<li>如果存在，说明创建的时候事务还在活跃中，数据版本不可见；</li>
+<li>如果不存在，说明已经提交了，则数据版本可见</li>
+</ol>
+</li>
+</ol>
+<p>然后我们知道，数据库有不同的隔离级别，<code>MySQL</code> 有 <code>READ UNCOMMITTED</code> <code>READ COMMITTED</code> <code>REPEATABLE READ</code> <code>SERIALIZABLE</code>：</p>
+<p><code>READ UNCOMMITTED</code>：所有遇到的问题情况都允许，所以不用考虑；</p>
+<p><code>SERIALIZABLE</code>：所有查询写入均需要串行执行，所以也不用考虑。</p>
+<p>那么主要就是 <code>READ COMMITTED</code> <code>REPEATABLE READ</code> 这两个隔离级别通过不同的方式来使用 <code>ReadView</code>。<code>READ COMMITTED</code> 是在每一次 <code>SELECT</code> 的时候生成 <code>ReadView</code>，而 <code>REPEATABLE READ</code> 则是在每次事务开始的时候生成的。</p>
+<h3 id="2-3-查询示例"><a href="#2-3-查询示例" class="headerlink" title="2.3 查询示例"></a>2.3 查询示例</h3><p>来举个栗子吧，我们假设当前的隔离级别是 <code>READ COMMITTED</code>：</p>
+<table>
+<thead>
+<tr>
+<th align="center">步骤</th>
+<th align="center">事务A(trx=1)</th>
+<th align="center">事务B(trx=2)</th>
+<th align="center">事务C(trx=3)</th>
+<th align="center">结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center"><code>BEGIN;INSERT INTO(1, 1, 0);COMMIT;</code></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center"></td>
+<td align="center"><code>BEGIN;</code></td>
+<td align="center"><code>BEGIN;</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center"><code>BEGIN;</code> <code>trx=4</code></td>
+<td align="center"><code>UPDATE quantity = 100</code></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center"><code>UPDATE xxx(为了分配到trx_id)</code></td>
+<td align="center"><code>UPDATE quantity = 200</code></td>
+<td align="center"><code>UPDATE xxx(为了分配到trx_id)</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center"><code>SELECT quantity</code></td>
+<td align="center"></td>
+<td align="center"><code>UPDATE quantity = 300</code></td>
+<td align="center"><code>0</code></td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center"></td>
+<td align="center"><code>COMMIT</code></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center"><code>SELECT quantity</code></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><code>200</code></td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><code>COMMIT</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center"><code>SELECT quantity</code></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><code>300</code></td>
+</tr>
+</tbody></table>
+<p>分步骤来说：</p>
+<ol>
+<li>第 <code>1</code> 步，<code>事务A</code> 开启一个事务插入一条数据，这时候 <code>数据行的 trx_id = 1</code>；</li>
+<li>第 <code>2</code> 步，<code>事务B</code> 和 <code>事务C</code> 分别开启事务，准备对这条数据蠢蠢欲动；</li>
+<li>第 <code>3</code> 步：<ul>
+<li><code>事务A</code> 又开启一个事务，分配了 <code>trx_id =  4</code>；</li>
+<li>同时 <code>事务B</code> 更新了数量 <code>100</code>；</li>
+</ul>
+</li>
+<li>第 <code>4</code> 步：<ul>
+<li><code>事务B</code> 又更新了数量 <code>200</code>；</li>
+</ul>
+</li>
+<li>第 <code>5</code> 步：<code>事务C</code> 也更新了数量 <code>300</code>，<code>事务A</code> 查询了数量，这时候 <strong>结果是</strong> <code>0</code>；</li>
+<li>第 <code>6</code> 步：<code>事务B</code> 进行了提交；</li>
+<li>第 <code>7</code> 步：<code>事务A</code> 查询了数量，<strong>结果是</strong> <code>200</code>；</li>
+<li>第 <code>8</code> 步：<code>事务C</code> 提交；</li>
+<li>第 <code>9</code> 步：<code>事务A</code> 查询数量，<strong>结果是</strong> <code>300</code>。</li>
+</ol>
+<p>那接下来讨论的就是上面的步骤中，<code>三次查询</code> 的结果：</p>
+<p>第一次，发生在第 <code>5</code> 步：</p>
+<p>3992</p>
+<p><code>事务A</code> 查询的时候创建了 <code>ReadView</code>，这时候根据上面的判断，迭代目前的数据版本：</p>
+<p>我们看看第一个结果 <code>0</code>，发生在 <code>第 5 步</code>：</p>
+<ol>
+<li><p>第一条数据：</p>
+<ol>
+<li><code>trx_id = 3</code>，不等于 <code>ReadView</code> 的 <code>creator_trx_id</code>，所以这个条件不满足，下一个判断，</li>
+<li>明显当前 <code>trx_id</code> 大于 <code>ReadView</code> 的 <code>min_trx_id</code>，所以继续下一个判断，</li>
+<li>当前 <code>trx_id</code> 小于 <code>max_trx_id</code>，所以这个判断不执行；</li>
+<li>当前 <code>trx_id</code> 存在于 <code>m_ids</code> 中，说明开启事务的时候，这个版本还在其他事务范围之内，所以这条不能被访问；</li>
+</ol>
+</li>
+<li><p>第二条数据：</p>
+<p>…【与上面一样】</p>
+</li>
+<li><p>第三条数据：</p>
+<p>…【与上面一样】</p>
+</li>
+<li><p>第四条数据</p>
+<p><code>trx_id = 1</code> 明显小于 <code>min_trx_id</code>，所以这条数据可以被 <code>事务A</code> 访问，返回数据 <code>0</code>。</p>
+</li>
+</ol>
+<p>接下来看看第二个结果 <code>200</code>，发生在 <code>第 7 步</code>，这时候，<code>事务B</code> 已经提交了，所以 <code>ReadView</code> 的情况就是下面这种：</p>
+<p>4590</p>
+<ol>
+<li>第一条数据：<ol>
+<li><code>trx_id = 3</code>，不等于 <code>ReadView</code> 的 <code>creator_trx_id</code>，所以这个条件不满足，下一个判断，</li>
+<li>明显当前 <code>trx_id</code> 大于 <code>ReadView</code> 的 <code>min_trx_id</code>，所以继续下一个判断，</li>
+<li>当前 <code>trx_id</code> 小于 <code>max_trx_id</code>，所以这个判断不执行；</li>
+<li>当前 <code>trx_id</code> 存在于 <code>m_ids</code> 中，说明开启事务的时候，这个版本还在其他事务范围之内，所以这条不能被访问；</li>
+</ol>
+</li>
+<li>第二条数据：<ol>
+<li><code>trx_id = 2</code>，不等于 <code>ReadView</code> 的 <code>creator_trx_id</code>，所以这个条件不满足，下一个判断，</li>
+<li>当前 <code>trx_id</code> 小于 <code>ReadView</code> 的 <code>min_trx_id</code>，所以返回这条数据，所以查询到的 <code>quantity = 200</code></li>
+</ol>
+</li>
+</ol>
+<p>然后，随着 <code>事务C</code> 也提交了，这时候系统中没有正在运行的事务：</p>
+<p>5108</p>
+<p>那么第一条数据做第一个判断的时候，发现当前已经没有事务在运行了，所以这条记录是这个事务之前提交的，就会被访问到，直接返回 <code>300</code>。</p>
+<p><strong>所以需要注意的是： <code>READ COMMITTED</code> 每次查询都会生成一个新的 <code>ReadView</code> 所以就发生了 <code>不可重复读</code>。</strong></p>
+<p>那如果是 <code>REPEATABLE READ</code> ，他会在查询的时候就根据目前事务的情况创建 <code>ReadView</code> 了，也就是说，查询的时候，创建 <code>ReadView</code>，然后三次查询，都使用下图这个 <code>ReadView</code>：</p>
+<p>5429</p>
+<p>所以在这个事务结束之前，每次查询的结果，都只能拿到 <code>quantity = 0</code> 这条数据。</p>
+<p>那之前我们说过，这个级别 <code>InnoDB</code> 实际上已经解决了幻读的问题，也是因为这个 <code>ReadView</code> 的原因，思考下，创建 <code>ReadView</code> 的时候，查询过程中就已经被限制返回为 <code>NULL</code> 了，所以没有 <code>幻读</code> 问题。</p>
+<h2 id="三-更新数据时undo-log的清理"><a href="#三-更新数据时undo-log的清理" class="headerlink" title="三.更新数据时undo_log的清理"></a>三.更新数据时undo_log的清理</h2><p>那么 <code>undo log</code> 的日志会越堆积越多，总不能没有被清理的时候把。这个时间点就要把握在，接下来所有事务 <code>都不需要</code> 再访问这个 <code>undo log</code> 版本的时候，后台线程会清理掉。大概什么时候，就是 <code>UPDATE</code> 提交以后，后面的事务已经一致返回的是比当前这个 <code>UPDATE</code> 数据还要新的数据的时候，就已经可以清理掉了。</p>
+<h2 id="四-小小结"><a href="#四-小小结" class="headerlink" title="四.小小结"></a>四.小小结</h2><p>通过 <code>版本并发控制管理MVCC</code> 来隔离数据。</p>
+
+</div>
+
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image -->
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="W"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div>
+
+    <!-- Author title -->
+    <div class="author-title">
+      <div>Weidan</div>
+      <div>2020-03-20</div>
+    </div>
+  </div>
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+      <a class="category-link" href="/categories/db/">db</a> <a class="category-link" href="/categories/db/mysql/">mysql</a>
+
+      <a class="tag-none-link" href="/tags/mysql/" rel="tag">#mysql</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+</body>
+</html>
+
+
+<script src="/js/book.js"></script>

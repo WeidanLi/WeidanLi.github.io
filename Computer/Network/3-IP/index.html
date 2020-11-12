@@ -11,7 +11,7 @@
 
     <title>
         
-          网络层的协议-IP协议簇 - 丹丹崽的博客
+          网络层的协议-IP协议簇 - 丹崽的技术博客
         
     </title>
 
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="book-brand">
   <a href="/">
     <img src="/favicon.png">
-    <span>丹丹崽的博客</span>
+    <span>丹崽的技术博客</span>
   </a>
 </div>
     <div id="menu" class="book-menu hide">
@@ -127,7 +127,7 @@ function sidebar_toggle() {
   <h1 id="互联网层-IP协议簇"><a href="#互联网层-IP协议簇" class="headerlink" title="互联网层-IP协议簇"></a>互联网层-IP协议簇</h1><p>上一节聊完了数据链路层，我们知道，两台计算机如果需要进行通讯的话，就需要先知道彼此的 <strong>MAC地址</strong>，然后将数据封装成 <strong>以太网帧</strong> 进行传输。但是我们的野心并没有止于此，因为需要更多的计算机参与网络（这个数量是+∞），那总不能把所有计算机的 <strong>MAC地址</strong> 在每一台上面都存储一份吧，即使这样，物理介质的互通也不现实。所以还能怎么办，那就包多一层嘛。</p>
 <p>所以，<strong>IP协议</strong> 这一层又应运而生。</p>
 <p>那么我们可以重新看一下分层模型：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201001104610.png" alt="与七层模型的匹配（via《图解TCP/IP》）"></p>
+<p>240</p>
 <p>他主要位于互联网层，那他在这一层主要解决的问题就是数据的走向问题，也仅仅是走向的问题，不会对数据进行纠错，也不会负责重发的动作（即使数据丢失的话）。而这些问题会在再上一层的 <strong>传输层</strong> 进行补充解决。</p>
 <h1 id="简单的描述"><a href="#简单的描述" class="headerlink" title="简单的描述"></a>简单的描述</h1><p>那就从传输层开始，假设我们现在的应用使用的是 <strong>TCP协议</strong>，那么 <strong>TCP数据包</strong> 将会传递给 <strong>IP协议（互联网层）</strong>，但是数据链路层是需要知道彼此的 <strong>MAC地址</strong> 的，不过目前我没有那个地址。所以就需要一个东西来辅助了：<strong>路由控制</strong>。每一个主机上（包括电脑、手机、路由器等等）都会内置一个路由控制表，他会指明所需要请求的 <strong>IP</strong> 应该通向哪一台 <strong>路由器</strong> 或者在最后一级的时候通向哪台提供服务的 <strong>计算机</strong>，所以我们的主机下一步需要在数据链路上填上相连接的 <strong>路由器</strong> 的 <strong>MAC地址</strong>。</p>
 <p>这个过程就很像我们日常使用的快递服务了，众所周知（当然我也不知道你们知不知），快递公司是有省级转运仓，市级转运仓，还有各区县镇转运仓的，这些转运仓我们可以比作 <strong>路由器</strong>，我们将快递交给快递员的时候，当然快递员不知道怎么走而且他也只负责他区域内部的事情而已，所以他交给 <strong>镇转运仓</strong>，<strong>转运仓</strong> 就比较忙了，他需要根据快递包裹上的地址省市区（<strong>IP地址</strong> 的分段管理）再分拨给其他转运仓，比方说是市内的，就直接转给其他的 <strong>各区县镇转运仓</strong>，然后他们需要依据后面的详细地址，将快递派出去；而如果是省外的，就需要 <strong>省转运仓</strong> 去分拨，那么自然的会将包裹往 <strong>省转运仓</strong> 转运。</p>
@@ -135,7 +135,7 @@ function sidebar_toggle() {
 <p>那么这中间就涉及 <strong>IP地址</strong>、<strong>路由控制</strong>、<strong>路由监控</strong> 等内容了。</p>
 <h1 id="IP地址要点"><a href="#IP地址要点" class="headerlink" title="IP地址要点"></a>IP地址要点</h1><h2 id="IP地址的定义"><a href="#IP地址的定义" class="headerlink" title="IP地址的定义"></a>IP地址的定义</h2><p>那么我们在公司经常会有路由器进行 <strong>IP自动获取</strong>，获取到这个 <strong>IP</strong> 呢，大概就是这个样子：<strong>192.168.1.7</strong>。</p>
 <p>下面关于 <strong>二进制</strong> 跟 <strong>十进制</strong> 的转换，请灵活使用系统自带的 <strong>计算器</strong> 进行计算：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201013161230.png" alt="MacOS自带的计算器"></p>
+<p>1284</p>
 <p>当然，我们用的是 <strong>十进制</strong> 的表示方法，其实 <strong>IP</strong> 在网络中传输是要求 <strong>二进制</strong> 的，也就是类似于这样子：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1100 0000 1010 1000 0000 0001 0000 0111</span><br></pre></td></tr></table></figure>
 
@@ -151,7 +151,7 @@ function sidebar_toggle() {
 <p>éi，为啥都少 <strong>两台主机</strong>（比方说 <strong>A类地址</strong>，有 <strong>24</strong> 位表示主机，应该是 <strong>16777216</strong> 台主机才对，那是因为主机地址不可以包含全部为 <strong>1</strong> 或者 <strong>0</strong> 的情况，所以基本都会淘汰掉 <strong>2</strong> 台主机的 <strong>IP地址</strong>。</p>
 <h2 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h2><p>虽然经过上面对 <strong>组成结构</strong> 和 <strong>分类</strong> 的讨论，但是 <strong>IP地址</strong> 还是枯竭了，不够所有全人类的计算机使用，而 <strong>分类</strong> 也只是简单的按照 <strong>8</strong> 位，<strong>16</strong> 位，<strong>24</strong> 位 进行划分，所以这时候需要一个更加灵活的划分方式，以便于制造更多的 <strong>IP地址</strong> 出来供计算机使用。</p>
 <p>子网掩码长度也是 <strong>32</strong> 位，每一位与 <strong>IP地址</strong> 相对应，连续的 <strong>1</strong> 表示连续的几位 <strong>IP</strong> 均为网络表示，连续的 <strong>0</strong> 则表示主机的位置，来看看这个：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201013160537.png" alt="IP和子网掩码"></p>
+<p>2935</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">IP地址：192.168.1.14</span><br><span class="line">子网掩码：255.255.255.0</span><br><span class="line">---- 二进制法 ----</span><br><span class="line">1100 0000 1010 1000 0000 0001 0000 1110 &lt;-- IP地址</span><br><span class="line">1111 1111 1111 1111 1111 1111 0000 0000 &lt;-- 子网掩码</span><br></pre></td></tr></table></figure>
 
 <p>此时表示的是前 <strong>24</strong> 位为网络标识，那我们转换一下思路，要表示 <strong>26</strong> 位怎么办，此时状态如下：</p>
@@ -170,13 +170,13 @@ function sidebar_toggle() {
 <p>而全局地址一般由 <strong>ISP</strong> 进行动态提供，在联网那一瞬间将会获取一个可用的 <strong>IP全局地址</strong>，然后进行联网。</p>
 <h1 id="路由控制"><a href="#路由控制" class="headerlink" title="路由控制"></a>路由控制</h1><p>OK，说了这么多关于 <strong>IP</strong> 的东西，我们也知道了可以将 <strong>IP</strong> 随意的切分 <strong>网络标识</strong>（也就是常说的网段），那么大概到这里就需要路由器来参与我们数据的传输了。</p>
 <p>可以这么说，每个设备都有一个自己的路由表，比如当前我电脑上的情况：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201013163739.png" alt="MacOS路由表查询"></p>
+<p>5034</p>
 <p>可以看到一个 <strong>default</strong> 的路由，那么无论什么 <strong>IP</strong>，如果没有在下面列出来的话，就会发送至这个路由器中，然后路由器再继续的根据他目前存储的路由表进行线路的路由。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201013164003.png" alt="via《图解TCP/IP》"></p>
+<p>5204</p>
 <p>甚至我们可以查看我们访问一个地址的时候，跳转了多少路由：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">traceroute liweidan.cn</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201013164700.png" alt="traceroute结果"></p>
+<p>5584</p>
 <p>***** 表示被防火墙屏蔽了，得不到一些具体的数据。</p>
 <h1 id="最大传输单元MTU（Maximum-Transmission-Unit）"><a href="#最大传输单元MTU（Maximum-Transmission-Unit）" class="headerlink" title="最大传输单元MTU（Maximum Transmission Unit）"></a>最大传输单元MTU（Maximum Transmission Unit）</h1><p>鉴于之前说过现在大多数的连接方式是使用以太网的链路进行传输，并且说过了一个以太网帧能够容纳的数据大小大概为 <strong>1500字节</strong>。</p>
 <p>所以当我们在内网将大的数据包比如说 <strong>5000字节</strong> 发送给路由器的时候，路由器就需要进行分包再通过以太网帧发送出去，而如果请求路径中有更小的 <strong>MTU</strong> 的时候，中间商的路由器又需要对已经分包号的数据包进行分包，这会导致很多性能浪费在路由器上面。</p>
@@ -187,7 +187,7 @@ function sidebar_toggle() {
 <li>发送端重新整理数据，分包，一个一个发送给路由器。</li>
 </ol>
 <p>发送端将会缓存这个 <strong>最大MTU值</strong>，时长则需要根据不同系统而定。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201013170653.png" alt="MacOS默认的MTU"></p>
+<p>6211</p>
 <h1 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h1><p>上面一直说的 <strong>IP</strong> 其实是 <strong>IPv4</strong> 的协议内容，因为 <strong>IPv4</strong> 地址的枯竭，所以急需要另外一种协议来替代 <strong>IPv4</strong>，所以 <strong>IPv6</strong> 就是解决 <strong>IP地址</strong> 不足的问题的。</p>
 <p>怎么解决呢，加长度……<strong>IPv6</strong> 是 <strong>128位</strong> 的，相比 <strong>IPv4</strong>，其容量扩大至 <strong>4倍</strong>。</p>
 <h2 id="IPv6标记方法"><a href="#IPv6标记方法" class="headerlink" title="IPv6标记方法"></a>IPv6标记方法</h2><p><strong>IPv4</strong> 是由 <strong>4个</strong> <strong>8位</strong> 组成的，所以可以标记 <strong>4个</strong> 正整数。但是如果 <strong>IPv6</strong> 需要表示 <strong>16</strong> 个正整数的话，就显得有点麻烦：<code>我的IP地址是 192.168.1.7.192.168.1.7.192.168.1.7.192.168.1.7</code></p>
@@ -207,7 +207,7 @@ function sidebar_toggle() {
 <p>而如果是 <strong>链路本地单播地址</strong> 的话，<strong>前64位</strong> 则没有保存什么实质性的内容，这 <strong>64位</strong> 中前面 <strong>10位</strong> 做了标记，而后面的 <strong>54位</strong> 则填充 <strong>0</strong>。</p>
 <p>以至于 <strong>MTU</strong>，默认均以 <strong>1280字节</strong> 进行分片然后发送数据。</p>
 <h1 id="IP数据包的内容"><a href="#IP数据包的内容" class="headerlink" title="IP数据包的内容"></a>IP数据包的内容</h1><p>现在我们主要了解一下 <strong>IPv4</strong> 的数据包长什么样即可，但是由于内容还是比较多的，无论是一行或者一列都无法表示完整，所以使用表格从左到右从上到下的进行表示吧（貌似很多资料都是这样的），图中横向一个单元格表示 <strong>1个比特位</strong>，不是字节哦：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201015144413.png" alt="IP数据包图示"></p>
+<p>7450</p>
 <ol>
 <li>版本Version：占用 <strong>4个比特位</strong> ，<strong>IPv4</strong> 则填写 <strong>4</strong> 或 <strong>IPv6</strong> 则填写 <strong>6</strong>；</li>
 <li>首部长度Internet Header Length：占用 <strong>4个比特位</strong> ，这个字段所表示数的单位是32位字长（1个32位字长是4字节），也就是说如果四位是 <strong>1111</strong> 的话，表示十进制15，首部长度就达到60字节（15 * 4 = 60），并且这个数字永远是 <strong>4</strong> 的倍数，如果 <strong>IP头部数据</strong> 不足 <strong>4</strong> 的倍数的话，利用下面的 <strong>填充位</strong> 进行填充；</li>
@@ -225,7 +225,7 @@ function sidebar_toggle() {
 <h1 id="DNS技术"><a href="#DNS技术" class="headerlink" title="DNS技术"></a>DNS技术</h1><p>由于使用 <strong>IP地址</strong> 来记忆实在是太麻烦了，所以人类又发明了一项技术：<strong>DNS解析</strong> 用以映射 <strong>域名</strong> 和 <strong>IP地址</strong> 的关系。我们从浏览器输入一串域名比如 <strong><a target="_blank" rel="noopener" href="https://ssn.liweidan.cn/">https://ssn.liweidan.cn</a></strong>，那么浏览器会先在本机 <strong>hosts</strong> 文件搜索有没有映射的 <strong>IP地址</strong>，如果没有，则会跑去 <strong>DNS服务器</strong> 进行搜索，从而返回 <strong>IP地址</strong> 再进行资源的访问。</p>
 <p>目前我们常见的顶级域名就有 <strong>com</strong>、<strong>cn</strong>、<strong>net</strong> 等等，由 <strong>ICANN（一个非盈利的Internet管理组织）</strong> 托管，而我们国家会管理着 <strong>cn</strong> 域名的注册信息，那我们请求一个域名，就会将请求转移到 <strong>ISP</strong> 的服务器中，<strong>ISP</strong> 为了加快响应速度，则会缓存所有已经被请求过的域名映射记录，但是这里有个缺点，就是如果我们修改域名的解析记录的话，同步到各地区的 <strong>ISP</strong> 需要一定的时间，这也就是为什么我们修改一条解析记录通常会提示生效需要 <strong>2小时</strong> 左右。</p>
 <p>由于解析记录有是多种，有 <strong>A记录</strong> <strong>MX记录</strong> <strong>CNAME记录</strong> <strong>TXT记录</strong> 等等，那这里只列举常用的几个：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201015165524.png" alt="域名解析"></p>
+<p>9277</p>
 <p><strong>A记录</strong>：用于映射域名跟 <strong>IP地址</strong>；</p>
 <p><strong>CNAME记录</strong>：用于将域名映射到另外一个域名的记录；</p>
 <p><strong>MX记录</strong>：映射邮件服务器的记录（如果有域名可以映射到QQ邮箱，<a target="_blank" rel="noopener" href="https://baijiahao.baidu.com/s?id=1669389745509038972&wfr=spider&for=pc">QQ邮箱中使用个人域名作为域名邮箱</a></p>
