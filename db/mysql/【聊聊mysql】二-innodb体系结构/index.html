@@ -41,7 +41,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113500.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113519.png">
 <meta property="article:published_time" content="2019-09-05T08:09:51.000Z">
-<meta property="article:modified_time" content="2020-11-10T03:35:31.853Z">
+<meta property="article:modified_time" content="2020-11-12T08:03:23.479Z">
 <meta property="article:author" content="Weidan">
 <meta property="article:tag" content="mysql">
 <meta property="article:tag" content="InnoDB">
@@ -213,6 +213,7 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -263,7 +264,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-11-10 11:35:31" itemprop="dateModified" datetime="2020-11-10T11:35:31+08:00">2020-11-10</time>
+        <time title="修改时间：2020-11-12 16:03:23" itemprop="dateModified" datetime="2020-11-12T16:03:23+08:00">2020-11-12</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -295,17 +296,19 @@
 <li>行锁设计，可提高并发；</li>
 <li>支持 <code>MVCC</code> 可以说是数据行的版本控制，利用他来避免 <code>幻读</code> 的产生；</li>
 <li>支持外键；</li>
-<li>优秀的 <code>B+</code> 索引。</li>
+<li>优秀的 <code>B+</code> 索引。<a id="more"></a>
+<h2 id="二-InnoDB体系架构"><a href="#二-InnoDB体系架构" class="headerlink" title="二.InnoDB体系架构"></a>二.InnoDB体系架构</h2></li>
 </ol>
-<h2 id="二-InnoDB体系架构"><a href="#二-InnoDB体系架构" class="headerlink" title="二.InnoDB体系架构"></a>二.InnoDB体系架构</h2><h2 id="一-InnoDB存储引擎-1"><a href="#一-InnoDB存储引擎-1" class="headerlink" title="一.InnoDB存储引擎"></a>一.InnoDB存储引擎</h2><p>自从 <code>InnoDB</code> 被 <code>Heikki Tuuri</code> 发明出来以后，可以说安装 <code>MySQL</code> 肯定默认的引擎就是设置 <code>InnoDB</code>，因为其功能强大，实用性强，基本很多业务需求不要太过纠结的话都可以使用 <code>InnoDB</code> 进行存储（当然现在看来，当你的表不需要事务的时候可以使用 <code>MyISAM</code> 来进行存储）。 <code>InnoDB</code> 相比其他的存储引擎，拥有以下几个特点：</p>
+<h2 id="一-InnoDB存储引擎-1"><a href="#一-InnoDB存储引擎-1" class="headerlink" title="一.InnoDB存储引擎"></a>一.InnoDB存储引擎</h2><p>自从 <code>InnoDB</code> 被 <code>Heikki Tuuri</code> 发明出来以后，可以说安装 <code>MySQL</code> 肯定默认的引擎就是设置 <code>InnoDB</code>，因为其功能强大，实用性强，基本很多业务需求不要太过纠结的话都可以使用 <code>InnoDB</code> 进行存储（当然现在看来，当你的表不需要事务的时候可以使用 <code>MyISAM</code> 来进行存储）。 <code>InnoDB</code> 相比其他的存储引擎，拥有以下几个特点：</p>
 <ol>
 <li>支持完整 <code>ACID</code> 事务；</li>
 <li>行锁设计，可提高并发；</li>
 <li>支持 <code>MVCC</code> 可以说是数据行的版本控制，利用他来避免 <code>幻读</code> 的产生；</li>
 <li>支持外键；</li>
-<li>优秀的 <code>B+</code> 索引。</li>
+<li>优秀的 <code>B+</code> 索引。<!--more-->
+<h2 id="二-InnoDB体系架构-1"><a href="#二-InnoDB体系架构-1" class="headerlink" title="二.InnoDB体系架构"></a>二.InnoDB体系架构</h2></li>
 </ol>
-<h2 id="二-InnoDB体系架构-1"><a href="#二-InnoDB体系架构-1" class="headerlink" title="二.InnoDB体系架构"></a>二.InnoDB体系架构</h2><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113448.jpeg"> <code>InnoDB</code> 维护了类似于上图的一个内存块，内存块中存在一些线程，负责维护数据结构、缓存数据、刷写数据、<code>redo log</code> 等等。保证读取数据的快速，以及保证缓存数据的准确性。当数据库异常退出时还保证数据库能够恢复正常运行状态。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113448.jpeg"> <code>InnoDB</code> 维护了类似于上图的一个内存块，内存块中存在一些线程，负责维护数据结构、缓存数据、刷写数据、<code>redo log</code> 等等。保证读取数据的快速，以及保证缓存数据的准确性。当数据库异常退出时还保证数据库能够恢复正常运行状态。</p>
 <h3 id="2-1-后台线程"><a href="#2-1-后台线程" class="headerlink" title="2.1 后台线程"></a>2.1 后台线程</h3><p><code>MySQL</code> 默认拥有一些后台线程，来做一些事情：</p>
 <ol>
 <li><code>10</code> 个 <code>IO Thread</code>：（<code>8</code> 个读写线程、<code>1</code> 个 <code>insert buffer thread</code>、<code>1</code> 个 <code>log thread</code>）</li>
@@ -393,9 +396,10 @@
 <li>行锁设计，可提高并发；</li>
 <li>支持 <code>MVCC</code> 可以说是数据行的版本控制，利用他来避免 <code>幻读</code> 的产生；</li>
 <li>支持外键；</li>
-<li>优秀的 <code>B+</code> 索引。</li>
+<li>优秀的 <code>B+</code> 索引。<!--more-->
+<h2 id="二-InnoDB体系架构-2"><a href="#二-InnoDB体系架构-2" class="headerlink" title="二.InnoDB体系架构"></a>二.InnoDB体系架构</h2></li>
 </ol>
-<h2 id="二-InnoDB体系架构-2"><a href="#二-InnoDB体系架构-2" class="headerlink" title="二.InnoDB体系架构"></a>二.InnoDB体系架构</h2><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113448.jpeg"> <code>InnoDB</code> 维护了类似于上图的一个内存块，内存块中存在一些线程，负责维护数据结构、缓存数据、刷写数据、<code>redo log</code> 等等。保证读取数据的快速，以及保证缓存数据的准确性。当数据库异常退出时还保证数据库能够恢复正常运行状态。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113448.jpeg"> <code>InnoDB</code> 维护了类似于上图的一个内存块，内存块中存在一些线程，负责维护数据结构、缓存数据、刷写数据、<code>redo log</code> 等等。保证读取数据的快速，以及保证缓存数据的准确性。当数据库异常退出时还保证数据库能够恢复正常运行状态。</p>
 <h3 id="2-1-后台线程-2"><a href="#2-1-后台线程-2" class="headerlink" title="2.1 后台线程"></a>2.1 后台线程</h3><p><code>MySQL</code> 默认拥有一些后台线程，来做一些事情：</p>
 <ol>
 <li><code>10</code> 个 <code>IO Thread</code>：（<code>8</code> 个读写线程、<code>1</code> 个 <code>insert buffer thread</code>、<code>1</code> 个 <code>log thread</code>）</li>
@@ -490,9 +494,10 @@
 <li>行锁设计，可提高并发；</li>
 <li>支持 <code>MVCC</code> 可以说是数据行的版本控制，利用他来避免 <code>幻读</code> 的产生；</li>
 <li>支持外键；</li>
-<li>优秀的 <code>B+</code> 索引。</li>
+<li>优秀的 <code>B+</code> 索引。<!--more-->
+<h2 id="二-InnoDB体系架构-3"><a href="#二-InnoDB体系架构-3" class="headerlink" title="二.InnoDB体系架构"></a>二.InnoDB体系架构</h2></li>
 </ol>
-<h2 id="二-InnoDB体系架构-3"><a href="#二-InnoDB体系架构-3" class="headerlink" title="二.InnoDB体系架构"></a>二.InnoDB体系架构</h2><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113448.jpeg"> <code>InnoDB</code> 维护了类似于上图的一个内存块，内存块中存在一些线程，负责维护数据结构、缓存数据、刷写数据、<code>redo log</code> 等等。保证读取数据的快速，以及保证缓存数据的准确性。当数据库异常退出时还保证数据库能够恢复正常运行状态。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113448.jpeg"> <code>InnoDB</code> 维护了类似于上图的一个内存块，内存块中存在一些线程，负责维护数据结构、缓存数据、刷写数据、<code>redo log</code> 等等。保证读取数据的快速，以及保证缓存数据的准确性。当数据库异常退出时还保证数据库能够恢复正常运行状态。</p>
 <h3 id="2-1-后台线程-3"><a href="#2-1-后台线程-3" class="headerlink" title="2.1 后台线程"></a>2.1 后台线程</h3><p><code>MySQL</code> 默认拥有一些后台线程，来做一些事情：</p>
 <ol>
 <li><code>10</code> 个 <code>IO Thread</code>：（<code>8</code> 个读写线程、<code>1</code> 个 <code>insert buffer thread</code>、<code>1</code> 个 <code>log thread</code>）</li>

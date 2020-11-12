@@ -256,8 +256,8 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113350.gif">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113407.jpeg">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113418.jpeg">
-<meta property="article:published_time" content="2020-03-07T08:07:08.000Z">
-<meta property="article:modified_time" content="2020-11-10T03:34:32.788Z">
+<meta property="article:published_time" content="2020-11-12T08:03:23.467Z">
+<meta property="article:modified_time" content="2020-11-12T08:03:23.467Z">
 <meta property="article:author" content="Weidan">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg">
@@ -423,6 +423,7 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -466,15 +467,8 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2020-03-07 16:07:08" itemprop="dateCreated datePublished" datetime="2020-03-07T16:07:08+08:00">2020-03-07</time>
+      <time title="创建时间：2020-11-12 16:03:23" itemprop="dateCreated datePublished" datetime="2020-11-12T16:03:23+08:00">2020-11-12</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-11-10 11:34:32" itemprop="dateModified" datetime="2020-11-10T11:34:32+08:00">2020-11-10</time>
-      </span>
 
   
 </div>
@@ -490,10 +484,12 @@
 <h2 id="二-高效且持久化的方式"><a href="#二-高效且持久化的方式" class="headerlink" title="二.高效且持久化的方式"></a>二.高效且持久化的方式</h2><p>由于 <code>REDO 日志</code> 存在的意义就是，<strong>重启数据库的时候能够重新将数据恢复回来</strong>。所以在数据库没有发生重启或者异常宕机的时候，他是没有任何意义的，甚至还多了一些开销…</p>
 <p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
 <h2 id="三-日志格式"><a href="#三-日志格式" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
+<a id="more"></a>
 <h3 id="3-1-装载数据的通用格式"><a href="#3-1-装载数据的通用格式" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><h2 id="一-REDO-LOG-1"><a href="#一-REDO-LOG-1" class="headerlink" title="一.REDO LOG"></a>一.REDO LOG</h2><p>数据库最主要的特性是 <code>持久性</code>，即修改了数据库数据以后，无论发生什么事情，数据都不会丢失。<code>MySQL-InnDB</code> 就利用 <code>REDO LOG</code> 来满足持久性。<code>REDO LOG</code> 中文称为 <code>重做日志</code>，那也可以简洁一点叫做 <code>REDO 日志</code>。是数据库启动的时候，用于读取计算 <code>BufferPool</code> 中脏页数据的方式，这样可以避免由于其他原因导致数据库掉线但是脏页未刷新到硬盘，而导致数据丢失的尴尬局面。</p>
 <h2 id="二-高效且持久化的方式-1"><a href="#二-高效且持久化的方式-1" class="headerlink" title="二.高效且持久化的方式"></a>二.高效且持久化的方式</h2><p>由于 <code>REDO 日志</code> 存在的意义就是，<strong>重启数据库的时候能够重新将数据恢复回来</strong>。所以在数据库没有发生重启或者异常宕机的时候，他是没有任何意义的，甚至还多了一些开销…</p>
 <p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
 <h2 id="三-日志格式-1"><a href="#三-日志格式-1" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
+<!--more-->
 <h3 id="3-1-装载数据的通用格式-1"><a href="#3-1-装载数据的通用格式-1" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg"></p>
 <p>一条重做日志，肯定会包含上面这些信息。</p>
 <p>日志类型，在现在常用的 <code>5.7</code> 中，有 <code>53</code> 种类型，这个类型字段就很重要了，决定着程序恢复数据的方式。</p>
@@ -779,6 +775,7 @@
 <h2 id="二-高效且持久化的方式-2"><a href="#二-高效且持久化的方式-2" class="headerlink" title="二.高效且持久化的方式"></a>二.高效且持久化的方式</h2><p>由于 <code>REDO 日志</code> 存在的意义就是，<strong>重启数据库的时候能够重新将数据恢复回来</strong>。所以在数据库没有发生重启或者异常宕机的时候，他是没有任何意义的，甚至还多了一些开销…</p>
 <p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
 <h2 id="三-日志格式-2"><a href="#三-日志格式-2" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
+<!--more-->
 <h3 id="3-1-装载数据的通用格式-2"><a href="#3-1-装载数据的通用格式-2" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg"></p>
 <p>一条重做日志，肯定会包含上面这些信息。</p>
 <p>日志类型，在现在常用的 <code>5.7</code> 中，有 <code>53</code> 种类型，这个类型字段就很重要了，决定着程序恢复数据的方式。</p>
@@ -1202,6 +1199,7 @@
 <h2 id="二-高效且持久化的方式-3"><a href="#二-高效且持久化的方式-3" class="headerlink" title="二.高效且持久化的方式"></a>二.高效且持久化的方式</h2><p>由于 <code>REDO 日志</code> 存在的意义就是，<strong>重启数据库的时候能够重新将数据恢复回来</strong>。所以在数据库没有发生重启或者异常宕机的时候，他是没有任何意义的，甚至还多了一些开销…</p>
 <p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
 <h2 id="三-日志格式-3"><a href="#三-日志格式-3" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
+<!--more-->
 <h3 id="3-1-装载数据的通用格式-3"><a href="#3-1-装载数据的通用格式-3" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg"></p>
 <p>一条重做日志，肯定会包含上面这些信息。</p>
 <p>日志类型，在现在常用的 <code>5.7</code> 中，有 <code>53</code> 种类型，这个类型字段就很重要了，决定着程序恢复数据的方式。</p>
@@ -1480,6 +1478,7 @@
 <h2 id="二-高效且持久化的方式-4"><a href="#二-高效且持久化的方式-4" class="headerlink" title="二.高效且持久化的方式"></a>二.高效且持久化的方式</h2><p>由于 <code>REDO 日志</code> 存在的意义就是，<strong>重启数据库的时候能够重新将数据恢复回来</strong>。所以在数据库没有发生重启或者异常宕机的时候，他是没有任何意义的，甚至还多了一些开销…</p>
 <p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
 <h2 id="三-日志格式-4"><a href="#三-日志格式-4" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
+<!--more-->
 <h3 id="3-1-装载数据的通用格式-4"><a href="#3-1-装载数据的通用格式-4" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg"></p>
 <p>一条重做日志，肯定会包含上面这些信息。</p>
 <p>日志类型，在现在常用的 <code>5.7</code> 中，有 <code>53</code> 种类型，这个类型字段就很重要了，决定着程序恢复数据的方式。</p>
@@ -1770,6 +1769,7 @@
 <h2 id="二-高效且持久化的方式-5"><a href="#二-高效且持久化的方式-5" class="headerlink" title="二.高效且持久化的方式"></a>二.高效且持久化的方式</h2><p>由于 <code>REDO 日志</code> 存在的意义就是，<strong>重启数据库的时候能够重新将数据恢复回来</strong>。所以在数据库没有发生重启或者异常宕机的时候，他是没有任何意义的，甚至还多了一些开销…</p>
 <p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
 <h2 id="三-日志格式-5"><a href="#三-日志格式-5" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
+<!--more-->
 <h3 id="3-1-装载数据的通用格式-5"><a href="#3-1-装载数据的通用格式-5" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg"></p>
 <p>一条重做日志，肯定会包含上面这些信息。</p>
 <p>日志类型，在现在常用的 <code>5.7</code> 中，有 <code>53</code> 种类型，这个类型字段就很重要了，决定着程序恢复数据的方式。</p>
@@ -2049,6 +2049,7 @@
 <h2 id="二-高效且持久化的方式-6"><a href="#二-高效且持久化的方式-6" class="headerlink" title="二.高效且持久化的方式"></a>二.高效且持久化的方式</h2><p>由于 <code>REDO 日志</code> 存在的意义就是，<strong>重启数据库的时候能够重新将数据恢复回来</strong>。所以在数据库没有发生重启或者异常宕机的时候，他是没有任何意义的，甚至还多了一些开销…</p>
 <p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
 <h2 id="三-日志格式-6"><a href="#三-日志格式-6" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
+<!--more-->
 <h3 id="3-1-装载数据的通用格式-6"><a href="#3-1-装载数据的通用格式-6" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg"></p>
 <p>一条重做日志，肯定会包含上面这些信息。</p>
 <p>日志类型，在现在常用的 <code>5.7</code> 中，有 <code>53</code> 种类型，这个类型字段就很重要了，决定着程序恢复数据的方式。</p>
@@ -2333,6 +2334,7 @@
 <h2 id="二-高效且持久化的方式-7"><a href="#二-高效且持久化的方式-7" class="headerlink" title="二.高效且持久化的方式"></a>二.高效且持久化的方式</h2><p>由于 <code>REDO 日志</code> 存在的意义就是，<strong>重启数据库的时候能够重新将数据恢复回来</strong>。所以在数据库没有发生重启或者异常宕机的时候，他是没有任何意义的，甚至还多了一些开销…</p>
 <p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
 <h2 id="三-日志格式-7"><a href="#三-日志格式-7" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
+<!--more-->
 <h3 id="3-1-装载数据的通用格式-7"><a href="#3-1-装载数据的通用格式-7" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg"></p>
 <p>一条重做日志，肯定会包含上面这些信息。</p>
 <p>日志类型，在现在常用的 <code>5.7</code> 中，有 <code>53</code> 种类型，这个类型字段就很重要了，决定着程序恢复数据的方式。</p>
@@ -2611,6 +2613,7 @@
 <h2 id="二-高效且持久化的方式-8"><a href="#二-高效且持久化的方式-8" class="headerlink" title="二.高效且持久化的方式"></a>二.高效且持久化的方式</h2><p>由于 <code>REDO 日志</code> 存在的意义就是，<strong>重启数据库的时候能够重新将数据恢复回来</strong>。所以在数据库没有发生重启或者异常宕机的时候，他是没有任何意义的，甚至还多了一些开销…</p>
 <p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
 <h2 id="三-日志格式-8"><a href="#三-日志格式-8" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
+<!--more-->
 <h3 id="3-1-装载数据的通用格式-8"><a href="#3-1-装载数据的通用格式-8" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg"></p>
 <p>一条重做日志，肯定会包含上面这些信息。</p>
 <p>日志类型，在现在常用的 <code>5.7</code> 中，有 <code>53</code> 种类型，这个类型字段就很重要了，决定着程序恢复数据的方式。</p>
@@ -2905,6 +2908,7 @@
 <h2 id="二-高效且持久化的方式-9"><a href="#二-高效且持久化的方式-9" class="headerlink" title="二.高效且持久化的方式"></a>二.高效且持久化的方式</h2><p>由于 <code>REDO 日志</code> 存在的意义就是，<strong>重启数据库的时候能够重新将数据恢复回来</strong>。所以在数据库没有发生重启或者异常宕机的时候，他是没有任何意义的，甚至还多了一些开销…</p>
 <p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
 <h2 id="三-日志格式-9"><a href="#三-日志格式-9" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
+<!--more-->
 <h3 id="3-1-装载数据的通用格式-9"><a href="#3-1-装载数据的通用格式-9" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg"></p>
 <p>一条重做日志，肯定会包含上面这些信息。</p>
 <p>日志类型，在现在常用的 <code>5.7</code> 中，有 <code>53</code> 种类型，这个类型字段就很重要了，决定着程序恢复数据的方式。</p>
@@ -3184,6 +3188,7 @@
 <h2 id="二-高效且持久化的方式-10"><a href="#二-高效且持久化的方式-10" class="headerlink" title="二.高效且持久化的方式"></a>二.高效且持久化的方式</h2><p>由于 <code>REDO 日志</code> 存在的意义就是，<strong>重启数据库的时候能够重新将数据恢复回来</strong>。所以在数据库没有发生重启或者异常宕机的时候，他是没有任何意义的，甚至还多了一些开销…</p>
 <p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
 <h2 id="三-日志格式-10"><a href="#三-日志格式-10" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
+<!--more-->
 <h3 id="3-1-装载数据的通用格式-10"><a href="#3-1-装载数据的通用格式-10" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg"></p>
 <p>一条重做日志，肯定会包含上面这些信息。</p>
 <p>日志类型，在现在常用的 <code>5.7</code> 中，有 <code>53</code> 种类型，这个类型字段就很重要了，决定着程序恢复数据的方式。</p>
@@ -3461,6 +3466,7 @@
 <h2 id="二-高效且持久化的方式-11"><a href="#二-高效且持久化的方式-11" class="headerlink" title="二.高效且持久化的方式"></a>二.高效且持久化的方式</h2><p>由于 <code>REDO 日志</code> 存在的意义就是，<strong>重启数据库的时候能够重新将数据恢复回来</strong>。所以在数据库没有发生重启或者异常宕机的时候，他是没有任何意义的，甚至还多了一些开销…</p>
 <p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
 <h2 id="三-日志格式-11"><a href="#三-日志格式-11" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
+<!--more-->
 <h3 id="3-1-装载数据的通用格式-11"><a href="#3-1-装载数据的通用格式-11" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg"></p>
 <p>一条重做日志，肯定会包含上面这些信息。</p>
 <p>日志类型，在现在常用的 <code>5.7</code> 中，有 <code>53</code> 种类型，这个类型字段就很重要了，决定着程序恢复数据的方式。</p>
@@ -3753,6 +3759,7 @@
 <h2 id="二-高效且持久化的方式-12"><a href="#二-高效且持久化的方式-12" class="headerlink" title="二.高效且持久化的方式"></a>二.高效且持久化的方式</h2><p>由于 <code>REDO 日志</code> 存在的意义就是，<strong>重启数据库的时候能够重新将数据恢复回来</strong>。所以在数据库没有发生重启或者异常宕机的时候，他是没有任何意义的，甚至还多了一些开销…</p>
 <p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
 <h2 id="三-日志格式-12"><a href="#三-日志格式-12" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
+<!--more-->
 <h3 id="3-1-装载数据的通用格式-12"><a href="#3-1-装载数据的通用格式-12" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg"></p>
 <p>一条重做日志，肯定会包含上面这些信息。</p>
 <p>日志类型，在现在常用的 <code>5.7</code> 中，有 <code>53</code> 种类型，这个类型字段就很重要了，决定着程序恢复数据的方式。</p>
@@ -4032,6 +4039,7 @@
 <h2 id="二-高效且持久化的方式-13"><a href="#二-高效且持久化的方式-13" class="headerlink" title="二.高效且持久化的方式"></a>二.高效且持久化的方式</h2><p>由于 <code>REDO 日志</code> 存在的意义就是，<strong>重启数据库的时候能够重新将数据恢复回来</strong>。所以在数据库没有发生重启或者异常宕机的时候，他是没有任何意义的，甚至还多了一些开销…</p>
 <p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
 <h2 id="三-日志格式-13"><a href="#三-日志格式-13" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
+<!--more-->
 <h3 id="3-1-装载数据的通用格式-13"><a href="#3-1-装载数据的通用格式-13" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg"></p>
 <p>一条重做日志，肯定会包含上面这些信息。</p>
 <p>日志类型，在现在常用的 <code>5.7</code> 中，有 <code>53</code> 种类型，这个类型字段就很重要了，决定着程序恢复数据的方式。</p>
@@ -4309,6 +4317,7 @@
 <h2 id="二-高效且持久化的方式-14"><a href="#二-高效且持久化的方式-14" class="headerlink" title="二.高效且持久化的方式"></a>二.高效且持久化的方式</h2><p>由于 <code>REDO 日志</code> 存在的意义就是，<strong>重启数据库的时候能够重新将数据恢复回来</strong>。所以在数据库没有发生重启或者异常宕机的时候，他是没有任何意义的，甚至还多了一些开销…</p>
 <p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
 <h2 id="三-日志格式-14"><a href="#三-日志格式-14" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
+<!--more-->
 <h3 id="3-1-装载数据的通用格式-14"><a href="#3-1-装载数据的通用格式-14" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg"></p>
 <p>一条重做日志，肯定会包含上面这些信息。</p>
 <p>日志类型，在现在常用的 <code>5.7</code> 中，有 <code>53</code> 种类型，这个类型字段就很重要了，决定着程序恢复数据的方式。</p>
@@ -4598,6 +4607,7 @@
 <h2 id="二-高效且持久化的方式-15"><a href="#二-高效且持久化的方式-15" class="headerlink" title="二.高效且持久化的方式"></a>二.高效且持久化的方式</h2><p>由于 <code>REDO 日志</code> 存在的意义就是，<strong>重启数据库的时候能够重新将数据恢复回来</strong>。所以在数据库没有发生重启或者异常宕机的时候，他是没有任何意义的，甚至还多了一些开销…</p>
 <p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
 <h2 id="三-日志格式-15"><a href="#三-日志格式-15" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
+<!--more-->
 <h3 id="3-1-装载数据的通用格式-15"><a href="#3-1-装载数据的通用格式-15" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg"></p>
 <p>一条重做日志，肯定会包含上面这些信息。</p>
 <p>日志类型，在现在常用的 <code>5.7</code> 中，有 <code>53</code> 种类型，这个类型字段就很重要了，决定着程序恢复数据的方式。</p>
@@ -4901,14 +4911,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/db/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AD-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E8%83%8C%E6%99%AF-bufferpool/" rel="prev" title="【聊聊MySQL】六.MySQL-InnoDB的数据库事务背景_BufferPool">
-                  <i class="fa fa-chevron-left"></i> 【聊聊MySQL】六.MySQL-InnoDB的数据库事务背景_BufferPool
+                <a href="/Computer/Network/4-TCP-UDP/" rel="prev" title="传输层的协议-TCP/UDP">
+                  <i class="fa fa-chevron-left"></i> 传输层的协议-TCP/UDP
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/db/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%B8%83-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E4%BB%8B%E7%BB%8D/" rel="next" title="【聊聊MySQL】七.MySQL-InnoDB的数据库事务介绍">
-                  【聊聊MySQL】七.MySQL-InnoDB的数据库事务介绍 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>

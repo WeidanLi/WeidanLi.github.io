@@ -68,7 +68,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110114109.jpeg">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110114119.jpeg">
 <meta property="article:published_time" content="2020-03-04T08:29:12.000Z">
-<meta property="article:modified_time" content="2020-11-10T03:41:33.422Z">
+<meta property="article:modified_time" content="2020-11-12T08:03:23.350Z">
 <meta property="article:author" content="Weidan">
 <meta property="article:tag" content="mysql">
 <meta name="twitter:card" content="summary">
@@ -235,6 +235,7 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -285,7 +286,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-11-10 11:41:33" itemprop="dateModified" datetime="2020-11-10T11:41:33+08:00">2020-11-10</time>
+        <time title="修改时间：2020-11-12 16:03:23" itemprop="dateModified" datetime="2020-11-12T16:03:23+08:00">2020-11-12</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -315,6 +316,7 @@
 <p>该文章采用先各个概念理解然后在最后可以配置各个不同参数的方式。所以如果想要配置的时候，可以直接看最后一个章节。</p>
 </blockquote>
 <h2 id="一-BufferPool总览"><a href="#一-BufferPool总览" class="headerlink" title="一. BufferPool总览"></a>一. BufferPool总览</h2><p>之前在 <a href="./%E4%BA%8C.MySQL-InnoDB%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.md">MySQL-InnoDB体系结构</a> 中有说过，<code>InnoDB</code> 有一个一直在运行的后台线程在跑，目的简单的说就是 <code>异步的同步内存中的数据到硬盘上去</code>。 那进一步说为啥要同步，因为内存中的数据已经发生修改，所以这就是接下来的内容，从修改数据开始讲起。但是之前我们需要先了解一下 <code>BufferPool</code> 的出现。</p>
+<a id="more"></a>
 <h2 id="二-BufferPool查询数据的作用"><a href="#二-BufferPool查询数据的作用" class="headerlink" title="二. BufferPool查询数据的作用"></a>二. BufferPool查询数据的作用</h2><p>那为啥要使用 <code>BufferPool</code> 捏，这就是从 <code>BufferPool</code> 本质说起。我们在开发的时候，如果为了提速查询功能，通常会用到一个东西，叫做 <code>缓存</code>。 <code>缓存</code> 怎么理解，我们知道，硬盘里面存储着我们的文件，但是程序如果需要读取硬盘上的信息，就需要通过系统 <code>IO</code> 将硬盘上的数据放进去内存中，然后程序才可以使用。如果一个查询很频繁，每次都做这个动作的话，<code>IO</code> 消耗的时间将会很大，而且这个过程除了读取数据之外，其实没有多大的意义，它发生一次就好了，所以我们会把这部分程序经常要 <strong>读取的</strong> 数据放在 <code>内存</code> 中，程序通过 <strong>系统API - 电线</strong> 读取内存中这部分热数据就好了，这样就起到了提速的效果。那么这部分在内存中的热数据称之为 <code>缓存</code>。 那 <code>BufferPool</code> 就是这个缓存了。 前面我们唠叨那么多查询的过程，可以简单的认为就是我们业务查询逻辑的过程，查询到数据丢到缓存（<code>BufferPool</code>）在没有被缓存淘汰的情况下查询这部分数据，就可以直接的从缓存中捞出来返回了，所以第一次查询通常要比后面运行的查询慢，因为需要经历这个过程。</p>
 <h2 id="三-BufferPool更改数据的作用"><a href="#三-BufferPool更改数据的作用" class="headerlink" title="三. BufferPool更改数据的作用"></a>三. BufferPool更改数据的作用</h2><p>那 <code>BufferPool</code> 在数据库中作为缓存的时候，在修改数据时发生的事情又跟我们的程序不一样。我们的程序通常是先修改数据库数据，保证成功以后，再清理缓存。这样就算缓存系统（通常是 <code>Redis</code>）崩了我们的程序还可以接着从数据库读取，并不会太大的影响程序的运行。 但是 <code>BufferPool</code> 就厉害了，他不仅在查询的时候当缓存的角色，在增删改的场景下也是一个当缓存的角色。 怎么做的，当客户端告诉数据库要更新的数据的时候，<code>BufferPool</code> 也是加载数据所在的页，将修改的数据更新到 <code>BufferPool</code> 中。在后面某个时刻需要同步 <code>BufferPool</code> 数据页到磁盘的时候，还发生一个动作，就是将修改后的数据页拷贝到内存中的日志缓冲之中，日志缓冲再按照 <code>一次 1m，两次写入</code> 将修改的数据同步写入<strong>共享表空间</strong>中（并不是表所在的表空间），而写共享表空间的时候，因为是<strong>顺序写入</strong>，不需要考虑调整 <code>索引B+树</code> 的平衡，所以写入将会<strong>很快</strong>。因为这个数据页被两次写入硬盘中，所以这个过程称为 <code>Double Write</code>。 那么我们修改数据的时候发生了什么事情：</p>
 <ol>
@@ -327,6 +329,7 @@
 <p>该文章采用先各个概念理解然后在最后可以配置各个不同参数的方式。所以如果想要配置的时候，可以直接看最后一个章节。</p>
 </blockquote>
 <h2 id="一-BufferPool总览-1"><a href="#一-BufferPool总览-1" class="headerlink" title="一. BufferPool总览"></a>一. BufferPool总览</h2><p>之前在 <a href="./%E4%BA%8C.MySQL-InnoDB%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.md">MySQL-InnoDB体系结构</a> 中有说过，<code>InnoDB</code> 有一个一直在运行的后台线程在跑，目的简单的说就是 <code>异步的同步内存中的数据到硬盘上去</code>。 那进一步说为啥要同步，因为内存中的数据已经发生修改，所以这就是接下来的内容，从修改数据开始讲起。但是之前我们需要先了解一下 <code>BufferPool</code> 的出现。</p>
+<!--more-->
 <h2 id="二-BufferPool查询数据的作用-1"><a href="#二-BufferPool查询数据的作用-1" class="headerlink" title="二. BufferPool查询数据的作用"></a>二. BufferPool查询数据的作用</h2><p>那为啥要使用 <code>BufferPool</code> 捏，这就是从 <code>BufferPool</code> 本质说起。我们在开发的时候，如果为了提速查询功能，通常会用到一个东西，叫做 <code>缓存</code>。 <code>缓存</code> 怎么理解，我们知道，硬盘里面存储着我们的文件，但是程序如果需要读取硬盘上的信息，就需要通过系统 <code>IO</code> 将硬盘上的数据放进去内存中，然后程序才可以使用。如果一个查询很频繁，每次都做这个动作的话，<code>IO</code> 消耗的时间将会很大，而且这个过程除了读取数据之外，其实没有多大的意义，它发生一次就好了，所以我们会把这部分程序经常要 <strong>读取的</strong> 数据放在 <code>内存</code> 中，程序通过 <strong>系统API - 电线</strong> 读取内存中这部分热数据就好了，这样就起到了提速的效果。那么这部分在内存中的热数据称之为 <code>缓存</code>。 那 <code>BufferPool</code> 就是这个缓存了。 前面我们唠叨那么多查询的过程，可以简单的认为就是我们业务查询逻辑的过程，查询到数据丢到缓存（<code>BufferPool</code>）在没有被缓存淘汰的情况下查询这部分数据，就可以直接的从缓存中捞出来返回了，所以第一次查询通常要比后面运行的查询慢，因为需要经历这个过程。</p>
 <h2 id="三-BufferPool更改数据的作用-1"><a href="#三-BufferPool更改数据的作用-1" class="headerlink" title="三. BufferPool更改数据的作用"></a>三. BufferPool更改数据的作用</h2><p>那 <code>BufferPool</code> 在数据库中作为缓存的时候，在修改数据时发生的事情又跟我们的程序不一样。我们的程序通常是先修改数据库数据，保证成功以后，再清理缓存。这样就算缓存系统（通常是 <code>Redis</code>）崩了我们的程序还可以接着从数据库读取，并不会太大的影响程序的运行。 但是 <code>BufferPool</code> 就厉害了，他不仅在查询的时候当缓存的角色，在增删改的场景下也是一个当缓存的角色。 怎么做的，当客户端告诉数据库要更新的数据的时候，<code>BufferPool</code> 也是加载数据所在的页，将修改的数据更新到 <code>BufferPool</code> 中。在后面某个时刻需要同步 <code>BufferPool</code> 数据页到磁盘的时候，还发生一个动作，就是将修改后的数据页拷贝到内存中的日志缓冲之中，日志缓冲再按照 <code>一次 1m，两次写入</code> 将修改的数据同步写入<strong>共享表空间</strong>中（并不是表所在的表空间），而写共享表空间的时候，因为是<strong>顺序写入</strong>，不需要考虑调整 <code>索引B+树</code> 的平衡，所以写入将会<strong>很快</strong>。因为这个数据页被两次写入硬盘中，所以这个过程称为 <code>Double Write</code>。 那么我们修改数据的时候发生了什么事情：</p>
 <ol>
@@ -398,6 +401,7 @@
 <p>该文章采用先各个概念理解然后在最后可以配置各个不同参数的方式。所以如果想要配置的时候，可以直接看最后一个章节。</p>
 </blockquote>
 <h2 id="一-BufferPool总览-2"><a href="#一-BufferPool总览-2" class="headerlink" title="一. BufferPool总览"></a>一. BufferPool总览</h2><p>之前在 <a href="./%E4%BA%8C.MySQL-InnoDB%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.md">MySQL-InnoDB体系结构</a> 中有说过，<code>InnoDB</code> 有一个一直在运行的后台线程在跑，目的简单的说就是 <code>异步的同步内存中的数据到硬盘上去</code>。 那进一步说为啥要同步，因为内存中的数据已经发生修改，所以这就是接下来的内容，从修改数据开始讲起。但是之前我们需要先了解一下 <code>BufferPool</code> 的出现。</p>
+<!--more-->
 <h2 id="二-BufferPool查询数据的作用-2"><a href="#二-BufferPool查询数据的作用-2" class="headerlink" title="二. BufferPool查询数据的作用"></a>二. BufferPool查询数据的作用</h2><p>那为啥要使用 <code>BufferPool</code> 捏，这就是从 <code>BufferPool</code> 本质说起。我们在开发的时候，如果为了提速查询功能，通常会用到一个东西，叫做 <code>缓存</code>。 <code>缓存</code> 怎么理解，我们知道，硬盘里面存储着我们的文件，但是程序如果需要读取硬盘上的信息，就需要通过系统 <code>IO</code> 将硬盘上的数据放进去内存中，然后程序才可以使用。如果一个查询很频繁，每次都做这个动作的话，<code>IO</code> 消耗的时间将会很大，而且这个过程除了读取数据之外，其实没有多大的意义，它发生一次就好了，所以我们会把这部分程序经常要 <strong>读取的</strong> 数据放在 <code>内存</code> 中，程序通过 <strong>系统API - 电线</strong> 读取内存中这部分热数据就好了，这样就起到了提速的效果。那么这部分在内存中的热数据称之为 <code>缓存</code>。 那 <code>BufferPool</code> 就是这个缓存了。 前面我们唠叨那么多查询的过程，可以简单的认为就是我们业务查询逻辑的过程，查询到数据丢到缓存（<code>BufferPool</code>）在没有被缓存淘汰的情况下查询这部分数据，就可以直接的从缓存中捞出来返回了，所以第一次查询通常要比后面运行的查询慢，因为需要经历这个过程。</p>
 <h2 id="三-BufferPool更改数据的作用-2"><a href="#三-BufferPool更改数据的作用-2" class="headerlink" title="三. BufferPool更改数据的作用"></a>三. BufferPool更改数据的作用</h2><p>那 <code>BufferPool</code> 在数据库中作为缓存的时候，在修改数据时发生的事情又跟我们的程序不一样。我们的程序通常是先修改数据库数据，保证成功以后，再清理缓存。这样就算缓存系统（通常是 <code>Redis</code>）崩了我们的程序还可以接着从数据库读取，并不会太大的影响程序的运行。 但是 <code>BufferPool</code> 就厉害了，他不仅在查询的时候当缓存的角色，在增删改的场景下也是一个当缓存的角色。 怎么做的，当客户端告诉数据库要更新的数据的时候，<code>BufferPool</code> 也是加载数据所在的页，将修改的数据更新到 <code>BufferPool</code> 中。在后面某个时刻需要同步 <code>BufferPool</code> 数据页到磁盘的时候，还发生一个动作，就是将修改后的数据页拷贝到内存中的日志缓冲之中，日志缓冲再按照 <code>一次 1m，两次写入</code> 将修改的数据同步写入<strong>共享表空间</strong>中（并不是表所在的表空间），而写共享表空间的时候，因为是<strong>顺序写入</strong>，不需要考虑调整 <code>索引B+树</code> 的平衡，所以写入将会<strong>很快</strong>。因为这个数据页被两次写入硬盘中，所以这个过程称为 <code>Double Write</code>。 那么我们修改数据的时候发生了什么事情：</p>
 <ol>
@@ -467,6 +471,7 @@
 <p>该文章采用先各个概念理解然后在最后可以配置各个不同参数的方式。所以如果想要配置的时候，可以直接看最后一个章节。</p>
 </blockquote>
 <h2 id="一-BufferPool总览-3"><a href="#一-BufferPool总览-3" class="headerlink" title="一. BufferPool总览"></a>一. BufferPool总览</h2><p>之前在 <a href="./%E4%BA%8C.MySQL-InnoDB%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.md">MySQL-InnoDB体系结构</a> 中有说过，<code>InnoDB</code> 有一个一直在运行的后台线程在跑，目的简单的说就是 <code>异步的同步内存中的数据到硬盘上去</code>。 那进一步说为啥要同步，因为内存中的数据已经发生修改，所以这就是接下来的内容，从修改数据开始讲起。但是之前我们需要先了解一下 <code>BufferPool</code> 的出现。</p>
+<!--more-->
 <h2 id="二-BufferPool查询数据的作用-3"><a href="#二-BufferPool查询数据的作用-3" class="headerlink" title="二. BufferPool查询数据的作用"></a>二. BufferPool查询数据的作用</h2><p>那为啥要使用 <code>BufferPool</code> 捏，这就是从 <code>BufferPool</code> 本质说起。我们在开发的时候，如果为了提速查询功能，通常会用到一个东西，叫做 <code>缓存</code>。 <code>缓存</code> 怎么理解，我们知道，硬盘里面存储着我们的文件，但是程序如果需要读取硬盘上的信息，就需要通过系统 <code>IO</code> 将硬盘上的数据放进去内存中，然后程序才可以使用。如果一个查询很频繁，每次都做这个动作的话，<code>IO</code> 消耗的时间将会很大，而且这个过程除了读取数据之外，其实没有多大的意义，它发生一次就好了，所以我们会把这部分程序经常要 <strong>读取的</strong> 数据放在 <code>内存</code> 中，程序通过 <strong>系统API - 电线</strong> 读取内存中这部分热数据就好了，这样就起到了提速的效果。那么这部分在内存中的热数据称之为 <code>缓存</code>。 那 <code>BufferPool</code> 就是这个缓存了。 前面我们唠叨那么多查询的过程，可以简单的认为就是我们业务查询逻辑的过程，查询到数据丢到缓存（<code>BufferPool</code>）在没有被缓存淘汰的情况下查询这部分数据，就可以直接的从缓存中捞出来返回了，所以第一次查询通常要比后面运行的查询慢，因为需要经历这个过程。</p>
 <h2 id="三-BufferPool更改数据的作用-3"><a href="#三-BufferPool更改数据的作用-3" class="headerlink" title="三. BufferPool更改数据的作用"></a>三. BufferPool更改数据的作用</h2><p>那 <code>BufferPool</code> 在数据库中作为缓存的时候，在修改数据时发生的事情又跟我们的程序不一样。我们的程序通常是先修改数据库数据，保证成功以后，再清理缓存。这样就算缓存系统（通常是 <code>Redis</code>）崩了我们的程序还可以接着从数据库读取，并不会太大的影响程序的运行。 但是 <code>BufferPool</code> 就厉害了，他不仅在查询的时候当缓存的角色，在增删改的场景下也是一个当缓存的角色。 怎么做的，当客户端告诉数据库要更新的数据的时候，<code>BufferPool</code> 也是加载数据所在的页，将修改的数据更新到 <code>BufferPool</code> 中。在后面某个时刻需要同步 <code>BufferPool</code> 数据页到磁盘的时候，还发生一个动作，就是将修改后的数据页拷贝到内存中的日志缓冲之中，日志缓冲再按照 <code>一次 1m，两次写入</code> 将修改的数据同步写入<strong>共享表空间</strong>中（并不是表所在的表空间），而写共享表空间的时候，因为是<strong>顺序写入</strong>，不需要考虑调整 <code>索引B+树</code> 的平衡，所以写入将会<strong>很快</strong>。因为这个数据页被两次写入硬盘中，所以这个过程称为 <code>Double Write</code>。 那么我们修改数据的时候发生了什么事情：</p>
 <ol>
@@ -536,6 +541,7 @@
 <p>该文章采用先各个概念理解然后在最后可以配置各个不同参数的方式。所以如果想要配置的时候，可以直接看最后一个章节。</p>
 </blockquote>
 <h2 id="一-BufferPool总览-4"><a href="#一-BufferPool总览-4" class="headerlink" title="一. BufferPool总览"></a>一. BufferPool总览</h2><p>之前在 <a href="./%E4%BA%8C.MySQL-InnoDB%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.md">MySQL-InnoDB体系结构</a> 中有说过，<code>InnoDB</code> 有一个一直在运行的后台线程在跑，目的简单的说就是 <code>异步的同步内存中的数据到硬盘上去</code>。 那进一步说为啥要同步，因为内存中的数据已经发生修改，所以这就是接下来的内容，从修改数据开始讲起。但是之前我们需要先了解一下 <code>BufferPool</code> 的出现。</p>
+<!--more-->
 <h2 id="二-BufferPool查询数据的作用-4"><a href="#二-BufferPool查询数据的作用-4" class="headerlink" title="二. BufferPool查询数据的作用"></a>二. BufferPool查询数据的作用</h2><p>那为啥要使用 <code>BufferPool</code> 捏，这就是从 <code>BufferPool</code> 本质说起。我们在开发的时候，如果为了提速查询功能，通常会用到一个东西，叫做 <code>缓存</code>。 <code>缓存</code> 怎么理解，我们知道，硬盘里面存储着我们的文件，但是程序如果需要读取硬盘上的信息，就需要通过系统 <code>IO</code> 将硬盘上的数据放进去内存中，然后程序才可以使用。如果一个查询很频繁，每次都做这个动作的话，<code>IO</code> 消耗的时间将会很大，而且这个过程除了读取数据之外，其实没有多大的意义，它发生一次就好了，所以我们会把这部分程序经常要 <strong>读取的</strong> 数据放在 <code>内存</code> 中，程序通过 <strong>系统API - 电线</strong> 读取内存中这部分热数据就好了，这样就起到了提速的效果。那么这部分在内存中的热数据称之为 <code>缓存</code>。 那 <code>BufferPool</code> 就是这个缓存了。 前面我们唠叨那么多查询的过程，可以简单的认为就是我们业务查询逻辑的过程，查询到数据丢到缓存（<code>BufferPool</code>）在没有被缓存淘汰的情况下查询这部分数据，就可以直接的从缓存中捞出来返回了，所以第一次查询通常要比后面运行的查询慢，因为需要经历这个过程。</p>
 <h2 id="三-BufferPool更改数据的作用-4"><a href="#三-BufferPool更改数据的作用-4" class="headerlink" title="三. BufferPool更改数据的作用"></a>三. BufferPool更改数据的作用</h2><p>那 <code>BufferPool</code> 在数据库中作为缓存的时候，在修改数据时发生的事情又跟我们的程序不一样。我们的程序通常是先修改数据库数据，保证成功以后，再清理缓存。这样就算缓存系统（通常是 <code>Redis</code>）崩了我们的程序还可以接着从数据库读取，并不会太大的影响程序的运行。 但是 <code>BufferPool</code> 就厉害了，他不仅在查询的时候当缓存的角色，在增删改的场景下也是一个当缓存的角色。 怎么做的，当客户端告诉数据库要更新的数据的时候，<code>BufferPool</code> 也是加载数据所在的页，将修改的数据更新到 <code>BufferPool</code> 中。在后面某个时刻需要同步 <code>BufferPool</code> 数据页到磁盘的时候，还发生一个动作，就是将修改后的数据页拷贝到内存中的日志缓冲之中，日志缓冲再按照 <code>一次 1m，两次写入</code> 将修改的数据同步写入<strong>共享表空间</strong>中（并不是表所在的表空间），而写共享表空间的时候，因为是<strong>顺序写入</strong>，不需要考虑调整 <code>索引B+树</code> 的平衡，所以写入将会<strong>很快</strong>。因为这个数据页被两次写入硬盘中，所以这个过程称为 <code>Double Write</code>。 那么我们修改数据的时候发生了什么事情：</p>
 <ol>
@@ -606,6 +612,7 @@
 <p>该文章采用先各个概念理解然后在最后可以配置各个不同参数的方式。所以如果想要配置的时候，可以直接看最后一个章节。</p>
 </blockquote>
 <h2 id="一-BufferPool总览-5"><a href="#一-BufferPool总览-5" class="headerlink" title="一. BufferPool总览"></a>一. BufferPool总览</h2><p>之前在 <a href="./%E4%BA%8C.MySQL-InnoDB%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.md">MySQL-InnoDB体系结构</a> 中有说过，<code>InnoDB</code> 有一个一直在运行的后台线程在跑，目的简单的说就是 <code>异步的同步内存中的数据到硬盘上去</code>。 那进一步说为啥要同步，因为内存中的数据已经发生修改，所以这就是接下来的内容，从修改数据开始讲起。但是之前我们需要先了解一下 <code>BufferPool</code> 的出现。</p>
+<!--more-->
 <h2 id="二-BufferPool查询数据的作用-5"><a href="#二-BufferPool查询数据的作用-5" class="headerlink" title="二. BufferPool查询数据的作用"></a>二. BufferPool查询数据的作用</h2><p>那为啥要使用 <code>BufferPool</code> 捏，这就是从 <code>BufferPool</code> 本质说起。我们在开发的时候，如果为了提速查询功能，通常会用到一个东西，叫做 <code>缓存</code>。 <code>缓存</code> 怎么理解，我们知道，硬盘里面存储着我们的文件，但是程序如果需要读取硬盘上的信息，就需要通过系统 <code>IO</code> 将硬盘上的数据放进去内存中，然后程序才可以使用。如果一个查询很频繁，每次都做这个动作的话，<code>IO</code> 消耗的时间将会很大，而且这个过程除了读取数据之外，其实没有多大的意义，它发生一次就好了，所以我们会把这部分程序经常要 <strong>读取的</strong> 数据放在 <code>内存</code> 中，程序通过 <strong>系统API - 电线</strong> 读取内存中这部分热数据就好了，这样就起到了提速的效果。那么这部分在内存中的热数据称之为 <code>缓存</code>。 那 <code>BufferPool</code> 就是这个缓存了。 前面我们唠叨那么多查询的过程，可以简单的认为就是我们业务查询逻辑的过程，查询到数据丢到缓存（<code>BufferPool</code>）在没有被缓存淘汰的情况下查询这部分数据，就可以直接的从缓存中捞出来返回了，所以第一次查询通常要比后面运行的查询慢，因为需要经历这个过程。</p>
 <h2 id="三-BufferPool更改数据的作用-5"><a href="#三-BufferPool更改数据的作用-5" class="headerlink" title="三. BufferPool更改数据的作用"></a>三. BufferPool更改数据的作用</h2><p>那 <code>BufferPool</code> 在数据库中作为缓存的时候，在修改数据时发生的事情又跟我们的程序不一样。我们的程序通常是先修改数据库数据，保证成功以后，再清理缓存。这样就算缓存系统（通常是 <code>Redis</code>）崩了我们的程序还可以接着从数据库读取，并不会太大的影响程序的运行。 但是 <code>BufferPool</code> 就厉害了，他不仅在查询的时候当缓存的角色，在增删改的场景下也是一个当缓存的角色。 怎么做的，当客户端告诉数据库要更新的数据的时候，<code>BufferPool</code> 也是加载数据所在的页，将修改的数据更新到 <code>BufferPool</code> 中。在后面某个时刻需要同步 <code>BufferPool</code> 数据页到磁盘的时候，还发生一个动作，就是将修改后的数据页拷贝到内存中的日志缓冲之中，日志缓冲再按照 <code>一次 1m，两次写入</code> 将修改的数据同步写入<strong>共享表空间</strong>中（并不是表所在的表空间），而写共享表空间的时候，因为是<strong>顺序写入</strong>，不需要考虑调整 <code>索引B+树</code> 的平衡，所以写入将会<strong>很快</strong>。因为这个数据页被两次写入硬盘中，所以这个过程称为 <code>Double Write</code>。 那么我们修改数据的时候发生了什么事情：</p>
 <ol>
@@ -684,6 +691,7 @@
 <p>该文章采用先各个概念理解然后在最后可以配置各个不同参数的方式。所以如果想要配置的时候，可以直接看最后一个章节。</p>
 </blockquote>
 <h2 id="一-BufferPool总览-6"><a href="#一-BufferPool总览-6" class="headerlink" title="一. BufferPool总览"></a>一. BufferPool总览</h2><p>之前在 <a href="./%E4%BA%8C.MySQL-InnoDB%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.md">MySQL-InnoDB体系结构</a> 中有说过，<code>InnoDB</code> 有一个一直在运行的后台线程在跑，目的简单的说就是 <code>异步的同步内存中的数据到硬盘上去</code>。 那进一步说为啥要同步，因为内存中的数据已经发生修改，所以这就是接下来的内容，从修改数据开始讲起。但是之前我们需要先了解一下 <code>BufferPool</code> 的出现。</p>
+<!--more-->
 <h2 id="二-BufferPool查询数据的作用-6"><a href="#二-BufferPool查询数据的作用-6" class="headerlink" title="二. BufferPool查询数据的作用"></a>二. BufferPool查询数据的作用</h2><p>那为啥要使用 <code>BufferPool</code> 捏，这就是从 <code>BufferPool</code> 本质说起。我们在开发的时候，如果为了提速查询功能，通常会用到一个东西，叫做 <code>缓存</code>。 <code>缓存</code> 怎么理解，我们知道，硬盘里面存储着我们的文件，但是程序如果需要读取硬盘上的信息，就需要通过系统 <code>IO</code> 将硬盘上的数据放进去内存中，然后程序才可以使用。如果一个查询很频繁，每次都做这个动作的话，<code>IO</code> 消耗的时间将会很大，而且这个过程除了读取数据之外，其实没有多大的意义，它发生一次就好了，所以我们会把这部分程序经常要 <strong>读取的</strong> 数据放在 <code>内存</code> 中，程序通过 <strong>系统API - 电线</strong> 读取内存中这部分热数据就好了，这样就起到了提速的效果。那么这部分在内存中的热数据称之为 <code>缓存</code>。 那 <code>BufferPool</code> 就是这个缓存了。 前面我们唠叨那么多查询的过程，可以简单的认为就是我们业务查询逻辑的过程，查询到数据丢到缓存（<code>BufferPool</code>）在没有被缓存淘汰的情况下查询这部分数据，就可以直接的从缓存中捞出来返回了，所以第一次查询通常要比后面运行的查询慢，因为需要经历这个过程。</p>
 <h2 id="三-BufferPool更改数据的作用-6"><a href="#三-BufferPool更改数据的作用-6" class="headerlink" title="三. BufferPool更改数据的作用"></a>三. BufferPool更改数据的作用</h2><p>那 <code>BufferPool</code> 在数据库中作为缓存的时候，在修改数据时发生的事情又跟我们的程序不一样。我们的程序通常是先修改数据库数据，保证成功以后，再清理缓存。这样就算缓存系统（通常是 <code>Redis</code>）崩了我们的程序还可以接着从数据库读取，并不会太大的影响程序的运行。 但是 <code>BufferPool</code> 就厉害了，他不仅在查询的时候当缓存的角色，在增删改的场景下也是一个当缓存的角色。 怎么做的，当客户端告诉数据库要更新的数据的时候，<code>BufferPool</code> 也是加载数据所在的页，将修改的数据更新到 <code>BufferPool</code> 中。在后面某个时刻需要同步 <code>BufferPool</code> 数据页到磁盘的时候，还发生一个动作，就是将修改后的数据页拷贝到内存中的日志缓冲之中，日志缓冲再按照 <code>一次 1m，两次写入</code> 将修改的数据同步写入<strong>共享表空间</strong>中（并不是表所在的表空间），而写共享表空间的时候，因为是<strong>顺序写入</strong>，不需要考虑调整 <code>索引B+树</code> 的平衡，所以写入将会<strong>很快</strong>。因为这个数据页被两次写入硬盘中，所以这个过程称为 <code>Double Write</code>。 那么我们修改数据的时候发生了什么事情：</p>
 <ol>
@@ -802,8 +810,8 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/uncategorized/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log/" rel="next" title="">
-                   <i class="fa fa-chevron-right"></i>
+                <a href="/db/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%B8%83-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E4%BB%8B%E7%BB%8D/" rel="next" title="【聊聊MySQL】七.MySQL-InnoDB的数据库事务介绍">
+                  【聊聊MySQL】七.MySQL-InnoDB的数据库事务介绍 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>

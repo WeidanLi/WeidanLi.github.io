@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144225.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144242.png">
 <meta property="article:published_time" content="2019-09-05T08:06:25.000Z">
-<meta property="article:modified_time" content="2020-11-10T06:42:51.364Z">
+<meta property="article:modified_time" content="2020-11-12T08:03:23.376Z">
 <meta property="article:author" content="Weidan">
 <meta property="article:tag" content="mysql">
 <meta property="article:tag" content="InnoDB">
@@ -204,6 +204,7 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -254,7 +255,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-11-10 14:42:51" itemprop="dateModified" datetime="2020-11-10T14:42:51+08:00">2020-11-10</time>
+        <time title="修改时间：2020-11-12 16:03:23" itemprop="dateModified" datetime="2020-11-12T16:03:23+08:00">2020-11-12</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -283,14 +284,16 @@
         <h2 id="一-MySQL介绍"><a href="#一-MySQL介绍" class="headerlink" title="一.MySQL介绍"></a>一.MySQL介绍</h2><p>作为 <code>MySQL</code> 系列的开篇，我觉得还是有必要说说大家熟悉的 <code>MySQL</code> 数据库的一些东西。 <code>MySQL</code> 我想作为开发者应该没有人不认识或者不熟悉了吧。不管所在的厂子是大中小，基本上很多时候都会采用 <code>MySQL</code> 作为我们数据的存储介质。当然政府项目很多都会采用 <code>Oracle</code> 数据库，不过最近看来，这个事情貌似也不是绝对。也有很多政府的项目已经决定采用 <code>MySQL</code> 或者其他厂商封装的 <code>MySQL</code> 分支了。 作为数据库，其实定义是这样的：</p>
 <ul>
 <li>数据库：文件或者其他文件类型的集合，在 <code>MySQL</code> 中，文件被存储为 <code>frm</code> <code>myd</code> <code>ibd</code> 等多种形式的文件。而有些存储引擎比如 <code>NDB</code> 他的数据信息则是被存储在内存之中的，并不会持久化到硬盘上面，所以他不需要文件来进行存储。速度稍稍快但数据库出现异常重启的话，数据就会丢失。</li>
-<li>数据库实例或软件：其实就是运行的，可以读取以上数据库文件的软件进程，他可能是一个也可能是多个，日常开发经常是运行一个的情形。我们运行 <code>SQL</code> 或者其他操作的，其实都是在跟数据库实例进行交互，数据库实例会根据命令，计算出来比较高效的查询策略在硬盘上进行数据查询。</li>
+<li>数据库实例或软件：其实就是运行的，可以读取以上数据库文件的软件进程，他可能是一个也可能是多个，日常开发经常是运行一个的情形。我们运行 <code>SQL</code> 或者其他操作的，其实都是在跟数据库实例进行交互，数据库实例会根据命令，计算出来比较高效的查询策略在硬盘上进行数据查询。<a id="more"></a>
+<h2 id="二-MySQL体系结构"><a href="#二-MySQL体系结构" class="headerlink" title="二.MySQL体系结构"></a>二.MySQL体系结构</h2></li>
 </ul>
-<h2 id="二-MySQL体系结构"><a href="#二-MySQL体系结构" class="headerlink" title="二.MySQL体系结构"></a>二.MySQL体系结构</h2><h2 id="一-MySQL介绍-1"><a href="#一-MySQL介绍-1" class="headerlink" title="一.MySQL介绍"></a>一.MySQL介绍</h2><p>作为 <code>MySQL</code> 系列的开篇，我觉得还是有必要说说大家熟悉的 <code>MySQL</code> 数据库的一些东西。 <code>MySQL</code> 我想作为开发者应该没有人不认识或者不熟悉了吧。不管所在的厂子是大中小，基本上很多时候都会采用 <code>MySQL</code> 作为我们数据的存储介质。当然政府项目很多都会采用 <code>Oracle</code> 数据库，不过最近看来，这个事情貌似也不是绝对。也有很多政府的项目已经决定采用 <code>MySQL</code> 或者其他厂商封装的 <code>MySQL</code> 分支了。 作为数据库，其实定义是这样的：</p>
+<h2 id="一-MySQL介绍-1"><a href="#一-MySQL介绍-1" class="headerlink" title="一.MySQL介绍"></a>一.MySQL介绍</h2><p>作为 <code>MySQL</code> 系列的开篇，我觉得还是有必要说说大家熟悉的 <code>MySQL</code> 数据库的一些东西。 <code>MySQL</code> 我想作为开发者应该没有人不认识或者不熟悉了吧。不管所在的厂子是大中小，基本上很多时候都会采用 <code>MySQL</code> 作为我们数据的存储介质。当然政府项目很多都会采用 <code>Oracle</code> 数据库，不过最近看来，这个事情貌似也不是绝对。也有很多政府的项目已经决定采用 <code>MySQL</code> 或者其他厂商封装的 <code>MySQL</code> 分支了。 作为数据库，其实定义是这样的：</p>
 <ul>
 <li>数据库：文件或者其他文件类型的集合，在 <code>MySQL</code> 中，文件被存储为 <code>frm</code> <code>myd</code> <code>ibd</code> 等多种形式的文件。而有些存储引擎比如 <code>NDB</code> 他的数据信息则是被存储在内存之中的，并不会持久化到硬盘上面，所以他不需要文件来进行存储。速度稍稍快但数据库出现异常重启的话，数据就会丢失。</li>
-<li>数据库实例或软件：其实就是运行的，可以读取以上数据库文件的软件进程，他可能是一个也可能是多个，日常开发经常是运行一个的情形。我们运行 <code>SQL</code> 或者其他操作的，其实都是在跟数据库实例进行交互，数据库实例会根据命令，计算出来比较高效的查询策略在硬盘上进行数据查询。</li>
+<li>数据库实例或软件：其实就是运行的，可以读取以上数据库文件的软件进程，他可能是一个也可能是多个，日常开发经常是运行一个的情形。我们运行 <code>SQL</code> 或者其他操作的，其实都是在跟数据库实例进行交互，数据库实例会根据命令，计算出来比较高效的查询策略在硬盘上进行数据查询。<!--more-->
+<h2 id="二-MySQL体系结构-1"><a href="#二-MySQL体系结构-1" class="headerlink" title="二.MySQL体系结构"></a>二.MySQL体系结构</h2></li>
 </ul>
-<h2 id="二-MySQL体系结构-1"><a href="#二-MySQL体系结构-1" class="headerlink" title="二.MySQL体系结构"></a>二.MySQL体系结构</h2><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144225.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144225.png"></p>
 <p> 数据库由上面几大部分组成，每一部分基本上所做的事情都非常多，而且对数据操作过程中都起着非常重要的作用。<code>MySQL</code> 还有个特点就是存储引擎采用插件式的方式，只要我们按照 <code>MySQL</code> 规范去开发引擎，即可引入数据库软件然后进行启动存储。引擎不是存储数据的地方，而是定义怎么存储数据的地方。而且存储引擎的细粒度是表，也就是说我们新建一个数据库（database），可以使用多个存储引擎来建表。</p>
 <h2 id="三-MySQL存储引擎"><a href="#三-MySQL存储引擎" class="headerlink" title="三.MySQL存储引擎"></a>三.MySQL存储引擎</h2><p>由于我们经常使用的无非就是 <code>InnoDB</code> 和 <code>MyISAM</code> 两种引擎，所以其他的我并不打算细讲，稍微带过去就可以了。</p>
 <h3 id="1-InnoDB"><a href="#1-InnoDB" class="headerlink" title="1.InnoDB"></a>1.InnoDB</h3><p><code>InnoDB</code> 支持数据库事务（<code>SQL</code> 要么一起成功要么一起失败）现在 <code>MySQL</code> 版本默认的存储引擎，支持行级锁，支持外键，以及支持非锁定读（读取不会产生锁）。 通过多版本并发控制 <code>MVCC</code> 来获得高并发性，并且实现 <code>SQL</code> 标准的 <code>4</code> 种隔离机制，默认隔离机制是 <code>REPEATABLE</code>，同时使用一种 <code>next-key locking</code> 策略（简单说就是版本控制）来避免幻读的产生。 说到这得回忆一下 <code>MySQL</code> 的四种隔离级别：</p>
@@ -353,9 +356,10 @@
 <h2 id="一-MySQL介绍-2"><a href="#一-MySQL介绍-2" class="headerlink" title="一.MySQL介绍"></a>一.MySQL介绍</h2><p>作为 <code>MySQL</code> 系列的开篇，我觉得还是有必要说说大家熟悉的 <code>MySQL</code> 数据库的一些东西。 <code>MySQL</code> 我想作为开发者应该没有人不认识或者不熟悉了吧。不管所在的厂子是大中小，基本上很多时候都会采用 <code>MySQL</code> 作为我们数据的存储介质。当然政府项目很多都会采用 <code>Oracle</code> 数据库，不过最近看来，这个事情貌似也不是绝对。也有很多政府的项目已经决定采用 <code>MySQL</code> 或者其他厂商封装的 <code>MySQL</code> 分支了。 作为数据库，其实定义是这样的：</p>
 <ul>
 <li>数据库：文件或者其他文件类型的集合，在 <code>MySQL</code> 中，文件被存储为 <code>frm</code> <code>myd</code> <code>ibd</code> 等多种形式的文件。而有些存储引擎比如 <code>NDB</code> 他的数据信息则是被存储在内存之中的，并不会持久化到硬盘上面，所以他不需要文件来进行存储。速度稍稍快但数据库出现异常重启的话，数据就会丢失。</li>
-<li>数据库实例或软件：其实就是运行的，可以读取以上数据库文件的软件进程，他可能是一个也可能是多个，日常开发经常是运行一个的情形。我们运行 <code>SQL</code> 或者其他操作的，其实都是在跟数据库实例进行交互，数据库实例会根据命令，计算出来比较高效的查询策略在硬盘上进行数据查询。</li>
+<li>数据库实例或软件：其实就是运行的，可以读取以上数据库文件的软件进程，他可能是一个也可能是多个，日常开发经常是运行一个的情形。我们运行 <code>SQL</code> 或者其他操作的，其实都是在跟数据库实例进行交互，数据库实例会根据命令，计算出来比较高效的查询策略在硬盘上进行数据查询。<!--more-->
+<h2 id="二-MySQL体系结构-2"><a href="#二-MySQL体系结构-2" class="headerlink" title="二.MySQL体系结构"></a>二.MySQL体系结构</h2></li>
 </ul>
-<h2 id="二-MySQL体系结构-2"><a href="#二-MySQL体系结构-2" class="headerlink" title="二.MySQL体系结构"></a>二.MySQL体系结构</h2><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144225.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144225.png"></p>
 <p> 数据库由上面几大部分组成，每一部分基本上所做的事情都非常多，而且对数据操作过程中都起着非常重要的作用。<code>MySQL</code> 还有个特点就是存储引擎采用插件式的方式，只要我们按照 <code>MySQL</code> 规范去开发引擎，即可引入数据库软件然后进行启动存储。引擎不是存储数据的地方，而是定义怎么存储数据的地方。而且存储引擎的细粒度是表，也就是说我们新建一个数据库（database），可以使用多个存储引擎来建表。</p>
 <h2 id="三-MySQL存储引擎-2"><a href="#三-MySQL存储引擎-2" class="headerlink" title="三.MySQL存储引擎"></a>三.MySQL存储引擎</h2><p>由于我们经常使用的无非就是 <code>InnoDB</code> 和 <code>MyISAM</code> 两种引擎，所以其他的我并不打算细讲，稍微带过去就可以了。</p>
 <h3 id="1-InnoDB-2"><a href="#1-InnoDB-2" class="headerlink" title="1.InnoDB"></a>1.InnoDB</h3><p><code>InnoDB</code> 支持数据库事务（<code>SQL</code> 要么一起成功要么一起失败）现在 <code>MySQL</code> 版本默认的存储引擎，支持行级锁，支持外键，以及支持非锁定读（读取不会产生锁）。 通过多版本并发控制 <code>MVCC</code> 来获得高并发性，并且实现 <code>SQL</code> 标准的 <code>4</code> 种隔离机制，默认隔离机制是 <code>REPEATABLE</code>，同时使用一种 <code>next-key locking</code> 策略（简单说就是版本控制）来避免幻读的产生。 说到这得回忆一下 <code>MySQL</code> 的四种隔离级别：</p>

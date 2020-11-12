@@ -24,12 +24,12 @@
     var CONFIG = {"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
-  <meta name="description" content="一.事务的隔离刚开始我们说了事务的四个特性：原子性 一致性 隔离性 持久性。 我们简单的分一下类： redo log 可以保证事务的 原子性 和 持久性，undo log 可以保证事务的 一致性，那么剩下的 隔离性 就由我们现在要说的 MVCC 来保证了。 那么隔离性是个啥，之前说过了，也就是可能出现 脏写 脏读 幻读 不可重复读 等等这些状况。 简单回顾下：  脏写：A事务提交的数据是B事务 U">
+  <meta name="description" content="一.事务的隔离刚开始我们说了事务的四个特性：原子性 一致性 隔离性 持久性。 我们简单的分一下类： redo log 可以保证事务的 原子性 和 持久性，undo log 可以保证事务的 一致性，那么剩下的 隔离性 就由我们现在要说的 MVCC 来保证了。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【聊聊MySQL】十.MySQL-InnoDB的数据库事务的执行之MVCC">
 <meta property="og:url" content="http://weidanli.github.io/db/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bmvcc/index.html">
 <meta property="og:site_name" content="丹崽的技术博客">
-<meta property="og:description" content="一.事务的隔离刚开始我们说了事务的四个特性：原子性 一致性 隔离性 持久性。 我们简单的分一下类： redo log 可以保证事务的 原子性 和 持久性，undo log 可以保证事务的 一致性，那么剩下的 隔离性 就由我们现在要说的 MVCC 来保证了。 那么隔离性是个啥，之前说过了，也就是可能出现 脏写 脏读 幻读 不可重复读 等等这些状况。 简单回顾下：  脏写：A事务提交的数据是B事务 U">
+<meta property="og:description" content="一.事务的隔离刚开始我们说了事务的四个特性：原子性 一致性 隔离性 持久性。 我们简单的分一下类： redo log 可以保证事务的 原子性 和 持久性，undo log 可以保证事务的 一致性，那么剩下的 隔离性 就由我们现在要说的 MVCC 来保证了。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110114652.jpeg">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110114653.jpeg">
@@ -68,7 +68,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110114656.jpeg">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110114654.jpeg">
 <meta property="article:published_time" content="2020-03-20T09:31:19.000Z">
-<meta property="article:modified_time" content="2020-11-10T03:47:21.244Z">
+<meta property="article:modified_time" content="2020-11-12T08:03:23.327Z">
 <meta property="article:author" content="Weidan">
 <meta property="article:tag" content="mysql">
 <meta name="twitter:card" content="summary">
@@ -235,6 +235,7 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -285,7 +286,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-11-10 11:47:21" itemprop="dateModified" datetime="2020-11-10T11:47:21+08:00">2020-11-10</time>
+        <time title="修改时间：2020-11-12 16:03:23" itemprop="dateModified" datetime="2020-11-12T16:03:23+08:00">2020-11-12</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -313,6 +314,7 @@
     <div class="post-body" itemprop="articleBody">
         <h2 id="一-事务的隔离"><a href="#一-事务的隔离" class="headerlink" title="一.事务的隔离"></a>一.事务的隔离</h2><p>刚开始我们说了事务的四个特性：<code>原子性</code> <code>一致性</code> <code>隔离性</code> <code>持久性</code>。</p>
 <p>我们简单的分一下类： <code>redo log</code> 可以保证事务的 <code>原子性</code> 和 <code>持久性</code>，<code>undo log</code> 可以保证事务的 <code>一致性</code>，那么剩下的 <code>隔离性</code> 就由我们现在要说的 <code>MVCC</code> 来保证了。</p>
+<a id="more"></a>
 <p>那么隔离性是个啥，之前说过了，也就是可能出现 <code>脏写</code> <code>脏读</code> <code>幻读</code> <code>不可重复读</code> 等等这些状况。</p>
 <p>简单回顾下：</p>
 <ul>
@@ -325,6 +327,7 @@
 <p>而 <code>MVCC</code> 的关键就在于之前 <code>undo log</code> 所说的 <code>版本链</code> 上。</p>
 <h3 id="2-1-版本链"><a href="#2-1-版本链" class="headerlink" title="2.1 版本链"></a>2.1 版本链</h3><h2 id="一-事务的隔离-1"><a href="#一-事务的隔离-1" class="headerlink" title="一.事务的隔离"></a>一.事务的隔离</h2><p>刚开始我们说了事务的四个特性：<code>原子性</code> <code>一致性</code> <code>隔离性</code> <code>持久性</code>。</p>
 <p>我们简单的分一下类： <code>redo log</code> 可以保证事务的 <code>原子性</code> 和 <code>持久性</code>，<code>undo log</code> 可以保证事务的 <code>一致性</code>，那么剩下的 <code>隔离性</code> 就由我们现在要说的 <code>MVCC</code> 来保证了。</p>
+<!--more-->
 <p>那么隔离性是个啥，之前说过了，也就是可能出现 <code>脏写</code> <code>脏读</code> <code>幻读</code> <code>不可重复读</code> 等等这些状况。</p>
 <p>简单回顾下：</p>
 <ul>
@@ -513,6 +516,7 @@
 <p>由于上面太乱我重新画张图：</p>
 <h2 id="一-事务的隔离-2"><a href="#一-事务的隔离-2" class="headerlink" title="一.事务的隔离"></a>一.事务的隔离</h2><p>刚开始我们说了事务的四个特性：<code>原子性</code> <code>一致性</code> <code>隔离性</code> <code>持久性</code>。</p>
 <p>我们简单的分一下类： <code>redo log</code> 可以保证事务的 <code>原子性</code> 和 <code>持久性</code>，<code>undo log</code> 可以保证事务的 <code>一致性</code>，那么剩下的 <code>隔离性</code> 就由我们现在要说的 <code>MVCC</code> 来保证了。</p>
+<!--more-->
 <p>那么隔离性是个啥，之前说过了，也就是可能出现 <code>脏写</code> <code>脏读</code> <code>幻读</code> <code>不可重复读</code> 等等这些状况。</p>
 <p>简单回顾下：</p>
 <ul>
@@ -821,6 +825,7 @@
 <p>第一次，发生在第 <code>5</code> 步：</p>
 <h2 id="一-事务的隔离-3"><a href="#一-事务的隔离-3" class="headerlink" title="一.事务的隔离"></a>一.事务的隔离</h2><p>刚开始我们说了事务的四个特性：<code>原子性</code> <code>一致性</code> <code>隔离性</code> <code>持久性</code>。</p>
 <p>我们简单的分一下类： <code>redo log</code> 可以保证事务的 <code>原子性</code> 和 <code>持久性</code>，<code>undo log</code> 可以保证事务的 <code>一致性</code>，那么剩下的 <code>隔离性</code> 就由我们现在要说的 <code>MVCC</code> 来保证了。</p>
+<!--more-->
 <p>那么隔离性是个啥，之前说过了，也就是可能出现 <code>脏写</code> <code>脏读</code> <code>幻读</code> <code>不可重复读</code> 等等这些状况。</p>
 <p>简单回顾下：</p>
 <ul>
@@ -1029,6 +1034,7 @@
 <p>接下来看看第二个结果 <code>200</code>，发生在 <code>第 7 步</code>，这时候，<code>事务B</code> 已经提交了，所以 <code>ReadView</code> 的情况就是下面这种：</p>
 <h2 id="一-事务的隔离-4"><a href="#一-事务的隔离-4" class="headerlink" title="一.事务的隔离"></a>一.事务的隔离</h2><p>刚开始我们说了事务的四个特性：<code>原子性</code> <code>一致性</code> <code>隔离性</code> <code>持久性</code>。</p>
 <p>我们简单的分一下类： <code>redo log</code> 可以保证事务的 <code>原子性</code> 和 <code>持久性</code>，<code>undo log</code> 可以保证事务的 <code>一致性</code>，那么剩下的 <code>隔离性</code> 就由我们现在要说的 <code>MVCC</code> 来保证了。</p>
+<!--more-->
 <p>那么隔离性是个啥，之前说过了，也就是可能出现 <code>脏写</code> <code>脏读</code> <code>幻读</code> <code>不可重复读</code> 等等这些状况。</p>
 <p>简单回顾下：</p>
 <ul>
@@ -1230,6 +1236,7 @@
 <p>然后，随着 <code>事务C</code> 也提交了，这时候系统中没有正在运行的事务：</p>
 <h2 id="一-事务的隔离-5"><a href="#一-事务的隔离-5" class="headerlink" title="一.事务的隔离"></a>一.事务的隔离</h2><p>刚开始我们说了事务的四个特性：<code>原子性</code> <code>一致性</code> <code>隔离性</code> <code>持久性</code>。</p>
 <p>我们简单的分一下类： <code>redo log</code> 可以保证事务的 <code>原子性</code> 和 <code>持久性</code>，<code>undo log</code> 可以保证事务的 <code>一致性</code>，那么剩下的 <code>隔离性</code> 就由我们现在要说的 <code>MVCC</code> 来保证了。</p>
+<!--more-->
 <p>那么隔离性是个啥，之前说过了，也就是可能出现 <code>脏写</code> <code>脏读</code> <code>幻读</code> <code>不可重复读</code> 等等这些状况。</p>
 <p>简单回顾下：</p>
 <ul>
@@ -1419,6 +1426,7 @@
 <p>那如果是 <code>REPEATABLE READ</code> ，他会在查询的时候就根据目前事务的情况创建 <code>ReadView</code> 了，也就是说，查询的时候，创建 <code>ReadView</code>，然后三次查询，都使用下图这个 <code>ReadView</code>：</p>
 <h2 id="一-事务的隔离-6"><a href="#一-事务的隔离-6" class="headerlink" title="一.事务的隔离"></a>一.事务的隔离</h2><p>刚开始我们说了事务的四个特性：<code>原子性</code> <code>一致性</code> <code>隔离性</code> <code>持久性</code>。</p>
 <p>我们简单的分一下类： <code>redo log</code> 可以保证事务的 <code>原子性</code> 和 <code>持久性</code>，<code>undo log</code> 可以保证事务的 <code>一致性</code>，那么剩下的 <code>隔离性</code> 就由我们现在要说的 <code>MVCC</code> 来保证了。</p>
+<!--more-->
 <p>那么隔离性是个啥，之前说过了，也就是可能出现 <code>脏写</code> <code>脏读</code> <code>幻读</code> <code>不可重复读</code> 等等这些状况。</p>
 <p>简单回顾下：</p>
 <ul>

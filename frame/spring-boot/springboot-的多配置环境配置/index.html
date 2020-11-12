@@ -32,7 +32,7 @@
 <meta property="og:description" content="springboot 的多配置环境配置一. 简述多环境配置，这个东西无论在大厂小厂都是需要的，因为往往我们开发环境、测试环境、生产环境都不一样。数据库连接不说别的，起码 url 是不一样的。当然做法也有很多，可以通过 properties ，也可以通过 mvn 的配置以及 spring 的 profile 方式。 Github地址：https:&#x2F;&#x2F;github.com&#x2F;WeidanLi&#x2F;sprin">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-12-20T05:50:38.000Z">
-<meta property="article:modified_time" content="2020-11-10T08:35:30.056Z">
+<meta property="article:modified_time" content="2020-11-12T08:00:27.980Z">
 <meta property="article:author" content="Weidan">
 <meta property="article:tag" content="spring-boot">
 <meta name="twitter:card" content="summary">
@@ -198,6 +198,7 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -248,7 +249,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-11-10 16:35:30" itemprop="dateModified" datetime="2020-11-10T16:35:30+08:00">2020-11-10</time>
+        <time title="修改时间：2020-11-12 16:00:27" itemprop="dateModified" datetime="2020-11-12T16:00:27+08:00">2020-11-12</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -278,6 +279,7 @@
 <h2 id="二-开发"><a href="#二-开发" class="headerlink" title="二. 开发"></a>二. 开发</h2><h3 id="1-mvn-依赖"><a href="#1-mvn-依赖" class="headerlink" title="1. mvn 依赖"></a>1. <code>mvn</code> 依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 引入 web-starter --&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br></pre></td></tr></table></figure>
 
 <p>感觉这个 <code>web-starter</code> 就是万能的依赖，有了它什么东西都有了。</p>
+<a id="more"></a>
 <h3 id="2-编写不同-profile-的配置"><a href="#2-编写不同-profile-的配置" class="headerlink" title="2. 编写不同 profile 的配置"></a>2. 编写不同 <code>profile</code> 的配置</h3><p>共同的配置，类似于一个产量的名字啊等等均可以放在通用的配置里。 通用的配置取名是 <code>application.yml</code></p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">common:</span></span><br><span class="line">  <span class="attr">profile:</span> <span class="string">common-profile</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">profiles:</span></span><br><span class="line">    <span class="attr">active:</span> <span class="string">dev</span> <span class="comment"># 指定启动的环境，这里默认是开发环境</span></span><br></pre></td></tr></table></figure>
 

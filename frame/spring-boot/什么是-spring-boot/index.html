@@ -24,12 +24,12 @@
     var CONFIG = {"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
-  <meta name="description" content="什么是 spring-boot[toc] 一. 简述用了一年多的 spring-boot 进行项目开发了，我想我有必要把平时开发遇到的，我自己个人在项目中要求 spring-boot 做到的整理成一份主题博客。一来整理一下用了 spring-boot 这么久以来的收获，二来也好给自己有个知识的重新整理和归纳。 二. spring-boot 介绍讲真，项目还在用 spring 的时候，听说别人在用">
+  <meta name="description" content="什么是 spring-boot[toc] 一. 简述用了一年多的 spring-boot 进行项目开发了，我想我有必要把平时开发遇到的，我自己个人在项目中要求 spring-boot 做到的整理成一份主题博客。一来整理一下用了 spring-boot 这么久以来的收获，二来也好给自己有个知识的重新整理和归纳。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="什么是 spring-boot">
 <meta property="og:url" content="http://weidanli.github.io/frame/spring-boot/%E4%BB%80%E4%B9%88%E6%98%AF-spring-boot/index.html">
 <meta property="og:site_name" content="丹崽的技术博客">
-<meta property="og:description" content="什么是 spring-boot[toc] 一. 简述用了一年多的 spring-boot 进行项目开发了，我想我有必要把平时开发遇到的，我自己个人在项目中要求 spring-boot 做到的整理成一份主题博客。一来整理一下用了 spring-boot 这么久以来的收获，二来也好给自己有个知识的重新整理和归纳。 二. spring-boot 介绍讲真，项目还在用 spring 的时候，听说别人在用">
+<meta property="og:description" content="什么是 spring-boot[toc] 一. 简述用了一年多的 spring-boot 进行项目开发了，我想我有必要把平时开发遇到的，我自己个人在项目中要求 spring-boot 做到的整理成一份主题博客。一来整理一下用了 spring-boot 这么久以来的收获，二来也好给自己有个知识的重新整理和归纳。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110151433.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110151508.png">
@@ -41,7 +41,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110151508.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110151525.png">
 <meta property="article:published_time" content="2018-12-20T00:38:05.000Z">
-<meta property="article:modified_time" content="2020-11-10T07:15:38.827Z">
+<meta property="article:modified_time" content="2020-11-12T08:04:22.428Z">
 <meta property="article:author" content="Weidan">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110151433.png">
@@ -207,6 +207,7 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -257,7 +258,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-11-10 15:15:38" itemprop="dateModified" datetime="2020-11-10T15:15:38+08:00">2020-11-10</time>
+        <time title="修改时间：2020-11-12 16:04:22" itemprop="dateModified" datetime="2020-11-12T16:04:22+08:00">2020-11-12</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -285,8 +286,9 @@
     <div class="post-body" itemprop="articleBody">
         <h1 id="什么是-spring-boot"><a href="#什么是-spring-boot" class="headerlink" title="什么是 spring-boot"></a>什么是 <code>spring-boot</code></h1><p>[toc]</p>
 <h2 id="一-简述"><a href="#一-简述" class="headerlink" title="一. 简述"></a>一. 简述</h2><p>用了一年多的 <code>spring-boot</code> 进行项目开发了，我想我有必要把平时开发遇到的，我自己个人在项目中要求 <code>spring-boot</code> 做到的整理成一份主题博客。一来整理一下用了 <code>spring-boot</code> 这么久以来的收获，二来也好给自己有个知识的重新整理和归纳。</p>
-<h2 id="二-spring-boot-介绍"><a href="#二-spring-boot-介绍" class="headerlink" title="二. spring-boot 介绍"></a>二. spring-boot 介绍</h2><p>讲真，项目还在用 <code>spring</code> 的时候，听说别人在用 <code>spring-boot</code> 感觉，哇塞，好高大上的样子。于是乎我就去百度了解一圈，查了一下相关资料，按照我印象中来说：<code>spring-boot</code> 就是官方为了解决经常在项目中整合第三方中间件的时候，需要配置一堆 <code>xml</code> 的麻烦，开发出来的，通过非常简单的依赖和配置，从而完成与第三方中间件的整合，也可以解决常常因为版本的不兼容导致项目的出错，也可以减轻项目开发中对 <code>spring</code> 的重量级配置（这句话我下面会反驳）。</p>
 <a id="more"></a>
+<h2 id="二-spring-boot-介绍"><a href="#二-spring-boot-介绍" class="headerlink" title="二. spring-boot 介绍"></a>二. spring-boot 介绍</h2><p>讲真，项目还在用 <code>spring</code> 的时候，听说别人在用 <code>spring-boot</code> 感觉，哇塞，好高大上的样子。于是乎我就去百度了解一圈，查了一下相关资料，按照我印象中来说：<code>spring-boot</code> 就是官方为了解决经常在项目中整合第三方中间件的时候，需要配置一堆 <code>xml</code> 的麻烦，开发出来的，通过非常简单的依赖和配置，从而完成与第三方中间件的整合，也可以解决常常因为版本的不兼容导致项目的出错，也可以减轻项目开发中对 <code>spring</code> 的重量级配置（这句话我下面会反驳）。</p>
+<!-- more -->
 <h2 id="三-spring-boot-是否真的轻量级？"><a href="#三-spring-boot-是否真的轻量级？" class="headerlink" title="三. spring-boot 是否真的轻量级？"></a>三. <code>spring-boot</code> 是否真的轻量级？</h2><p>答案：<strong>否</strong>（对上一节中最后一句话的回答） 通过使用我发现几点：</p>
 <ol>
 <li><p>需要依赖第三方的时候，常常是官方会提供一个 <code>starter</code> 相关的整合包，放于 <code>mvn</code> 中。打开 <code>mvn</code> 的依赖其实可以发现，其实就是通过 <code>mvn</code> 的级联依赖的特性，以前该依赖进来的，还是会依赖进来；</p>
@@ -301,6 +303,7 @@
 <p>从下图可以看到，<code>mybatis</code> 官方提供的 <code>starter</code> 里面的东西其实看起来都是那么熟悉。 </p>
 <h1 id="什么是-spring-boot-1"><a href="#什么是-spring-boot-1" class="headerlink" title="什么是 spring-boot"></a>什么是 <code>spring-boot</code></h1><p>[toc]</p>
 <h2 id="一-简述-1"><a href="#一-简述-1" class="headerlink" title="一. 简述"></a>一. 简述</h2><p>用了一年多的 <code>spring-boot</code> 进行项目开发了，我想我有必要把平时开发遇到的，我自己个人在项目中要求 <code>spring-boot</code> 做到的整理成一份主题博客。一来整理一下用了 <code>spring-boot</code> 这么久以来的收获，二来也好给自己有个知识的重新整理和归纳。</p>
+<!--more-->
 <h2 id="二-spring-boot-介绍-1"><a href="#二-spring-boot-介绍-1" class="headerlink" title="二. spring-boot 介绍"></a>二. spring-boot 介绍</h2><p>讲真，项目还在用 <code>spring</code> 的时候，听说别人在用 <code>spring-boot</code> 感觉，哇塞，好高大上的样子。于是乎我就去百度了解一圈，查了一下相关资料，按照我印象中来说：<code>spring-boot</code> 就是官方为了解决经常在项目中整合第三方中间件的时候，需要配置一堆 <code>xml</code> 的麻烦，开发出来的，通过非常简单的依赖和配置，从而完成与第三方中间件的整合，也可以解决常常因为版本的不兼容导致项目的出错，也可以减轻项目开发中对 <code>spring</code> 的重量级配置（这句话我下面会反驳）。</p>
 <!-- more -->
 <h2 id="三-spring-boot-是否真的轻量级？-1"><a href="#三-spring-boot-是否真的轻量级？-1" class="headerlink" title="三. spring-boot 是否真的轻量级？"></a>三. <code>spring-boot</code> 是否真的轻量级？</h2><p>答案：<strong>否</strong>（对上一节中最后一句话的回答） 通过使用我发现几点：</p>
@@ -342,6 +345,7 @@
 </ul>
 <h1 id="什么是-spring-boot-2"><a href="#什么是-spring-boot-2" class="headerlink" title="什么是 spring-boot"></a>什么是 <code>spring-boot</code></h1><p>[toc]</p>
 <h2 id="一-简述-2"><a href="#一-简述-2" class="headerlink" title="一. 简述"></a>一. 简述</h2><p>用了一年多的 <code>spring-boot</code> 进行项目开发了，我想我有必要把平时开发遇到的，我自己个人在项目中要求 <code>spring-boot</code> 做到的整理成一份主题博客。一来整理一下用了 <code>spring-boot</code> 这么久以来的收获，二来也好给自己有个知识的重新整理和归纳。</p>
+<!--more-->
 <h2 id="二-spring-boot-介绍-2"><a href="#二-spring-boot-介绍-2" class="headerlink" title="二. spring-boot 介绍"></a>二. spring-boot 介绍</h2><p>讲真，项目还在用 <code>spring</code> 的时候，听说别人在用 <code>spring-boot</code> 感觉，哇塞，好高大上的样子。于是乎我就去百度了解一圈，查了一下相关资料，按照我印象中来说：<code>spring-boot</code> 就是官方为了解决经常在项目中整合第三方中间件的时候，需要配置一堆 <code>xml</code> 的麻烦，开发出来的，通过非常简单的依赖和配置，从而完成与第三方中间件的整合，也可以解决常常因为版本的不兼容导致项目的出错，也可以减轻项目开发中对 <code>spring</code> 的重量级配置（这句话我下面会反驳）。</p>
 <!-- more -->
 <h2 id="三-spring-boot-是否真的轻量级？-2"><a href="#三-spring-boot-是否真的轻量级？-2" class="headerlink" title="三. spring-boot 是否真的轻量级？"></a>三. <code>spring-boot</code> 是否真的轻量级？</h2><p>答案：<strong>否</strong>（对上一节中最后一句话的回答） 通过使用我发现几点：</p>
@@ -382,6 +386,7 @@
 </ul>
 <h1 id="什么是-spring-boot-3"><a href="#什么是-spring-boot-3" class="headerlink" title="什么是 spring-boot"></a>什么是 <code>spring-boot</code></h1><p>[toc]</p>
 <h2 id="一-简述-3"><a href="#一-简述-3" class="headerlink" title="一. 简述"></a>一. 简述</h2><p>用了一年多的 <code>spring-boot</code> 进行项目开发了，我想我有必要把平时开发遇到的，我自己个人在项目中要求 <code>spring-boot</code> 做到的整理成一份主题博客。一来整理一下用了 <code>spring-boot</code> 这么久以来的收获，二来也好给自己有个知识的重新整理和归纳。</p>
+<!--more-->
 <h2 id="二-spring-boot-介绍-3"><a href="#二-spring-boot-介绍-3" class="headerlink" title="二. spring-boot 介绍"></a>二. spring-boot 介绍</h2><p>讲真，项目还在用 <code>spring</code> 的时候，听说别人在用 <code>spring-boot</code> 感觉，哇塞，好高大上的样子。于是乎我就去百度了解一圈，查了一下相关资料，按照我印象中来说：<code>spring-boot</code> 就是官方为了解决经常在项目中整合第三方中间件的时候，需要配置一堆 <code>xml</code> 的麻烦，开发出来的，通过非常简单的依赖和配置，从而完成与第三方中间件的整合，也可以解决常常因为版本的不兼容导致项目的出错，也可以减轻项目开发中对 <code>spring</code> 的重量级配置（这句话我下面会反驳）。</p>
 <!-- more -->
 <h2 id="三-spring-boot-是否真的轻量级？-3"><a href="#三-spring-boot-是否真的轻量级？-3" class="headerlink" title="三. spring-boot 是否真的轻量级？"></a>三. <code>spring-boot</code> 是否真的轻量级？</h2><p>答案：<strong>否</strong>（对上一节中最后一句话的回答） 通过使用我发现几点：</p>

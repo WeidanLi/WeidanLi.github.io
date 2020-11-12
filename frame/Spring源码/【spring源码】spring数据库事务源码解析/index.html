@@ -24,12 +24,12 @@
     var CONFIG = {"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
-  <meta name="description" content="准备个需求之前读其他无关数据库源码的时候，只是简单的依赖了 spring-boot-starter-web，现在由于需要数据库的参与，所以需要加上 MySQL 的驱动，以及一个最简单的 jdbc 框架。 123456789101112131415&lt;dependencies&gt;    &lt;dependency&gt;        &lt;groupId&gt;org.springfr">
+  <meta name="description" content="准备个需求之前读其他无关数据库源码的时候，只是简单的依赖了 spring-boot-starter-web，现在由于需要数据库的参与，所以需要加上 MySQL 的驱动，以及一个最简单的 jdbc 框架。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【Spring源码】Spring数据库事务源码解析">
 <meta property="og:url" content="http://weidanli.github.io/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90spring%E6%BA%90%E7%A0%81%E3%80%91spring%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/index.html">
 <meta property="og:site_name" content="丹崽的技术博客">
-<meta property="og:description" content="准备个需求之前读其他无关数据库源码的时候，只是简单的依赖了 spring-boot-starter-web，现在由于需要数据库的参与，所以需要加上 MySQL 的驱动，以及一个最简单的 jdbc 框架。 123456789101112131415&lt;dependencies&gt;    &lt;dependency&gt;        &lt;groupId&gt;org.springfr">
+<meta property="og:description" content="准备个需求之前读其他无关数据库源码的时候，只是简单的依赖了 spring-boot-starter-web，现在由于需要数据库的参与，所以需要加上 MySQL 的驱动，以及一个最简单的 jdbc 框架。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110145523.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110145546.png">
@@ -41,7 +41,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110145546.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110145618.png">
 <meta property="article:published_time" content="2020-01-07T09:41:10.000Z">
-<meta property="article:modified_time" content="2020-11-10T06:56:31.804Z">
+<meta property="article:modified_time" content="2020-11-12T08:00:28.147Z">
 <meta property="article:author" content="Weidan">
 <meta property="article:tag" content="spring-boot">
 <meta property="article:tag" content="spring">
@@ -210,6 +210,7 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -260,7 +261,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-11-10 14:56:31" itemprop="dateModified" datetime="2020-11-10T14:56:31+08:00">2020-11-10</time>
+        <time title="修改时间：2020-11-12 16:00:28" itemprop="dateModified" datetime="2020-11-12T16:00:28+08:00">2020-11-12</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -287,6 +288,7 @@
     
     <div class="post-body" itemprop="articleBody">
         <h2 id="准备个需求"><a href="#准备个需求" class="headerlink" title="准备个需求"></a>准备个需求</h2><p>之前读其他无关数据库源码的时候，只是简单的依赖了 <code>spring-boot-starter-web</code>，现在由于需要数据库的参与，所以需要加上 <code>MySQL</code> 的驱动，以及一个最简单的 <code>jdbc</code> 框架。</p>
+<a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-jdbc&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;mysql&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;mysql-connector-java&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;scope&gt;runtime&lt;&#x2F;scope&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br></pre></td></tr></table></figure>
 
 <p><code>application.yml</code> 配置数据库连接信息。</p>
@@ -307,6 +309,7 @@
 <hr>
 <p>在上面例子中的 <code>UserServiceImpl</code> 是使用编程式事务处理的，当没有加上 <code>@Transactional</code> 时，在 <code>int i = 1 / 0;</code> 处发生异常时，上面已经插入的用户信息并不会被回滚，这就不符合我们日常的业务需求了。OK，从这里开始将要开始看看 <code>Spring</code> 是如何应用事务到我们的代码上的。</p>
 <h2 id="依赖结构"><a href="#依赖结构" class="headerlink" title="依赖结构"></a>依赖结构</h2><h2 id="准备个需求-1"><a href="#准备个需求-1" class="headerlink" title="准备个需求"></a>准备个需求</h2><p>之前读其他无关数据库源码的时候，只是简单的依赖了 <code>spring-boot-starter-web</code>，现在由于需要数据库的参与，所以需要加上 <code>MySQL</code> 的驱动，以及一个最简单的 <code>jdbc</code> 框架。</p>
+<!--more-->
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-jdbc&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;mysql&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;mysql-connector-java&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;scope&gt;runtime&lt;&#x2F;scope&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br></pre></td></tr></table></figure>
 
 <p><code>application.yml</code> 配置数据库连接信息。</p>
@@ -459,6 +462,7 @@
 
 <p>然而搜遍谷歌 <code>Spring</code> 项目，只看到 <code>Spring</code> 成员说了一句： </p>
 <h2 id="准备个需求-2"><a href="#准备个需求-2" class="headerlink" title="准备个需求"></a>准备个需求</h2><p>之前读其他无关数据库源码的时候，只是简单的依赖了 <code>spring-boot-starter-web</code>，现在由于需要数据库的参与，所以需要加上 <code>MySQL</code> 的驱动，以及一个最简单的 <code>jdbc</code> 框架。</p>
+<!--more-->
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-jdbc&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;mysql&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;mysql-connector-java&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;scope&gt;runtime&lt;&#x2F;scope&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br></pre></td></tr></table></figure>
 
 <p><code>application.yml</code> 配置数据库连接信息。</p>
@@ -590,6 +594,7 @@
 <p>那下面就一步一步来看。</p>
 <h2 id="TransactionAttribute事务属性-2"><a href="#TransactionAttribute事务属性-2" class="headerlink" title="TransactionAttribute事务属性"></a>TransactionAttribute事务属性</h2><p>这是一个定义了事务级别以及其他比如超时信息的事务元信息类，当前获取的是一个 <code>RuleBasedTransactionAttribute</code> 基于一定规则的事务属性，定义了必须在抛出 <code>Runtime</code> 异常的时候回滚数据库。 父级是 <code>TransactionDefinition</code>，这可是一个元老级别的类了，定义了事务管理器常见所需的隔离级别。 </p>
 <h2 id="准备个需求-3"><a href="#准备个需求-3" class="headerlink" title="准备个需求"></a>准备个需求</h2><p>之前读其他无关数据库源码的时候，只是简单的依赖了 <code>spring-boot-starter-web</code>，现在由于需要数据库的参与，所以需要加上 <code>MySQL</code> 的驱动，以及一个最简单的 <code>jdbc</code> 框架。</p>
+<!--more-->
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-jdbc&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;mysql&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;mysql-connector-java&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;scope&gt;runtime&lt;&#x2F;scope&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br></pre></td></tr></table></figure>
 
 <p><code>application.yml</code> 配置数据库连接信息。</p>

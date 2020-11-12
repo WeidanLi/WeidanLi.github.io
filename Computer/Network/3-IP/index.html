@@ -113,7 +113,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201015144413.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201015165524.png">
 <meta property="article:published_time" content="2020-10-07T08:32:54.000Z">
-<meta property="article:modified_time" content="2020-11-10T02:33:32.870Z">
+<meta property="article:modified_time" content="2020-11-12T07:54:07.651Z">
 <meta property="article:author" content="Weidan">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -280,6 +280,7 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -330,7 +331,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-11-10 10:33:32" itemprop="dateModified" datetime="2020-11-10T10:33:32+08:00">2020-11-10</time>
+        <time title="修改时间：2020-11-12 15:54:07" itemprop="dateModified" datetime="2020-11-12T15:54:07+08:00">2020-11-12</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -364,6 +365,7 @@
 <p>那么我们可以重新看一下分层模型：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201001104610.png" alt="与七层模型的匹配（via《图解TCP/IP》）"></p>
 <p>他主要位于互联网层，那他在这一层主要解决的问题就是数据的走向问题，也仅仅是走向的问题，不会对数据进行纠错，也不会负责重发的动作（即使数据丢失的话）。而这些问题会在再上一层的 <strong>传输层</strong> 进行补充解决。</p>
+<a id="more"></a>
 <h1 id="简单的描述"><a href="#简单的描述" class="headerlink" title="简单的描述"></a>简单的描述</h1><p>那就从传输层开始，假设我们现在的应用使用的是 <strong>TCP协议</strong>，那么 <strong>TCP数据包</strong> 将会传递给 <strong>IP协议（互联网层）</strong>，但是数据链路层是需要知道彼此的 <strong>MAC地址</strong> 的，不过目前我没有那个地址。所以就需要一个东西来辅助了：<strong>路由控制</strong>。每一个主机上（包括电脑、手机、路由器等等）都会内置一个路由控制表，他会指明所需要请求的 <strong>IP</strong> 应该通向哪一台 <strong>路由器</strong> 或者在最后一级的时候通向哪台提供服务的 <strong>计算机</strong>，所以我们的主机下一步需要在数据链路上填上相连接的 <strong>路由器</strong> 的 <strong>MAC地址</strong>。</p>
 <p>这个过程就很像我们日常使用的快递服务了，众所周知（当然我也不知道你们知不知），快递公司是有省级转运仓，市级转运仓，还有各区县镇转运仓的，这些转运仓我们可以比作 <strong>路由器</strong>，我们将快递交给快递员的时候，当然快递员不知道怎么走而且他也只负责他区域内部的事情而已，所以他交给 <strong>镇转运仓</strong>，<strong>转运仓</strong> 就比较忙了，他需要根据快递包裹上的地址省市区（<strong>IP地址</strong> 的分段管理）再分拨给其他转运仓，比方说是市内的，就直接转给其他的 <strong>各区县镇转运仓</strong>，然后他们需要依据后面的详细地址，将快递派出去；而如果是省外的，就需要 <strong>省转运仓</strong> 去分拨，那么自然的会将包裹往 <strong>省转运仓</strong> 转运。</p>
 <p>所以一个快递的运输上，省市区地址是用来 <strong>分区</strong> 的，详细地址是最后用来定位具体位置的，整个过程跟 <strong>IP数据包</strong> 的走向有异曲同工之妙。</p>
@@ -483,6 +485,7 @@
 <p><strong>Mobile IP</strong>：手机肯定是不断移动的设备，但是如果每移动到一个地方就需要重新获取 <strong>IP地址</strong> 将会对上层传输层的开发造成很大的麻烦，所以我们就需要一个固定不变的 <strong>IP地址</strong>，所以就需要使用到 <strong>IP隧道</strong> 类似的技术，将数据进行转发。移动设备分配到的 <strong>IP地址</strong> 属于归属地址，而每个地方有不同的 <strong>归属代理</strong>，会进行 <strong>分配到的IP地址</strong> 与 <strong>归属到的IP地址</strong> 进行转换，从而有一种即使移动了换了 <strong>代理</strong> 了，但是 <strong>IP地址</strong> 也没有进行改变的错觉。</p>
 <h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>阐述了 <strong>IP地址</strong> 的组成结构，<strong>IP数据包</strong> 的内容，但是这些并不完成 <strong>重发</strong> <strong>校验</strong> 等功能，只负责最大能力的 <strong>运输数据</strong>，而 <strong>重发</strong> <strong>校验</strong> 可以说是能够传输数据后保证数据完整性的重中之重，但是这些内容将放在 <strong>传输层</strong> 进行处理。那就有 <strong>TCP</strong> 和 <strong>UDP</strong> 协议的诞生，下节再说吧。</p>
 <p>他主要位于互联网层，那他在这一层主要解决的问题就是数据的走向问题，也仅仅是走向的问题，不会对数据进行纠错，也不会负责重发的动作（即使数据丢失的话）。而这些问题会在再上一层的 <strong>传输层</strong> 进行补充解决。</p>
+<!--more-->
 <h1 id="简单的描述-1"><a href="#简单的描述-1" class="headerlink" title="简单的描述"></a>简单的描述</h1><p>那就从传输层开始，假设我们现在的应用使用的是 <strong>TCP协议</strong>，那么 <strong>TCP数据包</strong> 将会传递给 <strong>IP协议（互联网层）</strong>，但是数据链路层是需要知道彼此的 <strong>MAC地址</strong> 的，不过目前我没有那个地址。所以就需要一个东西来辅助了：<strong>路由控制</strong>。每一个主机上（包括电脑、手机、路由器等等）都会内置一个路由控制表，他会指明所需要请求的 <strong>IP</strong> 应该通向哪一台 <strong>路由器</strong> 或者在最后一级的时候通向哪台提供服务的 <strong>计算机</strong>，所以我们的主机下一步需要在数据链路上填上相连接的 <strong>路由器</strong> 的 <strong>MAC地址</strong>。</p>
 <p>这个过程就很像我们日常使用的快递服务了，众所周知（当然我也不知道你们知不知），快递公司是有省级转运仓，市级转运仓，还有各区县镇转运仓的，这些转运仓我们可以比作 <strong>路由器</strong>，我们将快递交给快递员的时候，当然快递员不知道怎么走而且他也只负责他区域内部的事情而已，所以他交给 <strong>镇转运仓</strong>，<strong>转运仓</strong> 就比较忙了，他需要根据快递包裹上的地址省市区（<strong>IP地址</strong> 的分段管理）再分拨给其他转运仓，比方说是市内的，就直接转给其他的 <strong>各区县镇转运仓</strong>，然后他们需要依据后面的详细地址，将快递派出去；而如果是省外的，就需要 <strong>省转运仓</strong> 去分拨，那么自然的会将包裹往 <strong>省转运仓</strong> 转运。</p>
 <p>所以一个快递的运输上，省市区地址是用来 <strong>分区</strong> 的，详细地址是最后用来定位具体位置的，整个过程跟 <strong>IP数据包</strong> 的走向有异曲同工之妙。</p>
@@ -494,6 +497,7 @@
 <p>那么我们可以重新看一下分层模型：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201001104610.png" alt="与七层模型的匹配（via《图解TCP/IP》）"></p>
 <p>他主要位于互联网层，那他在这一层主要解决的问题就是数据的走向问题，也仅仅是走向的问题，不会对数据进行纠错，也不会负责重发的动作（即使数据丢失的话）。而这些问题会在再上一层的 <strong>传输层</strong> 进行补充解决。</p>
+<!--more-->
 <h1 id="简单的描述-2"><a href="#简单的描述-2" class="headerlink" title="简单的描述"></a>简单的描述</h1><p>那就从传输层开始，假设我们现在的应用使用的是 <strong>TCP协议</strong>，那么 <strong>TCP数据包</strong> 将会传递给 <strong>IP协议（互联网层）</strong>，但是数据链路层是需要知道彼此的 <strong>MAC地址</strong> 的，不过目前我没有那个地址。所以就需要一个东西来辅助了：<strong>路由控制</strong>。每一个主机上（包括电脑、手机、路由器等等）都会内置一个路由控制表，他会指明所需要请求的 <strong>IP</strong> 应该通向哪一台 <strong>路由器</strong> 或者在最后一级的时候通向哪台提供服务的 <strong>计算机</strong>，所以我们的主机下一步需要在数据链路上填上相连接的 <strong>路由器</strong> 的 <strong>MAC地址</strong>。</p>
 <p>这个过程就很像我们日常使用的快递服务了，众所周知（当然我也不知道你们知不知），快递公司是有省级转运仓，市级转运仓，还有各区县镇转运仓的，这些转运仓我们可以比作 <strong>路由器</strong>，我们将快递交给快递员的时候，当然快递员不知道怎么走而且他也只负责他区域内部的事情而已，所以他交给 <strong>镇转运仓</strong>，<strong>转运仓</strong> 就比较忙了，他需要根据快递包裹上的地址省市区（<strong>IP地址</strong> 的分段管理）再分拨给其他转运仓，比方说是市内的，就直接转给其他的 <strong>各区县镇转运仓</strong>，然后他们需要依据后面的详细地址，将快递派出去；而如果是省外的，就需要 <strong>省转运仓</strong> 去分拨，那么自然的会将包裹往 <strong>省转运仓</strong> 转运。</p>
 <p>所以一个快递的运输上，省市区地址是用来 <strong>分区</strong> 的，详细地址是最后用来定位具体位置的，整个过程跟 <strong>IP数据包</strong> 的走向有异曲同工之妙。</p>
@@ -632,6 +636,7 @@
 <p>那么我们可以重新看一下分层模型：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201001104610.png" alt="与七层模型的匹配（via《图解TCP/IP》）"></p>
 <p>他主要位于互联网层，那他在这一层主要解决的问题就是数据的走向问题，也仅仅是走向的问题，不会对数据进行纠错，也不会负责重发的动作（即使数据丢失的话）。而这些问题会在再上一层的 <strong>传输层</strong> 进行补充解决。</p>
+<!--more-->
 <h1 id="简单的描述-3"><a href="#简单的描述-3" class="headerlink" title="简单的描述"></a>简单的描述</h1><p>那就从传输层开始，假设我们现在的应用使用的是 <strong>TCP协议</strong>，那么 <strong>TCP数据包</strong> 将会传递给 <strong>IP协议（互联网层）</strong>，但是数据链路层是需要知道彼此的 <strong>MAC地址</strong> 的，不过目前我没有那个地址。所以就需要一个东西来辅助了：<strong>路由控制</strong>。每一个主机上（包括电脑、手机、路由器等等）都会内置一个路由控制表，他会指明所需要请求的 <strong>IP</strong> 应该通向哪一台 <strong>路由器</strong> 或者在最后一级的时候通向哪台提供服务的 <strong>计算机</strong>，所以我们的主机下一步需要在数据链路上填上相连接的 <strong>路由器</strong> 的 <strong>MAC地址</strong>。</p>
 <p>这个过程就很像我们日常使用的快递服务了，众所周知（当然我也不知道你们知不知），快递公司是有省级转运仓，市级转运仓，还有各区县镇转运仓的，这些转运仓我们可以比作 <strong>路由器</strong>，我们将快递交给快递员的时候，当然快递员不知道怎么走而且他也只负责他区域内部的事情而已，所以他交给 <strong>镇转运仓</strong>，<strong>转运仓</strong> 就比较忙了，他需要根据快递包裹上的地址省市区（<strong>IP地址</strong> 的分段管理）再分拨给其他转运仓，比方说是市内的，就直接转给其他的 <strong>各区县镇转运仓</strong>，然后他们需要依据后面的详细地址，将快递派出去；而如果是省外的，就需要 <strong>省转运仓</strong> 去分拨，那么自然的会将包裹往 <strong>省转运仓</strong> 转运。</p>
 <p>所以一个快递的运输上，省市区地址是用来 <strong>分区</strong> 的，详细地址是最后用来定位具体位置的，整个过程跟 <strong>IP数据包</strong> 的走向有异曲同工之妙。</p>
@@ -773,6 +778,7 @@
 <p>那么我们可以重新看一下分层模型：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201001104610.png" alt="与七层模型的匹配（via《图解TCP/IP》）"></p>
 <p>他主要位于互联网层，那他在这一层主要解决的问题就是数据的走向问题，也仅仅是走向的问题，不会对数据进行纠错，也不会负责重发的动作（即使数据丢失的话）。而这些问题会在再上一层的 <strong>传输层</strong> 进行补充解决。</p>
+<!--more-->
 <h1 id="简单的描述-4"><a href="#简单的描述-4" class="headerlink" title="简单的描述"></a>简单的描述</h1><p>那就从传输层开始，假设我们现在的应用使用的是 <strong>TCP协议</strong>，那么 <strong>TCP数据包</strong> 将会传递给 <strong>IP协议（互联网层）</strong>，但是数据链路层是需要知道彼此的 <strong>MAC地址</strong> 的，不过目前我没有那个地址。所以就需要一个东西来辅助了：<strong>路由控制</strong>。每一个主机上（包括电脑、手机、路由器等等）都会内置一个路由控制表，他会指明所需要请求的 <strong>IP</strong> 应该通向哪一台 <strong>路由器</strong> 或者在最后一级的时候通向哪台提供服务的 <strong>计算机</strong>，所以我们的主机下一步需要在数据链路上填上相连接的 <strong>路由器</strong> 的 <strong>MAC地址</strong>。</p>
 <p>这个过程就很像我们日常使用的快递服务了，众所周知（当然我也不知道你们知不知），快递公司是有省级转运仓，市级转运仓，还有各区县镇转运仓的，这些转运仓我们可以比作 <strong>路由器</strong>，我们将快递交给快递员的时候，当然快递员不知道怎么走而且他也只负责他区域内部的事情而已，所以他交给 <strong>镇转运仓</strong>，<strong>转运仓</strong> 就比较忙了，他需要根据快递包裹上的地址省市区（<strong>IP地址</strong> 的分段管理）再分拨给其他转运仓，比方说是市内的，就直接转给其他的 <strong>各区县镇转运仓</strong>，然后他们需要依据后面的详细地址，将快递派出去；而如果是省外的，就需要 <strong>省转运仓</strong> 去分拨，那么自然的会将包裹往 <strong>省转运仓</strong> 转运。</p>
 <p>所以一个快递的运输上，省市区地址是用来 <strong>分区</strong> 的，详细地址是最后用来定位具体位置的，整个过程跟 <strong>IP数据包</strong> 的走向有异曲同工之妙。</p>
@@ -897,6 +903,7 @@
 <p>那么我们可以重新看一下分层模型：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201001104610.png" alt="与七层模型的匹配（via《图解TCP/IP》）"></p>
 <p>他主要位于互联网层，那他在这一层主要解决的问题就是数据的走向问题，也仅仅是走向的问题，不会对数据进行纠错，也不会负责重发的动作（即使数据丢失的话）。而这些问题会在再上一层的 <strong>传输层</strong> 进行补充解决。</p>
+<!--more-->
 <h1 id="简单的描述-5"><a href="#简单的描述-5" class="headerlink" title="简单的描述"></a>简单的描述</h1><p>那就从传输层开始，假设我们现在的应用使用的是 <strong>TCP协议</strong>，那么 <strong>TCP数据包</strong> 将会传递给 <strong>IP协议（互联网层）</strong>，但是数据链路层是需要知道彼此的 <strong>MAC地址</strong> 的，不过目前我没有那个地址。所以就需要一个东西来辅助了：<strong>路由控制</strong>。每一个主机上（包括电脑、手机、路由器等等）都会内置一个路由控制表，他会指明所需要请求的 <strong>IP</strong> 应该通向哪一台 <strong>路由器</strong> 或者在最后一级的时候通向哪台提供服务的 <strong>计算机</strong>，所以我们的主机下一步需要在数据链路上填上相连接的 <strong>路由器</strong> 的 <strong>MAC地址</strong>。</p>
 <p>这个过程就很像我们日常使用的快递服务了，众所周知（当然我也不知道你们知不知），快递公司是有省级转运仓，市级转运仓，还有各区县镇转运仓的，这些转运仓我们可以比作 <strong>路由器</strong>，我们将快递交给快递员的时候，当然快递员不知道怎么走而且他也只负责他区域内部的事情而已，所以他交给 <strong>镇转运仓</strong>，<strong>转运仓</strong> 就比较忙了，他需要根据快递包裹上的地址省市区（<strong>IP地址</strong> 的分段管理）再分拨给其他转运仓，比方说是市内的，就直接转给其他的 <strong>各区县镇转运仓</strong>，然后他们需要依据后面的详细地址，将快递派出去；而如果是省外的，就需要 <strong>省转运仓</strong> 去分拨，那么自然的会将包裹往 <strong>省转运仓</strong> 转运。</p>
 <p>所以一个快递的运输上，省市区地址是用来 <strong>分区</strong> 的，详细地址是最后用来定位具体位置的，整个过程跟 <strong>IP数据包</strong> 的走向有异曲同工之妙。</p>
@@ -1024,6 +1031,7 @@
 <p>那么我们可以重新看一下分层模型：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201001104610.png" alt="与七层模型的匹配（via《图解TCP/IP》）"></p>
 <p>他主要位于互联网层，那他在这一层主要解决的问题就是数据的走向问题，也仅仅是走向的问题，不会对数据进行纠错，也不会负责重发的动作（即使数据丢失的话）。而这些问题会在再上一层的 <strong>传输层</strong> 进行补充解决。</p>
+<!--more-->
 <h1 id="简单的描述-6"><a href="#简单的描述-6" class="headerlink" title="简单的描述"></a>简单的描述</h1><p>那就从传输层开始，假设我们现在的应用使用的是 <strong>TCP协议</strong>，那么 <strong>TCP数据包</strong> 将会传递给 <strong>IP协议（互联网层）</strong>，但是数据链路层是需要知道彼此的 <strong>MAC地址</strong> 的，不过目前我没有那个地址。所以就需要一个东西来辅助了：<strong>路由控制</strong>。每一个主机上（包括电脑、手机、路由器等等）都会内置一个路由控制表，他会指明所需要请求的 <strong>IP</strong> 应该通向哪一台 <strong>路由器</strong> 或者在最后一级的时候通向哪台提供服务的 <strong>计算机</strong>，所以我们的主机下一步需要在数据链路上填上相连接的 <strong>路由器</strong> 的 <strong>MAC地址</strong>。</p>
 <p>这个过程就很像我们日常使用的快递服务了，众所周知（当然我也不知道你们知不知），快递公司是有省级转运仓，市级转运仓，还有各区县镇转运仓的，这些转运仓我们可以比作 <strong>路由器</strong>，我们将快递交给快递员的时候，当然快递员不知道怎么走而且他也只负责他区域内部的事情而已，所以他交给 <strong>镇转运仓</strong>，<strong>转运仓</strong> 就比较忙了，他需要根据快递包裹上的地址省市区（<strong>IP地址</strong> 的分段管理）再分拨给其他转运仓，比方说是市内的，就直接转给其他的 <strong>各区县镇转运仓</strong>，然后他们需要依据后面的详细地址，将快递派出去；而如果是省外的，就需要 <strong>省转运仓</strong> 去分拨，那么自然的会将包裹往 <strong>省转运仓</strong> 转运。</p>
 <p>所以一个快递的运输上，省市区地址是用来 <strong>分区</strong> 的，详细地址是最后用来定位具体位置的，整个过程跟 <strong>IP数据包</strong> 的走向有异曲同工之妙。</p>
@@ -1157,6 +1165,7 @@
 <p>那么我们可以重新看一下分层模型：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201001104610.png" alt="与七层模型的匹配（via《图解TCP/IP》）"></p>
 <p>他主要位于互联网层，那他在这一层主要解决的问题就是数据的走向问题，也仅仅是走向的问题，不会对数据进行纠错，也不会负责重发的动作（即使数据丢失的话）。而这些问题会在再上一层的 <strong>传输层</strong> 进行补充解决。</p>
+<!--more-->
 <h1 id="简单的描述-7"><a href="#简单的描述-7" class="headerlink" title="简单的描述"></a>简单的描述</h1><p>那就从传输层开始，假设我们现在的应用使用的是 <strong>TCP协议</strong>，那么 <strong>TCP数据包</strong> 将会传递给 <strong>IP协议（互联网层）</strong>，但是数据链路层是需要知道彼此的 <strong>MAC地址</strong> 的，不过目前我没有那个地址。所以就需要一个东西来辅助了：<strong>路由控制</strong>。每一个主机上（包括电脑、手机、路由器等等）都会内置一个路由控制表，他会指明所需要请求的 <strong>IP</strong> 应该通向哪一台 <strong>路由器</strong> 或者在最后一级的时候通向哪台提供服务的 <strong>计算机</strong>，所以我们的主机下一步需要在数据链路上填上相连接的 <strong>路由器</strong> 的 <strong>MAC地址</strong>。</p>
 <p>这个过程就很像我们日常使用的快递服务了，众所周知（当然我也不知道你们知不知），快递公司是有省级转运仓，市级转运仓，还有各区县镇转运仓的，这些转运仓我们可以比作 <strong>路由器</strong>，我们将快递交给快递员的时候，当然快递员不知道怎么走而且他也只负责他区域内部的事情而已，所以他交给 <strong>镇转运仓</strong>，<strong>转运仓</strong> 就比较忙了，他需要根据快递包裹上的地址省市区（<strong>IP地址</strong> 的分段管理）再分拨给其他转运仓，比方说是市内的，就直接转给其他的 <strong>各区县镇转运仓</strong>，然后他们需要依据后面的详细地址，将快递派出去；而如果是省外的，就需要 <strong>省转运仓</strong> 去分拨，那么自然的会将包裹往 <strong>省转运仓</strong> 转运。</p>
 <p>所以一个快递的运输上，省市区地址是用来 <strong>分区</strong> 的，详细地址是最后用来定位具体位置的，整个过程跟 <strong>IP数据包</strong> 的走向有异曲同工之妙。</p>
@@ -1299,6 +1308,7 @@
 <p>那么我们可以重新看一下分层模型：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201001104610.png" alt="与七层模型的匹配（via《图解TCP/IP》）"></p>
 <p>他主要位于互联网层，那他在这一层主要解决的问题就是数据的走向问题，也仅仅是走向的问题，不会对数据进行纠错，也不会负责重发的动作（即使数据丢失的话）。而这些问题会在再上一层的 <strong>传输层</strong> 进行补充解决。</p>
+<!--more-->
 <h1 id="简单的描述-8"><a href="#简单的描述-8" class="headerlink" title="简单的描述"></a>简单的描述</h1><p>那就从传输层开始，假设我们现在的应用使用的是 <strong>TCP协议</strong>，那么 <strong>TCP数据包</strong> 将会传递给 <strong>IP协议（互联网层）</strong>，但是数据链路层是需要知道彼此的 <strong>MAC地址</strong> 的，不过目前我没有那个地址。所以就需要一个东西来辅助了：<strong>路由控制</strong>。每一个主机上（包括电脑、手机、路由器等等）都会内置一个路由控制表，他会指明所需要请求的 <strong>IP</strong> 应该通向哪一台 <strong>路由器</strong> 或者在最后一级的时候通向哪台提供服务的 <strong>计算机</strong>，所以我们的主机下一步需要在数据链路上填上相连接的 <strong>路由器</strong> 的 <strong>MAC地址</strong>。</p>
 <p>这个过程就很像我们日常使用的快递服务了，众所周知（当然我也不知道你们知不知），快递公司是有省级转运仓，市级转运仓，还有各区县镇转运仓的，这些转运仓我们可以比作 <strong>路由器</strong>，我们将快递交给快递员的时候，当然快递员不知道怎么走而且他也只负责他区域内部的事情而已，所以他交给 <strong>镇转运仓</strong>，<strong>转运仓</strong> 就比较忙了，他需要根据快递包裹上的地址省市区（<strong>IP地址</strong> 的分段管理）再分拨给其他转运仓，比方说是市内的，就直接转给其他的 <strong>各区县镇转运仓</strong>，然后他们需要依据后面的详细地址，将快递派出去；而如果是省外的，就需要 <strong>省转运仓</strong> 去分拨，那么自然的会将包裹往 <strong>省转运仓</strong> 转运。</p>
 <p>所以一个快递的运输上，省市区地址是用来 <strong>分区</strong> 的，详细地址是最后用来定位具体位置的，整个过程跟 <strong>IP数据包</strong> 的走向有异曲同工之妙。</p>
@@ -1439,6 +1449,7 @@
 <p>那么我们可以重新看一下分层模型：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201001104610.png" alt="与七层模型的匹配（via《图解TCP/IP》）"></p>
 <p>他主要位于互联网层，那他在这一层主要解决的问题就是数据的走向问题，也仅仅是走向的问题，不会对数据进行纠错，也不会负责重发的动作（即使数据丢失的话）。而这些问题会在再上一层的 <strong>传输层</strong> 进行补充解决。</p>
+<!--more-->
 <h1 id="简单的描述-9"><a href="#简单的描述-9" class="headerlink" title="简单的描述"></a>简单的描述</h1><p>那就从传输层开始，假设我们现在的应用使用的是 <strong>TCP协议</strong>，那么 <strong>TCP数据包</strong> 将会传递给 <strong>IP协议（互联网层）</strong>，但是数据链路层是需要知道彼此的 <strong>MAC地址</strong> 的，不过目前我没有那个地址。所以就需要一个东西来辅助了：<strong>路由控制</strong>。每一个主机上（包括电脑、手机、路由器等等）都会内置一个路由控制表，他会指明所需要请求的 <strong>IP</strong> 应该通向哪一台 <strong>路由器</strong> 或者在最后一级的时候通向哪台提供服务的 <strong>计算机</strong>，所以我们的主机下一步需要在数据链路上填上相连接的 <strong>路由器</strong> 的 <strong>MAC地址</strong>。</p>
 <p>这个过程就很像我们日常使用的快递服务了，众所周知（当然我也不知道你们知不知），快递公司是有省级转运仓，市级转运仓，还有各区县镇转运仓的，这些转运仓我们可以比作 <strong>路由器</strong>，我们将快递交给快递员的时候，当然快递员不知道怎么走而且他也只负责他区域内部的事情而已，所以他交给 <strong>镇转运仓</strong>，<strong>转运仓</strong> 就比较忙了，他需要根据快递包裹上的地址省市区（<strong>IP地址</strong> 的分段管理）再分拨给其他转运仓，比方说是市内的，就直接转给其他的 <strong>各区县镇转运仓</strong>，然后他们需要依据后面的详细地址，将快递派出去；而如果是省外的，就需要 <strong>省转运仓</strong> 去分拨，那么自然的会将包裹往 <strong>省转运仓</strong> 转运。</p>
 <p>所以一个快递的运输上，省市区地址是用来 <strong>分区</strong> 的，详细地址是最后用来定位具体位置的，整个过程跟 <strong>IP数据包</strong> 的走向有异曲同工之妙。</p>

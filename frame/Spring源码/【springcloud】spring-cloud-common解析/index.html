@@ -32,7 +32,7 @@
 <meta property="og:description" content="SpringCloud开篇那么最近是想要来阅读一下 SpringCloud 的文章的，于是乎逗了几个圈子，又是去 GitHub 下 原生 Eureka 的源码，又是去 Spring 下 spring-cloud-netflix 的源码，最后也是基本锁定只要从 spring-cloud-netflix 进去了解 SpringCloud 组件即可，毕竟 原生Eureka 我没用过… spring-cl">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-10T08:50:31.000Z">
-<meta property="article:modified_time" content="2020-11-10T03:10:36.725Z">
+<meta property="article:modified_time" content="2020-11-12T08:00:28.120Z">
 <meta property="article:author" content="Weidan">
 <meta property="article:tag" content="spring-cloud">
 <meta property="article:tag" content="spring">
@@ -200,6 +200,7 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -250,7 +251,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-11-10 11:10:36" itemprop="dateModified" datetime="2020-11-10T11:10:36+08:00">2020-11-10</time>
+        <time title="修改时间：2020-11-12 16:00:28" itemprop="dateModified" datetime="2020-11-12T16:00:28+08:00">2020-11-12</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -278,6 +279,7 @@
     <div class="post-body" itemprop="articleBody">
         <h2 id="SpringCloud开篇"><a href="#SpringCloud开篇" class="headerlink" title="SpringCloud开篇"></a>SpringCloud开篇</h2><p>那么最近是想要来阅读一下 <code>SpringCloud</code> 的文章的，于是乎逗了几个圈子，又是去 <code>GitHub</code> 下 <code>原生 Eureka</code> 的源码，又是去 <code>Spring</code> 下 <code>spring-cloud-netflix</code> 的源码，最后也是基本锁定只要从 <code>spring-cloud-netflix</code> 进去了解 <code>SpringCloud</code> 组件即可，毕竟 <code>原生Eureka</code> 我没用过…</p>
 <h2 id="spring-cloud-context项目"><a href="#spring-cloud-context项目" class="headerlink" title="spring-cloud-context项目"></a>spring-cloud-context项目</h2><p>那么为啥是从 <code>SpringCloudContext</code> 开始咧，是因为这样的，如果我们某个组织想要开发 <code>SpringCloud</code> 套件的话，就需要使用到 <code>Spring</code> 官方提供的 <code>spring-cloud-commons</code> 项目，这个项目是一个 <code>套件工具包</code>，提供的是官方已经写好的一些注解和工具包，比方说 <code>@EnableDiscoveryClient</code> <code>@LoadBalanced</code> 这些我们常用的 <code>SpringCloud</code> 注解，并且提供了一些少量的支持，其中最重要的莫过于 <code>SpringCloud</code> 的上下文。 那我们之前读过 <code>Spring</code> 的源码的时候了解到，无论是 <code>context</code> 还是 <code>application</code>，都是支持父级容器的，而从容器中取出 <code>Bean实例</code> 的时候，也是 <code>双亲加载机制</code>，如果父级容器有了，那么子级容器是不会重新去加载的，这样我们在设计我们的业务项目的时候，就可以把一些基础架构的 <code>Bean实例</code> 丢到父级容器，并且子级容器只需要加载业务相关的类就可以了，当需要对第三方服务（如：<code>MySQL</code> <code>Redis</code> 都可以称为第三方服务）进行访问的时候，让我们的子级业务容器去父级容器取出来进行使用。有什么好处呢，我感觉就是专业的容器，做专业事情，我们编码弄出那么多设计，不外乎就是为了让程序的 <strong>拓展性会更好</strong>，当我们的基础服务发生改变的时候，那就可以将父级容器换一个，而不需要去动我们的业务容器。 带着这个想法来了解一下 <code>spring-cloud-context</code> 项目，<code>spring-cloud-context</code> 项目提供了一个容器，名为 <code>bootstrap</code>，那使用过的 <code>spring-cloud</code> 组件搭建过项目的同学肯定想到了我们常见的 <code>bootstrap.yml</code>，没错，这个配置文件就是配置 <code>bootstrap</code> 容器的，当我们在我们的项目中加入类似于 <code>eureka</code> <code>zuul</code> 或者 <code>eureka-client</code> 的时候，我们的项目容器就发生了翻天覆地的变化。 <code>SpringApplication</code> 会先根据 <code>SPI</code> 协议加载 <code>BootstrapApplicationListener</code> 类，并且在初始化 <code>ConfigurableApplicationContext</code> 之前，先执行这个上面的 <code>ApplicationListener</code> 的回调方法，把 <code>Bootstrap容器</code> 给初始化出来，并且设置为当前容器的 <code>parent</code> （典型的 <code>我把你当朋友你居然要做我爸爸</code>）。而如果有 <code>SpringCloud</code> 架构经验的同学肯定也明白一个事情，为啥我们在整合 <code>spring-cloud-config-client</code> 的时候，<code>spring-cloud</code> 的配置内容需要写在 <code>bootstrap.yml</code> 中，当然是因为 <code>bootstrap.yml</code> 是第一个被加载的，然后他获取到了配置以后，再初始化我们自己的容器，这时候我们自己的容器如果需要一些 <code>远程配置</code> 的时候，就可以先从 <code>爸爸</code> 那里去命中了。</p>
+<a id="more"></a>
 <blockquote>
 <p>而为啥要这样设计呢，说好听点，叫做我们可以随时替换符合 <code>spring-cloud-context</code> 规范的套件，说难听呢，就是为了让自己的市场份额，因为如果我们想替换微服务的提供商，那么符合 <code>spring-cloud-context</code> 规范的，都可以很简便的进行替换，而如果不符合我规范的，很抱歉，你需要自己重写很多东西。</p>
 </blockquote>
