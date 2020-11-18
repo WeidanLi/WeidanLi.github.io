@@ -429,7 +429,6 @@ var _hmt = _hmt || [];
     
     <div class="post-body" itemprop="articleBody">
           <h2 id="微服务是什么"><a href="#微服务是什么" class="headerlink" title="微服务是什么"></a>微服务是什么</h2><h3 id="单体项目"><a href="#单体项目" class="headerlink" title="单体项目"></a>单体项目</h3><p>在互联网刚开始的年代，传统的单体项目，一般是一个服务器，对少量的用户足矣。这时候，开发一套系统，可以提供少量的(相比于现在)服务。并发性不大，服务器性能不需要太好都可以跑得好好的。这个时代我没有经历过。 </p>
-<h2 id="微服务是什么-1"><a href="#微服务是什么-1" class="headerlink" title="微服务是什么"></a>微服务是什么</h2><h3 id="单体项目-1"><a href="#单体项目-1" class="headerlink" title="单体项目"></a>单体项目</h3><p>在互联网刚开始的年代，传统的单体项目，一般是一个服务器，对少量的用户足矣。这时候，开发一套系统，可以提供少量的(相比于现在)服务。并发性不大，服务器性能不需要太好都可以跑得好好的。这个时代我没有经历过。 </p>
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110164344.png"></p>
 <h3 id="单体项目分布式"><a href="#单体项目分布式" class="headerlink" title="单体项目分布式"></a>单体项目分布式</h3><p>互联网稍稍发展起来了，一台服务器好像支撑不大住。这时候，聪明的程序员们就说，如果一个系统撑不住，那就启动两个来为客户服务呀。所以架构就变成这样，用户，可以把请求落到两个随便一毛一样的系统上面，提供服务是一致的。这时候一般考虑 <code>sessionid</code> 的共享。<br><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110164357.png"></p>
           <!--noindex-->
@@ -525,9 +524,9 @@ var _hmt = _hmt || [];
     <div class="post-body" itemprop="articleBody">
           <h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p>使用的 <code>Redis</code> 版本：<code>4</code> 通常来说，一个小型的项目一台 <code>redis</code> 服务实例即可满足需求，但是当系统很大的时候，客户端读写频繁，一台机器很容易就成为性能和内存的瓶颈，这时候就需要使用<strong>集群</strong>来拓展性能了。 <code>redis</code> 集群有两种方式：</p>
 <ol>
-<li>复制</li>
-<li>哨兵</li>
-<li>集群<h2 id="复制模式"><a href="#复制模式" class="headerlink" title="复制模式"></a>复制模式</h2></li>
+<li> 复制</li>
+<li> 哨兵</li>
+<li> 集群<h2 id="复制模式"><a href="#复制模式" class="headerlink" title="复制模式"></a>复制模式</h2></li>
 </ol>
 <h3 id="全量复制"><a href="#全量复制" class="headerlink" title="全量复制"></a>全量复制</h3><p><code>redis</code> 在复制模式下被分为两类数据库：主数据库和从数据库。一个主数据库可以拥有多个从数据库，但是一个从数据库则只能拥有一个主数据库。当主库数据发送变化时，<code>redis</code> 会将数据自动同步到多个从数据库中去。 在 <code>redis</code> 数据库中使用复制功能很简单，只需要在从数据库的配置文件中加入以下配置即可实现：</p>
 <blockquote>
@@ -627,15 +626,15 @@ var _hmt = _hmt || [];
     <div class="post-body" itemprop="articleBody">
           <h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p><code>redis</code> 数据库，可以直接用来当数据库使用，也可以当系统的缓存使用。但是 <code>redis</code> 大部分数据是存储在内存中的，当服务掉线重启，会造成数据的丢失。当然，<code>redis</code> 是有持久化线程的，我们可以利用这个持久化服务来做数据的持久化，这样当 <code>redis</code> 重启的时候，即可从硬盘重新读取数据，然后进行数据的恢复。 <code>redis</code> 的持久化方式有两种：</p>
 <ol>
-<li>RDB 方式</li>
-<li>AOP方式<h2 id="RDB-方式"><a href="#RDB-方式" class="headerlink" title="RDB 方式"></a>RDB 方式</h2></li>
+<li> RDB 方式</li>
+<li> AOP方式<h2 id="RDB-方式"><a href="#RDB-方式" class="headerlink" title="RDB 方式"></a>RDB 方式</h2></li>
 </ol>
 <h3 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h3><p><code>redis</code> 的 <code>RDB</code> 持久化是通过快照完成的。当符合一定条件的时候，<code>redis</code> 可以将目前的数据生成一份副本存储在硬盘。 <code>redis</code> 执行快照的一句有下面几种：</p>
 <ol>
-<li>根据配置的规则</li>
-<li>用户执行 <code>SAVE</code> 或 <code>BGSAVE</code> 命令</li>
-<li>执行 <code>FLUSHALL</code> 命令</li>
-<li>执行复制时</li>
+<li> 根据配置的规则</li>
+<li> 用户执行 <code>SAVE</code> 或 <code>BGSAVE</code> 命令</li>
+<li> 执行 <code>FLUSHALL</code> 命令</li>
+<li> 执行复制时</li>
 </ol>
 <h3 id="配置规则"><a href="#配置规则" class="headerlink" title="配置规则"></a>配置规则</h3><p><code>redis</code> 可以根据用户在配置文件中配置的规则进行定时，定量的持久化。在 <code>redis</code> 的 <code>conf</code> 文件夹中配置如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">save 900 1 # 表示900秒以内有一个或以上的简直更改时进行快照</span><br><span class="line">save 300 10 </span><br><span class="line">save 60 10000</span><br></pre></td></tr></table></figure>
@@ -732,16 +731,16 @@ var _hmt = _hmt || [];
     <div class="post-body" itemprop="articleBody">
           <h2 id="MySQL-主从复制"><a href="#MySQL-主从复制" class="headerlink" title="MySQL 主从复制"></a>MySQL 主从复制</h2><p>BasicIn: <code>MySQL 8.0.15</code> 看过 <code>Redis</code> 的主从复制，其实 <code>MySQL</code> 的原理也差不多。都是通过一个中间文件(记录操作)进行传播，达到数据相同的结果。 开启主从复制有以下几个好处：</p>
 <ol>
-<li>提高吞吐量，启动 <code>MySQL</code> 主从复制以后，写操作一般将是发生在主数据库(当然要求实时性特别高的读操作也会发生在主数据库上)，而读操作一般会发生在从数据库；</li>
-<li>数据安全性，数据多了几个地方存储了，自然提高了数据丢失的安全性；</li>
-<li>提升数据分析性能，数据分析一般都是占用较大的资源，我们可以把数据分析步骤放在其中一个或者多个从数据库上进行；</li>
-<li>长距离的数据拷贝，无需与主数据库进行长连接的复制远程数据库的数据<h2 id="主从复制方式"><a href="#主从复制方式" class="headerlink" title="主从复制方式"></a>主从复制方式</h2></li>
+<li> 提高吞吐量，启动 <code>MySQL</code> 主从复制以后，写操作一般将是发生在主数据库(当然要求实时性特别高的读操作也会发生在主数据库上)，而读操作一般会发生在从数据库；</li>
+<li> 数据安全性，数据多了几个地方存储了，自然提高了数据丢失的安全性；</li>
+<li> 提升数据分析性能，数据分析一般都是占用较大的资源，我们可以把数据分析步骤放在其中一个或者多个从数据库上进行；</li>
+<li> 长距离的数据拷贝，无需与主数据库进行长连接的复制远程数据库的数据<h2 id="主从复制方式"><a href="#主从复制方式" class="headerlink" title="主从复制方式"></a>主从复制方式</h2></li>
 </ol>
 <p><code>MySQL</code> 经历了这么多的版本迭代以来，已经支持多种方式进行主从数据复制了。 <code>MySQL</code> 支持以下方式进行：</p>
 <ol>
-<li>同步复制：即主数据库数据发生变化的时候，需要所有的从数据库表示已经写入才返回，效率低</li>
-<li>半同步复制：即主数据库数据发生变化的时候，至少一个从数据库表示已经写入才返回，效率较高，数据安全性也适中；</li>
-<li>全异步复制：主库写入完成即返回，不关心从数据库是否成功。
+<li> 同步复制：即主数据库数据发生变化的时候，需要所有的从数据库表示已经写入才返回，效率低</li>
+<li> 半同步复制：即主数据库数据发生变化的时候，至少一个从数据库表示已经写入才返回，效率较高，数据安全性也适中；</li>
+<li> 全异步复制：主库写入完成即返回，不关心从数据库是否成功。
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/db/mysql/mysql-8-0-15-%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E9%85%8D%E7%BD%AE/#more" rel="contents">
@@ -835,12 +834,12 @@ var _hmt = _hmt || [];
 <h3 id="数据表格方面"><a href="#数据表格方面" class="headerlink" title="数据表格方面"></a>数据表格方面</h3><p>数据的隐藏与否应该不会放在前端做吧…不然就是沙雕网友了。 这方面可以提供思路，在微服务架构中，如若前端项目拥有 <code>NodeJS</code> 做数据转换层，那是极好的。如果没有，则需要在微服务路由层做一些细微的改变。即用户无权限的数据列（属性）给他模糊掉，变成 <code>*</code> 或者 <code>—</code> 输出。这方面与前端无关，那么并不会在这里出现。</p>
 <h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>优点：</p>
 <ol>
-<li>后端不再关注页面上的事情，基于权限代码让前端自己随心所欲编排</li>
-<li>灵活性较高，可以控制页面上所有的元素，可以隐藏弹窗等等喜欢的功能</li>
+<li> 后端不再关注页面上的事情，基于权限代码让前端自己随心所欲编排</li>
+<li> 灵活性较高，可以控制页面上所有的元素，可以隐藏弹窗等等喜欢的功能</li>
 </ol>
 <p>缺点：</p>
 <ol>
-<li>编排路由的时候会显得繁琐，权限代码比较零散，开发完业务页面可能会忘记加上
+<li> 编排路由的时候会显得繁琐，权限代码比较零散，开发完业务页面可能会忘记加上
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/front/front-backend-ajax-permission-due-iview/#more" rel="contents">

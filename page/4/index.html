@@ -703,11 +703,11 @@ var _hmt = _hmt || [];
     <div class="post-body" itemprop="articleBody">
           <h2 id="一-InnoDB存储引擎"><a href="#一-InnoDB存储引擎" class="headerlink" title="一.InnoDB存储引擎"></a>一.InnoDB存储引擎</h2><p>自从 <code>InnoDB</code> 被 <code>Heikki Tuuri</code> 发明出来以后，可以说安装 <code>MySQL</code> 肯定默认的引擎就是设置 <code>InnoDB</code>，因为其功能强大，实用性强，基本很多业务需求不要太过纠结的话都可以使用 <code>InnoDB</code> 进行存储（当然现在看来，当你的表不需要事务的时候可以使用 <code>MyISAM</code> 来进行存储）。 <code>InnoDB</code> 相比其他的存储引擎，拥有以下几个特点：</p>
 <ol>
-<li>支持完整 <code>ACID</code> 事务；</li>
-<li>行锁设计，可提高并发；</li>
-<li>支持 <code>MVCC</code> 可以说是数据行的版本控制，利用他来避免 <code>幻读</code> 的产生；</li>
-<li>支持外键；</li>
-<li>优秀的 <code>B+</code> 索引。
+<li> 支持完整 <code>ACID</code> 事务；</li>
+<li> 行锁设计，可提高并发；</li>
+<li> 支持 <code>MVCC</code> 可以说是数据行的版本控制，利用他来避免 <code>幻读</code> 的产生；</li>
+<li> 支持外键；</li>
+<li> 优秀的 <code>B+</code> 索引。
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/db/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%BA%8C-innodb%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/#more" rel="contents">
@@ -801,8 +801,8 @@ var _hmt = _hmt || [];
     <div class="post-body" itemprop="articleBody">
           <h2 id="一-MySQL介绍"><a href="#一-MySQL介绍" class="headerlink" title="一.MySQL介绍"></a>一.MySQL介绍</h2><p>作为 <code>MySQL</code> 系列的开篇，我觉得还是有必要说说大家熟悉的 <code>MySQL</code> 数据库的一些东西。 <code>MySQL</code> 我想作为开发者应该没有人不认识或者不熟悉了吧。不管所在的厂子是大中小，基本上很多时候都会采用 <code>MySQL</code> 作为我们数据的存储介质。当然政府项目很多都会采用 <code>Oracle</code> 数据库，不过最近看来，这个事情貌似也不是绝对。也有很多政府的项目已经决定采用 <code>MySQL</code> 或者其他厂商封装的 <code>MySQL</code> 分支了。 作为数据库，其实定义是这样的：</p>
 <ul>
-<li>数据库：文件或者其他文件类型的集合，在 <code>MySQL</code> 中，文件被存储为 <code>frm</code> <code>myd</code> <code>ibd</code> 等多种形式的文件。而有些存储引擎比如 <code>NDB</code> 他的数据信息则是被存储在内存之中的，并不会持久化到硬盘上面，所以他不需要文件来进行存储。速度稍稍快但数据库出现异常重启的话，数据就会丢失。</li>
-<li>数据库实例或软件：其实就是运行的，可以读取以上数据库文件的软件进程，他可能是一个也可能是多个，日常开发经常是运行一个的情形。我们运行 <code>SQL</code> 或者其他操作的，其实都是在跟数据库实例进行交互，数据库实例会根据命令，计算出来比较高效的查询策略在硬盘上进行数据查询。
+<li>  数据库：文件或者其他文件类型的集合，在 <code>MySQL</code> 中，文件被存储为 <code>frm</code> <code>myd</code> <code>ibd</code> 等多种形式的文件。而有些存储引擎比如 <code>NDB</code> 他的数据信息则是被存储在内存之中的，并不会持久化到硬盘上面，所以他不需要文件来进行存储。速度稍稍快但数据库出现异常重启的话，数据就会丢失。</li>
+<li>  数据库实例或软件：其实就是运行的，可以读取以上数据库文件的软件进程，他可能是一个也可能是多个，日常开发经常是运行一个的情形。我们运行 <code>SQL</code> 或者其他操作的，其实都是在跟数据库实例进行交互，数据库实例会根据命令，计算出来比较高效的查询策略在硬盘上进行数据查询。
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/db/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%B8%80-mysql%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/#more" rel="contents">
@@ -894,8 +894,7 @@ var _hmt = _hmt || [];
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="一-实时消息WebSocket"><a href="#一-实时消息WebSocket" class="headerlink" title="一.实时消息WebSocket"></a>一.实时消息WebSocket</h2><p>传统的 <code>WEB</code> 开发中，通常我们渲染数据或者请求增删改的时候，都需要通过发送 <code>HTTP</code> 请求。 而每次发送 <code>HTTP</code> 请求基本都需要经历下面的历程（其实和 <code>TCP</code> 大致相同）： </p>
-<h2 id="一-实时消息WebSocket-1"><a href="#一-实时消息WebSocket-1" class="headerlink" title="一.实时消息WebSocket"></a>一.实时消息WebSocket</h2><p>传统的 <code>WEB</code> 开发中，通常我们渲染数据或者请求增删改的时候，都需要通过发送 <code>HTTP</code> 请求。 而每次发送 <code>HTTP</code> 请求基本都需要经历下面的历程（其实和 <code>TCP</code> 大致相同）： <img src="https://liweidan.cn/wp-content/uploads/2019/08/HTTP-PROCESS.png" alt="image-20190804143610798"> 而当我们需要一些实时消息的需求的时候，比如聊天或者消息推送，那么我们有一种做法就是。浏览器每隔几秒轮训一次服务器（因为不请求服务器就没法回复消息），走一下上面的步骤，然后服务器如果有数据响应数据，没有数据就响应空的数据。哇啊啊啊啊你看这个过程，如果我的后台系统这个账号刚好没什么生意，基本很少需要推送有人下单的消息给我，可是我还是要走这些流程，服务器也还是需要处理我这个没用的卖家的请求。 当然并不是这种方式没人采用，还是有的，因为开发简单。但是性能其实并不怎么样，而且还要浪费一个服务来处理这个请求。 这个问题看起来还是比较棘手的而且很迫切的一个需求，于是乎我们的 <code>W3C</code> 组织站了出来，为浏览器新增了一个新的协议 <code>WebSocket</code> 协议，在 <code>HTML5</code> 发布的时候新增进去的。 <code>WebSocket</code> 跟 <code>HTTP</code> 在同一层，利用 <code>HTTP</code> 向服务器请求升级 <code>WebSocket</code>，服务器应答即可将当前的连接升级为 <code>WebSocket</code> 连接。</p>
+          <h2 id="一-实时消息WebSocket"><a href="#一-实时消息WebSocket" class="headerlink" title="一.实时消息WebSocket"></a>一.实时消息WebSocket</h2><p>传统的 <code>WEB</code> 开发中，通常我们渲染数据或者请求增删改的时候，都需要通过发送 <code>HTTP</code> 请求。 而每次发送 <code>HTTP</code> 请求基本都需要经历下面的历程（其实和 <code>TCP</code> 大致相同）： <img src="https://liweidan.cn/wp-content/uploads/2019/08/HTTP-PROCESS.png" alt="image-20190804143610798"> 而当我们需要一些实时消息的需求的时候，比如聊天或者消息推送，那么我们有一种做法就是。浏览器每隔几秒轮训一次服务器（因为不请求服务器就没法回复消息），走一下上面的步骤，然后服务器如果有数据响应数据，没有数据就响应空的数据。哇啊啊啊啊你看这个过程，如果我的后台系统这个账号刚好没什么生意，基本很少需要推送有人下单的消息给我，可是我还是要走这些流程，服务器也还是需要处理我这个没用的卖家的请求。 当然并不是这种方式没人采用，还是有的，因为开发简单。但是性能其实并不怎么样，而且还要浪费一个服务来处理这个请求。 这个问题看起来还是比较棘手的而且很迫切的一个需求，于是乎我们的 <code>W3C</code> 组织站了出来，为浏览器新增了一个新的协议 <code>WebSocket</code> 协议，在 <code>HTML5</code> 发布的时候新增进去的。 <code>WebSocket</code> 跟 <code>HTTP</code> 在同一层，利用 <code>HTTP</code> 向服务器请求升级 <code>WebSocket</code>，服务器应答即可将当前的连接升级为 <code>WebSocket</code> 连接。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GET ws:&#x2F;&#x2F;localhost:9999&#x2F; HTTP&#x2F;1.1</span><br><span class="line">Host: localhost</span><br><span class="line">Upgrade: websocket # 请求升级WebSocket</span><br><span class="line">Connection: Upgrade # 同样</span><br><span class="line">Origin: http:&#x2F;&#x2F;localhost:8000</span><br><span class="line">Sec-WebSocket-Key: client-random-string</span><br><span class="line">Sec-WebSocket-Version: 13</span><br></pre></td></tr></table></figure>
 
 <p>服务器如果答应了，就会响应：</p>
@@ -998,11 +997,11 @@ var _hmt = _hmt || [];
 
 <p>我们可以看到，在服务端代码中，使用了 <code>ByteBuf</code> 来读取客户端所传递的消息，然后实现逻辑，再使用 <code>ByteBuf out = Unpooled.copiedBuffer(newMsg.getBytes(Charset.defaultCharset().name()));</code> 来将处理后的数据重新封装成字节，从而写出去，传递给客户端。 所以大概猜一下，<code>ByteBuf</code> 是一个装载着数据字节的容器，在 <code>Netty</code> 中通过网络进行传输。客户端又重新解码，读取出服务端返回的数据。 其实，<code>jdk</code> 自己的 <code>NIO</code> 也有个类似的类 <code>ByteBuffer</code>，但是这个类，他不太灵活，所以 <code>Netty</code> 才决定重写这个类，从而达到一些比较灵活的目的：</p>
 <ol>
-<li>可以被自定义缓冲区类型拓展；</li>
-<li>通过内置的符合缓冲区类型实现透明的零拷贝；</li>
-<li>容量可以自增；</li>
-<li>读写模式不需要来回切换（得益于读写指针）；</li>
-<li>支持链式调用、引用计数以及池化计数。
+<li> 可以被自定义缓冲区类型拓展；</li>
+<li> 通过内置的符合缓冲区类型实现透明的零拷贝；</li>
+<li> 容量可以自增；</li>
+<li> 读写模式不需要来回切换（得益于读写指针）；</li>
+<li> 支持链式调用、引用计数以及池化计数。
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/frame/Netty/netty%E4%B9%8Bbytebuf%E4%BB%A5%E5%8F%8A%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8/#more" rel="contents">
@@ -1097,8 +1096,8 @@ var _hmt = _hmt || [];
           <h2 id="零-Netty"><a href="#零-Netty" class="headerlink" title="零.Netty"></a>零.Netty</h2><p>其实了解到 <code>Netty</code> 已经很久了，一直想用，但是因为之前的水平还不够格，回调事件 <code>TCP</code> 什么的还没感觉，所以学起来一头雾水，加上官网的文档，哎呀，官网貌似就没有文档只有示例代码，读不懂。 写了挺多的回调函数，渐渐地有了感觉（通常使用 <code>CompleteFuture</code> 来请求其他服务的数据信息，请求完在执行自己的业务）。其实我也不知道我做了什么，貌似什么没做就突然融会贯通了，所以我感觉理解回调还是蛮重要的一点吧。 突然看到自己的书本库有本书《Netty实战》翻起来阅读，还是蛮好的，这篇文章其实是我读这本书，加上自己的一些理解写出来的。 <code>Netty</code> 是什么应该没人不会知道吧，就是 <code>Java</code> 行业中一个能够顶级处理网络通讯的轻量级框架，如果公司在使用 <code>Dubbo</code> 或者 <code>Thrift</code> 的话，那么也是间接在使用 <code>Netty</code> 框架了。所以学一学无伤大雅还可以了解一些很有趣的东西。</p>
 <h2 id="一-Netty服务端"><a href="#一-Netty服务端" class="headerlink" title="一.Netty服务端"></a>一.Netty服务端</h2><p>所有 <code>Netty服务器</code> 通常需要以下两部分：</p>
 <ol>
-<li>至少一个 <code>ChannelHandler</code> 来接手客户端的数据以及处理数据；</li>
-<li>引导服务器启动的配置，配置启动参数，这个就没啥好说的了。</li>
+<li> 至少一个 <code>ChannelHandler</code> 来接手客户端的数据以及处理数据；</li>
+<li> 引导服务器启动的配置，配置启动参数，这个就没啥好说的了。</li>
 </ol>
 <p><code>ChannelHandler</code> 是 <code>Netty</code> 中一个接口族的父接口，它主要负责接收和响应事件通知。 在 <code>Netty</code> 中 <code>ChannelHandler</code> 有很多默认实现，用来处理服务器中常见的数据传输问题。 因为服务器会响应传入的消息，所以需要实现 <code>ChannelInboundHandler</code> 接口，用来定义响应入站事件的方法。由于刚开始的程序只需要简单的方式即可，所以我们实现 <code>ChannelInboundHandlerAdapter</code> 即可，他提供了 <code>ChannelInboundHandler</code> 接口的默认实现。 我现在想要简单的实现一个服务，就是能够把把我发送的字符串，给反转过来，即发送 <code>abc</code> 服务器给我响应 <code>cba</code>。</p>
           <!--noindex-->

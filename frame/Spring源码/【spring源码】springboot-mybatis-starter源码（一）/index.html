@@ -351,8 +351,8 @@ var _hmt = _hmt || [];
 
 <p>这个类实现了两个接口：</p>
 <ol>
-<li><code>BeanFactoryAware</code>：这个接口，被 <code>Spring</code> 扫描到的话，是会被 <code>Spring</code> 调用的，传递了当前 <code>BeanFactory</code> 实例，有助于我们后期可以对 <code>BeanFactory</code> 的操作；</li>
-<li><code>ImportBeanDefinitionRegistrar</code>：那这个接口还真的是第一次出现，他是一个在解析 <code>Configuration</code>，可以注册业务需要的 <code>BeanDefinition</code>，简单的说，在刷新容器的时候，<code>BeanDefinitionRegistryPostProcessors</code> 会被调用到，而 <code>SpringBoot</code> 中，总是有个 <code>ConfigurationClassPostProcessor</code> 存在，他在解析配置的时候，会手动的去触发 <code>ImportBeanDefinitionRegistrar#registerBeanDefinitions</code> 函数，这时候，上面的内部类就会被读取到。</li>
+<li> <code>BeanFactoryAware</code>：这个接口，被 <code>Spring</code> 扫描到的话，是会被 <code>Spring</code> 调用的，传递了当前 <code>BeanFactory</code> 实例，有助于我们后期可以对 <code>BeanFactory</code> 的操作；</li>
+<li> <code>ImportBeanDefinitionRegistrar</code>：那这个接口还真的是第一次出现，他是一个在解析 <code>Configuration</code>，可以注册业务需要的 <code>BeanDefinition</code>，简单的说，在刷新容器的时候，<code>BeanDefinitionRegistryPostProcessors</code> 会被调用到，而 <code>SpringBoot</code> 中，总是有个 <code>ConfigurationClassPostProcessor</code> 存在，他在解析配置的时候，会手动的去触发 <code>ImportBeanDefinitionRegistrar#registerBeanDefinitions</code> 函数，这时候，上面的内部类就会被读取到。</li>
 </ol>
 <p>那这个类他就是负责在解析配置类的时候，注册了一个 <code>MapperScannerConfigurer</code> 类，看名字不用猜就知道是扫描项目中被 <code>@Mapper</code> 注解装饰的接口类了。</p>
 <h2 id="配置-SqlSession"><a href="#配置-SqlSession" class="headerlink" title="配置 SqlSession"></a>配置 SqlSession</h2><p>上面注册的 <code>MapperScannerConfigurer</code> 是一个 <code>BeanDefinitionRegistryPostProcessor</code> 处理器，他会在解析配置后面，被 <code>BeanFactory</code> 调用到。 调用就是扫描 <code>Mapper</code> 的存在了。</p>

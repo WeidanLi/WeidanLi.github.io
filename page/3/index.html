@@ -984,8 +984,8 @@ var _hmt = _hmt || [];
     <div class="post-body" itemprop="articleBody">
           <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于 <code>AOP</code> 在日常开发中应该不算是一个新的名词了，<code>AOP</code> 可以帮助我们把业务之外，但是很多方法都需要调用的方法，无感的方外外部，并且通过配置让外部的 <code>AOP</code> 函数自动织入目标方法中。 常见的业务有：</p>
 <ol>
-<li>记录方法调用的信息，时长；</li>
-<li>初始化当前用户信息上下文，方便在业务内部快速获取。</li>
+<li> 记录方法调用的信息，时长；</li>
+<li> 初始化当前用户信息上下文，方便在业务内部快速获取。</li>
 </ol>
 <p>那我就改改我之前的 <code>Context</code> 用的例子，来康康 <code>Spring</code> 是怎么做的。</p>
           <!--noindex-->
@@ -1081,9 +1081,9 @@ var _hmt = _hmt || [];
     <div class="post-body" itemprop="articleBody">
           <h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>回顾一下上一篇，使用的是一个简单的 <code>BeanFactory</code> 实现 <code>XmlBeanFactory</code>。这个容器已经是一个过时的容器了，因为他并不能实现除了注册 <code>BeanDefinition</code> 之外的事情（比如 <code>i18n</code> <code>访问资源（骚一点的话可以加载网络 Spring 配置文件）</code> <code>应用事件</code>）。所以，就有了 <code>spring-context</code> 的出现。 我们现在知道了，<code>Spring</code> 把载入、解析、注册解耦成不同的模块，所以我们现在可以大概的知道：</p>
 <ol>
-<li>载入：我们可以使用不同的方式载入配置文件，然后配置解析方式，生成 <code>BeanDefinition</code> 注册到底层的 <code>Bean</code> 容器中；</li>
-<li>解析：不同的配置文件解析方式有所不同，但是有个共同的目的就是解析成 <code>BeanDefinition</code> 注册到容器中去；</li>
-<li>注册：这块 <code>Spring</code> 已经提供了 <code>DefaultListableBeanFactory</code> 这个成熟的实现，所以即使我们想通过其他配置文件来配置我们的 <code>Spring</code> 项目的话，不用慌，只要用它就好了（奥森！）</li>
+<li> 载入：我们可以使用不同的方式载入配置文件，然后配置解析方式，生成 <code>BeanDefinition</code> 注册到底层的 <code>Bean</code> 容器中；</li>
+<li> 解析：不同的配置文件解析方式有所不同，但是有个共同的目的就是解析成 <code>BeanDefinition</code> 注册到容器中去；</li>
+<li> 注册：这块 <code>Spring</code> 已经提供了 <code>DefaultListableBeanFactory</code> 这个成熟的实现，所以即使我们想通过其他配置文件来配置我们的 <code>Spring</code> 项目的话，不用慌，只要用它就好了（奥森！）</li>
 </ol>
 <p>那么仔细想想，我们是不是可以实现由 <code>JSON</code> 格式配置文件来配置的 <code>BeanFactory</code>。</p>
           <!--noindex-->
