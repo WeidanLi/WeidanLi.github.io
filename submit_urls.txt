@@ -7,4 +7,4 @@ https://liweidan.cn/frame/spring-boot/%E4%BB%80%E4%B9%88%E6%98%AF-spring-boot/
 https://liweidan.cn/computer-basic/asm/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96/
 https://liweidan.cn/db/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%9B%9B-mysql-innodb%E8%A1%A8%E7%B4%A2%E5%BC%95%E5%92%8Cb%E6%A0%91/
 https://liweidan.cn/frame/spring-boot/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%85%A5%E9%97%A8-web-%E9%A1%B9%E7%9B%AE/
-https://liweidan.cn/java/Tomcat/%E4%B8%89-tomcat%E5%90%AF%E5%8A%A8%EF%BC%88%E4%B8%8B%EF%BC%89/
+https://liweidan.cn/java/Tomcat/%E3%80%90tomcat%E3%80%91%E4%B8%89-tomcat%E5%90%AF%E5%8A%A8%EF%BC%88%E4%B8%8A%EF%BC%89/
