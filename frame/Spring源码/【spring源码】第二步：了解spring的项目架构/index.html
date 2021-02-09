@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+
+
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?66f61662f62178eebb934fa943e5df84";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="Spring项目模块下了源码一看，我去（我其实没有那么惊讶毕竟功能强大，多也正常），Spring 居然有这么多的模块划分，但是这些模块都是做什么的，可能我们平常观察项目集成的时候，能够感受一些东西出来。比如：spring-web 是 SpringMVC 的内容。所以在日常中，把 SpringMVC 当成一个独立框架是一个很有问题的说法，他其实也就是 Spring 家族中的一个小模块而已。除了这个模">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Spring源码】第二步：了解Spring的项目架构">
+<meta property="og:url" content="http://weidanli.github.io/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90spring%E6%BA%90%E7%A0%81%E3%80%91%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E4%BA%86%E8%A7%A3spring%E7%9A%84%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84/index.html">
+<meta property="og:site_name" content="丹崽的技术博客">
+<meta property="og:description" content="Spring项目模块下了源码一看，我去（我其实没有那么惊讶毕竟功能强大，多也正常），Spring 居然有这么多的模块划分，但是这些模块都是做什么的，可能我们平常观察项目集成的时候，能够感受一些东西出来。比如：spring-web 是 SpringMVC 的内容。所以在日常中，把 SpringMVC 当成一个独立框架是一个很有问题的说法，他其实也就是 Spring 家族中的一个小模块而已。除了这个模">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144307.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144320.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144343.png">
+<meta property="article:published_time" content="2019-12-03T11:37:22.000Z">
+<meta property="article:modified_time" content="2020-11-12T08:03:23.425Z">
+<meta property="article:author" content="Weidan">
+<meta property="article:tag" content="spring">
+<meta property="article:tag" content="spring源码">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144307.png">
+
+
+<link rel="canonical" href="http://weidanli.github.io/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90spring%E6%BA%90%E7%A0%81%E3%80%91%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E4%BA%86%E8%A7%A3spring%E7%9A%84%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【Spring源码】第二步：了解Spring的项目架构 | 丹崽的技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">丹崽的技术博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">丹崽的计算机知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-数据结构">
+
+    <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="section">数据结构</a>
+
+  </li>
+        <li class="menu-item menu-item-spring源码">
+
+    <a href="/spring-sources/" rel="section">Spring源码</a>
+
+  </li>
+        <li class="menu-item menu-item-mysql底层">
+
+    <a href="/mysql/" rel="section">MySQL底层</a>
+
+  </li>
+        <li class="menu-item menu-item-tomcat源码">
+
+    <a href="/tomcat-sources/" rel="section">Tomcat源码</a>
+
+  </li>
+        <li class="menu-item menu-item-计算机网络">
+
+    <a href="/network/" rel="section">计算机网络</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97"><span class="nav-number">1.</span> <span class="nav-text">Spring项目模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-core%E9%A1%B9%E7%9B%AE"><span class="nav-number">2.</span> <span class="nav-text">spring-core项目</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Weidan</p>
+  <div class="site-description" itemprop="description">计算机基础 计算机网络 Java Vue 前端 后端</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/WeidanLi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90spring%E6%BA%90%E7%A0%81%E3%80%91%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E4%BA%86%E8%A7%A3spring%E7%9A%84%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Spring源码】第二步：了解Spring的项目架构
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-12-03 19:37:22" itemprop="dateCreated datePublished" datetime="2019-12-03T19:37:22+08:00">2019-12-03</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-12 16:03:23" itemprop="dateModified" datetime="2020-11-12T16:03:23+08:00">2020-11-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/" itemprop="url" rel="index"><span itemprop="name">frame</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/Spring%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Spring源码</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="Spring项目模块"><a href="#Spring项目模块" class="headerlink" title="Spring项目模块"></a>Spring项目模块</h2><p>下了源码一看，我去（我其实没有那么惊讶毕竟功能强大，多也正常），<code>Spring</code> 居然有这么多的模块划分，但是这些模块都是做什么的，可能我们平常观察项目集成的时候，能够感受一些东西出来。比如：<code>spring-web</code> 是 <code>SpringMVC</code> 的内容。所以在日常中，把 <code>SpringMVC</code> 当成一个独立框架是一个很有问题的说法，他其实也就是 <code>Spring</code> 家族中的一个小模块而已。除了这个模块比较常见，我们还使用了 <code>AOP</code> <code>Transction</code> 这些模块，因为很多时候，在框架的集成中，已经依赖好了这些中间对接模块，但是他其实存在于每一个基本的 <code>web</code> 项目中。 我一直很喜欢 <code>Spring</code> 提供的说明书：<a target="_blank" rel="noopener" href="https://docs.spring.io/spring/docs/current/spring-framework-reference/index.html">说明书链接</a> 这个说明书开头就已经把所有模块，做什么事情的都总结好了，需要用到哪个模块的说明，进入对应的链接就好了： </p>
+<a id="more"></a>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144307.png" alt="image-20191202151902551"></p>
+<p> 简单说说：</p>
+<ol>
+<li> 总览：介绍 <code>Spring</code> 的背景故事；</li>
+<li> <code>Core核心模块</code>：<code>Spring</code> 的核心是什么，就是 <code>容器+AOP</code>。一切的事情都是基于这两个模块而来，现有容器，容器装着我们定义的 <code>Bean</code> 配置，然后再是 <code>AOP</code>，<code>AOP</code> 可以增强很多额外的功能，比如 <code>spring-cache</code> 缓存。然而这里的介绍还包含了事件通知、资源管理、<code>i18n</code>、数据校验、数据绑定以及类型转变；</li>
+<li> <code>Testing测试模块</code>：我们公司倒是很少写测试用例，然而这个模块包含了一系列的测试模块，包括 <code>Mock数据</code>、测试的Spring上下文、<code>SpringMVC</code> 的测试等等；</li>
+<li> <code>DataAccess数据访问模块</code>：包含了数据库事务，<code>Dao层</code> 的支持，也就是常见的 <code>MyBatis</code> 整合 <code>Spring</code> 需要用到的一些接口，还有 <code>jdbcTemplate</code>；</li>
+<li> <code>WebServlet 和 WebReactive</code>：包含有新版才有的 <code>WebFlux</code> 模块还有他的客户端，我们常见的 <code>SpringMVC</code>，<code>WebSocket</code>；</li>
+<li> <code>Integration集成模块</code>：这个模块可能用的不是很多？有远程调用过时的 <code>JMS</code> 技术，<code>Email</code>，任务，调度以及缓存模块；</li>
+<li> <code>Language</code> 就不用说啦，支持的编程语言。</li>
+</ol>
+<h2 id="spring-core项目"><a href="#spring-core项目" class="headerlink" title="spring-core项目"></a>spring-core项目</h2><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144320.png"></p>
+<p> 有点报错，但是不影响运行呀~ 为啥这个模块要在这里说，因为这个模块是最基础的一个，基本 <code>Spring</code> 所有的子模块都以来这个项目，那么他有什么用，因为他是一个工具人工具模块，比如这个 <code>StringUtils</code>： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144343.png"> </p>
+<p>还有个点，他的 <code>utils</code> 都是抽象类的（防止实例化），提供静态方法使用。在日常业务搬砖中，也可以直接使用这些工具类，节省了很多依赖包。 好了，可以开始进入源码的阶段了，这篇稍稍短点，但是那时候知道文档地址的时候简直如获珍宝，一切我们所需要的东西都可以在这里找到。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/spring/" rel="tag"># spring</a>
+              <a href="/tags/spring%E6%BA%90%E7%A0%81/" rel="tag"># spring源码</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90spring%E6%BA%90%E7%A0%81%E3%80%91%E5%BC%80%E5%A7%8B%E8%AF%BB%E6%BA%90%E7%A0%81-%E5%9F%BA%E4%BA%8Eidea/" rel="prev" title="【Spring源码】第一步：开始读源码--基于idea">
+                  <i class="fa fa-chevron-left"></i> 【Spring源码】第一步：开始读源码--基于idea
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90spring%E6%BA%90%E7%A0%81%E3%80%91%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84beanfactory/" rel="next" title="【Spring源码】第三步：从一个简单的BeanFactory开始">
+                  【Spring源码】第三步：从一个简单的BeanFactory开始 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weidan</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

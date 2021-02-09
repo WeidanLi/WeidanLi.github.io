@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+
+
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?66f61662f62178eebb934fa943e5df84";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="springboot 与数据验证一. 简述在项目开发中，验证参数也是最经常使用的业务需求了。通常在开发的时候都需要根据业务需求，对参数进行必要验证。 当然一堆的 if-else 的验证在日常开发中时常可见。这种方式非常不友好： 1. 代码太长导致阅读不友好，更改需求可能只是简单的修改但是却需要阅读几十到几百行的代码 2. 有时候业务只是一两句但是验证代码却占用了很长时间 JSR-303 是 Jav">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springboot 与数据验证">
+<meta property="og:url" content="http://weidanli.github.io/frame/spring-boot/springboot-%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81/index.html">
+<meta property="og:site_name" content="丹崽的技术博客">
+<meta property="og:description" content="springboot 与数据验证一. 简述在项目开发中，验证参数也是最经常使用的业务需求了。通常在开发的时候都需要根据业务需求，对参数进行必要验证。 当然一堆的 if-else 的验证在日常开发中时常可见。这种方式非常不友好： 1. 代码太长导致阅读不友好，更改需求可能只是简单的修改但是却需要阅读几十到几百行的代码 2. 有时候业务只是一两句但是验证代码却占用了很长时间 JSR-303 是 Jav">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-12-20T00:55:35.000Z">
+<meta property="article:modified_time" content="2020-11-12T08:00:28.155Z">
+<meta property="article:author" content="Weidan">
+<meta property="article:tag" content="spring-boot">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://weidanli.github.io/frame/spring-boot/springboot-%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>springboot 与数据验证 | 丹崽的技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">丹崽的技术博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">丹崽的计算机知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-数据结构">
+
+    <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="section">数据结构</a>
+
+  </li>
+        <li class="menu-item menu-item-spring源码">
+
+    <a href="/spring-sources/" rel="section">Spring源码</a>
+
+  </li>
+        <li class="menu-item menu-item-mysql底层">
+
+    <a href="/mysql/" rel="section">MySQL底层</a>
+
+  </li>
+        <li class="menu-item menu-item-tomcat源码">
+
+    <a href="/tomcat-sources/" rel="section">Tomcat源码</a>
+
+  </li>
+        <li class="menu-item menu-item-计算机网络">
+
+    <a href="/network/" rel="section">计算机网络</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#springboot-%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81"><span class="nav-number">1.</span> <span class="nav-text">springboot 与数据验证</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E7%AE%80%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">一. 简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E5%BC%80%E5%8F%91"><span class="nav-number">1.2.</span> <span class="nav-text">二. 开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BC%95%E5%85%A5%E4%BE%9D%E8%B5%96"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 引入依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BD%BF%E7%94%A8%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 使用注解开发控制器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%AF%B7%E6%B1%82%E4%B8%A4%E4%B8%AA%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 请求两个接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%AE%9A%E5%88%B6%E8%BF%94%E5%9B%9E%E9%AA%8C%E8%AF%81%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF"><span class="nav-number">1.2.4.</span> <span class="nav-text">4. 定制返回验证错误信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%88%86%E7%BB%84%E9%AA%8C%E8%AF%81"><span class="nav-number">1.2.5.</span> <span class="nav-text">5. 分组验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%B3%A8%E8%A7%A3%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E"><span class="nav-number">1.2.6.</span> <span class="nav-text">6. 注解使用说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%BC%80%E5%8F%91%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%A1%E9%AA%8C%E5%99%A8"><span class="nav-number">1.2.7.</span> <span class="nav-text">7. 开发自定义校验器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-%E5%AE%9A%E4%B9%89%E6%A0%A1%E9%AA%8C%E6%B3%A8%E8%A7%A3"><span class="nav-number">1.2.7.1.</span> <span class="nav-text">7.1 定义校验注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-%E5%AE%9A%E4%B9%89%E6%A0%A1%E9%AA%8C%E5%99%A8"><span class="nav-number">1.2.7.2.</span> <span class="nav-text">7.2 定义校验器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3-%E6%B5%8B%E8%AF%95%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%A1%E9%AA%8C%E5%99%A8"><span class="nav-number">1.2.7.3.</span> <span class="nav-text">7.3 测试自定义校验器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-%E6%80%BB%E7%BB%93"><span class="nav-number">1.3.</span> <span class="nav-text">三. 总结</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Weidan</p>
+  <div class="site-description" itemprop="description">计算机基础 计算机网络 Java Vue 前端 后端</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/WeidanLi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/frame/spring-boot/springboot-%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          springboot 与数据验证
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-12-20 08:55:35" itemprop="dateCreated datePublished" datetime="2018-12-20T08:55:35+08:00">2018-12-20</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-12 16:00:28" itemprop="dateModified" datetime="2020-11-12T16:00:28+08:00">2020-11-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/" itemprop="url" rel="index"><span itemprop="name">frame</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/spring-boot/" itemprop="url" rel="index"><span itemprop="name">spring-boot</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="springboot-与数据验证"><a href="#springboot-与数据验证" class="headerlink" title="springboot 与数据验证"></a>springboot 与数据验证</h1><h2 id="一-简述"><a href="#一-简述" class="headerlink" title="一. 简述"></a>一. 简述</h2><p>在项目开发中，验证参数也是最经常使用的业务需求了。通常在开发的时候都需要根据业务需求，对参数进行必要验证。 当然一堆的 <code>if-else</code> 的验证在日常开发中时常可见。这种方式非常不友好： 1. 代码太长导致阅读不友好，更改需求可能只是简单的修改但是却需要阅读几十到几百行的代码 2. 有时候业务只是一两句但是验证代码却占用了很长时间 <code>JSR-303</code> 是 <code>Java</code> 的验证规范，早期是在 <code>Hibernate</code> 框架中实现的，后面被抽取到 <code>Java</code> 体系。<code>Spring-Boot</code> 使用了 <code>hibernate-validator</code> 验证器，所以也包含了 <code>JSR-303</code> 在里面。当需要进行参数验证的时候，只需要几个注解即可实现复杂的验证。<br>GitHub：<a target="_blank" rel="noopener" href="https://github.com/WeidanLi/spring-boot-tutorial">https://github.com/WeidanLi/spring-boot-tutorial</a> 项目示例：<code>web-validate</code></p>
+<h2 id="二-开发"><a href="#二-开发" class="headerlink" title="二. 开发"></a>二. 开发</h2><h3 id="1-引入依赖"><a href="#1-引入依赖" class="headerlink" title="1. 引入依赖"></a>1. 引入依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 引入 web-starter, 已经包含 hibernate-validator 验证器 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="2-使用注解开发控制器"><a href="#2-使用注解开发控制器" class="headerlink" title="2. 使用注解开发控制器"></a>2. 使用注解开发控制器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@Validated</span> <span class="comment">// 类上添加该注解，能够验证直接使用参数形式的借口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserEndpoint</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 如果需要验证Dto类，只需要加上<span class="doctag">@Validated</span>即可，如需分组，传入参数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userDto</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">create</span><span class="params">(<span class="meta">@Validated</span> <span class="meta">@RequestBody</span> UserDto userDto)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;-----&gt; add: &quot;</span> + userDto);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> UserDto <span class="title">queryByName</span><span class="params">(<span class="meta">@Length(min = 1, max = 8)</span> <span class="meta">@RequestParam(value = &quot;name&quot;)</span> String name)</span> </span>&#123;</span><br><span class="line">        System.out.println(name);</span><br><span class="line">        UserDto userDto = <span class="keyword">new</span> UserDto();</span><br><span class="line">        userDto.setId(<span class="number">100</span>);</span><br><span class="line">        userDto.setUserName(<span class="string">&quot;狗蛋&quot;</span>);</span><br><span class="line">        userDto.setAge(<span class="number">19</span>);</span><br><span class="line">        <span class="keyword">return</span> userDto;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>PS: 1. 第一个接口使用 <code>DTO</code> 的形式进行验证，验证注解将会被使用在 <code>DTO</code> 上，<code>DTO</code>如下 2. 第二个接口直接在接口参数进行验证 UserDto：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 用户数据交换类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserDto</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NotBlank</span></span><br><span class="line">    <span class="keyword">private</span> String userName;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NotNull</span></span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-请求两个接口"><a href="#3-请求两个接口" class="headerlink" title="3. 请求两个接口"></a>3. 请求两个接口</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">POST http:&#x2F;&#x2F;localhost:8080</span><br><span class="line"></span><br><span class="line">HTTP&#x2F;1.1 400 </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Fri, 14 Dec 2018 01:41:46 GMT</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;timestamp&quot;: &quot;2018-12-14T01:41:46.244+0000&quot;,</span><br><span class="line">  &quot;status&quot;: 400,</span><br><span class="line">  &quot;error&quot;: &quot;Bad Request&quot;,</span><br><span class="line">  &quot;errors&quot;: [</span><br><span class="line">  ... 这里不做详细演示因为下面要配合控制器监听把这个错误给修改掉</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">----------------------------------------------------------</span><br><span class="line"></span><br><span class="line">GET http:&#x2F;&#x2F;localhost:8080?name&#x3D;</span><br><span class="line"></span><br><span class="line">HTTP&#x2F;1.1 500 </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Fri, 14 Dec 2018 01:42:55 GMT</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;timestamp&quot;: &quot;2018-12-14T01:42:55.654+0000&quot;,</span><br><span class="line">  &quot;status&quot;: 500,</span><br><span class="line">  &quot;error&quot;: &quot;Internal Server Error&quot;,</span><br><span class="line">  &quot;message&quot;: &quot;queryByName.name: 长度需要在1和8之间&quot;,</span><br><span class="line">  &quot;path&quot;: &quot;&#x2F;&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Response code: 500; Time: 29ms; Content length: 141 bytes</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，<code>Spring</code> 已经对数据按照我们的需求进行了验证，但是返回的错误信息并不是很友好，我们可以使用前面提到的 <code>controller-advice</code> 进行拦截返回</p>
+<h3 id="4-定制返回验证错误信息"><a href="#4-定制返回验证错误信息" class="headerlink" title="4. 定制返回验证错误信息"></a>4. 定制返回验证错误信息</h3><p>从控制台可以看到，验证不通过的时候抛出的异常是 <code>ConstraintViolationException</code> 和 <code>MethodArgumentNotValidException</code> 异常，所以在监听器里只需要对这个异常进行监听，获取 <code>message</code> 属性进行返回即可得知错误的原因。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ControllerAdvice</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EndpointAdvice</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExceptionHandler(ConstraintViolationException.class)</span> <span class="comment">// 参数验证异常</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.BAD_REQUEST)</span> <span class="comment">// 返回 400</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, String&gt; <span class="title">errorParam</span><span class="params">(ConstraintViolationException e)</span> </span>&#123;</span><br><span class="line">        Map&lt;String, String&gt; error = <span class="keyword">new</span> HashMap&lt;&gt;(<span class="number">2</span>);</span><br><span class="line">        error.put(<span class="string">&quot;message&quot;</span>, e.getMessage());</span><br><span class="line">        <span class="keyword">return</span> error;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExceptionHandler(MethodArgumentNotValidException.class)</span> <span class="comment">// DTO 验证异常</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.BAD_REQUEST)</span> <span class="comment">// 返回 400</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, String&gt; <span class="title">errorDto</span><span class="params">(MethodArgumentNotValidException e)</span> </span>&#123;</span><br><span class="line">        Map&lt;String, String&gt; error = <span class="keyword">new</span> HashMap&lt;&gt;(<span class="number">2</span>);</span><br><span class="line">        StringBuilder message = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">for</span> (ObjectError allError : e.getBindingResult().getAllErrors()) &#123;</span><br><span class="line">            message.append(allError.getDefaultMessage()).append(<span class="string">&quot;; &quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        error.put(<span class="string">&quot;message&quot;</span>, message.toString());</span><br><span class="line">        <span class="keyword">return</span> error;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重新请求：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">POST http:&#x2F;&#x2F;localhost:8080</span><br><span class="line"></span><br><span class="line">HTTP&#x2F;1.1 400 </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Fri, 14 Dec 2018 01:59:57 GMT</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;message&quot;: &quot;名字不允许为空; 年龄不允许为空; &quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Response code: 400; Time: 166ms; Content length: 28 bytes</span><br><span class="line"></span><br><span class="line">---------------------------------------------------------</span><br><span class="line">GET http:&#x2F;&#x2F;localhost:8080?name&#x3D;</span><br><span class="line"></span><br><span class="line">HTTP&#x2F;1.1 400 </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Fri, 14 Dec 2018 01:48:23 GMT</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;message&quot;: &quot;queryByName.name: 长度需要在1和8之间&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Response code: 400; Time: 151ms; Content length: 42 bytes</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-分组验证"><a href="#5-分组验证" class="headerlink" title="5. 分组验证"></a>5. 分组验证</h3><p><code>DTO</code> 如果验证不能自由的话，那么<code>DTO</code> 的复用性就变差了，总不能一个接口都要重新写属性相同但是验证不相同的 <code>DTO</code> 吧 所以，<code>JSR-303</code> 的每个验证注解上都有一个 <code>groups</code> 属性，传入 <code>Class</code> 数组（多组验证），用于定义分组验证的接口（但是这个接口没有实际实现，只是以 <code>Java</code> 类来做分组罢了）。 <code>DTO</code> 修改为更新的时候要求 <code>id</code> 不能为空，新增时名字和年龄不能为空。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserDto</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NotNull(groups = Update.class)</span></span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NotBlank(message = &quot;名字不允许为空&quot;, groups = Add.class)</span></span><br><span class="line">    <span class="keyword">private</span> String userName;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NotNull(message = &quot;年龄不允许为空&quot;, groups = Add.class)</span></span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接口修改，验证器传入分组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@Validated</span> <span class="comment">// 类上添加该注解，能够验证直接使用参数形式的借口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserEndpoint</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 新增的时候验证 ADD 分组下需要验证的属性</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userDto</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">create</span><span class="params">(<span class="meta">@Validated(&#123;Add.class&#125;)</span> <span class="meta">@RequestBody</span> UserDto userDto)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;-----&gt; add: &quot;</span> + userDto);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 更新的时候验证 UPDATE 分组下需要验证的属性</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userDto</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PutMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="meta">@Validated(&#123;Update.class&#125;)</span> <span class="meta">@RequestBody</span> UserDto userDto)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;-----&gt; update: &quot;</span> + userDto);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重新请求接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">POST http:&#x2F;&#x2F;localhost:8080</span><br><span class="line"></span><br><span class="line">HTTP&#x2F;1.1 400 </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Fri, 14 Dec 2018 02:11:14 GMT</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;message&quot;: &quot;年龄不允许为空; 名字不允许为空; &quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Response code: 400; Time: 11ms; Content length: 32 bytes</span><br><span class="line"></span><br><span class="line">---------------------------------------------------------</span><br><span class="line"></span><br><span class="line">PUT http:&#x2F;&#x2F;localhost:8080</span><br><span class="line"></span><br><span class="line">HTTP&#x2F;1.1 400 </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Fri, 14 Dec 2018 02:12:06 GMT</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;message&quot;: &quot;不能为null; &quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Response code: 400; Time: 194ms; Content length: 23 bytes</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-注解使用说明"><a href="#6-注解使用说明" class="headerlink" title="6. 注解使用说明"></a>6. 注解使用说明</h3><p>每个注解都拥有两个属性： </p>
+<ol>
+<li>groups 用于定义这个注解要应用于哪些分组的 </li>
+<li>message 用于定义不符合要求时要输出的内容</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">注解</span><br><span class="line"></span><br><span class="line">说明</span><br><span class="line"></span><br><span class="line">@Null</span><br><span class="line"></span><br><span class="line">被注释的元素必须为</span><br><span class="line"></span><br><span class="line">@NotNull</span><br><span class="line"></span><br><span class="line">被注释的元素必须不为null</span><br><span class="line"></span><br><span class="line">@AssertTrue</span><br><span class="line"></span><br><span class="line">被注释的元素必须为true</span><br><span class="line"></span><br><span class="line">@AssertFalse</span><br><span class="line"></span><br><span class="line">被注释的元素必须为false</span><br><span class="line"></span><br><span class="line">@Min(value)</span><br><span class="line"></span><br><span class="line">被注释的元素必须是一个数字，其值必须大于等于指定的最小值</span><br><span class="line"></span><br><span class="line">@Max(value)</span><br><span class="line"></span><br><span class="line">被注释的元素必须是一个数字，其值必须小于等于指定的最大值</span><br><span class="line"></span><br><span class="line">@DecimalMin(value)</span><br><span class="line"></span><br><span class="line">被注释的元素必须是一个数字，其值必须大于等于指定的最小值</span><br><span class="line"></span><br><span class="line">@DecimalMax(value)</span><br><span class="line"></span><br><span class="line">被注释的元素必须是一个数字，其值必须小于等于指定的最大值</span><br><span class="line"></span><br><span class="line">@Size(max&#x3D;,min&#x3D;)</span><br><span class="line"></span><br><span class="line">被注释的元素的大小必须在指定的范围内</span><br><span class="line"></span><br><span class="line">@Digits</span><br><span class="line"></span><br><span class="line">被注释的元素必须是一个数字，其值必须在可接受的范围内</span><br><span class="line"></span><br><span class="line">@Past</span><br><span class="line"></span><br><span class="line">被注释的元素必须是一个过去的日期</span><br><span class="line"></span><br><span class="line">@Future</span><br><span class="line"></span><br><span class="line">被注释的元素必须是一个将来的日期</span><br><span class="line"></span><br><span class="line">@Pattern(regex&#x3D;,flag&#x3D;)</span><br><span class="line"></span><br><span class="line">被注释的元素必须符合指定的正则表达式</span><br><span class="line"></span><br><span class="line">Hibernate</span><br><span class="line"></span><br><span class="line">Validator</span><br><span class="line"></span><br><span class="line">@NotBlank</span><br><span class="line"></span><br><span class="line">验证字符串非null，且长度必须大于0</span><br><span class="line"></span><br><span class="line">@Email</span><br><span class="line"></span><br><span class="line">被注释的元素必须是电子邮箱地址</span><br><span class="line"></span><br><span class="line">@Length(min&#x3D;,max&#x3D;)</span><br><span class="line"></span><br><span class="line">被注释的字符串的大小必须在指定的范围内</span><br><span class="line"></span><br><span class="line">@NotEmpty</span><br><span class="line"></span><br><span class="line">被注释的字符串的必须非空</span><br><span class="line"></span><br><span class="line">@Range(min&#x3D;,max&#x3D;,message&#x3D;)</span><br><span class="line"></span><br><span class="line">被注释的元素必须在合适的范围内</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-开发自定义校验器"><a href="#7-开发自定义校验器" class="headerlink" title="7. 开发自定义校验器"></a>7. 开发自定义校验器</h3><p>很多时候，框架自带的功能并不能或者说不方便实现我们想要的功能的时候，我们就可以开始考虑自己造轮子，开发属于我们所在领域的校验器。 简单来说，开发流程就是以下两个步骤：</p>
+<ol>
+<li> 编写约束注解，填充需要的属性以及官方必须要求的属性；</li>
+<li> 编写校验器，对目标值配合注解上的属性进行验证。</li>
+</ol>
+<h4 id="7-1-定义校验注解"><a href="#7-1-定义校验注解" class="headerlink" title="7.1 定义校验注解"></a>7.1 定义校验注解</h4><p>为了示范，我定义一个验证目标字符串需要纯中文字符的校验注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 验证纯中文的注解</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Constraint(validatedBy = &#123; ChsValidator.class &#125;)</span> <span class="comment">// 定义注解的校验器</span></span><br><span class="line"><span class="meta">@Target(ElementType.FIELD)</span> <span class="comment">// 定义该注解使用在类属性上</span></span><br><span class="line"><span class="meta">@Retention(RUNTIME)</span> <span class="comment">// 运行时有效</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Chs &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** 可以自定义属性，这个属性暂时没什么用 */</span></span><br><span class="line">    <span class="function">String <span class="title">chineseName</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** 以下是注解必须的三个属性，分别是定义组别、错误等级以及提示信息 */</span></span><br><span class="line">    Class&lt;?&gt;[] groups() <span class="keyword">default</span> &#123; &#125;;</span><br><span class="line"></span><br><span class="line">    Class&lt;? extends Payload&gt;[] payload() <span class="keyword">default</span> &#123; &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function">String <span class="title">message</span><span class="params">()</span> <span class="keyword">default</span> &quot;该字段需要纯中文&quot;</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="7-2-定义校验器"><a href="#7-2-定义校验器" class="headerlink" title="7.2 定义校验器"></a>7.2 定义校验器</h4><p>校验器需要去实现 <code>ConstraintValidator</code> 接口，传入两个泛型，第一个泛型是注解类型，第二个是目标值的类型。实现两个方法，校验器调用的校验在 <code>isValid</code> 中进行，如果校验通过返回 <code>True</code> 不同过则返回 <code>False</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChsValidator</span> <span class="keyword">implements</span> <span class="title">ConstraintValidator</span>&lt;<span class="title">Chs</span>, <span class="title">String</span>&gt; </span>&#123; <span class="comment">// 实现ConstraintValidator接口，第一个泛型是注解类型，第二个是目标值的类型</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String reg = <span class="string">&quot;^[\\u0391-\\uFFE5]+[\\w*[\\u0391-\\uFFE5]*]*&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">(Chs constraintAnnotation)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isValid</span><span class="params">(String value, ConstraintValidatorContext context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == value) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> value.matches(reg);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="7-3-测试自定义校验器"><a href="#7-3-测试自定义校验器" class="headerlink" title="7.3 测试自定义校验器"></a>7.3 测试自定义校验器</h4><p>现在需要一个控制器接口来测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;testChsValidator&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testChsValidator</span><span class="params">(<span class="meta">@Chs</span> <span class="meta">@RequestParam</span> String chsName)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>请求访问测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">POST http:&#x2F;&#x2F;localhost:8080&#x2F;testChsValidator?chsName&#x3D;888</span><br><span class="line"></span><br><span class="line">HTTP&#x2F;1.1 400 </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Tue, 18 Dec 2018 01:39:40 GMT</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;message&quot;: &quot;testChsValidator.chsName: 该字段需要纯中文&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Response code: 400; Time: 239ms; Content length: 48 bytes</span><br><span class="line"></span><br><span class="line">--------------------------------------------------------</span><br><span class="line"></span><br><span class="line">POST http:&#x2F;&#x2F;localhost:8080&#x2F;testChsValidator?chsName&#x3D;你好</span><br><span class="line"></span><br><span class="line">HTTP&#x2F;1.1 200 </span><br><span class="line">Content-Length: 0</span><br><span class="line">Date: Tue, 18 Dec 2018 01:40:11 GMT</span><br><span class="line"></span><br><span class="line">&lt;Response body is empty&gt;</span><br><span class="line"></span><br><span class="line">Response code: 200; Time: 44ms; Content length: 0 bytes</span><br></pre></td></tr></table></figure>
+
+<h2 id="三-总结"><a href="#三-总结" class="headerlink" title="三. 总结"></a>三. 总结</h2><p>OK，验证器的使用到这里基本完结，一般来说基础的可以适用大部分需求，但是我建议如果某个校验规则用的不多的话，就不大需要定义自定义校验器，如果用的比较多而且是通用的话，那么自定义的注解校验无疑会带来很多便捷。校验器适用的实现是 <code>Hibernate Validate</code> 所以如若需要查询资料可直接查询<code>Hibernate Validate</code> 相关的即可。 <a target="_blank" rel="noopener" href="http://docs.jboss.org/hibernate/validator/4.2/reference/zh-CN/html_single/#validator-customconstraints-constraintannotation">Hibernate-Validate</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/spring-boot/" rel="tag"># spring-boot</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/frame/spring-boot/springboot-%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%8E%A5%E5%8F%A3/" rel="prev" title="springboot 与数据接口">
+                  <i class="fa fa-chevron-left"></i> springboot 与数据接口
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/frame/spring-boot/springboot-%E4%B8%8E-freemark-%E6%A8%A1%E6%9D%BF/" rel="next" title="springboot 与 freemark 模板">
+                  springboot 与 freemark 模板 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weidan</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

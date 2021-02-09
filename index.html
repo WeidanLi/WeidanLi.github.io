@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+
+
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?66f61662f62178eebb934fa943e5df84";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+<meta property="og:type" content="website">
+<meta property="og:title" content="丹崽的技术博客">
+<meta property="og:url" content="http://weidanli.github.io/index.html">
+<meta property="og:site_name" content="丹崽的技术博客">
+<meta property="og:description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Weidan">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://weidanli.github.io/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>丹崽的技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">丹崽的技术博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">丹崽的计算机知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-数据结构">
+
+    <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="section">数据结构</a>
+
+  </li>
+        <li class="menu-item menu-item-spring源码">
+
+    <a href="/spring-sources/" rel="section">Spring源码</a>
+
+  </li>
+        <li class="menu-item menu-item-mysql底层">
+
+    <a href="/mysql/" rel="section">MySQL底层</a>
+
+  </li>
+        <li class="menu-item menu-item-tomcat源码">
+
+    <a href="/tomcat-sources/" rel="section">Tomcat源码</a>
+
+  </li>
+        <li class="menu-item menu-item-计算机网络">
+
+    <a href="/network/" rel="section">计算机网络</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Weidan</p>
+  <div class="site-description" itemprop="description">计算机基础 计算机网络 Java Vue 前端 后端</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/WeidanLi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner index posts-expand">
+      
+
+      
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/Computer/Network/4-TCP-UDP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/Computer/Network/4-TCP-UDP/" class="post-title-link" itemprop="url">传输层的协议-TCP/UDP</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-10-17 10:24:55" itemprop="dateCreated datePublished" datetime="2020-10-17T10:24:55+08:00">2020-10-17</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-12 15:54:07" itemprop="dateModified" datetime="2020-11-12T15:54:07+08:00">2020-11-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Computer/" itemprop="url" rel="index"><span itemprop="name">Computer</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Computer/Network/" itemprop="url" rel="index"><span itemprop="name">Network</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="传输层协议"><a href="#传输层协议" class="headerlink" title="传输层协议"></a>传输层协议</h1><p>既然了解了 <strong>IP协议</strong> 的内容，上一篇通篇没有说到数据的安全性，因为 <strong>IP协议</strong> 只负责将数据运输到对应的计算机而已，不会对数据做任何操作，也不会验证数据是否完整到达或者有没有被破坏，或者交给哪个程序进行处理。而这些操作，是由 <strong>传输层协议</strong> 来做保证的。</p>
+<p>传输层目前我们最流行的协议应该是 <strong>TCP</strong> 和 <strong>UDP</strong> 了吧。前者是有连接的情况下传输数据，而后者则不会考虑数据是否完整到达，但是效率会比 <strong>TCP</strong> 略胜一筹。当然两者都有合适的使用场景。<strong>TCP</strong> 很多时候会用于设备之间的连接和数据传递，比如仓库 PDA 的使用。而 <strong>UDP</strong> 则多用于通话、视频方面的应用，还有我们熟知的 <strong>微信QQ</strong>，也是使用 <strong>UDP</strong> 作为传输协议的，他利用了 <strong>UDP</strong> 的效率，然后在 <strong>应用层</strong> 适配了数据完整性的校验。所以很多时候我们会有这种场景，我这边发送的消息显示个红色的❌，但是其实对方已经接受到刚刚发送的消息了，但是我们以为没有接收到又重新发了一次。还有直播类型的 <strong>应用层协议</strong> 多用 <strong>UDP协议</strong>。</p>
+<p>那，既然 <strong>IP协议</strong> 已经将数据传送到当前服务器了，服务器就应该具有一定的程序进行处理，要不然服务器也会懵逼。这个过程就通过解开客户端发送的数据，里面包含了一个参数称为 <strong>端口号</strong>，服务器系统就会交给监听这个 <strong>端口</strong> 对应的应用程序进行处理。依然是拿快递行业做类比，我们知道我们的地址一般会写到家里或者附近的地方，<strong>IP协议</strong> 就是负责将这个件送给对应的这个区域而已，但是这个区域有那么多人，根本不知道要交给谁，所以这时候快递员就需要用电话联系快递单号上的收件人电话，然后将件交给收件人。那么这个 <strong>收件人电话</strong> 就相当于端口号了。</p>
+<p>这些服务端处理的 <strong>程序</strong>，将会监听着服务器系统上的 <strong>空闲端口</strong>。当这些端口有数据进来的时候，自然他们就可以接收到数据进行处理。当然如果这个 <strong>端口</strong> 被占用的话，程序是会启动失败的。但是不同的协议是可以监听同一个端口的，比方说当前有个 <strong>Tomcat</strong> 程序监听着 <strong>8080</strong>，我们还可以用另外一个程序，以 <strong>UDP</strong> 的协议继续监听这个 <strong>端口</strong>。</p>
+<p>一般来说，<strong>0 ~ 1023</strong> 留给一些知名程序进行处理（比如 <strong>sshd</strong> <strong>HTTP</strong>），如果我们需要占用端口，一般从 <strong>1024</strong> 开始，最大的端口号是 <strong>65535</strong>。当然这些端口也可能被我们启动的某些比较有名的程序占用，比如 <strong>Redis</strong> 占用 <strong>6379</strong>，<strong>Tomcat</strong> 占用 <strong>8080</strong> 等等。但是通常如果不需要这些程序的话，我们是可以使用这些端口的。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Computer/Network/4-TCP-UDP/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/Computer/Network/3-IP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/Computer/Network/3-IP/" class="post-title-link" itemprop="url">网络层的协议-IP协议簇</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-10-07 16:32:54" itemprop="dateCreated datePublished" datetime="2020-10-07T16:32:54+08:00">2020-10-07</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-12 15:54:07" itemprop="dateModified" datetime="2020-11-12T15:54:07+08:00">2020-11-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Computer/" itemprop="url" rel="index"><span itemprop="name">Computer</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Computer/Network/" itemprop="url" rel="index"><span itemprop="name">Network</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="互联网层-IP协议簇"><a href="#互联网层-IP协议簇" class="headerlink" title="互联网层-IP协议簇"></a>互联网层-IP协议簇</h1><p>上一节聊完了数据链路层，我们知道，两台计算机如果需要进行通讯的话，就需要先知道彼此的 <strong>MAC地址</strong>，然后将数据封装成 <strong>以太网帧</strong> 进行传输。但是我们的野心并没有止于此，因为需要更多的计算机参与网络（这个数量是+∞），那总不能把所有计算机的 <strong>MAC地址</strong> 在每一台上面都存储一份吧，即使这样，物理介质的互通也不现实。所以还能怎么办，那就包多一层嘛。</p>
+<p>所以，<strong>IP协议</strong> 这一层又应运而生。</p>
+<p>那么我们可以重新看一下分层模型：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201001104610.png" alt="与七层模型的匹配（via《图解TCP/IP》）"></p>
+<p>他主要位于互联网层，那他在这一层主要解决的问题就是数据的走向问题，也仅仅是走向的问题，不会对数据进行纠错，也不会负责重发的动作（即使数据丢失的话）。而这些问题会在再上一层的 <strong>传输层</strong> 进行补充解决。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Computer/Network/3-IP/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/Computer/Network/2-TCP-IP-PROTOCOL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/Computer/Network/2-TCP-IP-PROTOCOL/" class="post-title-link" itemprop="url">熟悉又陌生的TCP/IP</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-09-28 17:35:53" itemprop="dateCreated datePublished" datetime="2020-09-28T17:35:53+08:00">2020-09-28</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-12 15:54:07" itemprop="dateModified" datetime="2020-11-12T15:54:07+08:00">2020-11-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Computer/" itemprop="url" rel="index"><span itemprop="name">Computer</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Computer/Network/" itemprop="url" rel="index"><span itemprop="name">Network</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="TCP-IP协议的诞生"><a href="#TCP-IP协议的诞生" class="headerlink" title="TCP/IP协议的诞生"></a>TCP/IP协议的诞生</h1><p>说到 <strong>TCP/IP协议</strong> 我相信各位光头们并不陌生，那他怎么变得如此流行的，我想有个很重要的原因，刚好生在他应该诞生的时机。</p>
+<p>期初，军用方面的应用，需要进行信息的交换，所以有一套这样的网络：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201001102836.png" alt="网络"></p>
+<p>这样就有一个问题，如果中心节点被敌人偷袭了，那么整套军用系统就全部瘫痪。那为了防止这种事情的发生，我们可以多加几个中心节点：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201001103223.png"></p>
+<p>这样的话如果中心的节点被袭击了（变成红色表示故障），那么其他计算机还可以通过比较远的输送距离将数据传达到彼此。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Computer/Network/2-TCP-IP-PROTOCOL/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/Computer/Network/1-Find-Computer-Network/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/Computer/Network/1-Find-Computer-Network/" class="post-title-link" itemprop="url">初识计算机网络</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-09-25 11:22:31" itemprop="dateCreated datePublished" datetime="2020-09-25T11:22:31+08:00">2020-09-25</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-12 15:53:40" itemprop="dateModified" datetime="2020-11-12T15:53:40+08:00">2020-11-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Computer/" itemprop="url" rel="index"><span itemprop="name">Computer</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Computer/Network/" itemprop="url" rel="index"><span itemprop="name">Network</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="生活中熟悉又陌生的网络"><a href="#生活中熟悉又陌生的网络" class="headerlink" title="生活中熟悉又陌生的网络"></a>生活中熟悉又陌生的网络</h1><p>在我刚开始了解算计网络之前，我一直认为计算机网络应该指的是：<strong>一台电脑连着网线，他可以通过操作系统上的各个软件访问网络上的资源</strong> 才叫网络。但是其实不是，作为一个 <code>94</code> 年出生的臭男人，其实在小的时候就已经接触到了网络了。那就是电视。</p>
+<p>以前我家里的电视大概是这种（图片来自百度）：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20200925134851.png"></p>
+<p>以前这台电视可贵了，<code>3000</code> 多块，可以想象在 <code>1994</code> 年的时候，是什么样的概念。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Computer/Network/1-Find-Computer-Network/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">图算法</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-07-23 17:30:09" itemprop="dateCreated datePublished" datetime="2020-07-23T17:30:09+08:00">2020-07-23</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-12 16:04:22" itemprop="dateModified" datetime="2020-11-12T16:04:22+08:00">2020-11-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="图的介绍"><a href="#图的介绍" class="headerlink" title="图的介绍"></a>图的介绍</h2><p>怎么说呢，通过前两篇的编写，我发现学数据结构真的是从一个有序，再到另外一个有序，最后到一个杂乱的东西。那么回想一下，我们在写代码的时候，刚开始，代码是井然有序的，然后慢慢的随着功能的新增，产品经理的无理，我们的项目就会慢慢的变成一碗意大利面（用白话说就是 <code>屎💩</code>）当然，目前知道了图的概念以后，我发现，一碗 <code>屎💩</code> 还有点用处，就是可以研究我们接下来要说的数据结构：<code>图</code>。 大概我们把之前说到的树，连多几条边，就可以感受到 <code>图</code> 了，不过，<code>查找树</code> 也是 <code>图</code>，<code>链表</code> <code>数组</code> 均为图，只不过因为他们的性质让我们利用起来做一些应用的时候会更加的方便，而且 <code>高效</code> <code>性价比高</code>： </p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110151557.jpeg"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE%E7%AE%97%E6%B3%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%AD%97%E5%85%B8%E6%9F%A5%E6%89%BE%E6%A0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%AD%97%E5%85%B8%E6%9F%A5%E6%89%BE%E6%A0%91/" class="post-title-link" itemprop="url">【编程基础】字典查找树</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-06-25 17:52:32" itemprop="dateCreated datePublished" datetime="2020-06-25T17:52:32+08:00">2020-06-25</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-12 16:05:24" itemprop="dateModified" datetime="2020-11-12T16:05:24+08:00">2020-11-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="字典查找"><a href="#字典查找" class="headerlink" title="字典查找"></a>字典查找</h2><p>其实做 <code>Java</code> 的应该都知道 <code>Map</code> 和 <code>HashMap</code>，这个类其实就是字典查找实现。他的前身是 <code>Dictionary</code> 以及 <code>Hashtable</code>。因为之前的类库，大部分方法都被加上 <code>synchronized</code> 标记，导致这些类库在运行的时候，效率都不高。所以后期都是使用 <code>HashMap</code> 这一类来进行操作。 不过现在我们要看的是 <code>字典</code> 是什么，我们看书的时候基本都有一个东西叫做 <code>目录</code>，这个东西就可以用来查询哪个标题大概在哪一页开始，而我们程序所说的就是这个东西，一个类似于 <code>目录</code> 的 <code>Key-Value</code> 对应的结构，当我们为了实现一些需求的时候需要将一类数据作为 <code>Key</code>，另外一类数据作为 <code>Value</code> 存入从而实现计算的时候，就可以使用 <code>字典</code> 这种数据结构了。 而实现 <code>字典</code> 也有不同方式，我们还是慢慢的一步一步接近，目的就是为了设计一个高性能的字典。 那 <code>API</code> 我们可以定义类似于 <code>Map</code> 接口，然后使用不同的结构来实现我们的功能，首先我们先定义我想要的接口：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%AD%97%E5%85%B8%E6%9F%A5%E6%89%BE%E6%A0%91/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">【编程基础】排序算法</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-06-08 16:54:17" itemprop="dateCreated datePublished" datetime="2020-06-08T16:54:17+08:00">2020-06-08</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-12 17:29:14" itemprop="dateModified" datetime="2020-11-12T17:29:14+08:00">2020-11-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="算法衡量方法"><a href="#算法衡量方法" class="headerlink" title="算法衡量方法"></a>算法衡量方法</h2><p>在历史中，科学家经常能够得出一些结论，这跟他们猜想，然后不停的做实验证明结果是一样的。一个结论只需要一个错误的推论即可推翻，但是再多的正确实验结果都不能绝对的证明结论就是对的。 而关乎算法效率的衡量，可以简单的认为，<code>f(n) = x某种函数关系</code>，我们即可得出算法中关于输入的 <code>数量n</code> 与时间的大致关系，不一定需要特别准确的表示，但是能够近乎的表示即可。 比方说一个计算，我们需要三次遍历一个数组中的值：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> j = i+<span class="number">1</span>; j &lt; n; j++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = j+<span class="number">1</span>; k &lt; n; k++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (a[i] + a[j] + a[k] == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// 某种操作</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90springcloud%E3%80%91spring-cloud-common%E8%A7%A3%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90springcloud%E3%80%91spring-cloud-common%E8%A7%A3%E6%9E%90/" class="post-title-link" itemprop="url">【SpringCloud】Spring-Cloud-Common解析</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-05-10 16:50:31" itemprop="dateCreated datePublished" datetime="2020-05-10T16:50:31+08:00">2020-05-10</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-12 16:00:28" itemprop="dateModified" datetime="2020-11-12T16:00:28+08:00">2020-11-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/" itemprop="url" rel="index"><span itemprop="name">frame</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/Spring%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Spring源码</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="SpringCloud开篇"><a href="#SpringCloud开篇" class="headerlink" title="SpringCloud开篇"></a>SpringCloud开篇</h2><p>那么最近是想要来阅读一下 <code>SpringCloud</code> 的文章的，于是乎逗了几个圈子，又是去 <code>GitHub</code> 下 <code>原生 Eureka</code> 的源码，又是去 <code>Spring</code> 下 <code>spring-cloud-netflix</code> 的源码，最后也是基本锁定只要从 <code>spring-cloud-netflix</code> 进去了解 <code>SpringCloud</code> 组件即可，毕竟 <code>原生Eureka</code> 我没用过…</p>
+<h2 id="spring-cloud-context项目"><a href="#spring-cloud-context项目" class="headerlink" title="spring-cloud-context项目"></a>spring-cloud-context项目</h2><p>那么为啥是从 <code>SpringCloudContext</code> 开始咧，是因为这样的，如果我们某个组织想要开发 <code>SpringCloud</code> 套件的话，就需要使用到 <code>Spring</code> 官方提供的 <code>spring-cloud-commons</code> 项目，这个项目是一个 <code>套件工具包</code>，提供的是官方已经写好的一些注解和工具包，比方说 <code>@EnableDiscoveryClient</code> <code>@LoadBalanced</code> 这些我们常用的 <code>SpringCloud</code> 注解，并且提供了一些少量的支持，其中最重要的莫过于 <code>SpringCloud</code> 的上下文。 那我们之前读过 <code>Spring</code> 的源码的时候了解到，无论是 <code>context</code> 还是 <code>application</code>，都是支持父级容器的，而从容器中取出 <code>Bean实例</code> 的时候，也是 <code>双亲加载机制</code>，如果父级容器有了，那么子级容器是不会重新去加载的，这样我们在设计我们的业务项目的时候，就可以把一些基础架构的 <code>Bean实例</code> 丢到父级容器，并且子级容器只需要加载业务相关的类就可以了，当需要对第三方服务（如：<code>MySQL</code> <code>Redis</code> 都可以称为第三方服务）进行访问的时候，让我们的子级业务容器去父级容器取出来进行使用。有什么好处呢，我感觉就是专业的容器，做专业事情，我们编码弄出那么多设计，不外乎就是为了让程序的 <strong>拓展性会更好</strong>，当我们的基础服务发生改变的时候，那就可以将父级容器换一个，而不需要去动我们的业务容器。 带着这个想法来了解一下 <code>spring-cloud-context</code> 项目，<code>spring-cloud-context</code> 项目提供了一个容器，名为 <code>bootstrap</code>，那使用过的 <code>spring-cloud</code> 组件搭建过项目的同学肯定想到了我们常见的 <code>bootstrap.yml</code>，没错，这个配置文件就是配置 <code>bootstrap</code> 容器的，当我们在我们的项目中加入类似于 <code>eureka</code> <code>zuul</code> 或者 <code>eureka-client</code> 的时候，我们的项目容器就发生了翻天覆地的变化。 <code>SpringApplication</code> 会先根据 <code>SPI</code> 协议加载 <code>BootstrapApplicationListener</code> 类，并且在初始化 <code>ConfigurableApplicationContext</code> 之前，先执行这个上面的 <code>ApplicationListener</code> 的回调方法，把 <code>Bootstrap容器</code> 给初始化出来，并且设置为当前容器的 <code>parent</code> （典型的 <code>我把你当朋友你居然要做我爸爸</code>）。而如果有 <code>SpringCloud</code> 架构经验的同学肯定也明白一个事情，为啥我们在整合 <code>spring-cloud-config-client</code> 的时候，<code>spring-cloud</code> 的配置内容需要写在 <code>bootstrap.yml</code> 中，当然是因为 <code>bootstrap.yml</code> 是第一个被加载的，然后他获取到了配置以后，再初始化我们自己的容器，这时候我们自己的容器如果需要一些 <code>远程配置</code> 的时候，就可以先从 <code>爸爸</code> 那里去命中了。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/frame/Spring%E6%BA%90%E7%A0%81/%E3%80%90springcloud%E3%80%91spring-cloud-common%E8%A7%A3%E6%9E%90/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/java/Tomcat/%E3%80%90tomcat%E3%80%91%E5%9B%9B-tomcat%E5%A4%84%E7%90%86%E8%AF%B7%E6%B1%82%EF%BC%88%E4%B8%8B%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/Tomcat/%E3%80%90tomcat%E3%80%91%E5%9B%9B-tomcat%E5%A4%84%E7%90%86%E8%AF%B7%E6%B1%82%EF%BC%88%E4%B8%8B%EF%BC%89/" class="post-title-link" itemprop="url">【Tomcat】四.Tomcat处理请求（下）</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-04-19 17:33:12" itemprop="dateCreated datePublished" datetime="2020-04-19T17:33:12+08:00">2020-04-19</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-12 16:03:23" itemprop="dateModified" datetime="2020-11-12T16:03:23+08:00">2020-11-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/Tomcat/" itemprop="url" rel="index"><span itemprop="name">Tomcat</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="零"><a href="#零" class="headerlink" title="零"></a>零</h2><p>上一节我们来到了 <code>getAdapter().service(request, response);</code> 这里，接下来需要看一个 <code>连接器 -- Coyote框架</code> <code>Coyote</code> 的中文意思是 <code>山狗</code> ，北美的一种狼，我想用这个名字应该是指他非常的迅猛。 它实现了自己的 <code>Request</code> 和 <code>Response</code>（不是 <code>servlet</code> 标准），主要用于将 <code>byte数组</code> 翻译成必要的 <code>HTTP信息</code>。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/java/Tomcat/%E3%80%90tomcat%E3%80%91%E5%9B%9B-tomcat%E5%A4%84%E7%90%86%E8%AF%B7%E6%B1%82%EF%BC%88%E4%B8%8B%EF%BC%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/java/Tomcat/%E3%80%90tomcat%E3%80%91%E5%9B%9B-tomcat%E5%A4%84%E7%90%86%E8%AF%B7%E6%B1%82%EF%BC%88%E4%B8%8A%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/Tomcat/%E3%80%90tomcat%E3%80%91%E5%9B%9B-tomcat%E5%A4%84%E7%90%86%E8%AF%B7%E6%B1%82%EF%BC%88%E4%B8%8A%EF%BC%89/" class="post-title-link" itemprop="url">【Tomcat】四.Tomcat处理请求（上）</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-04-19 17:29:57" itemprop="dateCreated datePublished" datetime="2020-04-19T17:29:57+08:00">2020-04-19</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-12 16:03:23" itemprop="dateModified" datetime="2020-11-12T16:03:23+08:00">2020-11-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/Tomcat/" itemprop="url" rel="index"><span itemprop="name">Tomcat</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="一-处理流程"><a href="#一-处理流程" class="headerlink" title="一.处理流程"></a>一.处理流程</h2><h3 id="1-1-系统IO多路复用"><a href="#1-1-系统IO多路复用" class="headerlink" title="1.1 系统IO多路复用"></a>1.1 系统IO多路复用</h3><p>OK，要知道 <code>Tomcat</code> 请求的流程，首先我们得先知道 <code>I/O复用模型</code>，同等级的模型还有 <code>阻塞式I/O</code>、<code>非阻塞式I/O</code>、<code>I/O复用(select/poll/epoll)</code>、<code>信号驱动式I/O</code> 和 <code>异步I/O</code>，目前的 <code>Tomcat</code> 是 <code>8.5</code> 版本，使用的就是 <code>I/O复用模型</code>，也叫 <code>多路复用</code> 模型。 <code>I/O复用模型</code>： </p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/java/Tomcat/%E3%80%90tomcat%E3%80%91%E5%9B%9B-tomcat%E5%A4%84%E7%90%86%E8%AF%B7%E6%B1%82%EF%BC%88%E4%B8%8A%EF%BC%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weidan</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
