@@ -220,18 +220,18 @@ var _hmt = _hmt || [];
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-count">71</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-count">47</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -266,6 +266,102 @@ var _hmt = _hmt || [];
       
 
       
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/frame/spring-cloud/ddd%E5%92%8C%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/frame/spring-cloud/ddd%E5%92%8C%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="post-title-link" itemprop="url">DDD和微服务</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-06-17 16:05:45" itemprop="dateCreated datePublished" datetime="2019-06-17T16:05:45+08:00">2019-06-17</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-12 15:56:09" itemprop="dateModified" datetime="2020-11-12T15:56:09+08:00">2020-11-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/" itemprop="url" rel="index"><span itemprop="name">frame</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="一-DDD"><a href="#一-DDD" class="headerlink" title="一. DDD"></a>一. DDD</h2><p><code>DDD</code> 是 Martin Folwer 提出来的，对现有常见开发模式的一种反转。 举个栗子，我们通常拿到一个业务需求，开始辨认可能需要用到的属性，然后做成数据库表，接着开始编写 <code>JavaBean</code> 映射类。写完了，就开始把需求在业务中实现，开始 <code>get</code> 来 <code>set</code> 去的生活。讲道理，我之前刚刚入门的时候就觉得这种模式太枯燥了，千篇一律，<code>Java</code> 刚开始学的面向对象思想也不知道跑到哪里去了。 后来接触了《领域驱动设计 Domain Design Driven》（简称 <code>DDD</code>）这本返璞归真的业务编写指导，才逐渐的觉悟，原来之前那种方式完全都是面向过程的形式，也就是说，我们在用面向对象语言编写面向过程的代码。 先简单说说 <code>DDD</code> 主要讲了什么: <code>DDD</code> 主要通过建立业务通用语言（该语言将会贯穿整个开发上下文，并且是开发人员与业务人员沟通的桥梁，如：一个产品在产品上下文叫产品定义，在仓储上下文则应该称为库存件），将语言通过一种<strong>易于维护的组织形式在编码中表达出来</strong>，这样开发人员可以通过快速阅读代码，达到如同在阅读业务文档一样的效果。</p>
+<h2 id="二-DDD的概念"><a href="#二-DDD的概念" class="headerlink" title="二. DDD的概念"></a>二. DDD的概念</h2><p><code>DDD</code> 涉及一些概念，如果还没理解透彻 <code>Java</code> 中这些概念的使用的话，那么理解起来是有点晦涩的。 我这里可以先简单总结一下：在 <code>Java</code> 中，模块的划分可以通过 <code>包</code> 这个概念来划分，包中 <code>public</code> 是可以对外公开的，也就是说调用者一般只能看到该包中被 <code>public</code> 的类，至于这个类是接口还是实现类就要看这个包作者怎么做了，简单地说如果实现一个功能，作者通过工厂类的形式返回了一个接口，而内部实现类都是包级别 <code>default</code> 或以下的话，那么我们通过接口调用也就自然而然的看不到实现类了，那么这个包也就可以理解是一个设计的不错的包模块。当然在项目编程中我们通常需要配合诸如 <code>Spring</code> 之类的框架，所以我们写的这些类很可能都是 <code>public</code> 级别的。 那么我先从简单到难这个过程说说 <code>DDD</code> 中各个概念的作用（当然如果说 <code>DDD</code> 就是不同分层的话也不合适，但是万事都有个开头，我们可以先通过分层来做，慢慢体会其中的乐趣）</p>
+<h3 id="2-1-模块module"><a href="#2-1-模块module" class="headerlink" title="2.1 模块module"></a>2.1 模块module</h3><p>OK，那么模块就是我上面举的例子中的包级别的意思了，通过包来分割不同的模块。 那么在 <code>DDD</code> 中一般是根据什么原则来划分的？ 答： 1. 第一级：根据业务模块，我们每个业务，都会分出来一个模块，比如：产品模块，购物车模块，仓储模块等等； 2. 第二级：根据不同功能的模块，有视图层，应用服务层以及领域层； 3. 领域层整个模块，还可以根据爱好决定是否划分成 <code>domain</code> 层、<code>repository</code> 层以及 <code>领域服务</code>层（这些层的职责我会在下面的领域层做解释）</p>
+<h3 id="2-2-应用服务层"><a href="#2-2-应用服务层" class="headerlink" title="2.2 应用服务层"></a>2.2 应用服务层</h3><p>注意：这里是应用服务层不是叫做领域服务层，两者的职责是不同的。 那么应用服务层是做什么的，我得先总结一下，应用服务层不同于领域服务层，应用服务层只要是一项业务开始的入口，应用服务层是领域层的客户端，通过领域层暴露的公开接口，协调业务的完成（业务完成细节隐藏在领域层中），他主要完成三件事情： 1. 日志的记录； 2. 事务的管理； 3. 通过调用某个仓库获取需要操作的领域对象并且通过调用该领域对象的接口完成业务。 那么结合起来可以总结一句话，他是某个业务下可以完成的业务逻辑的集合。这个项目他可以完成哪些业务，通过应用服务层即可得知。</p>
+<h3 id="2-3-领域层"><a href="#2-3-领域层" class="headerlink" title="2.3 领域层"></a>2.3 领域层</h3><p>这个题目是 <code>DDD</code> 设计的重中之重，只有这部分做好了，<code>DDD</code> 才算是落实的好。 在领域层中，有三个很重要的角色： 1. 领域类Entity； 2. 协助领域类的值对象ValueObject； 3. 不属于领域类的业务动作集合体领域服务层 <code>DominSevice</code></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/frame/spring-cloud/ddd%E5%92%8C%E5%BE%AE%E6%9C%8D%E5%8A%A1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
     
 
 
@@ -1144,106 +1240,10 @@ var _hmt = _hmt || [];
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/frame/spring-boot/springboot-%E4%B8%8E-redis-%E5%A4%84%E7%90%86%E7%BC%93%E5%AD%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Weidan">
-      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="丹崽的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/frame/spring-boot/springboot-%E4%B8%8E-redis-%E5%A4%84%E7%90%86%E7%BC%93%E5%AD%98/" class="post-title-link" itemprop="url">springboot 与 redis 处理缓存</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2019-01-08 09:38:29" itemprop="dateCreated datePublished" datetime="2019-01-08T09:38:29+08:00">2019-01-08</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-11-12 16:00:28" itemprop="dateModified" datetime="2020-11-12T16:00:28+08:00">2020-11-12</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/frame/" itemprop="url" rel="index"><span itemprop="name">frame</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/frame/spring-boot/" itemprop="url" rel="index"><span itemprop="name">spring-boot</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="一-简述"><a href="#一-简述" class="headerlink" title="一. 简述"></a>一. 简述</h2><p><code>Redis</code> 是现在大部分项目中使用最多的 <code>NOSQL</code> 型数据库，其单线程的模型以及内存级别的读取可以给项目适当加加速。<code>Redis</code> 不仅会被当成缓存数据库使用，还会被作为分布式锁（因为是单线程模型）的工具来使用。 <code>Spring-Boot</code> 项目有两种方式使用 <code>Redis</code> ，接下来就是两种方式的使用方式了。<br>项目：<code>spring-boot-data-redis</code> 地址：<a target="_blank" rel="noopener" href="https://github.com/WeidanLi/spring-boot-tutorial">https://github.com/WeidanLi/spring-boot-tutorial</a></p>
-<h2 id="二-开发"><a href="#二-开发" class="headerlink" title="二. 开发"></a>二. 开发</h2><h3 id="（一）连接-redis-数据库"><a href="#（一）连接-redis-数据库" class="headerlink" title="（一）连接 redis 数据库"></a>（一）连接 redis 数据库</h3><h4 id="1-环境准备"><a href="#1-环境准备" class="headerlink" title="1. 环境准备"></a>1. 环境准备</h4><p>使用 <code>Docker</code> 启动 <code>redis</code> 内存数据库：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --restart=always -d -p 6379:6379 --name imopei-redis redis redis-server</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-mvn-依赖"><a href="#2-mvn-依赖" class="headerlink" title="2. mvn 依赖"></a>2. mvn 依赖</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-data-redis&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/frame/spring-boot/springboot-%E4%B8%8E-redis-%E5%A4%84%E7%90%86%E7%BC%93%E5%AD%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 

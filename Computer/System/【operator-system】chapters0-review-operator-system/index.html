@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+
+
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?66f61662f62178eebb934fa943e5df84";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="重新认识操作系统 文章一共 10981 个文字，阅读时间约 10 分钟左右。   第一、第二均属于扯淡范围，如果不是很感兴趣的话可以直接跳过。  一. 操作系统初定义操作系统 这个词语，在接触电脑的第一时间开始，就可以开始听到了。依稀记得那年 2008 年家里新购的一台某想的电脑，路边电脑铺大哥就给我安了一个叫 “Windows Vista” 的操作系统，并且跟我说这个是目前最新版本的系统了。但，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【操作系统】chapters0_重识操作系统">
+<meta property="og:url" content="http://weidanli.github.io/Computer/System/%E3%80%90operator-system%E3%80%91chapters0-review-operator-system/index.html">
+<meta property="og:site_name" content="丹崽的技术博客">
+<meta property="og:description" content="重新认识操作系统 文章一共 10981 个文字，阅读时间约 10 分钟左右。   第一、第二均属于扯淡范围，如果不是很感兴趣的话可以直接跳过。  一. 操作系统初定义操作系统 这个词语，在接触电脑的第一时间开始，就可以开始听到了。依稀记得那年 2008 年家里新购的一台某想的电脑，路边电脑铺大哥就给我安了一个叫 “Windows Vista” 的操作系统，并且跟我说这个是目前最新版本的系统了。但，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20210213164151.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20210213164529.png">
+<meta property="article:published_time" content="2021-02-13T08:39:43.000Z">
+<meta property="article:modified_time" content="2021-02-13T08:48:15.472Z">
+<meta property="article:author" content="Weidan">
+<meta property="article:tag" content="操作系统">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20210213164151.png">
+
+
+<link rel="canonical" href="http://weidanli.github.io/Computer/System/%E3%80%90operator-system%E3%80%91chapters0-review-operator-system/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【操作系统】chapters0_重识操作系统 | 丹崽的技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">丹崽的技术博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">丹崽的计算机知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-数据结构">
+
+    <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="section">数据结构</a>
+
+  </li>
+        <li class="menu-item menu-item-spring源码">
+
+    <a href="/spring-sources/" rel="section">Spring源码</a>
+
+  </li>
+        <li class="menu-item menu-item-mysql底层">
+
+    <a href="/mysql/" rel="section">MySQL底层</a>
+
+  </li>
+        <li class="menu-item menu-item-tomcat源码">
+
+    <a href="/tomcat-sources/" rel="section">Tomcat源码</a>
+
+  </li>
+        <li class="menu-item menu-item-计算机网络">
+
+    <a href="/network/" rel="section">计算机网络</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E8%AE%A4%E8%AF%86%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.</span> <span class="nav-text">重新认识操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%88%9D%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">一. 操作系统初定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E5%8E%86%E5%8F%B2%E5%8F%91%E5%B1%95"><span class="nav-number">1.2.</span> <span class="nav-text">二. 历史发展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-%E7%A1%AC%E4%BB%B6%E6%90%AD%E9%85%8D"><span class="nav-number">1.3.</span> <span class="nav-text">三. 硬件搭配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-CPU"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 CPU</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-1-%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">3.1.1 寄存器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-2-%E5%86%85%E6%A0%B8%E6%80%81%E5%92%8C%E7%94%A8%E6%88%B7%E6%80%81"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">3.1.2 内核态和用户态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-3-%E5%A4%9A%E7%BA%BF%E7%A8%8BCPU%E5%92%8C%E5%A4%9A%E6%A0%B8%E8%8A%AF%E7%89%87"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">3.1.3 多线程CPU和多核芯片</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E5%86%85%E5%AD%98%E5%AD%98%E5%82%A8%E5%99%A8"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 内存存储器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">3.2.1 寄存器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-%E9%AB%98%E9%80%9F%E7%BC%93%E5%AD%98"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">3.2.2 高速缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-3-%E4%B8%BB%E5%AD%98%EF%BC%88%E4%B9%9F%E5%B0%B1%E6%98%AF%E5%86%85%E5%AD%98%E6%9D%A1%EF%BC%89"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">3.2.3 主存（也就是内存条）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E7%A1%AC%E7%9B%98"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 硬盘</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-%E6%9C%BA%E6%A2%B0%E7%A1%AC%E7%9B%98"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">3.3.1 机械硬盘</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">3.3.2 固态硬盘</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-IO%E8%AE%BE%E5%A4%87"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.4 IO设备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-1-%E7%BB%84%E6%88%90%E5%92%8C%E6%8E%A7%E5%88%B6"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">3.4.1 组成和控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-2-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%85%BC%E5%AE%B9"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">3.4.2 操作系统兼容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-3-%E8%B0%83%E7%94%A8%E7%A1%AC%E4%BB%B6%E5%8A%9F%E8%83%BD"><span class="nav-number">1.3.4.3.</span> <span class="nav-text">3.4.3 调用硬件功能</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E6%80%BB%E7%BA%BF"><span class="nav-number">1.3.5.</span> <span class="nav-text">3.4 总线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%AF%E5%8A%A8"><span class="nav-number">1.3.6.</span> <span class="nav-text">3.5 计算机启动</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B-%E9%87%8D%E8%AF%86%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5"><span class="nav-number">1.4.</span> <span class="nav-text">四. 重识操作系统概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%8A%BD%E8%B1%A1%E7%9A%84%E6%A6%82%E5%BF%B5%EF%BC%88%E5%86%85%E6%A0%B8%E5%8A%9F%E8%83%BD%EF%BC%89"><span class="nav-number">1.5.</span> <span class="nav-text">五. 操作系统抽象的概念（内核功能）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E8%BF%9B%E7%A8%8B%EF%BC%88process%EF%BC%89"><span class="nav-number">1.5.1.</span> <span class="nav-text">5.1 进程（process）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4%EF%BC%88address-space%EF%BC%89"><span class="nav-number">1.5.2.</span> <span class="nav-text">5.2 地址空间（address space）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-%E6%96%87%E4%BB%B6%EF%BC%88file%EF%BC%89"><span class="nav-number">1.5.3.</span> <span class="nav-text">5.4 文件（file）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-%E8%BE%93%E5%85%A5-%E8%BE%93%E5%87%BA"><span class="nav-number">1.5.4.</span> <span class="nav-text">5.5 输入&#x2F;输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-6-%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90"><span class="nav-number">1.5.5.</span> <span class="nav-text">5.6 数据权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-7-shell"><span class="nav-number">1.5.6.</span> <span class="nav-text">5.7 shell</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="nav-number">1.6.</span> <span class="nav-text">六. 系统调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84"><span class="nav-number">1.7.</span> <span class="nav-text">七. 操作系统结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E5%8D%95%E4%BD%93%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.7.1.</span> <span class="nav-text">7.1 单体系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E5%B1%82%E6%AC%A1%E6%80%A7%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.7.2.</span> <span class="nav-text">7.2 层次性系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-%E5%BE%AE%E5%86%85%E6%A0%B8"><span class="nav-number">1.7.3.</span> <span class="nav-text">7.3 微内核</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-4-%E5%AE%A2%E6%88%B7%E6%9C%BA-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.7.4.</span> <span class="nav-text">7.4 客户机-服务器模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-5-%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">1.7.5.</span> <span class="nav-text">7.5 虚拟机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-6-%E5%A4%96%E6%A0%B8"><span class="nav-number">1.7.6.</span> <span class="nav-text">7.6 外核</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB-%E5%B0%8F%E7%BB%93"><span class="nav-number">1.8.</span> <span class="nav-text">八. 小结</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Weidan</p>
+  <div class="site-description" itemprop="description">计算机基础 计算机网络 Java Vue 前端 后端</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/WeidanLi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/Computer/System/%E3%80%90operator-system%E3%80%91chapters0-review-operator-system/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【操作系统】chapters0_重识操作系统
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-02-13 16:39:43 / 修改时间：16:48:15" itemprop="dateCreated datePublished" datetime="2021-02-13T16:39:43+08:00">2021-02-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Computer/" itemprop="url" rel="index"><span itemprop="name">Computer</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Computer/System/" itemprop="url" rel="index"><span itemprop="name">System</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="重新认识操作系统"><a href="#重新认识操作系统" class="headerlink" title="重新认识操作系统"></a>重新认识操作系统</h1><blockquote>
+<p>文章一共 <strong>10981</strong> 个文字，阅读时间约 <strong>10</strong> 分钟左右。</p>
+</blockquote>
+<blockquote>
+<p>第一、第二均属于扯淡范围，如果不是很感兴趣的话可以直接跳过。</p>
+</blockquote>
+<h2 id="一-操作系统初定义"><a href="#一-操作系统初定义" class="headerlink" title="一. 操作系统初定义"></a>一. 操作系统初定义</h2><p><code>操作系统</code> 这个词语，在接触电脑的第一时间开始，就可以开始听到了。依稀记得那年 <code>2008</code> 年家里新购的一台某想的电脑，路边电脑铺大哥就给我安了一个叫 <strong>“Windows Vista”</strong> 的操作系统，并且跟我说这个是目前最新版本的系统了。但，我这个系统怎么看起来没有毛玻璃，没有半透明，没有酷炫的 <code>3D</code> 任务画面切换功能，且 <strong>我的电脑</strong> 属性显示的是 <strong>Windows XP</strong> 咧 。就这么带着疑惑使用了大半年，由于经常上能够让人气血澎湃的网站，所以经常深度中毒了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20210213164151.png" alt="Windows Vista的任务预览图"></p>
+<p>一不做二不休，总是叫人家电脑铺老板过来也不太好意思，就自己百度了怎么重装操作系统。那时候风靡一时的有什么 <strong>雨林木风</strong> <strong>深度</strong> 网上的评论都很不错，偶然看到我朋友提起那个熟悉的名词 <strong>Windows Vista</strong>，那就下一个看看，由于不会装 <strong>驱动</strong>（我是S*），所以显示器来有点奇怪，一点都不如 <strong>Windows XP</strong> 好用，还一卡一卡的。所以也用了蛮久的 <strong>Windows XP</strong> 了。也不知道什么时候突然顿醒了了，知道了还有驱动这个事情，于是下了当时最新的系统 <strong>Windows7</strong>。草（一种植物），之前 <strong>XP</strong> 下根本没法玩的 <strong>生化危机4</strong> 居然流畅的跑起来了，而且还有一堆其他游戏也跑起来了，然后一顿赞美以后。就读大学去了。</p>
+<p>聊了这么多的故事，<strong>操作系统</strong> 我只认识到，这是一个可以让一个箱子里面的零固件发生一系列很微妙的转换，并且还可以看着显示器，做很多事情的东西（现在看来应该说软件，但是那时候只知道一台电脑，就需要 <strong>硬件+操作系统</strong> 才可以开始正常使用）比如说：玩游戏啦，看电影啦，看视频啦，学习一些 “技术”啦等等。如果说买了一台电脑，没有安装任何的 <strong>操作系统</strong>，那这台电脑，就是不好玩的。</p>
+<p>哦，对了，那时候还有另外一个兴趣就是，看着诺基亚手机论坛一个一个发布的 <code>ROM</code>，恨不得每一个都刷一次，所以我每天基本打开电脑就是在刷手机，后面也遇到了在 <code>5530</code> 型号上的手机运行 <code>C6 ROM</code> 的事实，好生好奇，不过知识浅表，知道可以这么玩就是了。 </p>
+<h2 id="二-历史发展"><a href="#二-历史发展" class="headerlink" title="二. 历史发展"></a>二. 历史发展</h2><p>带着 <strong>一台电脑，必须拥有对应的操作系统才能正常运行</strong> 的想法，来看一下 <strong>操作系统</strong> 在几个时期下的状态。</p>
+<p>第一台真正的数字计算机，来源于英国数学家 <strong>Charles Babbage</strong>，他从法国人杰卡德发明的提花织布机上获得了灵感，制造了一台小型计算机，能进行8位数的某些数学运算。而后，英国政府觉得有利可图，遂资助大量资金给 <strong>Charles Babbage</strong> 研究第二代大型差分机，但这台差分机难产了。再然后 <strong>Ada</strong> 加入了他的团队，他提出了更加跳跃的想法，这台机器能够自动解算有100个变量的复杂算题，每个数可达25位，速度可达每秒钟运算一次。<strong>Ada</strong> 则扛起了对这台机器编写程序（指的是通过物品编写程序）的重任，而她发现这些程序的编写跟织布机的某种零件一样。所以她成为世界上第一个程序员，也是发明了函数的人。</p>
+<p>自第一台计算机被提出设计出来以后，第二代差分机虽然难产，但是设计等方面却流传了下来，这时候熟悉的第二次世界大战开始了。由于战争的需要，催生了第一代计算机的诞生。</p>
+<p><strong>第一代计算机</strong> 没有设计语言，也没有操作系统，程序使用的是机器码编程，介质是插件板。使用方式是将编写好的程序插件板插入到计算机里，几个小时后就可以计算出结果出来，这一代计算机一般用于一些简单的数学计算，可以说现代我们使用的计算器，比第一代计算机的功能还要强很多。后期出现了穿孔卡片，但是编程依然需要使用机器码在卡片上编程。</p>
+<p><strong>第二代计算机</strong> 开始发展了，计算机厂商已经可以量产计算机出售，但是价格十分昂贵，只有学校或者政府才有可能购买使用。第二代计算机使用磁带保存运行时数据，通常程序员使用 <strong>Fortran语言或汇编语言</strong> 编写程序，穿孔成卡片，然后将卡片带到计算机室（Emm 以前的计算机占地面积比较大），稍等计算机工作人员运行程序并拿到程序的结果（一般打印在纸上）。而把镜头转向操作员这边来，操作员需要接收到一个卡片，如果需要 <strong>Fortran编译器</strong> 的话还需要装载编译器读入计算机，然后再把程序结果递交给程序员，然后去接收第二个任务重复上面的动作。由于这种工作方式导致很多时间浪费掉在走路，沟通，装载程序上面，所以操作员一般会汇集很多个任务才开始进行计算机的操作，并且使用价格比较低廉的计算机进行程序的读取以及结果的打印，而价格比较昂贵的计算机则用来做程序的运算，这种方式也称为 <strong>批处理作业</strong>。</p>
+<p><strong>批处理作业</strong> 流程一般就是操作员先聚集一批作业，放入读卡机，输出到磁带，然后将一个程序（这个程序可以看做 <strong>操作系统</strong> 的前身）装载到负责计算的计算机上，这个软件即可在计算机完成一个任务以后自动读取下一个任务，将结果批量的写到输出磁带上，然后操作员再把这些磁带拿到打印机进行批量打印。</p>
+<p><strong>第三代计算机</strong> 的形态就跟现在的计算机形态很相像了， 在 <strong>第二代计算机</strong> 时代中，我们知道了低端的计算机用来输入和输出打印，高端的计算机用来运行程序。但是这个情况导致了面对需求的变化十分无力（是的，需求！）。许多用户本来只需要一台低端的计算机，但是后期需求变得宽广了就需要一台高端的计算机，而这两款计算的运行方式是不互通的。所以著名的 <strong>IBM公司</strong> 发明了 <strong>System/360</strong> 来视图解决这个问题，<strong>360</strong> 是第一个采用芯片（集成电路）的主流机型，与上一代计算机相比，性价比有很大的优势。但是 <strong>IBM公司</strong> 又由于需要将这套程序做成能够兼容打印，大型计算等领域，将 <strong>OS/360</strong> 开发成一个怪兽（即包含着数百万行汇编代码），补丁打了又打，旧的错误解决又引入新的错误（我们现在的日常），导致这套系统非常庞大。</p>
+<p>但是 <strong>OS/360</strong> 很多功能都是有意义的，最重要的功能是能够支持多道程序设计，由于大部分程序均有 <strong>IO处理</strong>，而大型商业软件的 <strong>IO处理</strong> 更是高达 <strong>80%**，所以这套系统支持在内存中驻留多道程序，当 **A程序</strong> 需要等待 <strong>IO处理</strong> 时，<strong>CPU</strong> 便可转而去处理 <strong>B程序</strong>，<strong>CPU利用率</strong> 高达 **100%**。另外一个重要的特性是，支持快捷的输入输出功能。上一代计算机需要人工的进行磁盘的装载，但是这一代的计算机可以通过外部设备联机操作，快速的输入和输出信息。</p>
+<p>虽然说上面描述的操作系统已经支持多道程序，但是由于本质上还是 <strong>批处理作业</strong>，所以导致多个程序执行的时候，还是需要等待很长的时间。所以，<strong>分时系统</strong> 诞生了。第一个 <strong>分时系统</strong> 是由 <strong>MIT</strong> 开发而成的。而 <strong>分时系统</strong> 诞生以后，<strong>MIT</strong>、<strong>贝尔实验室</strong> 以及 <strong>通用公司</strong> 决定开发一套可以同时支撑数百个用户计算需求的系统，这套系统名为 <strong>MULTICS</strong>，他需要运行在一台计算机上（性能嘛，需要感受一下），就能够支撑数百名用户，显然在当时那个情况下是不太可能的。但是他跟世界上 <strong>第一代计算机</strong> 一样，散播了很多原创思想。到目前来说，至少支持多人计算服务这个事情已经被实现了，即 <strong>Web服务</strong>，在远程的服务器上运行着需要大量计算的软件，而我们个人计算机只需要在 <strong>Web页面</strong> 上简单的输入我们的请求，即可实现计算。</p>
+<p>一位参加过 <strong>MULTICS</strong> 研制的科学家，对 <strong>MULTICS</strong> 进行了改版，开发了简化版的 <strong>MULTICS</strong>，这导致了 <strong>UNIX</strong> 系统的诞生。而由于 <strong>UNIX</strong> 系统是开源的，所以导致各个机构开发出了不相互兼容的版本。为了使软件能够兼容各个版本的 <strong>UNIX</strong>，<strong>IEEE</strong> 甚至还提出了 <strong>UNIX</strong> 的标准：<strong>POSIX</strong>。</p>
+<p>接下来的事情大家就比较熟悉了，1987年的时候，一位大学教授编写了一套操作系统 <strong>MINIX3</strong>，该系统只应用于教学目的，而他的学生 <strong>Linux</strong> 则编写了系统 <strong>Linux</strong>，目前成为世界上用户量最多的服务器操作系统。</p>
+<p><strong>第四代计算机</strong>，也就是现代时代了，<strong>比尔盖茨</strong> <strong>乔布斯</strong> 的时代。这时候操作系统从简单的 <strong>DOS接收用户输入并输出结果</strong> 的时代，转而拥有 <strong>GUI</strong> 可以通过鼠标窗口来输入数据的时代。所以我们现在的争论也是某某系统的更加好用，其实讨论的不都是哪个系统的 <strong>GUI</strong> 比较好用。</p>
+<h2 id="三-硬件搭配"><a href="#三-硬件搭配" class="headerlink" title="三. 硬件搭配"></a>三. 硬件搭配</h2><p>进入正轨，在讨论 <strong>操作系统</strong> 这个软件之前，我们需要先观察一下硬件方面的事情。一台简单的现代计算机，基本上都需要具备以下几个要点：<strong>CPU</strong>、<strong>内存</strong> 以及 <strong>IO设备</strong>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20210213164529.png" alt="现代计算机零部件"></p>
+<h3 id="3-1-CPU"><a href="#3-1-CPU" class="headerlink" title="3.1 CPU"></a>3.1 CPU</h3><p>毋庸置疑，一个标准的计算机，他为什么能计算，原因在于他有一颗能够计算的大脑：<strong>CPU</strong>。<strong>CPU</strong> 日常需要处理的事情无非就是：1. 解析指令；2. 执行指令；3. 保存结果。当然由于 <strong>CPU</strong> 的计算能力要比 <strong>从内存中取出指令或数据</strong> 要强得多（这也算是 <strong>IO处理</strong> 了）。所以，现代的 <strong>CPU</strong> 通常拥有缓存最近的存取数据的位置（速度不够，缓存来凑），那就是 <strong>寄存器</strong>。</p>
+<h4 id="3-1-1-寄存器"><a href="#3-1-1-寄存器" class="headerlink" title="3.1.1 寄存器"></a>3.1.1 寄存器</h4><p><strong>寄存器</strong> 通常拥有几种类型：</p>
+<ol>
+<li>用于保存变量和临时结果的 <strong>通用寄存器</strong>，该寄存器通常用来将数据从内存中读取，并且将执行结果写入内存；</li>
+<li>用来保存程序执行位置的 <strong>程序计数器</strong>，用于记录程序需要执行的下一条指令的内存地址，当计数器中的内存地址被取出正在执行以后，<strong>程序计数器</strong> 将会立刻收集下一条指令的地址；</li>
+<li>保存函数执行状态的 <strong>堆栈寄存器</strong>，保存当前函数执行的局部变量以及有关的参数输入；</li>
+<li>包含条件码位、CPU优先级、模式（用户态或者内核态）以及其他控制位的 <strong>程序状态字寄存器（Program Status Word，PSW）</strong>。</li>
+</ol>
+<p>计算机怎么给人一种有多个程序同时运气的错觉，就是因为每一个程序分配了很多的时间片进行执行，在一定的时间范围内，<strong>CPU</strong> 会将程序的状态立马保存起来（通过寄存器与内存沟通），然后执行另外一道程序（重新加载另外一道程序的所有状态）。由于切换时间很短，在人眼的可识别范围以外，所以可以给人一种有多道程序同时运行的错觉。</p>
+<p>当然，喜欢折腾的 <strong>CPU工程师</strong> 为了提高 <strong>CPU</strong> 的执行效率，现代的 <strong>CPU</strong> 具备了同时去除多条指令的机制，以便让 <strong>CPU</strong> 中的 <strong>取指单元</strong>、<strong>解码单元</strong>、<strong>执行单元</strong> 不会被空闲着。指令所需要经历过的单元顺序跟上面的描述顺序一致。</p>
+<p>更是然后，出现了 <strong>超标量CPU</strong>，他放置了更多的 <strong>取指单元</strong> 和 <strong>解码单元</strong>，一次性读取多条指令，甚至出现多个 <strong>执行单元</strong>（跟多核心有区别，执行单元可以将整数、浮点数、布尔值的计算分开），从而可以更快的完成程序指令。这就导致一个后果，我们编写的指令通常不按顺序执行，如果稍微不注意，就很容易出现结果与预期不同的问题（高情商解释）。</p>
+<h4 id="3-1-2-内核态和用户态"><a href="#3-1-2-内核态和用户态" class="headerlink" title="3.1.2 内核态和用户态"></a>3.1.2 内核态和用户态</h4><p>内核态和用户态的出现，最根本的原因就是保证硬件使用的安全性（指的是计算机运行的安全性）。在 <strong>内核态</strong> 的状态下，一般只有 <strong>操作系统</strong> 这套软件可以使用，它具备访问整台机器连接设备的权限，包括调整磁盘读取的指针啦，内存数据的清理和写入啦等等方面。而用户程序大多运行在 <strong>用户态</strong>，<strong>用户态</strong> 大体并不需要去操作外部的设备，比方说 <strong>用户态</strong> 读取计算机时钟，就可以直接在 <strong>用户态</strong> 下执行。</p>
+<p>所以说，<strong>内核态</strong> 可以说拥有 <strong>CPU</strong> 整个指令集的执行权，但是 <strong>用户态</strong> 却只能执行 <strong>CPU</strong> 整个指令集的子集，一般是没有损害硬件的指令。</p>
+<p>但不管怎么说，<strong>用户态</strong> 的程序很多时候需要操作 <strong>硬盘</strong>、<strong>网络</strong> 或者 <strong>内存</strong> 等硬件。这时候就需要切换程序运行的状态了，将所需要调用的功能提交给 <strong>操作系统</strong> 去执行。此时必须使用 <strong>系统调用</strong> 将状态陷入 <strong>内核态</strong>，用的是 <strong>TRAP指令</strong>，<strong>内核态</strong> 操作完成以后再把 <strong>数据</strong> 传递给 <strong>用户态</strong> 的程序，并且将当前状态切换回去。</p>
+<h4 id="3-1-3-多线程CPU和多核芯片"><a href="#3-1-3-多线程CPU和多核芯片" class="headerlink" title="3.1.3 多线程CPU和多核芯片"></a>3.1.3 多线程CPU和多核芯片</h4><p>随着 <strong>CPU</strong> 开发工业的逐渐精湛，<strong>CPU</strong> 也需要更多的承担更大的计算量才行。牙膏厂就使用了一项技术：<strong>多（超）线程CPU</strong>。他设计 <strong>CPU</strong> 核心的时候，允许他同时保持两个不同的线程状态，以纳秒级别的速度进行切换。对外开放给 <strong>上层系统</strong> 时，开放两个 <strong>CPU</strong> 的权限。所以在单核双线程的 <strong>CPU</strong> 上，<strong>上层系统</strong> 可以当成两个核心来进行操作使用。</p>
+<p>而现在，我们当然可以看到有多个核心的 <strong>CPU</strong>，此时 <strong>取指单元</strong>、<strong>解码单元</strong>、<strong>执行单元</strong> 就不止多出一倍出来，可以同时执行更多的计算量。</p>
+<p>但是也有 <strong>缓存</strong> 方面的顾虑，缓存可以有两种解决方案，一个是每个芯片都有自己的缓存体系，另外一个是多个芯片共享同一个缓存体系。当然各有各的优缺点，各自拥有缓存体系在保持一致性的时候带来困难，而共享同一个缓存体系的话，则会带来数据写入时需要争夺的问题。<strong>AMD</strong> 用的是前者的方案，而 <strong>婴特儿</strong> 用的是后者的方案。</p>
+<h3 id="3-2-内存存储器"><a href="#3-2-内存存储器" class="headerlink" title="3.2 内存存储器"></a>3.2 内存存储器</h3><p><strong>CPU</strong> 是 <strong>计算机</strong> 的大脑，负责运算。但是这时候还需要一些临时的零件来存储大脑计算时所需要的数据以及指令。那就是 <strong>内存存储器</strong>。</p>
+<p><strong>内存存储器</strong> 分为好几个等级，简单的介绍一下有：<strong>寄存器</strong>、<strong>高速缓存</strong>、<strong>内存</strong> 以及 <strong>磁盘</strong>。其执行速度自左到右，而存储的容量则反过来。</p>
+<h4 id="3-2-1-寄存器"><a href="#3-2-1-寄存器" class="headerlink" title="3.2.1 寄存器"></a>3.2.1 寄存器</h4><p>这个设备在 <strong>CPU</strong> 章节中已经做过介绍，由于他所使用的材质与 <strong>CPU</strong> 一致，所以速度也跟 <strong>CPU</strong> 一样快。但是由于价格高昂，所以存储容量也非常小。典型的 <strong>32位是32<em>32<strong>，</strong>64位是64</em>64</strong>。无论哪一种 <strong>CPU</strong> 其存储容量均小于 <strong>1kb</strong>。</p>
+<h4 id="3-2-2-高速缓存"><a href="#3-2-2-高速缓存" class="headerlink" title="3.2.2 高速缓存"></a>3.2.2 高速缓存</h4><p>目前市面上很多的 <strong>CPU</strong> 具有三级缓存，分别记为 <strong>L1（kb级别）</strong>、<strong>L2（mb级别）</strong> 以及 <strong>L3（mb级别）</strong>。高级缓存大部分放置于 <strong>CPU</strong> 内部，或者靠近 <strong>CPU</strong> 位置的外部主板上。每一级的速度逐渐递减。多数操作系统会将需要频繁使用的文件（或者一部分）放置于 <strong>高速缓存</strong> 中以避免频繁的读取。</p>
+<h4 id="3-2-3-主存（也就是内存条）"><a href="#3-2-3-主存（也就是内存条）" class="headerlink" title="3.2.3 主存（也就是内存条）"></a>3.2.3 主存（也就是内存条）</h4><p>这里存储的数据就要大得多了，在 <strong>2020年</strong>，<strong>8gb内存</strong> 的计算机都已经很难满足一些常规的需求了。所以这里是程序数据存储的 <strong>主力</strong>。通常称之为 <strong>RAM（Random Access Memory）</strong>。而且这里如果断电就会损失数据。而部分比较小型的计算机（比如说计算器），会内置不损失数据的内存，用来保存一些小程序，称为 <strong>ROM（Read Only Memory）</strong>，他即使断电也不会造成数据的丢失，一旦开启电源，就加载程序到 <strong>RAM</strong> 中用于运行，比方说：洗衣机的程序、一些智能设备包括手机呀等等。</p>
+<p>另外还有一个存储数据的地方就是 <strong>EEPROM（Electrically Erasable ROM，电可擦除可编程ROM）</strong>，他没电就丢数据，像电脑的主板，有一颗小电池长期供应着这块内存的电，所以电脑才可以记录 <strong>BIOS</strong> 的设置以及时钟的数据。如果电脑用了很长一段时间，这可电池没电了，那么将会导致每次进入系统都没记住先启动哪个盘，也没记住时间，都需要重新设定。</p>
+<h3 id="3-3-硬盘"><a href="#3-3-硬盘" class="headerlink" title="3.3 硬盘"></a>3.3 硬盘</h3><p>硬盘是具有比 <strong>主存</strong> 更大容量的数据存储零件，而且相比于 <strong>内存</strong> 而言，他的价格要便宜很多，而且断开电源不会造成文件的丢失。现在常见的 <strong>硬盘</strong> 也分为 <strong>机械硬盘</strong> 和 <strong>固态硬盘</strong>。</p>
+<h4 id="3-3-1-机械硬盘"><a href="#3-3-1-机械硬盘" class="headerlink" title="3.3.1 机械硬盘"></a>3.3.1 机械硬盘</h4><p>这个应该不陌生，现在还有很多电脑在使用 <strong>机械硬盘</strong> 存储大量的数据，因为在接下来要说的 <strong>固态硬盘</strong> 他的访问写入速度虽然快，但是价格还是比较昂贵的，所以当有需要大量的文件需要存储的时候，还是会选择 <strong>机械硬盘</strong>。</p>
+<p>机械硬盘为什么访问会比较慢，原因是由于他的数据记录在一张圆形的，类似于光盘的金属盘片上。当机械硬盘开始运行的时候，这个盘会转，然后通过 <strong>磁头</strong> 读取数据。所以当我们所需要随机访问一篇数据的时候，<strong>操作系统</strong> 需要确定这块数据在哪一块 <strong>扇区</strong> 上，传送变量给 <strong>硬盘的设备控制器</strong>，然后移动 <strong>磁臂</strong> 以便带动 <strong>磁头</strong> 到达那个位置，到达了以后，就需要等待 <strong>金属盘</strong> 转到 <strong>磁头</strong> 的位置（所以机械硬盘有个参数是转速），然后开始读取数据。</p>
+<h4 id="3-3-2-固态硬盘"><a href="#3-3-2-固态硬盘" class="headerlink" title="3.3.2 固态硬盘"></a>3.3.2 固态硬盘</h4><p>由于 <strong>机械硬盘</strong> 的发展已经出现了瓶颈，当人们需要更高的访问速度的时候，研究出来了 <strong>固态硬盘</strong>。简单了解一下 <strong>固态硬盘</strong> 的原理即是，在一块电路板上，使用一些介质表示 <strong>0</strong> 和 <strong>1</strong> 来存储数据，其原理来源于 <strong>内存</strong>，当接收到读取或者写入的时候，由 <strong>设备控制器</strong> 直接决定要对哪些部位的 <strong>介质</strong> 进行操作，从而返回数据。</p>
+<p>当然，<strong>固态硬盘</strong> 的缺点就是，<strong>介质</strong> 的读写次数是有限的，当超过次数的时候，这一个部位的 <strong>介质</strong> 就无法使用了。所以我们使用电脑的习惯也需要发生一些改变。比方说不要进行碎片整理。</p>
+<h3 id="3-4-IO设备"><a href="#3-4-IO设备" class="headerlink" title="3.4 IO设备"></a>3.4 IO设备</h3><p><strong>I/O操作</strong> 是开发者在开发软件的时候经常遇到的问题了，而软件更多的时候考虑，怎样在进行 <strong>I/O操作</strong> 的时候，做更多的事情，或者用哪些方式比方说压缩数据啦来加快 <strong>I/O操作</strong> 的速度。典型的 <strong>IO设备</strong> 有：<strong>硬盘</strong>、<strong>网卡</strong>。前者管着数据的存储，后者管着数据的发送。</p>
+<p>但是到了 <strong>操作系统</strong> 和 <strong>硬件</strong> 的时候却不是考虑这些东西。</p>
+<h4 id="3-4-1-组成和控制"><a href="#3-4-1-组成和控制" class="headerlink" title="3.4.1 组成和控制"></a>3.4.1 组成和控制</h4><p>首先，需要了解 <strong>IO设备</strong> 是怎样组成的。<strong>IO设备</strong> 通常具有 <strong>设备控制器</strong> 和 <strong>设备本身</strong>。<strong>设备控制器</strong> 通常是一个微型的操作系统，它用来接收通过连接线接收到的指令，并且翻译成 <strong>IO设备</strong> 所能理解的 <strong>电容信号</strong>，比方说一个 <strong>硬盘</strong>，连接线传递来了需要读取哪里到哪里的数据，<strong>设备控制器</strong> 则需要移动 <strong>磁臂</strong> 并且确定需要读取的区域，然后读取数据，再 <strong>返回</strong> 给 <strong>设备控制器</strong> 翻译成标准协议所能理解的数据输出到 <strong>操作系统</strong>。</p>
+<h4 id="3-4-2-操作系统兼容"><a href="#3-4-2-操作系统兼容" class="headerlink" title="3.4.2 操作系统兼容"></a>3.4.2 操作系统兼容</h4><p>那现在手上有一块 <strong>IO设备</strong>，他插入到计算机，怎么去理解 <strong>IO设备</strong> 所能做的事情呢。这时候就需要 <strong>设备驱动程序</strong>。<strong>操作系统</strong> 需要用到对应的 <strong>IO设备</strong> 的时候，就会寻找对应的 <strong>设备驱动程序</strong>，传递指令，此时再由 <strong>设备驱动程序</strong> 寻找 <strong>IO设备</strong> 连接的 <strong>端口</strong> 将数据或指令 <strong>传送</strong> 给设备管理器。</p>
+<p>安装 <strong>设备驱动程序</strong> 一般有几种方式：</p>
+<ol>
+<li>内核与 <strong>设备驱动程序</strong> 重新连接，手动重启系统，让操作系统读取；</li>
+<li>通知系统需要加载某个 <strong>设备驱动程序</strong>，操作系统重启时把此 <strong>驱动</strong> 加载到内存中去；</li>
+<li>即插即用，<strong>动态装载设备驱动程序</strong>，现在大部分使用的都是这种方式。</li>
+</ol>
+<h4 id="3-4-3-调用硬件功能"><a href="#3-4-3-调用硬件功能" class="headerlink" title="3.4.3 调用硬件功能"></a>3.4.3 调用硬件功能</h4><p>有两种方式可以进行调用：</p>
+<ol>
+<li>设备寄存器被映射到操作系统的地址空间，然后我们操作的时候只需要像日常操作一样对该地址进行操作即可，<strong>Linux</strong> 中 <strong>一切皆文件</strong> 使用的就是这种方式；</li>
+<li>使用专门的指令，设备寄存器被连接到主板上的端口，需要操作的时候，软件将对特定的端口发出指令进行操作。</li>
+</ol>
+<p>前者占用了一些操作系统的地址空间但是不需要特定的指令，后者则完全想反过来。</p>
+<p>然后就需要对 <strong>IO设备</strong> 进行调用操作了，主要有以下两种方式：</p>
+<ol>
+<li>程序发出一个系统调用，系统调用再根据设备驱动发出一个过程调用，然后 <strong>CPU</strong> 不断的循环问这个设备，你做好了吗，当 <strong>IO设备</strong> 完成操作以后，返回给 <strong>操作系统</strong>，再返回给 <strong>用户程序</strong>。这种方式不用说也明白，浪费 <strong>CPU时间</strong>；</li>
+<li>程序发出一个系统调用，操作系统再发出一个过程调用，此时，<strong>操作系统</strong> 将会 <strong>阻塞用户的进程</strong>，当设备完成工作的时候，将会 <strong>通知</strong> 操作系统（<strong>操作系统</strong> 也可以暂时不接收），从而读取设备返回的数据再返回给 <strong>用户程序</strong>；</li>
+<li>引入 <strong>DMA芯片</strong> 来完成 <strong>第2种方式</strong> 中的任务。</li>
+</ol>
+<h3 id="3-4-总线"><a href="#3-4-总线" class="headerlink" title="3.4 总线"></a>3.4 总线</h3><p>由于需要连接的东西越来越多，所以总不能通过简单的连接方式进行。<strong>总线</strong> 就诞生了。主要就是我们看到的 <strong>主板</strong>。拆过计算机的就知道，<strong>CPU</strong> 安在了主板的中间，而主板上会拓展出来各种各样的接口，这些电路板所形成的连接线路，就是总线。当然，分出来的有各种各样的总线：<strong>IDE总线</strong>、<strong>图形适配器总线</strong>、<strong>USB总线</strong> 等等。所以有了总线，就需要总线的 <strong>设备管理器</strong>，<strong>操作系统</strong> 才可以灵活的调用每个部分从而操作各个 <strong>IO设备</strong>。</p>
+<h3 id="3-5-计算机启动"><a href="#3-5-计算机启动" class="headerlink" title="3.5 计算机启动"></a>3.5 计算机启动</h3><p>当按下计算机按钮的那一瞬间，位于主板上的 <strong>ROM</strong> 将被启动，这个 <strong>ROM</strong> 装载着 <strong>基本输入输出系统（Basic Input Output System，BIOS）</strong>。他将检测主板上连接的基础设备（通常是 <strong>CPU</strong> 和 <strong>内存</strong> 以及 <strong>硬盘</strong>），如果这几个东西有某一样不正常的，将无法正常进入系统。然后，主板将从 <strong>CMOS</strong> 中读取我们之前的设置，比方说开机从哪个硬盘开始启动，时钟等等。如果 <strong>操作系统</strong> 安装正常的话，那么 <strong>BIOS</strong> 将从硬盘中读取出活动分区，然后从该分区中加载启动模块（通常这个启动模块将会启动整个操作系统），然后 <strong>操作系统</strong> 将会从 <strong>BIOS</strong> 中读取出设备信息，并且将 <strong>设备驱动程序</strong> 加载到内核中，初始化对应的背景进程，从而启动对应的 <strong>GUI</strong> 或者 <strong>终端</strong>。</p>
+<h2 id="四-重识操作系统概念"><a href="#四-重识操作系统概念" class="headerlink" title="四. 重识操作系统概念"></a>四. 重识操作系统概念</h2><p>上面说了这么多硬件方面的问题，很多硬件的运行都需要来自 <strong>操作系统</strong> 的调度。所以再不可简单的认为，<strong>操作系统</strong> 就是什么 <strong>macOS</strong> 啊，<strong>Windows</strong> 这些简单的概念了。</p>
+<p>所以说，可以协调 <strong>硬件</strong> 工作并且达到计算目的的软件，即为 <strong>操作系统</strong>。无论小到 <strong>洗衣机</strong> 上面的控制程序，还是 <strong>手机</strong> 上的 <strong>可以运行软件的软件</strong>，最后到 <strong>电脑上</strong> 的系统，均可视为 <strong>操作系统</strong>。并且，<strong>操作系统</strong> 还肩负着一项重要的任务：协调各个程序的运行，提供调用 <strong>硬件设备</strong> 的能力，有条不紊的调用连接的 <strong>设备</strong>，从而完成一系列计算任务。</p>
+<h2 id="五-操作系统抽象的概念（内核功能）"><a href="#五-操作系统抽象的概念（内核功能）" class="headerlink" title="五. 操作系统抽象的概念（内核功能）"></a>五. 操作系统抽象的概念（内核功能）</h2><p>OK，既然一台完整的计算机，必定拥有很多连接的设备，所以如果没有操作系统来抽象这些硬件，那么将导致我们在为 <strong>计算机</strong> 开发软件的时候，总是需要考虑从哪里读取数据，怎么调用硬件的问题（不管怎么说，每一种设备的协议的调用方式都是又臭又长的）。所以，研究计算机的老头们，为了能够更加完整的榨干硬件最后一滴血，开发出了 <strong>操作系统</strong> 这套软件。</p>
+<p>所以我们在开发软件的时候，我们的软件其实是运行在 <strong>操作系统</strong> 这一个容器里边的，当需要对外部设备进行操作的时候，软件将灵活的调用各自操作系统抽象出来的 <strong>API接口</strong>，传递调用数据以及函数给到 <strong>系统</strong>，<strong>系统</strong> 将会安排一些时间以便调用 <strong>硬件</strong> 来获取对应的数据，而 <strong>设备</strong> 运行的效率基本都要比 <strong>CPU</strong> 慢好几个数量级，所以，<strong>操作系统</strong> 在这段空闲的时间，又可以安排其他软件进行运行。</p>
+<p>那么，抽象出来的产物就有：进程、地址空间、文件、输入/输出、数据权限以及 <strong>shell</strong>。</p>
+<h3 id="5-1-进程（process）"><a href="#5-1-进程（process）" class="headerlink" title="5.1 进程（process）"></a>5.1 进程（process）</h3><p><strong>操作系统</strong> 是用来运行 <strong>程序</strong> 的，而这些 <strong>程序</strong> 启动以后，就会变成一个一个的 <strong>进程</strong> 运行在 <strong>操作系统</strong> 中。所以 <strong>进程</strong> 指的是 <strong>运行中的程序</strong>。而 <strong>进程</strong> 运行时，将会在 <strong>内存</strong> 中放置运行所需要的数据，这将是下一个概念，地址空间。地址空间包含着程序运行时需要的所有数据的地址，一般从小到大有一个 <strong>地址列表</strong>，存放需要执行程序的代码、数据、使用的整个堆栈，还包含着寄存器记录的数据（程序计数器和堆栈指针），打开的文件列表，错误报警以及其他的清单。</p>
+<p>在一个支持分时处理的 <strong>操作系统</strong> 中，为 <strong>进程</strong> 分配时间片进行运行时就需要频繁的与 <strong>地址空间</strong> 进行数据交换。考虑通常我们一边在下载东西一边在上网，我们通常需要两个进程，一个下载器的进程，另外一个浏览器的进程，而系统将会在下载器进程运行一段时间以后将下载器挂起，从而转换到浏览器进程处理，然后再将浏览器挂起再切换到下载器进程上来。考虑到进程从活动中到挂起这一步，在还原的时候就需要还原到原来挂起的模样，所以就需要把 <strong>CPU寄存器</strong> 中的数据交换到 <strong>地址空间</strong> 中，然后还原另外一个进程的 <strong>地址空间数据</strong> 到 <strong>寄存器</strong> 中进行运行。</p>
+<p>而通常 <strong>进程</strong> 是可以启动另外一个 <strong>进程</strong> 或者对另外一个 <strong>进程</strong> 发出命令的，比方说我们通过 <strong>shell</strong> 启动了 <strong>mvn</strong> 程序对代码进行编译，而中途由于某些原因我们需要退出，于是我们按下 <strong>CTRL + C</strong>，那么 <strong>shell</strong> 这个进程将会对 <strong>操作系统</strong> 发出指令说要停止 <strong>mvn</strong> 程序，<strong>操作系统</strong> 可以模拟一个警告信号给 <strong>mvn</strong> 程序以便让程序挂起，挂起完以后便可结束 <strong>程序</strong>。</p>
+<h3 id="5-2-地址空间（address-space）"><a href="#5-2-地址空间（address-space）" class="headerlink" title="5.2 地址空间（address space）"></a>5.2 地址空间（address space）</h3><p>上面说到，软件运行时候很难避免需要数据交互到内存中来，所以就需要 <strong>地址空间</strong> 来表示 <strong>内存</strong> 中数据的位置范围。在支持分时系统的 <strong>操作系统</strong> 中，内存中通常存放有很多 <strong>进程</strong> 的数据，有必要保护每一个 <strong>进程</strong> 的地址空间，以防被其他恶意的程序破坏导致软件运行异常。</p>
+<p>而 <strong>地址空间</strong> 还可以指向 <strong>虚拟内存</strong>，<strong>操作系统</strong> 可以利用 <strong>硬盘</strong> 的空间来存储运行时的数据，所有这些地址将被一起整合为 <strong>地址空间</strong> 以便提供给软件进行使用。</p>
+<h3 id="5-4-文件（file）"><a href="#5-4-文件（file）" class="headerlink" title="5.4 文件（file）"></a>5.4 文件（file）</h3><p>文件的概念包含了 <strong>数据文件</strong> 以及 <strong>目录</strong>。当我们的程序需要对 <strong>硬盘</strong> 上的数据执行命令的时候，都需要通过 <strong>系统调用</strong>，指挥 <strong>操作系统</strong> 来定位 <strong>磁盘</strong> 的地址位置，从而实现文件的增删查改。</p>
+<p>通常，文件的地址均以根目录开头，表示 <strong>/**（就不讨论 **Windows</strong> 了），然后一层一层的定位到具体的文件或目录中去。在对文件进行操作之前，<strong>操作系统</strong> 都需要先 <strong>打开文件</strong>，然后检查用户的访问权限，再决定是否进行下一步的操作。</p>
+<p>而 <strong>UNIX</strong> 系统中还有另外一个重要的概念，就是 <strong>一切皆文件</strong>。所以我们可以将外部 <strong>IO设备</strong> 挂载到一个指定的文件中，然后我们使用 <strong>文件操作命令</strong> 来对这些 <strong>IO设备</strong> 进行一系列的操作。对文件的操作指令将会被 <strong>操作系统</strong> 翻译成具体的设备信号发送给 <strong>IO设备</strong>。</p>
+<p>而另外一个重要的概念是 <strong>管道</strong>。当我们需要启动两个进程相互交换数据的时候，就可以使用 <strong>|</strong> 这个字符来表示管道，<strong>管道</strong> 是另外一种特殊的 <strong>文件</strong>，他表示第一个进程将结果写入管道，第二个进程从管道中读取数据进行运行。比如：<code>ps -ef | grep java</code>。</p>
+<h3 id="5-5-输入-输出"><a href="#5-5-输入-输出" class="headerlink" title="5.5 输入/输出"></a>5.5 输入/输出</h3><p>典型的 <strong>UNIX</strong> 系统就是将所有的 <strong>设备</strong> 抽象成 <strong>文件</strong> 的形式进行输入与输出，这个可以直接使用 <strong>文件</strong> 这个概念来描述。</p>
+<h3 id="5-6-数据权限"><a href="#5-6-数据权限" class="headerlink" title="5.6 数据权限"></a>5.6 数据权限</h3><p>上面的概念都需要与硬件交互，而这一个功能，则是对数据的保护了。<strong>UNIX</strong> 系统我们知道有三个权限：<strong>可读</strong>、<strong>可写</strong> 和 <strong>可执行</strong>。并且使用三组来表示，比方说 <strong>rwxr-x–x</strong> ，分为三组，第一组表示用户的所有者，第二组表示跟用户同组的其他用户，第三组表示其他用户（当然不包含在第二组的范围内）。<strong>r</strong> 表示 <strong>可读</strong>，<strong>w</strong> 表示可写，<strong>x</strong> 表示可执行，**-** 表示没有设置，也可以理解为 <strong>否</strong> 的意思。</p>
+<h3 id="5-7-shell"><a href="#5-7-shell" class="headerlink" title="5.7 shell"></a>5.7 shell</h3><p>这个很熟悉了，这是我们命令 <strong>操作系统</strong> 干活的入口，很多时候我们都不需要特别的 <strong>GUI</strong> 来协助工作，只需要在 <strong>shell</strong> 中键入命令，命令将会解释成 <strong>操作系统</strong> 的指令，然后调用上面各个部分的内容来完成我们的命令。这个并不属于 <strong>操作系统</strong> 的范畴，但是是使用 <strong>操作系统</strong> 最基本的入口。<strong>shell</strong> 中所输入的命令，将会启动一个子进程进行运行，窗口将会停留在进程中等待进程结束，当然如果我们想要进程后台进行的话，可以在命令的后面加上 <strong>&amp;</strong> 表示后台运行即可，但是进程的输出数据依然会打印到我们的 <strong>shell</strong> 中。</p>
+<h2 id="六-系统调用"><a href="#六-系统调用" class="headerlink" title="六. 系统调用"></a>六. 系统调用</h2><p>由于上面所说的 <strong>操作系统</strong> 提供的抽象，所以无论我们的程序需要对特定的硬件做任何事情，都需要经过 <strong>操作系统</strong>，也就是 <strong>内核</strong> 的调用，使用的是 <strong>内核</strong> 抽象出来的函数调用。</p>
+<p>比方说现在程序需要从硬盘中读取一段数据，那么他需要下面几个步骤：</p>
+<ol>
+<li>通过类库调用 <code>read</code> 函数，<strong>操作系统</strong> 会将参数以及 <strong>read</strong> 的代码放入 <strong>寄存器</strong> 中；</li>
+<li>程序执行一个 <code>TRAP</code> 指令，将当前系统所在的 <strong>用户态</strong> 切换到 <strong>内核态</strong>；</li>
+<li><strong>操作系统</strong> 将根据 <code>read</code> 去查找对应的调用编号，发出调用命令，发出指令以后，阻塞用户程序，然后这时候 <strong>操作系统</strong> 可以安排另外不需要阻塞的进程继续运行；</li>
+<li><strong>硬盘</strong> 开始进行读取，读取完成以后，将数据以及跳转的位置返回给 <strong>操作系统</strong>，然后 <strong>操作系统</strong> 再将结果返回给用户程序调用的位置，继续程序下一步的操作。</li>
+</ol>
+<p>而每一种 <strong>操作系统</strong> 的 <strong>系统调用</strong> 也完全不一样的，所以还需要根据不同的 <strong>操作系统</strong> 来编写不同的程序。比方说创建一个线程，<strong>UNIX</strong> 用的函数是 <code>fork</code> 而 <strong>Win32</strong> 用的函数是 <code>CreateProcess</code>。</p>
+<h2 id="七-操作系统结构"><a href="#七-操作系统结构" class="headerlink" title="七. 操作系统结构"></a>七. 操作系统结构</h2><p>这个结构就很像 <code>JavaWeb</code> 程序的演变过程啦（所以其实只是使用的语言不同但是思想却总是那么几个）</p>
+<h3 id="7-1-单体系统"><a href="#7-1-单体系统" class="headerlink" title="7.1 单体系统"></a>7.1 单体系统</h3><p>这个理解就很简单了，把 <strong>操作系统</strong> 所具备的所有功能都放在同一个项目当中，整个 <strong>操作系统</strong> 以过程集合的方式进行编写，每一个 <strong>过程调用</strong> 均可以方便的调用到其他的 <strong>过程调用</strong>。</p>
+<h3 id="7-2-层次性系统"><a href="#7-2-层次性系统" class="headerlink" title="7.2 层次性系统"></a>7.2 层次性系统</h3><p>这个就是根据不同的需求进行分层了，一共分为六层，每一个低层都为高层提供服务：</p>
+<table>
+<thead>
+<tr>
+<th align="center">层号</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">5</td>
+<td>操作员</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td>用户程序</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td>输入/输出管理</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td>操作员-进程通信</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td>存储器管理</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td>处理器分配进程</td>
+</tr>
+</tbody></table>
+<p>这样编写程序的时候大体发生在第 <strong>4</strong> 层，那我们就可以通过第 <strong>3</strong> 层的输入与输出来调用 <strong>操作系统</strong> 了。</p>
+<h3 id="7-3-微内核"><a href="#7-3-微内核" class="headerlink" title="7.3 微内核"></a>7.3 微内核</h3><p>由于上面两种方式都是单体架构的方式，所以很容易其中某个模块出现问题的时候，引起整个 <strong>操作系统</strong> 的崩溃。所以提出了 <strong>微内核</strong> 的做法，<strong>微内核</strong> 指的是只有 <strong>操作系统内核</strong> 运行在 <strong>内核态</strong> 上，而其他的注入设备驱动程序则运行在 <strong>用户态</strong> 中，这样某个设备驱动程序出现了错误，才不至于导致整个操作系统的崩溃。而这些设备驱动程序则作为用户程序服务器，接收高层用户程序运行时所执行的请求，比方说有 <strong>FileSystem</strong>、<strong>Process</strong> 等服务器。熟悉的 <strong>MINIX3</strong> 等 <strong>UNIX</strong> 类系统采用这种方式进行编写。</p>
+<p>当然，<strong>Linux</strong> 则汲取了 <strong>微内核</strong> 的精华，具体原因是 <strong>微内核</strong> 的设计由于设备驱动程序位于 <strong>用户态</strong>，进行调用的时候需要通过 <strong>系统调用</strong> 来切换 <strong>内核态</strong> 会导致性能上有所损失。而 <strong>Linux</strong> 则作为一个单内核，提供了 <strong>模块化设计</strong>、<strong>抢占式内核</strong>、<strong>支持内核线程</strong> 以及 <strong>动态装卸内核模块</strong> 的能力，直接使用函数调用。</p>
+<h3 id="7-4-客户机-服务器模式"><a href="#7-4-客户机-服务器模式" class="headerlink" title="7.4 客户机-服务器模式"></a>7.4 客户机-服务器模式</h3><p>哎呀这种模式就很熟悉了，当我们需求是一个随时可以访问的文件系统的时候，就可以使用这种方式来部署我们的项目，比方说部署一个网络云盘。然后我们就可以在所有拥有连接网络的计算机上随时访问我们的文件目录了。</p>
+<h3 id="7-5-虚拟机"><a href="#7-5-虚拟机" class="headerlink" title="7.5 虚拟机"></a>7.5 虚拟机</h3><p>目前看到的虚拟机分为几种类型：直接在物理机上实现虚拟机，在当前用户操作系统上实现虚拟机。</p>
+<p>前者，我们需要安装一个虚拟机管理软件系统到我们的实际物理机上，然后这个软件就可以分隔开的运行不同的操作系统，来提供不同的服务。而后者我们就很熟悉了，著名的软件有 <strong>VMware</strong> <strong>Parallels Desktop</strong> 等软件，这种方式，宿主机可以正常运行用户的程序，而虚拟机内部虚拟出来的系统，则可以运行特定环境下的软件，如：调试安卓软件时所需要的系统。</p>
+<p>而运行虚拟机软件（指的是 <strong>VMware</strong> 这一类虚拟机软件）一个重要的环节就是，当前的硬件 <strong>CPU</strong> 允许用户态的软件运行特权指令（因为虚拟机中的系统通常需要运行一些IO指令等情况），如果不允许的话，那么这些特权指令将被无视掉，也就造成了当前的机器无法运行虚拟机软件的必要因素。</p>
+<p>还有一款虚拟机就特别常见了，比如 <strong>JVM虚拟机</strong> 或者 <strong>GO虚拟机</strong>，它允许 <strong>Java</strong> 代码生成的字节码在上面进行运行，这就提供了我们熟悉的 <strong>class</strong> 文件在网络上传播并且加载到客户端的虚拟机上进行运行的可能。</p>
+<h3 id="7-6-外核"><a href="#7-6-外核" class="headerlink" title="7.6 外核"></a>7.6 外核</h3><p>通过虚拟机可以虚拟不同的系统，但是有没有发现一个问题，就是资源的分配。所以衍生出另外一种模式，<strong>外核</strong>。我们可以使用 <strong>外核</strong> 运行在实际的机器上，并且分配不同的资源给到不同的虚拟机，比方说：<strong>虚拟机1</strong> 只能访问硬盘的 <strong>0-1023</strong> 范围内的资源。</p>
+<p>当然如果没有外核，虚拟机软件也可以实现这个功能，但是就需要使用内存中保存的表格来进行监控，额外的增加了运行的成本。</p>
+<h2 id="八-小结"><a href="#八-小结" class="headerlink" title="八. 小结"></a>八. 小结</h2><ul>
+<li>聊了聊与电脑相识的故事，唠嗑一下计算机发展的历史；</li>
+<li>认识一些基础的计算机硬件；</li>
+<li>了解了操作系统是如何管理和抽象计算机硬件的；</li>
+<li>操作系统的元素和构成；</li>
+<li>虚拟机的认识。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag"># 操作系统</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Computer/Network/4-TCP-UDP/" rel="prev" title="传输层的协议-TCP/UDP">
+                  <i class="fa fa-chevron-left"></i> 传输层的协议-TCP/UDP
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weidan</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

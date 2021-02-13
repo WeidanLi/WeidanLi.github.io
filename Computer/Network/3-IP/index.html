@@ -51,7 +51,7 @@ var _hmt = _hmt || [];
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201015144413.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201015165524.png">
 <meta property="article:published_time" content="2020-10-07T08:32:54.000Z">
-<meta property="article:modified_time" content="2020-11-12T07:54:07.651Z">
+<meta property="article:modified_time" content="2020-11-12T07:54:07.650Z">
 <meta property="article:author" content="Weidan">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -234,18 +234,18 @@ var _hmt = _hmt || [];
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-count">71</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-count">47</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -361,7 +361,6 @@ var _hmt = _hmt || [];
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201013161230.png" alt="MacOS自带的计算器"></p>
 <p>当然，我们用的是 <strong>十进制</strong> 的表示方法，其实 <strong>IP</strong> 在网络中传输是要求 <strong>二进制</strong> 的，也就是类似于这样子：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1100 0000 1010 1000 0000 0001 0000 0111</span><br></pre></td></tr></table></figure>
-
 <p>上面表示的 <strong>IP</strong> 翻译成 <strong>十进制</strong> 的话，刚好是 <strong>192.168.1.7</strong>。</p>
 <p>但是我们讨论的时候需要基于 <strong>二进制</strong> 的，<strong>IP</strong> 规定总长度是 <strong>32</strong> 位 <strong>二进制</strong> 数（如上面我的 <strong>IP地址</strong>）</p>
 <h2 id="IP地址组成部分"><a href="#IP地址组成部分" class="headerlink" title="IP地址组成部分"></a>IP地址组成部分</h2><p><strong>IP地址</strong> 从左往右，由 <strong>网络标识</strong> 和 <strong>主机地址</strong> 两个部分进行组成。我们知道，路由器是可以将网络中的计算机进行网络分段的，以便应用程序利用 <strong>网络分段</strong> 进行数据的传输。如果网络中有多个路由器的话，也可以通过 <strong>网络标识</strong> 进行数据的分类传输。可以通过斜杆 <strong>/</strong> 记录前几位表示网络标识，例如：<code>192.168.1.7/24</code> 表示前 <strong>24</strong> 位（二进制位）标记网络标识，而剩余的其他位数标记 <strong>主机地址</strong>。</p>
@@ -376,10 +375,8 @@ var _hmt = _hmt || [];
 <p>子网掩码长度也是 <strong>32</strong> 位，每一位与 <strong>IP地址</strong> 相对应，连续的 <strong>1</strong> 表示连续的几位 <strong>IP</strong> 均为网络表示，连续的 <strong>0</strong> 则表示主机的位置，来看看这个：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201013160537.png" alt="IP和子网掩码"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">IP地址：192.168.1.14</span><br><span class="line">子网掩码：255.255.255.0</span><br><span class="line">---- 二进制法 ----</span><br><span class="line">1100 0000 1010 1000 0000 0001 0000 1110 &lt;-- IP地址</span><br><span class="line">1111 1111 1111 1111 1111 1111 0000 0000 &lt;-- 子网掩码</span><br></pre></td></tr></table></figure>
-
 <p>此时表示的是前 <strong>24</strong> 位为网络标识，那我们转换一下思路，要表示 <strong>26</strong> 位怎么办，此时状态如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1111 1111 1111 1111 1111 1111 1100 0000 &lt;-- 子网掩码二进制</span><br><span class="line">255.255.255.192                         &lt;-- 子网掩码十进制</span><br></pre></td></tr></table></figure>
-
 <p>所以子网掩码的基本思路就是，通过二进制的来标记随便的几位作为网络标识，以便可以拓展 <strong>IP地址</strong> 的分类，灵活放缩可以容纳主机的 <strong>IP</strong> 地址个数。而目前基本是使用这种方式来对网络中的计算机进行分段。</p>
 <h2 id="IP广播和多播"><a href="#IP广播和多播" class="headerlink" title="IP广播和多播"></a>IP广播和多播</h2><p>广播，即对一个网络端内的所有主机都发送同一个数据包。对同一个网段内的主机发送广播称为 <strong>本地广播</strong>，而需要跨网段的广播称为 <strong>直接广播</strong>。</p>
 <p>本地广播只要对诸如 <strong>192.168.1.255/24</strong> 发送数据即可将数据发送到网段为 <strong>192.168.1</strong> 的所有主机。</p>
@@ -398,7 +395,6 @@ var _hmt = _hmt || [];
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201013164003.png" alt="via《图解TCP/IP》"></p>
 <p>甚至我们可以查看我们访问一个地址的时候，跳转了多少路由：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">traceroute liweidan.cn</span><br></pre></td></tr></table></figure>
-
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201013164700.png" alt="traceroute结果"></p>
 <p>***** 表示被防火墙屏蔽了，得不到一些具体的数据。</p>
 <h1 id="最大传输单元MTU（Maximum-Transmission-Unit）"><a href="#最大传输单元MTU（Maximum-Transmission-Unit）" class="headerlink" title="最大传输单元MTU（Maximum Transmission Unit）"></a>最大传输单元MTU（Maximum Transmission Unit）</h1><p>鉴于之前说过现在大多数的连接方式是使用以太网的链路进行传输，并且说过了一个以太网帧能够容纳的数据大小大概为 <strong>1500字节</strong>。</p>

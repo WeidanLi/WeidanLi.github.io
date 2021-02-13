@@ -47,7 +47,7 @@ var _hmt = _hmt || [];
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152657.jpg">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152710.jpg">
 <meta property="article:published_time" content="2018-02-12T09:04:40.000Z">
-<meta property="article:modified_time" content="2020-11-12T08:04:22.423Z">
+<meta property="article:modified_time" content="2020-11-12T08:04:22.420Z">
 <meta property="article:author" content="Weidan">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152551.jpg">
@@ -229,18 +229,18 @@ var _hmt = _hmt || [];
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-count">71</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-count">47</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -356,7 +356,6 @@ var _hmt = _hmt || [];
 <p> 图中的对象中用了32个字节： 具体计算（8进制）： <code>0x1000 + 32 = 0x1020</code> 堆空间必须手动释放或者通过程序的垃圾回收器，如果该对象被GC判定为无用的对象，那么GC将对这块内存进行释放。</p>
 <h3 id="（三）栈空间的使用"><a href="#（三）栈空间的使用" class="headerlink" title="（三）栈空间的使用"></a>（三）栈空间的使用</h3><p>栈空间用于存储一个函数运行过程中需要用到的数据的内存。 栈和堆不同的是：栈是从高位开始占用内存的，而且遵从LIFO (Last-In-First-Out)原则。 为啥是先进后出：因为函数调用的时候，最后一个调用的函数是最先结束的： 举个例子：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="keyword">int</span> a = <span class="number">2</span>;</span><br><span class="line">   <span class="keyword">int</span> b = <span class="number">3</span>;</span><br><span class="line">   <span class="keyword">return</span> add_a_and_b(a, b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>在这段代码中，main函数先入栈，其次调用了<code>add_a_and_b(a, b)</code>，该函数入栈。那么是不是<code>add_a_and_b(a, b)</code>函数先执行完成，再把结果返回给<code>main</code>方法，<code>main</code>再运行结束。 栈空间： </p>
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152642.jpg"></p>
 <h2 id="三、寄存器"><a href="#三、寄存器" class="headerlink" title="三、寄存器"></a>三、寄存器</h2><h3 id="（一）寄存器的介绍"><a href="#（一）寄存器的介绍" class="headerlink" title="（一）寄存器的介绍"></a>（一）寄存器的介绍</h3><p>我们还要知道的另外一件事情是CPU只负责做事情，并不能够存储任何数据，包括运算过程中需要用到的临时数据，都需要通过缓存、内存以及寄存器来存储。 那么何为缓存：缓存是CPU能够够得到的第一级存储物质，再之是内存。为啥有内存了还需要这些东西呢，因为设计者认为，CPU的速度要远快于内存的速度，如果任何数据都通过去读取和写入内存操作的话，就会拖慢CPU的速度，所以在京东或者其他地方购买CPU的时候，是会出现缓存这个东西的： </p>
@@ -380,10 +379,8 @@ var _hmt = _hmt || [];
 <p>汇编语言要做的事情就是指挥这些寄存器中做的动作。</p>
 <h2 id="四、一个简单的程序"><a href="#四、一个简单的程序" class="headerlink" title="四、一个简单的程序"></a>四、一个简单的程序</h2><p>现在使用一个C语言的代码来表述计算机做了什么事情：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> add_a_and_b(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add_a_and_b</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>运行编译，他将会被编译成以下的汇编语言：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">_main:</span><br><span class="line">   push 3 ;                        把第二个参数&#39;3&#39;Push（推）进内存</span><br><span class="line">   push 2 ;                        把第一个参数&#39;2&#39;Push进内存</span><br><span class="line">   call _add_a_and_b ;     调用add_a_and_b 函数：并且让当前程序运行的指针（在EIP寄存器中）</span><br><span class="line">                                        指向函数的第一条指令（push %ebx）</span><br><span class="line">   add %esp, 8 ;              将esp指针在栈上向上移动8个字节，弹出我们上面压入的两个值，此时第一个值已经变成计算以后的值了。</span><br><span class="line">   ret ;                               返回到调用main函数的函数中。</span><br><span class="line"></span><br><span class="line">_add_a_and_b:</span><br><span class="line">   push %ebx ;                    程序准备修改ebx寄存器中的值, 所以程序需要将ebx推入栈中</span><br><span class="line">                                            以便让后面程序运行结束以后可以还原数据</span><br><span class="line">   mov %eax, [%esp+8] ;    将第一个参数移入EAX（详看下图可以知道为什么是+8）</span><br><span class="line">   mov %ebx, [%esp+12] ;  将第二个参数移入EBX</span><br><span class="line">   add %eax, %ebx ;           将eax和ebx中的值进行相加，并且把结果存储在eax中</span><br><span class="line">   pop %ebx ;                      将ebx中的值弹出，以便还原ebx中的数据</span><br><span class="line">   ret ;                                   返回到main函数. 这个步骤将会把下一步运行地址弹出到栈内存中</span><br><span class="line">                                             (当call执行完以后的下一步地址) 放入eip寄存器</span><br></pre></td></tr></table></figure>
-
 <p>程序运行的时候，内存模型如下： </p>
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152710.jpg"> </p>
 <p>第一步：当main开始运行的时候，需要先把临时的值压入栈内存中： 所以有两个参数<code>3和2</code>被压入占中，这就是栈内存中前两个的值的地址。 第二步：临时变量已经准备好了，我们要把main函数压入栈中，因为main函数一共有四条指令，而一条指令只用<code>4</code>个字节，所以一共有16个字节被压入栈中 第三步：因为在函数<code>_add_a_and_b</code>中，我们用到了中间寄存器用来计算ebx，所以ebx被压入栈中。 经过了这三个步骤，那么esp（程序运行指针）被多次往下移动了16个字节，其中包括main函数四条命令4个字节以及两个参数8个字节，还有一个临时寄存器使用了4个字节， 当然图中那么画还不够具体。</p>

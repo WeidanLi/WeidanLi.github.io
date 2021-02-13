@@ -45,7 +45,7 @@ var _hmt = _hmt || [];
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110151508.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110151525.png">
 <meta property="article:published_time" content="2018-12-20T00:38:05.000Z">
-<meta property="article:modified_time" content="2020-11-12T08:04:22.428Z">
+<meta property="article:modified_time" content="2020-11-12T08:04:22.420Z">
 <meta property="article:author" content="Weidan">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110151433.png">
@@ -227,18 +227,18 @@ var _hmt = _hmt || [];
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-count">71</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-count">47</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -346,15 +346,14 @@ var _hmt = _hmt || [];
 <!-- more -->
 <h2 id="三-spring-boot-是否真的轻量级？"><a href="#三-spring-boot-是否真的轻量级？" class="headerlink" title="三. spring-boot 是否真的轻量级？"></a>三. <code>spring-boot</code> 是否真的轻量级？</h2><p>答案：<strong>否</strong>（对上一节中最后一句话的回答） 通过使用我发现几点：</p>
 <ol>
-<li><p> 需要依赖第三方的时候，常常是官方会提供一个 <code>starter</code> 相关的整合包，放于 <code>mvn</code> 中。打开 <code>mvn</code> 的依赖其实可以发现，其实就是通过 <code>mvn</code> 的级联依赖的特性，以前该依赖进来的，还是会依赖进来；</p>
+<li><p>需要依赖第三方的时候，常常是官方会提供一个 <code>starter</code> 相关的整合包，放于 <code>mvn</code> 中。打开 <code>mvn</code> 的依赖其实可以发现，其实就是通过 <code>mvn</code> 的级联依赖的特性，以前该依赖进来的，还是会依赖进来；</p>
 </li>
-<li><p> 配置是 <code>yml</code> 文件，通过定义一些前缀，然后到里面的属性，只需要短短几行代码就可以启动运行了，因为大部分配置，都有<strong>默认</strong>的配置</p>
+<li><p>配置是 <code>yml</code> 文件，通过定义一些前缀，然后到里面的属性，只需要短短几行代码就可以启动运行了，因为大部分配置，都有<strong>默认</strong>的配置</p>
 </li>
 </ol>
 <p>而做这几件事情的，就是依赖的对应的第三方插件提供的 <code>starter</code></p>
 <h2 id="四-什么是-starter"><a href="#四-什么是-starter" class="headerlink" title="四. 什么是 starter"></a>四. 什么是 <code>starter</code></h2><p>概括一下：<code>starter</code> 就是中间件官方根据 <code>spring-boot</code> 提供的一系列接口，让中间件官方可以在这个 <code>starter</code> 里面去定义初始化的流程，包括读取的配置以及依赖的第三方 <code>jar</code> 包，以便让使用者可以通过简单的配置，就可以整合第三方中间件。 <code>mvn</code> 的 <code>starter</code> 依赖示例：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&lt;dependency&gt;</span></span><br><span class="line">    <span class="string">&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span></span><br><span class="line">    <span class="string">&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span></span><br><span class="line"><span class="string">&lt;/dependency&gt;</span></span><br><span class="line"><span class="string">&lt;dependency&gt;</span></span><br><span class="line">    <span class="string">&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span></span><br><span class="line">    <span class="string">&lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;</span></span><br><span class="line"><span class="string">&lt;/dependency&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="string">&lt;dependency&gt;</span></span><br><span class="line">    <span class="string">&lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span></span><br><span class="line">    <span class="string">&lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span></span><br><span class="line">   <span class="string">&lt;!--</span> <span class="string">&lt;version&gt;1.1.1&lt;/version&gt;--&gt;</span></span><br><span class="line"><span class="string">&lt;/dependency&gt;</span></span><br><span class="line"><span class="string">&lt;dependency&gt;</span></span><br><span class="line">    <span class="string">&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span></span><br><span class="line">    <span class="string">&lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;</span></span><br><span class="line"><span class="string">&lt;/dependency&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>从下图可以看到，<code>mybatis</code> 官方提供的 <code>starter</code> 里面的东西其实看起来都是那么熟悉。 </p>
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110151433.png"></p>
 <h2 id="五-构建"><a href="#五-构建" class="headerlink" title="五. 构建"></a>五. 构建</h2><p><code>spring</code> 官方提供了几个构建方式：</p>
@@ -371,7 +370,6 @@ var _hmt = _hmt || [];
 <li>  手写 <code>mvn</code> 的 <code>pom</code> 搭建（推荐）</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0&quot;</span><br><span class="line">         xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0 http:&#x2F;&#x2F;maven.apache.org&#x2F;xsd&#x2F;maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;&#x2F;modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;groupId&gt;cn.liweidan.springboot&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-tutorial&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0.0-SNAPSHOT&lt;&#x2F;version&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencyManagement&gt;</span><br><span class="line">        &lt;dependencies&gt;</span><br><span class="line"></span><br><span class="line">            &lt;!-- 导入官方的 spring-boot 父类作为依赖 --&gt;</span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-boot-dependencies&lt;&#x2F;artifactId&gt;</span><br><span class="line">                &lt;version&gt;2.1.0.RELEASE&lt;&#x2F;version&gt;</span><br><span class="line">                &lt;type&gt;pom&lt;&#x2F;type&gt;</span><br><span class="line">                &lt;scope&gt;import&lt;&#x2F;scope&gt;</span><br><span class="line">            &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;&#x2F;dependencies&gt;</span><br><span class="line">    &lt;&#x2F;dependencyManagement&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;project&gt;</span><br></pre></td></tr></table></figure>
-
 <p>一般来说，我们项目都需要有自己的父类，这时候又要使用 <code>spring-boot</code> 官方的父类，只需要把他的导进来即可，这样子项目就都可以使用 <code>spring-boot</code> 的相关组件了。</p>
 <blockquote>
 <p>接下来的所有项目我将在这个父级下进行构建</p>

@@ -220,18 +220,18 @@ var _hmt = _hmt || [];
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-count">71</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-count">47</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -266,6 +266,100 @@ var _hmt = _hmt || [];
       
 
       
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/frame/spring-boot/springboot-%E4%B8%8E-freemark-%E6%A8%A1%E6%9D%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/frame/spring-boot/springboot-%E4%B8%8E-freemark-%E6%A8%A1%E6%9D%BF/" class="post-title-link" itemprop="url">springboot 与 freemark 模板</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-12-20 13:36:47" itemprop="dateCreated datePublished" datetime="2018-12-20T13:36:47+08:00">2018-12-20</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-12 16:00:28" itemprop="dateModified" datetime="2020-11-12T16:00:28+08:00">2020-11-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/" itemprop="url" rel="index"><span itemprop="name">frame</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/spring-boot/" itemprop="url" rel="index"><span itemprop="name">spring-boot</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="springboot-与-freemark-模板"><a href="#springboot-与-freemark-模板" class="headerlink" title="springboot 与 freemark 模板"></a>springboot 与 freemark 模板</h1><h2 id="一-简述"><a href="#一-简述" class="headerlink" title="一. 简述"></a>一. 简述</h2><p><code>Freemarker</code> 是一个热门的 <code>MVC</code> 模板引擎，拥有跟 <code>jsp</code> 一样的一些指令标签，广受大众的热爱。 我没真正使用过 <code>Freemarker</code> ，在即将投入使用的项目中，因为一个偶然的想法（动静分离）而彻底放弃了 <code>MVC</code> 思想，改用了前端的 <code>MVVM</code> 框架，配合 <code>JSON</code> 数据格式。</p>
+<h2 id="二-开发"><a href="#二-开发" class="headerlink" title="二. 开发"></a>二. 开发</h2><h3 id="1-MVN-的依赖"><a href="#1-MVN-的依赖" class="headerlink" title="1. MVN 的依赖"></a>1. <code>MVN</code> 的依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-freemarker&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br></pre></td></tr></table></figure>
+<p>其实我感觉这是我写过的最简单的 <code>Spring-Boot</code> 教程了，全程不需要任何的自定义配置，只要引入依赖的包即可投入使用。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/frame/spring-boot/springboot-%E4%B8%8E-freemark-%E6%A8%A1%E6%9D%BF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
     
 
 
@@ -521,7 +615,6 @@ var _hmt = _hmt || [];
     <div class="post-body" itemprop="articleBody">
           <h1 id="springboot-web-拦截器的使用"><a href="#springboot-web-拦截器的使用" class="headerlink" title="springboot-web 拦截器的使用"></a>springboot-web 拦截器的使用</h1><h2 id="一-简述"><a href="#一-简述" class="headerlink" title="一. 简述"></a>一. 简述</h2><p>用过 <code>SpringMVC</code> 的应该都知道拦截器，拦截器可以设置在 <code>SpringMVC</code> 接收请求之前处理（返回 <code>true</code> 继续执行或 <code>false</code> 拒绝执行），方法处理请求之后，以及处理完整个请求之后的操作。例如：单体项目的登陆拦截、在进入处理器之前先给线程栈设置一个公用的 <code>UserThreadLocal</code> 等等。<br>GitHub地址：<a target="_blank" rel="noopener" href="https://github.com/WeidanLi/spring-boot-tutorial">https://github.com/WeidanLi/spring-boot-tutorial</a> <strong>项目示例：<code>web-interceptor</code></strong></p>
 <h2 id="二-开发"><a href="#二-开发" class="headerlink" title="二. 开发"></a>二. 开发</h2><h3 id="1-mvn-新增-web-starter-的依赖"><a href="#1-mvn-新增-web-starter-的依赖" class="headerlink" title="1. mvn 新增 web-starter 的依赖"></a>1. <code>mvn</code> 新增 <code>web-starter</code> 的依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;!-- 引入 web-starter --&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br></pre></td></tr></table></figure>
-
 <p>拦截器依然默认是存在 <code>web-starter</code> 里面的。</p>
           <!--noindex-->
             <div class="post-button">
@@ -1112,102 +1205,10 @@ var _hmt = _hmt || [];
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/computer-basic/asm/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Weidan">
-      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="丹崽的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/computer-basic/asm/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96/" class="post-title-link" itemprop="url">一个Java程序猿眼中的汇编</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-02-12 17:04:40" itemprop="dateCreated datePublished" datetime="2018-02-12T17:04:40+08:00">2018-02-12</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-11-12 16:04:22" itemprop="dateModified" datetime="2020-11-12T16:04:22+08:00">2020-11-12</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/computer-basic/" itemprop="url" rel="index"><span itemprop="name">computer-basic</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/computer-basic/asm/" itemprop="url" rel="index"><span itemprop="name">asm</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h2><p>在计算机中，CPU只能识别二进制，当需要CPU做事情的时候，都需要通过二进制去指挥CPU做什么事情。古人觉得二进制实在是难以理解，所以才发明了汇编语言以及后面的高级语言，所以汇编语言可以称作为比较接近机器语言的语言了。 当然后面的古人依然觉得汇编语言难以理解，所以发明了C、C++、Java来解决难以理解的问题。所以后面的语言越来越偏于人类自然语言，并且使用面向对象的思想来设计程序。当然这期间经历的事情还挺多：C编译成汇编语言，汇编语言再翻译成二进制语言，这个过程即称为assembling。 学习汇编语言既需要下面两个概念的理解：<strong>内存模型</strong>和<strong>寄存器</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/computer-basic/asm/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 

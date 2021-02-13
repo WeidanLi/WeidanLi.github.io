@@ -220,18 +220,18 @@ var _hmt = _hmt || [];
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-count">71</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-count">47</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -266,6 +266,101 @@ var _hmt = _hmt || [];
       
 
       
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/frame/spring-boot/springboot-%E4%B8%8E-redis-%E5%A4%84%E7%90%86%E7%BC%93%E5%AD%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="丹崽的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/frame/spring-boot/springboot-%E4%B8%8E-redis-%E5%A4%84%E7%90%86%E7%BC%93%E5%AD%98/" class="post-title-link" itemprop="url">springboot 与 redis 处理缓存</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-01-08 09:38:29" itemprop="dateCreated datePublished" datetime="2019-01-08T09:38:29+08:00">2019-01-08</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-12 16:00:28" itemprop="dateModified" datetime="2020-11-12T16:00:28+08:00">2020-11-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/" itemprop="url" rel="index"><span itemprop="name">frame</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/frame/spring-boot/" itemprop="url" rel="index"><span itemprop="name">spring-boot</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="一-简述"><a href="#一-简述" class="headerlink" title="一. 简述"></a>一. 简述</h2><p><code>Redis</code> 是现在大部分项目中使用最多的 <code>NOSQL</code> 型数据库，其单线程的模型以及内存级别的读取可以给项目适当加加速。<code>Redis</code> 不仅会被当成缓存数据库使用，还会被作为分布式锁（因为是单线程模型）的工具来使用。 <code>Spring-Boot</code> 项目有两种方式使用 <code>Redis</code> ，接下来就是两种方式的使用方式了。<br>项目：<code>spring-boot-data-redis</code> 地址：<a target="_blank" rel="noopener" href="https://github.com/WeidanLi/spring-boot-tutorial">https://github.com/WeidanLi/spring-boot-tutorial</a></p>
+<h2 id="二-开发"><a href="#二-开发" class="headerlink" title="二. 开发"></a>二. 开发</h2><h3 id="（一）连接-redis-数据库"><a href="#（一）连接-redis-数据库" class="headerlink" title="（一）连接 redis 数据库"></a>（一）连接 redis 数据库</h3><h4 id="1-环境准备"><a href="#1-环境准备" class="headerlink" title="1. 环境准备"></a>1. 环境准备</h4><p>使用 <code>Docker</code> 启动 <code>redis</code> 内存数据库：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --restart=always -d -p 6379:6379 --name imopei-redis redis redis-server</span><br></pre></td></tr></table></figure>
+<h4 id="2-mvn-依赖"><a href="#2-mvn-依赖" class="headerlink" title="2. mvn 依赖"></a>2. mvn 依赖</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-data-redis&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/frame/spring-boot/springboot-%E4%B8%8E-redis-%E5%A4%84%E7%90%86%E7%BC%93%E5%AD%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
     
 
 
@@ -891,7 +986,6 @@ var _hmt = _hmt || [];
     <div class="post-body" itemprop="articleBody">
           <h1 id="springboot-的多配置环境配置"><a href="#springboot-的多配置环境配置" class="headerlink" title="springboot 的多配置环境配置"></a>springboot 的多配置环境配置</h1><h2 id="一-简述"><a href="#一-简述" class="headerlink" title="一. 简述"></a>一. 简述</h2><p>多环境配置，这个东西无论在大厂小厂都是需要的，因为往往我们开发环境、测试环境、生产环境都不一样。数据库连接不说别的，起码 <code>url</code> 是不一样的。当然做法也有很多，可以通过 <code>properties</code> ，也可以通过 <code>mvn</code> 的配置以及 <code>spring</code> 的 <code>profile</code> 方式。 Github地址：<a target="_blank" rel="noopener" href="https://github.com/WeidanLi/spring-boot-tutorial">https://github.com/WeidanLi/spring-boot-tutorial</a> 演示项目：<code>globle-profiles</code></p>
 <h2 id="二-开发"><a href="#二-开发" class="headerlink" title="二. 开发"></a>二. 开发</h2><h3 id="1-mvn-依赖"><a href="#1-mvn-依赖" class="headerlink" title="1. mvn 依赖"></a>1. <code>mvn</code> 依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 引入 web-starter --&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br></pre></td></tr></table></figure>
-
 <p>感觉这个 <code>web-starter</code> 就是万能的依赖，有了它什么东西都有了。</p>
           <!--noindex-->
             <div class="post-button">
@@ -1078,7 +1172,6 @@ var _hmt = _hmt || [];
     <div class="post-body" itemprop="articleBody">
           <h1 id="springboot-与接口文档系统-swagger"><a href="#springboot-与接口文档系统-swagger" class="headerlink" title="springboot 与接口文档系统 swagger"></a>springboot 与接口文档系统 swagger</h1><h2 id="一-简述"><a href="#一-简述" class="headerlink" title="一. 简述"></a>一. 简述</h2><p>日常开发中，常常需要接口文档的交互，跟前端也好，跟 <code>app</code> 端的也好。但是如果是手动编写的文档，常常会因为各种原因（当然，懒和忘记是主要原因），会比代码滞后。这样导致的问题就比较严重了，有时候前端写完一个功能了，对接一下，哎呀，出错了。不仅增加了麻烦，还浪费了时间。 当初选择使用 <code>swagger</code> 是因为其界面还不错，清新清新的感觉。现在官网出了很多产品，但还都是需要去利用手动的去更新文档。我最喜欢的还是这种你编码一个接口顺便把文档使用注解的方式给写在了文档上面。可以有效的避免了接口更新但是忘记更新文档的尴尬。</p>
 <h2 id="二-开发"><a href="#二-开发" class="headerlink" title="二. 开发"></a>二. 开发</h2><h3 id="1-mvn-引入所需要的依赖"><a href="#1-mvn-引入所需要的依赖" class="headerlink" title="1. mvn 引入所需要的依赖"></a>1. <code>mvn</code> 引入所需要的依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;properties&gt;</span><br><span class="line">    &lt;springfox-version&gt;2.5.0&lt;&#x2F;springfox-version&gt;</span><br><span class="line">    &lt;swagger-core-version&gt;1.5.10&lt;&#x2F;swagger-core-version&gt;</span><br><span class="line">&lt;&#x2F;properties&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 引入 web-starter --&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 引入 swagger 相关的依赖 --&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;io.springfox&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;springfox-swagger2&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;version&gt;$&#123;springfox-version&#125;&lt;&#x2F;version&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;io.swagger&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;swagger-core&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;version&gt;$&#123;swagger-core-version&#125;&lt;&#x2F;version&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;io.springfox&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;springfox-swagger-ui&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;version&gt;$&#123;springfox-version&#125;&lt;&#x2F;version&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br></pre></td></tr></table></figure>
-
 <h3 id="2-编写启动器"><a href="#2-编写启动器" class="headerlink" title="2. 编写启动器"></a>2. 编写启动器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableSwagger2</span> <span class="comment">// 启动 swagger 自动配置</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Swagger2Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(Swagger2Application.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
@@ -1105,105 +1198,10 @@ var _hmt = _hmt || [];
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/frame/spring-boot/springboot-%E4%B8%8E-freemark-%E6%A8%A1%E6%9D%BF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Weidan">
-      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="丹崽的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/frame/spring-boot/springboot-%E4%B8%8E-freemark-%E6%A8%A1%E6%9D%BF/" class="post-title-link" itemprop="url">springboot 与 freemark 模板</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-12-20 13:36:47" itemprop="dateCreated datePublished" datetime="2018-12-20T13:36:47+08:00">2018-12-20</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-11-12 16:00:28" itemprop="dateModified" datetime="2020-11-12T16:00:28+08:00">2020-11-12</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/frame/" itemprop="url" rel="index"><span itemprop="name">frame</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/frame/spring-boot/" itemprop="url" rel="index"><span itemprop="name">spring-boot</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="springboot-与-freemark-模板"><a href="#springboot-与-freemark-模板" class="headerlink" title="springboot 与 freemark 模板"></a>springboot 与 freemark 模板</h1><h2 id="一-简述"><a href="#一-简述" class="headerlink" title="一. 简述"></a>一. 简述</h2><p><code>Freemarker</code> 是一个热门的 <code>MVC</code> 模板引擎，拥有跟 <code>jsp</code> 一样的一些指令标签，广受大众的热爱。 我没真正使用过 <code>Freemarker</code> ，在即将投入使用的项目中，因为一个偶然的想法（动静分离）而彻底放弃了 <code>MVC</code> 思想，改用了前端的 <code>MVVM</code> 框架，配合 <code>JSON</code> 数据格式。</p>
-<h2 id="二-开发"><a href="#二-开发" class="headerlink" title="二. 开发"></a>二. 开发</h2><h3 id="1-MVN-的依赖"><a href="#1-MVN-的依赖" class="headerlink" title="1. MVN 的依赖"></a>1. <code>MVN</code> 的依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-freemarker&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br></pre></td></tr></table></figure>
-
-<p>其实我感觉这是我写过的最简单的 <code>Spring-Boot</code> 教程了，全程不需要任何的自定义配置，只要引入依赖的包即可投入使用。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/frame/spring-boot/springboot-%E4%B8%8E-freemark-%E6%A8%A1%E6%9D%BF/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
