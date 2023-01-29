@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.3.0">
+
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -16,12 +16,12 @@
 
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.14.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="MySQL 主从复制BasicIn: MySQL 8.0.15 看过 Redis 的主从复制，其实 MySQL 的原理也差不多。都是通过一个中间文件(记录操作)进行传播，达到数据相同的结果。 开启主从复制有以下几个好处：   提高吞吐量，启动 MySQL 主从复制以后，写操作一般将是发生在主数据库(当然要求实时性特别高的读操作也会发生在主数据库上)，而读操作一般会发生在从数据库；  数据安全性，数">
+  <meta name="description" content="MySQL 主从复制BasicIn: MySQL 8.0.15 看过 Redis 的主从复制，其实 MySQL 的原理也差不多。都是通过一个中间文件(记录操作)进行传播，达到数据相同的结果。 开启主从复制有以下几个好处：   提高吞吐量，启动 MySQL 主从复制以后，写操作一般将是发生在主数据库(当然要求实时性特别高的读操作也会发生在主数据库上)，而读操作一般会发生在从数据库；  数据安全性，数">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL 8.0.15 主从复制配置">
 <meta property="og:url" content="http://weidanli.github.io/db/mysql/mysql-8-0-15-%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E9%85%8D%E7%BD%AE/index.html">
@@ -56,9 +56,6 @@
 
 
 
-
-
-
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
@@ -68,8 +65,8 @@
   <div class="headband"></div>
 
   <main class="main">
-    <div class="column">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏" role="button">
         <span class="toggle-line"></span>
@@ -89,7 +86,7 @@
   </div>
 
   <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    <div class="toggle popup-trigger">
     </div>
   </div>
 </div>
@@ -97,16 +94,30 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section">首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section">分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section">归档</a></li><li class="menu-item menu-item-数据结构"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="section">数据结构</a></li><li class="menu-item menu-item-spring源码"><a href="/spring-sources/" rel="section">Spring源码</a></li><li class="menu-item menu-item-mysql底层"><a href="/mysql/" rel="section">MySQL底层</a></li><li class="menu-item menu-item-tomcat源码"><a href="/tomcat-sources/" rel="section">Tomcat源码</a></li><li class="menu-item menu-item-计算机网络"><a href="/network/" rel="section">计算机网络</a></li>
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section">首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section">分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section">归档</a></li>
+        <li class="menu-item menu-item-数据结构"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="section">数据结构</a></li>
+        <li class="menu-item menu-item-spring源码"><a href="/spring-sources/" rel="section">Spring源码</a></li>
+        <li class="menu-item menu-item-mysql底层"><a href="/mysql/" rel="section">MySQL底层</a></li>
+        <li class="menu-item menu-item-tomcat源码"><a href="/tomcat-sources/" rel="section">Tomcat源码</a></li>
+        <li class="menu-item menu-item-计算机网络"><a href="/network/" rel="section">计算机网络</a></li>
   </ul>
 </nav>
 
 
 
 
-</header>
+</div>
         
   
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
   <aside class="sidebar">
 
     <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
@@ -127,11 +138,11 @@
         <!--/noindex-->
 
         <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Weidan</p>
   <div class="site-description" itemprop="description">计算机基础 计算机网络 Java Vue 前端 后端</div>
 </div>
-<div class="site-state-wrap animated">
+<div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
@@ -150,24 +161,39 @@
       </div>
   </nav>
 </div>
-  <div class="links-of-author animated">
+  <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/WeidanLi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WeidanLi" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/WeidanLi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WeidanLi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:toweidan@126.com" title="E-Mail → mailto:toweidan@126.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:toweidan@126.com" title="E-Mail → mailto:toweidan@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
+
+
 
         </div>
       </div>
     </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
 
     
-  </aside>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
 
+  <a href="https://github.com/WeidanLi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
 
-    </div>
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
 
     <div class="main-inner post posts-expand">
 
@@ -185,16 +211,11 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="丹崽的技术博客">
-      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="MySQL 8.0.15 主从复制配置 | 丹崽的技术博客">
-      <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -233,6 +254,21 @@
     </span>
 
   
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
 </div>
 
         </div>
@@ -317,31 +353,40 @@
 <p>进入 <code>MySQL</code> 客户端修改数据库的密码：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -pXXX</span><br><span class="line">ALTER USER &#x27;root&#x27;@&#x27;localhost&#x27; IDENTIFIED BY &#x27;新密码&#x27;;</span><br></pre></td></tr></table></figure>
 <h4 id="第三步-配置允许远程连接"><a href="#第三步-配置允许远程连接" class="headerlink" title="第三步 配置允许远程连接"></a>第三步 配置允许远程连接</h4><p>查看原有的用户列表以及允许连接的 <code>host</code>，可以发现，目前 <code>root</code> 命令只允许 <code>localhost</code> 连接</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use mysql</span><br><span class="line">Reading table information for completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup with -A</span><br><span class="line"></span><br><span class="line">Database changed</span><br><span class="line">mysql&gt; select user, host from user</span><br><span class="line">    -&gt; ;</span><br><span class="line">+------------------+-----------+</span><br><span class="line"> user              host      </span><br><span class="line">+------------------+-----------+</span><br><span class="line"> mysql.infoschema  localhost </span><br><span class="line"> mysql.session     localhost </span><br><span class="line"> mysql.sys         localhost </span><br><span class="line"> root              localhost </span><br><span class="line">+------------------+-----------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use mysql</span><br><span class="line">Reading table information for completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup with -A</span><br><span class="line"></span><br><span class="line">Database changed</span><br><span class="line">mysql&gt; select user, host from user</span><br><span class="line">    -&gt; ;</span><br><span class="line">+------------------+-----------+</span><br><span class="line"> user              host      </span><br><span class="line">+------------------+-----------+</span><br><span class="line"> mysql.infoschema  localhost </span><br><span class="line"> mysql.session     localhost </span><br><span class="line"> mysql.sys         localhost </span><br><span class="line"> root              localhost </span><br><span class="line">+------------------+-----------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
 <p>通过以下指令进行修改：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; update user set host &#x3D; &#39;%&#39; where user &#x3D; &#39;root&#39;;</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39;;</span><br><span class="line">ERROR 1410 (42000): You are not allowed to create a user with GRANT</span><br><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39;;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; FLUSH   PRIVILEGES;</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; update user set host = &#x27;%&#x27; where user = &#x27;root&#x27;;</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON *.* TO &#x27;root&#x27;@&#x27;%&#x27;;</span><br><span class="line">ERROR 1410 (42000): You are not allowed to create a user with GRANT</span><br><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON *.* TO &#x27;root&#x27;@&#x27;%&#x27;;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; FLUSH   PRIVILEGES;</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br></pre></td></tr></table></figure>
 <p>然后我这里陷入一个坑，就是我习惯性使用 <code>IDEA</code> 连接数据库死活连不上去，以为是我数据库的配置出现了问题。后来换个 <code>Navicat</code> 就连上去了。驱动也是换了，<code>IDEA</code> 就是连不上去。</p>
 <h3 id="主数据库配置"><a href="#主数据库配置" class="headerlink" title="主数据库配置"></a>主数据库配置</h3><h4 id="第一步-查看logbin有没有开启"><a href="#第一步-查看logbin有没有开启" class="headerlink" title="第一步 查看logbin有没有开启"></a>第一步 查看logbin有没有开启</h4><p>查看数据库的 <code>log_bin</code> 功能有没有开启：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show VARIABLES  LIKE &#39;%log_bin%&#39;;</span><br><span class="line">+---------------------------------+-----------------------------+</span><br><span class="line"> Variable_name                    Value                       </span><br><span class="line">+---------------------------------+-----------------------------+</span><br><span class="line"> log_bin                          ON                          </span><br><span class="line"> log_bin_basename                 &#x2F;var&#x2F;lib&#x2F;mysql&#x2F;binlog       </span><br><span class="line"> log_bin_index                    &#x2F;var&#x2F;lib&#x2F;mysql&#x2F;binlog.index </span><br><span class="line"> log_bin_trust_function_creators  OFF                         </span><br><span class="line"> log_bin_use_v1_row_events        OFF                         </span><br><span class="line"> sql_log_bin                      ON                          </span><br><span class="line">+---------------------------------+-----------------------------+</span><br><span class="line">6 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show VARIABLES  LIKE &#x27;%log_bin%&#x27;;</span><br><span class="line">+---------------------------------+-----------------------------+</span><br><span class="line"> Variable_name                    Value                       </span><br><span class="line">+---------------------------------+-----------------------------+</span><br><span class="line"> log_bin                          ON                          </span><br><span class="line"> log_bin_basename                 /var/lib/mysql/binlog       </span><br><span class="line"> log_bin_index                    /var/lib/mysql/binlog.index </span><br><span class="line"> log_bin_trust_function_creators  OFF                         </span><br><span class="line"> log_bin_use_v1_row_events        OFF                         </span><br><span class="line"> sql_log_bin                      ON                          </span><br><span class="line">+---------------------------------+-----------------------------+</span><br><span class="line">6 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
 <p>如上所示，第一个数据表示 <code>ON</code> 则已经开启了。 如果没有开启，需要在 <code>/etc/my.cnf</code> 中指定 <code>log-bin=mysql-bin</code> 进行开启</p>
 <h4 id="第二步-设置数据库的server-id"><a href="#第二步-设置数据库的server-id" class="headerlink" title="第二步 设置数据库的server_id"></a>第二步 设置数据库的server_id</h4><p>同样是在 <code>/etc/my.cnf</code> 文件中，加入 <code>server-id=1</code>。可接受范围是 <code>1 到 2^32−1</code>，设置其他值可能会出现不必要的坑。建议可以设置成当前数据库所在服务器 <code>ip</code> 最后一个字段的值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...省略其他设置</span><br><span class="line">datadir&#x3D;&#x2F;var&#x2F;lib&#x2F;mysql</span><br><span class="line">socket&#x3D;&#x2F;var&#x2F;lib&#x2F;mysql&#x2F;mysql.sock</span><br><span class="line"></span><br><span class="line">log-error&#x3D;&#x2F;var&#x2F;log&#x2F;mysqld.log</span><br><span class="line">pid-file&#x3D;&#x2F;var&#x2F;run&#x2F;mysqld&#x2F;mysqld.pid</span><br><span class="line">server-id&#x3D;127</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...省略其他设置</span><br><span class="line">datadir=/var/lib/mysql</span><br><span class="line">socket=/var/lib/mysql/mysql.sock</span><br><span class="line"></span><br><span class="line">log-error=/var/log/mysqld.log</span><br><span class="line">pid-file=/var/run/mysqld/mysqld.pid</span><br><span class="line">server-id=127</span><br></pre></td></tr></table></figure>
 <p>OK，这两个步骤做完主数据库的设置也就好了。接下来配置从数据库连接主数据库即可。</p>
-<h4 id="第三步-准备一个同步的账号"><a href="#第三步-准备一个同步的账号" class="headerlink" title="第三步 准备一个同步的账号"></a>第三步 准备一个同步的账号</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 官方示例</span><br><span class="line">mysql&gt; CREATE USER &#39;repl&#39;@&#39;%&#39; IDENTIFIED BY &#39;Liweidan1@#&#39;;</span><br><span class="line">mysql&gt; GRANT REPLICATION SLAVE ON *.* TO &#39;repl&#39;@&#39;%&#39;;</span><br><span class="line">mysql&gt; FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+<h4 id="第三步-准备一个同步的账号"><a href="#第三步-准备一个同步的账号" class="headerlink" title="第三步 准备一个同步的账号"></a>第三步 准备一个同步的账号</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 官方示例</span><br><span class="line">mysql&gt; CREATE USER &#x27;repl&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;Liweidan1@#&#x27;;</span><br><span class="line">mysql&gt; GRANT REPLICATION SLAVE ON *.* TO &#x27;repl&#x27;@&#x27;%&#x27;;</span><br><span class="line">mysql&gt; FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
 <h3 id="从数据库配置"><a href="#从数据库配置" class="headerlink" title="从数据库配置"></a>从数据库配置</h3><h4 id="第一步-配置server-id"><a href="#第一步-配置server-id" class="headerlink" title="第一步 配置server_id"></a>第一步 配置server_id</h4><p>同上面 <code>Master</code> 的配置。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">datadir&#x3D;&#x2F;var&#x2F;lib&#x2F;mysql</span><br><span class="line">socket&#x3D;&#x2F;var&#x2F;lib&#x2F;mysql&#x2F;mysql.sock</span><br><span class="line"></span><br><span class="line">log-error&#x3D;&#x2F;var&#x2F;log&#x2F;mysqld.log</span><br><span class="line">pid-file&#x3D;&#x2F;var&#x2F;run&#x2F;mysqld&#x2F;mysqld.pid</span><br><span class="line">server-id&#x3D;154</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">datadir=/var/lib/mysql</span><br><span class="line">socket=/var/lib/mysql/mysql.sock</span><br><span class="line"></span><br><span class="line">log-error=/var/log/mysqld.log</span><br><span class="line">pid-file=/var/run/mysqld/mysqld.pid</span><br><span class="line">server-id=154</span><br></pre></td></tr></table></figure>
 <h4 id="第二步-在主数据库准备一个用来同步的账号"><a href="#第二步-在主数据库准备一个用来同步的账号" class="headerlink" title="第二步 在主数据库准备一个用来同步的账号"></a>第二步 在主数据库准备一个用来同步的账号</h4><h4 id="第三步-导出主库数据"><a href="#第三步-导出主库数据" class="headerlink" title="第三步 导出主库数据"></a>第三步 导出主库数据</h4><p>使用 <code>FLUSH TABLES WITH READ LOCK;</code> 锁住表格。然后使用上面的两个工具将数据进行同步。并且使用 <code>SHOW MASTER STATUS;</code> 来查看数据执行的位置。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 主数据库操作</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> FLUSH TABLES WITH READ LOCK;</span></span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> SHOW MASTER STATUS;</span></span><br><span class="line">+---------------+----------+--------------+------------------+-------------------+</span><br><span class="line"> File           Position  Binlog_Do_DB  Binlog_Ignore_DB  Executed_Gtid_Set </span><br><span class="line">+---------------+----------+--------------+------------------+-------------------+</span><br><span class="line"> binlog.000004       846                                                    </span><br><span class="line">+---------------+----------+--------------+------------------+-------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 导出数据</span></span><br><span class="line">[root@localhost ~]# mysqldump -uroot -p&#x27;Liweidan1@#&#x27; -S /var/lib/mysql/mysql.sock --all-databases &gt; ~/mysql_bak.$(date +%F).sql</span><br><span class="line">mysqldump: [Warning] Using a password on the command line interface can be insecure.</span><br><span class="line">[root@localhost ~]# ll</span><br><span class="line">total 908</span><br><span class="line">-rw-------. 1 root root   1225 Mar  7 03:40 anaconda-ks.cfg</span><br><span class="line">-rw-r--r--. 1 root root  25892 Mar 19 06:29 mysql80-community-release-el7-2.noarch.rpm</span><br><span class="line">-rw-r--r--. 1 root root 894115 Mar 19 11:31 mysql_bak.2019-03-19.sql</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 传递给从服务器</span></span><br><span class="line">[root@localhost ~]scp -r ~/mysql_bak.2019-03-19.sql root@192.168.1.154:~/</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">主数据库操作</span></span><br><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">FLUSH TABLES WITH READ LOCK;</span></span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">SHOW MASTER STATUS;</span></span><br><span class="line">+---------------+----------+--------------+------------------+-------------------+</span><br><span class="line"> File           Position  Binlog_Do_DB  Binlog_Ignore_DB  Executed_Gtid_Set </span><br><span class="line">+---------------+----------+--------------+------------------+-------------------+</span><br><span class="line"> binlog.000004       846                                                    </span><br><span class="line">+---------------+----------+--------------+------------------+-------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">导出数据</span></span><br><span class="line">[root@localhost ~]# mysqldump -uroot -p&#x27;Liweidan1@#&#x27; -S /var/lib/mysql/mysql.sock --all-databases &gt; ~/mysql_bak.$(date +%F).sql</span><br><span class="line">mysqldump: [Warning] Using a password on the command line interface can be insecure.</span><br><span class="line">[root@localhost ~]# ll</span><br><span class="line">total 908</span><br><span class="line">-rw-------. 1 root root   1225 Mar  7 03:40 anaconda-ks.cfg</span><br><span class="line">-rw-r--r--. 1 root root  25892 Mar 19 06:29 mysql80-community-release-el7-2.noarch.rpm</span><br><span class="line">-rw-r--r--. 1 root root 894115 Mar 19 11:31 mysql_bak.2019-03-19.sql</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">传递给从服务器</span></span><br><span class="line">[root@localhost ~]scp -r ~/mysql_bak.2019-03-19.sql root@192.168.1.154:~/</span><br></pre></td></tr></table></figure>
 <h4 id="第四步-从库导入主库数据"><a href="#第四步-从库导入主库数据" class="headerlink" title="第四步 从库导入主库数据"></a>第四步 从库导入主库数据</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p&#x27;Liweidan1@#&#x27; -S /var/lib/mysql/mysql.sock &lt; ~/mysql_bak.2019-03-19.sql</span><br></pre></td></tr></table></figure>
-<h4 id="第五步-配置从库同步"><a href="#第五步-配置从库同步" class="headerlink" title="第五步 配置从库同步"></a>第五步 配置从库同步</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> CHANGE MASTER TO</span></span><br><span class="line">    -&gt;     MASTER_HOST=&#x27;192.168.1.127&#x27;, # 主库IP</span><br><span class="line">    -&gt;     MASTER_USER=&#x27;repl&#x27;, # 主库配置给从库的用户名</span><br><span class="line">    -&gt;     MASTER_PASSWORD=&#x27;Liweidan1@#&#x27;, # 主库中的从库密码</span><br><span class="line">    -&gt;     MASTER_LOG_FILE=&#x27;binlog.000004&#x27;, # 上面查询主库binlog的文件名</span><br><span class="line">    -&gt;     MASTER_LOG_POS=846; # 上面查询主库binlog的Position</span><br></pre></td></tr></table></figure>
+<h4 id="第五步-配置从库同步"><a href="#第五步-配置从库同步" class="headerlink" title="第五步 配置从库同步"></a>第五步 配置从库同步</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">CHANGE MASTER TO</span></span><br><span class="line">    -&gt;     MASTER_HOST=&#x27;192.168.1.127&#x27;, # 主库IP</span><br><span class="line">    -&gt;     MASTER_USER=&#x27;repl&#x27;, # 主库配置给从库的用户名</span><br><span class="line">    -&gt;     MASTER_PASSWORD=&#x27;Liweidan1@#&#x27;, # 主库中的从库密码</span><br><span class="line">    -&gt;     MASTER_LOG_FILE=&#x27;binlog.000004&#x27;, # 上面查询主库binlog的文件名</span><br><span class="line">    -&gt;     MASTER_LOG_POS=846; # 上面查询主库binlog的Position</span><br></pre></td></tr></table></figure>
 <p>完整命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">CHANGE MASTER TO MASTER_HOST&#x3D;&#39;192.168.1.127&#39;,MASTER_USER&#x3D;&#39;repl&#39;,MASTER_PASSWORD&#x3D;&#39;Liweidan1@#&#39;,MASTER_LOG_FILE&#x3D;&#39;binlog.000004&#39;,MASTER_LOG_POS&#x3D;846;</span><br><span class="line">start slave;</span><br><span class="line">mysql&gt; show slave status\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">               Slave_IO_State: Waiting for master to send event</span><br><span class="line">                  Master_Host: 192.168.1.127</span><br><span class="line">                  Master_User: repl</span><br><span class="line">                  Master_Port: 3306</span><br><span class="line">                Connect_Retry: 60</span><br><span class="line">              Master_Log_File: binlog.000004</span><br><span class="line">          Read_Master_Log_Pos: 4486</span><br><span class="line">               Relay_Log_File: localhost-relay-bin.000002</span><br><span class="line">                Relay_Log_Pos: 319</span><br><span class="line">        Relay_Master_Log_File: binlog.000004</span><br><span class="line">             Slave_IO_Running: Yes (这一项和下面一项如果都是YES表示主从设置成功)</span><br><span class="line">            Slave_SQL_Running: Yes</span><br><span class="line">              Replicate_Do_DB:</span><br><span class="line">          Replicate_Ignore_DB:</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">CHANGE MASTER TO MASTER_HOST=&#x27;192.168.1.127&#x27;,MASTER_USER=&#x27;repl&#x27;,MASTER_PASSWORD=&#x27;Liweidan1@#&#x27;,MASTER_LOG_FILE=&#x27;binlog.000004&#x27;,MASTER_LOG_POS=846;</span><br><span class="line">start slave;</span><br><span class="line">mysql&gt; show slave status\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">               Slave_IO_State: Waiting for master to send event</span><br><span class="line">                  Master_Host: 192.168.1.127</span><br><span class="line">                  Master_User: repl</span><br><span class="line">                  Master_Port: 3306</span><br><span class="line">                Connect_Retry: 60</span><br><span class="line">              Master_Log_File: binlog.000004</span><br><span class="line">          Read_Master_Log_Pos: 4486</span><br><span class="line">               Relay_Log_File: localhost-relay-bin.000002</span><br><span class="line">                Relay_Log_Pos: 319</span><br><span class="line">        Relay_Master_Log_File: binlog.000004</span><br><span class="line">             Slave_IO_Running: Yes (这一项和下面一项如果都是YES表示主从设置成功)</span><br><span class="line">            Slave_SQL_Running: Yes</span><br><span class="line">              Replicate_Do_DB:</span><br><span class="line">          Replicate_Ignore_DB:</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
 <h4 id="第六步-启动从库同步进程"><a href="#第六步-启动从库同步进程" class="headerlink" title="第六步 启动从库同步进程"></a>第六步 启动从库同步进程</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> slave;</span><br></pre></td></tr></table></figure>
-<h4 id="第七步-释放主库的读锁"><a href="#第七步-释放主库的读锁" class="headerlink" title="第七步 释放主库的读锁"></a>第七步 释放主库的读锁</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; UNLOCK TABLES;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h4 id="第七步-释放主库的读锁"><a href="#第七步-释放主库的读锁" class="headerlink" title="第七步 释放主库的读锁"></a>第七步 释放主库的读锁</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; UNLOCK TABLES;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
 <h2 id="测试同步"><a href="#测试同步" class="headerlink" title="测试同步"></a>测试同步</h2><p><img src="https://liweidan.cn/wp-content/uploads/2019/04/databse-async.gif"> <img src="https://liweidan.cn/wp-content/uploads/2019/04/table-async.gif"> <img src="https://liweidan.cn/wp-content/uploads/2019/04/data-async.gif"></p>
 <h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>从数据库同步的状态，如果发现同步有问题，可以通过以上的 <code>show slave status\G</code> 来查看日志问题。 这里说我遇到的问题，因为我是使用虚拟机来做的主从服务器，所以从数据库是直接从主数据库下克隆出来的镜像，这里就导致了出现同步的问题：<code>The slave I/O thread stops because master and slave have equal MySQL server UUIDs;</code> 即使我们设置 <code>server_id</code> 但是这两个值也不可以一致。解决也很简单，关闭从 <code>mysql</code>，删除 <code>mysql Data</code> 目录下（<code>SHOW VARIABLES LIKE &#39;%datadir%&#39;</code> 可以查看 <code>Data</code> 目录的路径）的 <code>auto.cnf</code> ，启动 <code>MySQL</code> 服务即可。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kylinlin/p/5258719.html">Mysql主从同步（复制）</a> </p>
 
+<div id="gitalk-container"></div>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+		<script>
+		var gitalkConfig = {"clientID":"9e1bc39d00e3c90593cb","clientSecret":"f6e987db19088f322e0923bb017b2a907c02bd5d","repo":"blog-gittalk","owner":"WeidanLi","admin":["WeidanLi"],"distractionFreeMode":false};
+	    gitalkConfig.id = md5(location.pathname);
+		var gitalk = new Gitalk(gitalkConfig);
+	    gitalk.render("gitalk-container");
+	    </script>
     </div>
 
     
@@ -394,6 +439,20 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Weidan</span>
 </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">218k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">13:12</span>
+  </span>
+</div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
 
@@ -401,24 +460,11 @@
   </footer>
 
   
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
-  <div class="reading-progress-bar"></div>
-
-  <a href="https://github.com/WeidanLi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
-
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
-
-
-  
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
+
 
 
 

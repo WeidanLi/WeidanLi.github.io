@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.3.0">
+
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -16,12 +16,12 @@
 
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.14.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="一.InnoDB的表和数据InnoDB 是怎样存储数据的，表是大概怎样的一种格式，表中的数据行又是怎样的一种格式。如果想要大概知道 B+ 索引的执行过程，这块基本是跳不过去的。当然关于 表 和 数据行 的东西特别多，没办法涵盖所有，所以我只能将我学的，大概知道的重要部分取出来说一说。 这里先大概说下后面才说的 索引 问题，B+索引 其实利用了表中的 行记录头（可以想象是 HTTP 请求的请求头），">
+  <meta name="description" content="一.InnoDB的表和数据InnoDB 是怎样存储数据的，表是大概怎样的一种格式，表中的数据行又是怎样的一种格式。如果想要大概知道 B+ 索引的执行过程，这块基本是跳不过去的。当然关于 表 和 数据行 的东西特别多，没办法涵盖所有，所以我只能将我学的，大概知道的重要部分取出来说一说。 这里先大概说下后面才说的 索引 问题，B+索引 其实利用了表中的 行记录头（可以想象是 HTTP 请求的请求头），">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【聊聊MySQL】三.InnoDB的表结构和行记录结构">
 <meta property="og:url" content="http://weidanli.github.io/db/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%B8%89-innodb%E7%9A%84%E8%A1%A8%E7%BB%93%E6%9E%84%E5%92%8C%E8%A1%8C%E8%AE%B0%E5%BD%95%E7%BB%93%E6%9E%84/index.html">
@@ -58,9 +58,6 @@
 
 
 
-
-
-
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
@@ -70,8 +67,8 @@
   <div class="headband"></div>
 
   <main class="main">
-    <div class="column">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏" role="button">
         <span class="toggle-line"></span>
@@ -91,7 +88,7 @@
   </div>
 
   <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    <div class="toggle popup-trigger">
     </div>
   </div>
 </div>
@@ -99,16 +96,30 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section">首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section">分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section">归档</a></li><li class="menu-item menu-item-数据结构"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="section">数据结构</a></li><li class="menu-item menu-item-spring源码"><a href="/spring-sources/" rel="section">Spring源码</a></li><li class="menu-item menu-item-mysql底层"><a href="/mysql/" rel="section">MySQL底层</a></li><li class="menu-item menu-item-tomcat源码"><a href="/tomcat-sources/" rel="section">Tomcat源码</a></li><li class="menu-item menu-item-计算机网络"><a href="/network/" rel="section">计算机网络</a></li>
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section">首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section">分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section">归档</a></li>
+        <li class="menu-item menu-item-数据结构"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="section">数据结构</a></li>
+        <li class="menu-item menu-item-spring源码"><a href="/spring-sources/" rel="section">Spring源码</a></li>
+        <li class="menu-item menu-item-mysql底层"><a href="/mysql/" rel="section">MySQL底层</a></li>
+        <li class="menu-item menu-item-tomcat源码"><a href="/tomcat-sources/" rel="section">Tomcat源码</a></li>
+        <li class="menu-item menu-item-计算机网络"><a href="/network/" rel="section">计算机网络</a></li>
   </ul>
 </nav>
 
 
 
 
-</header>
+</div>
         
   
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
   <aside class="sidebar">
 
     <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
@@ -129,11 +140,11 @@
         <!--/noindex-->
 
         <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Weidan</p>
   <div class="site-description" itemprop="description">计算机基础 计算机网络 Java Vue 前端 后端</div>
 </div>
-<div class="site-state-wrap animated">
+<div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
@@ -152,24 +163,39 @@
       </div>
   </nav>
 </div>
-  <div class="links-of-author animated">
+  <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/WeidanLi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WeidanLi" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/WeidanLi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WeidanLi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:toweidan@126.com" title="E-Mail → mailto:toweidan@126.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:toweidan@126.com" title="E-Mail → mailto:toweidan@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
+
+
 
         </div>
       </div>
     </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
 
     
-  </aside>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
 
+  <a href="https://github.com/WeidanLi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
 
-    </div>
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
 
     <div class="main-inner post posts-expand">
 
@@ -187,16 +213,11 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="丹崽的技术博客">
-      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="【聊聊MySQL】三.InnoDB的表结构和行记录结构 | 丹崽的技术博客">
-      <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -235,6 +256,21 @@
     </span>
 
   
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>20 分钟</span>
+    </span>
 </div>
 
         </div>
@@ -259,33 +295,33 @@
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110114421.png"></p>
 <h2 id="二-表空间"><a href="#二-表空间" class="headerlink" title="二.表空间"></a>二.表空间</h2><h3 id="2-1-表的物理存储"><a href="#2-1-表的物理存储" class="headerlink" title="2.1 表的物理存储"></a>2.1 表的物理存储</h3><p><strong>数据、表、数据库文件</strong></p>
 <p>至于要找到表结构的文件，我们至少需要先知道数据文件存在哪个地方，所以我们可以直接通过 <code>SQL</code> 语句进行查询：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW variables like &#39;datadir&#39;;</span><br><span class="line">+---------------+-----------------+</span><br><span class="line">| Variable_name | Value           |</span><br><span class="line">+---------------+-----------------+</span><br><span class="line">| datadir       | &#x2F;var&#x2F;lib&#x2F;mysql&#x2F; |</span><br><span class="line">+---------------+-----------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW variables like &#x27;datadir&#x27;;</span><br><span class="line">+---------------+-----------------+</span><br><span class="line">| Variable_name | Value           |</span><br><span class="line">+---------------+-----------------+</span><br><span class="line">| datadir       | /var/lib/mysql/ |</span><br><span class="line">+---------------+-----------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
 <p>OK，结果返回，我们的数据存储在 <code>/var/lib/mysql/</code> 中，所以我们现在进去瞅一瞅是什么东西。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cd &#x2F;var&#x2F;lib&#x2F;mysql&#x2F;</span><br><span class="line">[root@localhost mysql]# ll</span><br><span class="line">总用量 122952</span><br><span class="line">-rw-r-----. 1 mysql mysql       56 9月  22 23:54 auto.cnf</span><br><span class="line">-rw-------. 1 mysql mysql     1679 9月  22 23:54 ca-key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1107 9月  22 23:54 ca.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1107 9月  22 23:54 client-cert.pem</span><br><span class="line">-rw-------. 1 mysql mysql     1679 9月  22 23:54 client-key.pem</span><br><span class="line">drwxr-x---. 2 mysql mysql       20 9月  23 00:00 demo</span><br><span class="line">-rw-r-----. 1 mysql mysql      424 9月  22 23:54 ib_buffer_pool</span><br><span class="line">-rw-r-----. 1 mysql mysql 12582912 9月  22 23:54 ibdata1</span><br><span class="line">-rw-r-----. 1 mysql mysql 50331648 9月  22 23:54 ib_logfile0</span><br><span class="line">-rw-r-----. 1 mysql mysql 50331648 9月  22 23:54 ib_logfile1</span><br><span class="line">-rw-r-----. 1 mysql mysql 12582912 9月  22 23:54 ibtmp1</span><br><span class="line">drwxr-x---. 2 mysql mysql     4096 9月  22 23:54 mysql</span><br><span class="line">srwxrwxrwx. 1 mysql mysql        0 9月  22 23:54 mysql.sock</span><br><span class="line">-rw-------. 1 mysql mysql        5 9月  22 23:54 mysql.sock.lock</span><br><span class="line">drwxr-x---. 2 mysql mysql     8192 9月  22 23:54 performance_schema</span><br><span class="line">-rw-------. 1 mysql mysql     1675 9月  22 23:54 private_key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql      451 9月  22 23:54 public_key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1107 9月  22 23:54 server-cert.pem</span><br><span class="line">-rw-------. 1 mysql mysql     1675 9月  22 23:54 server-key.pem</span><br><span class="line">drwxr-x---. 2 mysql mysql     8192 9月  22 23:54 sys</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cd /var/lib/mysql/</span><br><span class="line">[root@localhost mysql]# ll</span><br><span class="line">总用量 122952</span><br><span class="line">-rw-r-----. 1 mysql mysql       56 9月  22 23:54 auto.cnf</span><br><span class="line">-rw-------. 1 mysql mysql     1679 9月  22 23:54 ca-key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1107 9月  22 23:54 ca.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1107 9月  22 23:54 client-cert.pem</span><br><span class="line">-rw-------. 1 mysql mysql     1679 9月  22 23:54 client-key.pem</span><br><span class="line">drwxr-x---. 2 mysql mysql       20 9月  23 00:00 demo</span><br><span class="line">-rw-r-----. 1 mysql mysql      424 9月  22 23:54 ib_buffer_pool</span><br><span class="line">-rw-r-----. 1 mysql mysql 12582912 9月  22 23:54 ibdata1</span><br><span class="line">-rw-r-----. 1 mysql mysql 50331648 9月  22 23:54 ib_logfile0</span><br><span class="line">-rw-r-----. 1 mysql mysql 50331648 9月  22 23:54 ib_logfile1</span><br><span class="line">-rw-r-----. 1 mysql mysql 12582912 9月  22 23:54 ibtmp1</span><br><span class="line">drwxr-x---. 2 mysql mysql     4096 9月  22 23:54 mysql</span><br><span class="line">srwxrwxrwx. 1 mysql mysql        0 9月  22 23:54 mysql.sock</span><br><span class="line">-rw-------. 1 mysql mysql        5 9月  22 23:54 mysql.sock.lock</span><br><span class="line">drwxr-x---. 2 mysql mysql     8192 9月  22 23:54 performance_schema</span><br><span class="line">-rw-------. 1 mysql mysql     1675 9月  22 23:54 private_key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql      451 9月  22 23:54 public_key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1107 9月  22 23:54 server-cert.pem</span><br><span class="line">-rw-------. 1 mysql mysql     1675 9月  22 23:54 server-key.pem</span><br><span class="line">drwxr-x---. 2 mysql mysql     8192 9月  22 23:54 sys</span><br></pre></td></tr></table></figure>
 <p>为了能够继续说下去，我需要建立一些数据库以及表来做演示：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">create</span> database innodb_study;</span><br><span class="line">Query OK, <span class="number">1</span> <span class="type">row</span> affected (<span class="number">0.01</span> sec)</span><br><span class="line">mysql<span class="operator">&gt;</span> use innodb_study;</span><br><span class="line">Database changed</span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">create</span> <span class="keyword">table</span> table_file_user (id <span class="type">int</span>, name <span class="type">varchar</span>(<span class="number">10</span>));</span><br><span class="line">Query OK, <span class="number">0</span> <span class="keyword">rows</span> affected (<span class="number">0.03</span> sec)</span><br></pre></td></tr></table></figure>
 <p>好了，创建了一个 <code>innodb_study</code> 的数据库以及一个 <code>table_file_user</code> 的表，现在我们重新来看看数据文件里面多了些什么东西：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mysql]# ll</span><br><span class="line">总用量 122952</span><br><span class="line">-rw-r-----. 1 mysql mysql       56 9月  22 23:54 auto.cnf</span><br><span class="line">-rw-------. 1 mysql mysql     1679 9月  22 23:54 ca-key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1107 9月  22 23:54 ca.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1107 9月  22 23:54 client-cert.pem</span><br><span class="line">-rw-------. 1 mysql mysql     1679 9月  22 23:54 client-key.pem</span><br><span class="line">-rw-r-----. 1 mysql mysql      424 9月  22 23:54 ib_buffer_pool</span><br><span class="line">-rw-r-----. 1 mysql mysql 12582912 10月  9 22:44 ibdata1</span><br><span class="line">-rw-r-----. 1 mysql mysql 50331648 10月  9 22:44 ib_logfile0</span><br><span class="line">-rw-r-----. 1 mysql mysql 50331648 9月  22 23:54 ib_logfile1</span><br><span class="line">-rw-r-----. 1 mysql mysql 12582912 10月  9 22:42 ibtmp1</span><br><span class="line">drwxr-x---. 2 mysql mysql       74 10月  9 22:44 innodb_study # 多了这个数据库文件夹</span><br><span class="line">drwxr-x---. 2 mysql mysql     4096 9月  22 23:54 mysql</span><br><span class="line">srwxrwxrwx. 1 mysql mysql        0 9月  22 23:54 mysql.sock</span><br><span class="line">-rw-------. 1 mysql mysql        5 9月  22 23:54 mysql.sock.lock</span><br><span class="line">drwxr-x---. 2 mysql mysql     8192 9月  22 23:54 performance_schema</span><br><span class="line">-rw-------. 1 mysql mysql     1675 9月  22 23:54 private_key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql      451 9月  22 23:54 public_key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1107 9月  22 23:54 server-cert.pem</span><br><span class="line">-rw-------. 1 mysql mysql     1675 9月  22 23:54 server-key.pem</span><br><span class="line">drwxr-x---. 2 mysql mysql     8192 9月  22 23:54 sys</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mysql]# ll</span><br><span class="line">总用量 122952</span><br><span class="line">-rw-r-----. 1 mysql mysql       56 9月  22 23:54 auto.cnf</span><br><span class="line">-rw-------. 1 mysql mysql     1679 9月  22 23:54 ca-key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1107 9月  22 23:54 ca.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1107 9月  22 23:54 client-cert.pem</span><br><span class="line">-rw-------. 1 mysql mysql     1679 9月  22 23:54 client-key.pem</span><br><span class="line">-rw-r-----. 1 mysql mysql      424 9月  22 23:54 ib_buffer_pool</span><br><span class="line">-rw-r-----. 1 mysql mysql 12582912 10月  9 22:44 ibdata1</span><br><span class="line">-rw-r-----. 1 mysql mysql 50331648 10月  9 22:44 ib_logfile0</span><br><span class="line">-rw-r-----. 1 mysql mysql 50331648 9月  22 23:54 ib_logfile1</span><br><span class="line">-rw-r-----. 1 mysql mysql 12582912 10月  9 22:42 ibtmp1</span><br><span class="line">drwxr-x---. 2 mysql mysql       74 10月  9 22:44 innodb_study # 多了这个数据库文件夹</span><br><span class="line">drwxr-x---. 2 mysql mysql     4096 9月  22 23:54 mysql</span><br><span class="line">srwxrwxrwx. 1 mysql mysql        0 9月  22 23:54 mysql.sock</span><br><span class="line">-rw-------. 1 mysql mysql        5 9月  22 23:54 mysql.sock.lock</span><br><span class="line">drwxr-x---. 2 mysql mysql     8192 9月  22 23:54 performance_schema</span><br><span class="line">-rw-------. 1 mysql mysql     1675 9月  22 23:54 private_key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql      451 9月  22 23:54 public_key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1107 9月  22 23:54 server-cert.pem</span><br><span class="line">-rw-------. 1 mysql mysql     1675 9月  22 23:54 server-key.pem</span><br><span class="line">drwxr-x---. 2 mysql mysql     8192 9月  22 23:54 sys</span><br></pre></td></tr></table></figure>
 <p>好了进去 <code>innodb_study</code> 瞅瞅有哪些东西：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost innodb_study]# ll</span><br><span class="line">总用量 112</span><br><span class="line">-rw-r-----. 1 mysql mysql    65 10月  9 22:43 db.opt</span><br><span class="line">-rw-r-----. 1 mysql mysql  8586 10月  9 22:44 table_file_user.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 98304 10月  9 22:44 table_file_user.ibd</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost innodb_study]# ll</span><br><span class="line">总用量 112</span><br><span class="line">-rw-r-----. 1 mysql mysql    65 10月  9 22:43 db.opt</span><br><span class="line">-rw-r-----. 1 mysql mysql  8586 10月  9 22:44 table_file_user.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 98304 10月  9 22:44 table_file_user.ibd</span><br></pre></td></tr></table></figure>
 <ol>
 <li><code>db.opt</code> 猜一下，应该是数据库的设定，比如字符集啊，使用的存储引擎啊等等；</li>
 <li><code>table_file_user.frm</code> 则是我创建的用户表的结构文件了；</li>
 <li><code>table_file_user.ibd</code> 是 <code>InnoDB</code> 存储引擎的数据库文件；</li>
 </ol>
 <p>首先我们先来看看 <code>db.opt</code> 文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost innodb_study]# cat db.opt</span><br><span class="line">default-character-set&#x3D;latin1</span><br><span class="line">default-collation&#x3D;latin1_swedish_ci</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost innodb_study]# cat db.opt</span><br><span class="line">default-character-set=latin1</span><br><span class="line">default-collation=latin1_swedish_ci</span><br></pre></td></tr></table></figure>
 <p>可以看到，我刚刚在创建这个数据库的时候，一切用的是默认的，所以默认的字符集以及排序规则都是 <code>latin1</code> 相关的。</p>
 <p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/latin1/1183590?fr=aladdin">latin1百科</a></p>
 <p><code>table_file_user.frm</code> 则无法直接使用 <code>cat</code> 进行查看，需要通过  <a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html">MySQL管理工具集 MySQL Utilities</a> 的方式进行查看，不过在这里我就不演示了。</p>
 <p><code>table_file_user.ibd</code> 则就是数据库文件了，存储的是数据库数据，后面再说。</p>
 <p><strong>表空间设置参数</strong></p>
 <p>针对 <code>table_file_user.ibd</code> 有个参数需要提一下 <code>innodb_file_per_table</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW variables like &#39;innodb_file_per_table&#39;\G;</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">Variable_name: innodb_file_per_table</span><br><span class="line">        Value: ON</span><br><span class="line">1 row in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW variables like &#x27;innodb_file_per_table&#x27;\G;</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">Variable_name: innodb_file_per_table</span><br><span class="line">        Value: ON</span><br><span class="line">1 row in set (0.01 sec)</span><br></pre></td></tr></table></figure>
 <p>什么意思咧，就是每个表的数据都存储在独立的表空间，<code>5.7</code> 以前默认是 <code>off</code> 的，后面的版本就默认开启了。如果是 <code>off</code> 的话，所有表的数据都会记录在一个文件里面。但是即使开启了独立表空间的参数，也只是记录表的数据、索引、插入缓冲等信息，其他的回滚日志还是会存储在公共的空间中的。</p>
 <p><strong>定义表空间文件大小位置</strong></p>
 <p>可以通过定义 <code>my.cnf</code> 中的配置，来定义存储的表空间文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">innodb_data_file_path &#x3D; &#x2F;db&#x2F;ibdata1:2000M;&#x2F;db&#x2F;ibdata2:2000M:autoextend</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">innodb_data_file_path = /db/ibdata1:2000M;/db/ibdata2:2000M:autoextend</span><br></pre></td></tr></table></figure>
 <p>我们可以这样定义由两个文件组成表空间，后面的文件容量大小限定表示文件限制大小，而 <code>ibdata2</code> 增长到 <code>2000M</code> 的时候还可以自动增长。</p>
 <h3 id="2-1-表的逻辑存储"><a href="#2-1-表的逻辑存储" class="headerlink" title="2.1 表的逻辑存储"></a>2.1 表的逻辑存储</h3><p>接下来简单说下上图中，表空间的下级几个东西：</p>
 <p><strong>段</strong></p>
@@ -490,7 +526,7 @@
 <p>这个表包含一个主键、一个不为空的 <code>name</code>，一个可为空的 <code>addr</code>，还有一个不可变长可为空的 <code>sex</code>。字符集是 <code>ascii</code>（就是包含简单字母的那个），以及指定行格式是 <code>Compact</code>。</p>
 <p>然后我插入 <code>5</code> 个数据来玩玩：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> user_db (id, name, addr, sex)</span><br><span class="line">	<span class="keyword">values</span>(<span class="number">1</span>, <span class="string">&#x27;goudan&#x27;</span>, <span class="keyword">null</span>, <span class="string">&#x27;b&#x27;</span>),</span><br><span class="line">	(<span class="number">2</span>, <span class="string">&#x27;gousheng&#x27;</span>, <span class="string">&#x27;guangzhou&#x27;</span>, <span class="string">&#x27;g&#x27;</span>),</span><br><span class="line">	(<span class="number">3</span>, <span class="string">&#x27;xiaoming&#x27;</span>, <span class="keyword">null</span>, <span class="keyword">null</span>),</span><br><span class="line">	(<span class="number">4</span>, <span class="string">&#x27;adan&#x27;</span>, <span class="string">&#x27;tianhe&#x27;</span>, <span class="keyword">null</span>);</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> SELECT * FROM user_db;</span></span><br><span class="line">+----+----------+-----------+------+</span><br><span class="line">| id | name     | addr      | sex  |</span><br><span class="line">+----+----------+-----------+------+</span><br><span class="line">|  1 | goudan   | NULL      | b    |</span><br><span class="line">|  2 | gousheng | guangzhou | g    |</span><br><span class="line">|  3 | xiaoming | NULL      | NULL |</span><br><span class="line">|  4 | adan     | tianhe    | NULL |</span><br><span class="line">+----+----------+-----------+------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">SELECT * FROM user_db;</span></span><br><span class="line">+----+----------+-----------+------+</span><br><span class="line">| id | name     | addr      | sex  |</span><br><span class="line">+----+----------+-----------+------+</span><br><span class="line">|  1 | goudan   | NULL      | b    |</span><br><span class="line">|  2 | gousheng | guangzhou | g    |</span><br><span class="line">|  3 | xiaoming | NULL      | NULL |</span><br><span class="line">|  4 | adan     | tianhe    | NULL |</span><br><span class="line">+----+----------+-----------+------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
 <p>好，终于搞定 <code>demo</code> 数据。</p>
 <p>我们回到可变长字段的长度列表来看，就拿 <code>id = 2</code> 的数据来看吧：</p>
 <p>因为在这个表中 <code>name</code> <code>addr</code> 都是可变长字段，<code>name</code> 的长度是 <code>8</code>，<code>addr</code> 的长度是 <code>9</code> 他们通过十六进制表示分别是：<code>0×08</code> <code>0×09</code> ，然后，可变长字段存储是逆序的，所有，存储在可变长字段列表里面的数据就是 <code>0908</code></p>
@@ -505,7 +541,7 @@
 <p>那怎么大概计算字段占用多少字节的长度呢：</p>
 <p>因为上面的 <code>user_db</code> 使用的是 <code>ascii</code> 来做记录的，让我们用臭名远扬的 <code>utf-8</code> 来说，我们知道，<code>MySQL</code> 中的 <code>utf-8</code> 是个假的，他其实只使用了 <code>3字节</code> 一个字符的方法来存储。</p>
 <p>我们假设这个表只有一个列(varchar(MAXLEN))，那如果字符串的最大字节占用长度 = <code>MAXLEN * 3</code>，则如果最大占用字节 <strong>小于等于</strong> <code>255</code> 的时候，使用一个字节来存储，如果他大于 <code>255</code> 则根据他是否 <strong>小于等于</strong> <code>127</code> 也就是 <code>127 / 3 = 42</code> 个字符来看，如果小于等于127，则使用 <code>1字节</code>，否则使用 <code>2字节</code>。好累，弄个伪代码吧：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 占用的最大字节数，LocalCharsetLeng是当前字符集的最大字节长度 */</span></span><br><span class="line"><span class="keyword">let</span> maxByteLeng = LocalCharsetLeng * MAXLEN;</span><br><span class="line"><span class="comment">/** 可变长字段列表的长度 */</span></span><br><span class="line"><span class="keyword">let</span> lengthOfVariableColumn = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">if</span> (maxByteLeng &lt;= <span class="number">255</span>) &#123;</span><br><span class="line">  lengthOfVariableColumn = <span class="number">1</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">/** 她当前数据行存储的长度 */</span></span><br><span class="line">  <span class="keyword">let</span> lengthOfData = ...</span><br><span class="line">  <span class="keyword">let</span> byteLengthOfData = LocalCharsetLeng * lengthOfData;</span><br><span class="line">  <span class="keyword">if</span> (byteLengthOfData &lt;= <span class="number">127</span>) &#123;</span><br><span class="line">    lengthOfVariableColumn = <span class="number">1</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    lengthOfVariableColumn = <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 占用的最大字节数，LocalCharsetLeng是当前字符集的最大字节长度 */</span></span><br><span class="line"><span class="keyword">let</span> maxByteLeng = <span class="title class_">LocalCharsetLeng</span> * <span class="variable constant_">MAXLEN</span>;</span><br><span class="line"><span class="comment">/** 可变长字段列表的长度 */</span></span><br><span class="line"><span class="keyword">let</span> lengthOfVariableColumn = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">if</span> (maxByteLeng &lt;= <span class="number">255</span>) &#123;</span><br><span class="line">  lengthOfVariableColumn = <span class="number">1</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">/** 她当前数据行存储的长度 */</span></span><br><span class="line">  <span class="keyword">let</span> lengthOfData = ...</span><br><span class="line">  <span class="keyword">let</span> byteLengthOfData = <span class="title class_">LocalCharsetLeng</span> * lengthOfData;</span><br><span class="line">  <span class="keyword">if</span> (byteLengthOfData &lt;= <span class="number">127</span>) &#123;</span><br><span class="line">    lengthOfVariableColumn = <span class="number">1</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    lengthOfVariableColumn = <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="5-1-2-NULL值列表"><a href="#5-1-2-NULL值列表" class="headerlink" title="5.1.2 NULL值列表"></a>5.1.2 NULL值列表</h3><p><code>NULL值列表</code> 也是按照列中可以为NULL的列逆序来排放的，直接上图更清晰：</p>
 <p>我们加入要看 <code>id = 3</code> 的数据，他的 <code>addr</code> 和 <code>sex</code> 都为 <code>NULL</code>。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110114421.png" alt="image-20191121151849940"></p>
@@ -577,6 +613,15 @@
 <p>而 <code>MySQL 5.7</code> 使用的 <code>InnoDB Plugin</code> 默认的格式 <code>Dynamic</code> 以及新增的 <code>Compress</code> 格式则不同，他们只在当前记录这里记录溢出页的位置，将所有的数据都放在溢出页里面，而 <code>Compress</code> 还会将溢出页进行压缩处理，减少存储空间。</p>
 <h2 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h2><p>主要了解了表的逻辑存储、数据页、数据行的格式。不过不用太担心没记住，后面我都会重复这里的内容来说接下来的所有事情的，毕竟这里面的一堆属性都是为后面 <code>MySQL</code> 的功能做铺垫。</p>
 
+<div id="gitalk-container"></div>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+		<script>
+		var gitalkConfig = {"clientID":"9e1bc39d00e3c90593cb","clientSecret":"f6e987db19088f322e0923bb017b2a907c02bd5d","repo":"blog-gittalk","owner":"WeidanLi","admin":["WeidanLi"],"distractionFreeMode":false};
+	    gitalkConfig.id = md5(location.pathname);
+		var gitalk = new Gitalk(gitalkConfig);
+	    gitalk.render("gitalk-container");
+	    </script>
     </div>
 
     
@@ -627,6 +672,20 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Weidan</span>
 </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">218k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">13:12</span>
+  </span>
+</div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
 
@@ -634,24 +693,11 @@
   </footer>
 
   
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
-  <div class="reading-progress-bar"></div>
-
-  <a href="https://github.com/WeidanLi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
-
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
-
-
-  
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
+
 
 
 
