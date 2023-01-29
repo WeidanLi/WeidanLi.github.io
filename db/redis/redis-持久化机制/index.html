@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
   <meta name="description" content="总览redis 数据库，可以直接用来当数据库使用，也可以当系统的缓存使用。但是 redis 大部分数据是存储在内存中的，当服务掉线重启，会造成数据的丢失。当然，redis 是有持久化线程的，我们可以利用这个持久化服务来做数据的持久化，这样当 redis 重启的时候，即可从硬盘重新读取数据，然后进行数据的恢复。 redis 的持久化方式有两种：   RDB 方式  AOP方式RDB 方式  执行过程">
 <meta property="og:type" content="article">
@@ -311,15 +311,6 @@
 <p>可选值：<code>always</code> <code>no</code> 前者是每次写入 <code>AOF</code> 都进行同步，后者则完全交由系统决定。</p>
 <h2 id="持久化使用"><a href="#持久化使用" class="headerlink" title="持久化使用"></a>持久化使用</h2><p><code>redis</code> 允许同时开启两种模式，既保证数据安全又使得备份十分容易。重启 <code>redis</code> 后 <code>redis</code> 会使用 <code>AOF</code> 方式来回复数据，因为 <code>AOF</code> 可能丢失的数据更少。 </p>
 
-<div id="gitalk-container"></div>
-<script src="https://cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-		<script>
-		var gitalkConfig = {"clientID":"9e1bc39d00e3c90593cb","clientSecret":"f6e987db19088f322e0923bb017b2a907c02bd5d","repo":"blog-gittalk","owner":"WeidanLi","admin":["WeidanLi"],"distractionFreeMode":false};
-	    gitalkConfig.id = md5(location.pathname);
-		var gitalk = new Gitalk(gitalkConfig);
-	    gitalk.render("gitalk-container");
-	    </script>
     </div>
 
     
@@ -406,6 +397,10 @@
 
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"WeidanLi","repo":"blog-gittalk","client_id":"9e1bc39d00e3c90593cb","client_secret":"f6e987db19088f322e0923bb017b2a907c02bd5d","admin_user":"WeidanLi","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"13e09b68dfa1a285c8e16dbf59cffb77"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
 
 </body>
 </html>

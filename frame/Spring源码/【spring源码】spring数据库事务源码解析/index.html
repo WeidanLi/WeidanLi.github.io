@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
   <meta name="description" content="准备个需求之前读其他无关数据库源码的时候，只是简单的依赖了 spring-boot-starter-web，现在由于需要数据库的参与，所以需要加上 MySQL 的驱动，以及一个最简单的 jdbc 框架。">
 <meta property="og:type" content="article">
@@ -364,15 +364,6 @@
 <p>拿到 <code>Connection</code> 进行回滚。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doRollback</span><span class="params">(DefaultTransactionStatus status)</span> &#123;</span><br><span class="line"> <span class="type">DataSourceTransactionObject</span> <span class="variable">txObject</span> <span class="operator">=</span> (DataSourceTransactionObject) status.getTransaction();</span><br><span class="line"> <span class="type">Connection</span> <span class="variable">con</span> <span class="operator">=</span> txObject.getConnectionHolder().getConnection();</span><br><span class="line"> <span class="keyword">if</span> (status.isDebug()) &#123;</span><br><span class="line">  logger.debug(<span class="string">&quot;Rolling back JDBC transaction on Connection [&quot;</span> + con + <span class="string">&quot;]&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">try</span> &#123;</span><br><span class="line">  con.rollback();</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">catch</span> (SQLException ex) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">TransactionSystemException</span>(<span class="string">&quot;Could not roll back JDBC transaction&quot;</span>, ex);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="完"><a href="#完" class="headerlink" title="完"></a>完</h2>
-<div id="gitalk-container"></div>
-<script src="https://cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-		<script>
-		var gitalkConfig = {"clientID":"9e1bc39d00e3c90593cb","clientSecret":"f6e987db19088f322e0923bb017b2a907c02bd5d","repo":"blog-gittalk","owner":"WeidanLi","admin":["WeidanLi"],"distractionFreeMode":false};
-	    gitalkConfig.id = md5(location.pathname);
-		var gitalk = new Gitalk(gitalkConfig);
-	    gitalk.render("gitalk-container");
-	    </script>
     </div>
 
     
@@ -459,6 +450,10 @@
 
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"WeidanLi","repo":"blog-gittalk","client_id":"9e1bc39d00e3c90593cb","client_secret":"f6e987db19088f322e0923bb017b2a907c02bd5d","admin_user":"WeidanLi","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"7d776cfc9d64ed3c3f360a559e6e9f20"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
 
 </body>
 </html>

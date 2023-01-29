@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
   <meta name="description" content="前言我们知道，使用 SpringCloud 技术栈，上下游传值的方式一般使用 form 表单或者使用 JSON 格式进行传值。但是我感觉，我们内部服务进行传值的时候，还使用这两种类型的方式，显得有点重。所以在查询了 Java 界以及其他语言序列化对象的时候，查询到了几个常用的序列化工具：kryo Hession JSON XML Protocol Buffers JSON XML 就不必多言，使用">
 <meta property="og:type" content="article">
@@ -32,9 +32,9 @@
 <meta property="article:modified_time" content="2023-01-27T12:02:55.073Z">
 <meta property="article:author" content="Weidan">
 <meta property="article:tag" content="spring-boot">
+<meta property="article:tag" content="spring-cloud">
 <meta property="article:tag" content="feign">
 <meta property="article:tag" content="protolbuffer">
-<meta property="article:tag" content="spring-cloud">
 <meta property="article:tag" content="springmvc">
 <meta name="twitter:card" content="summary">
 
@@ -309,15 +309,6 @@
 <h3 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="meta">@RunWith(SpringRunner.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserFeignTest</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> UserFeign userFeign;</span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> RestTemplate restTemplate;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testRestTemplate</span><span class="params">()</span> &#123;</span><br><span class="line">    User.<span class="type">Person</span> <span class="variable">test</span> <span class="operator">=</span> restTemplate.getForObject(<span class="string">&quot;http://localhost:8080/&quot;</span>, User.Person.class);</span><br><span class="line">    assertNotNull(<span class="string">&quot;传递对象不能为空&quot;</span>, test);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testFeign</span><span class="params">()</span> &#123;</span><br><span class="line">    User.<span class="type">Person</span> <span class="variable">test</span> <span class="operator">=</span> userFeign.test();</span><br><span class="line">    assertNotNull(<span class="string">&quot;传递对象不能为空&quot;</span>, test);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testAdd</span><span class="params">()</span> &#123;</span><br><span class="line">    User.<span class="type">Person</span> <span class="variable">weoda</span> <span class="operator">=</span> User.Person.newBuilder().setName(<span class="string">&quot;Weoda&quot;</span>).setId(<span class="number">2000</span>).build();</span><br><span class="line">    userFeign.add(weoda);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="项目说明"><a href="#项目说明" class="headerlink" title="项目说明"></a>项目说明</h2><p><a target="_blank" rel="noopener" href="https://github.com/WeidanLi/spring-cloud-with-protol">示例代码</a> 项目没有特别规范，随便写写 调用测试写在了 <code>com.microorder.test.Config#main</code> <code>feign</code> 测试放在 <code>test</code> 包下，先启动项目再测试 <code>feign</code> </p>
 
-<div id="gitalk-container"></div>
-<script src="https://cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-		<script>
-		var gitalkConfig = {"clientID":"9e1bc39d00e3c90593cb","clientSecret":"f6e987db19088f322e0923bb017b2a907c02bd5d","repo":"blog-gittalk","owner":"WeidanLi","admin":["WeidanLi"],"distractionFreeMode":false};
-	    gitalkConfig.id = md5(location.pathname);
-		var gitalk = new Gitalk(gitalkConfig);
-	    gitalk.render("gitalk-container");
-	    </script>
     </div>
 
     
@@ -327,9 +318,9 @@
     <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/spring-boot/" rel="tag"># spring-boot</a>
+              <a href="/tags/spring-cloud/" rel="tag"># spring-cloud</a>
               <a href="/tags/feign/" rel="tag"># feign</a>
               <a href="/tags/protolbuffer/" rel="tag"># protolbuffer</a>
-              <a href="/tags/spring-cloud/" rel="tag"># spring-cloud</a>
               <a href="/tags/springmvc/" rel="tag"># springmvc</a>
           </div>
 
@@ -406,6 +397,10 @@
 
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"WeidanLi","repo":"blog-gittalk","client_id":"9e1bc39d00e3c90593cb","client_secret":"f6e987db19088f322e0923bb017b2a907c02bd5d","admin_user":"WeidanLi","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"8eeeeab1272259698792f7588ecfcca4"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
 
 </body>
 </html>

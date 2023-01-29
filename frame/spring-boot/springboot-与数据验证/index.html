@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
   <meta name="description" content="springboot 与数据验证一. 简述在项目开发中，验证参数也是最经常使用的业务需求了。通常在开发的时候都需要根据业务需求，对参数进行必要验证。 当然一堆的 if-else 的验证在日常开发中时常可见。这种方式非常不友好： 1. 代码太长导致阅读不友好，更改需求可能只是简单的修改但是却需要阅读几十到几百行的代码 2. 有时候业务只是一两句但是验证代码却占用了很长时间 JSR-303 是 Jav">
 <meta property="og:type" content="article">
@@ -310,15 +310,6 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">POST http://localhost:8080/testChsValidator?chsName=888</span><br><span class="line"></span><br><span class="line">HTTP/1.1 400 </span><br><span class="line">Content-Type: application/json;charset=UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Tue, 18 Dec 2018 01:39:40 GMT</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;message&quot;: &quot;testChsValidator.chsName: 该字段需要纯中文&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Response code: 400; Time: 239ms; Content length: 48 bytes</span><br><span class="line"></span><br><span class="line">--------------------------------------------------------</span><br><span class="line"></span><br><span class="line">POST http://localhost:8080/testChsValidator?chsName=你好</span><br><span class="line"></span><br><span class="line">HTTP/1.1 200 </span><br><span class="line">Content-Length: 0</span><br><span class="line">Date: Tue, 18 Dec 2018 01:40:11 GMT</span><br><span class="line"></span><br><span class="line">&lt;Response body is empty&gt;</span><br><span class="line"></span><br><span class="line">Response code: 200; Time: 44ms; Content length: 0 bytes</span><br></pre></td></tr></table></figure>
 <h2 id="三-总结"><a href="#三-总结" class="headerlink" title="三. 总结"></a>三. 总结</h2><p>OK，验证器的使用到这里基本完结，一般来说基础的可以适用大部分需求，但是我建议如果某个校验规则用的不多的话，就不大需要定义自定义校验器，如果用的比较多而且是通用的话，那么自定义的注解校验无疑会带来很多便捷。校验器适用的实现是 <code>Hibernate Validate</code> 所以如若需要查询资料可直接查询<code>Hibernate Validate</code> 相关的即可。 <a target="_blank" rel="noopener" href="http://docs.jboss.org/hibernate/validator/4.2/reference/zh-CN/html_single/#validator-customconstraints-constraintannotation">Hibernate-Validate</a></p>
 
-<div id="gitalk-container"></div>
-<script src="https://cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-		<script>
-		var gitalkConfig = {"clientID":"9e1bc39d00e3c90593cb","clientSecret":"f6e987db19088f322e0923bb017b2a907c02bd5d","repo":"blog-gittalk","owner":"WeidanLi","admin":["WeidanLi"],"distractionFreeMode":false};
-	    gitalkConfig.id = md5(location.pathname);
-		var gitalk = new Gitalk(gitalkConfig);
-	    gitalk.render("gitalk-container");
-	    </script>
     </div>
 
     
@@ -403,6 +394,10 @@
 
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"WeidanLi","repo":"blog-gittalk","client_id":"9e1bc39d00e3c90593cb","client_secret":"f6e987db19088f322e0923bb017b2a907c02bd5d","admin_user":"WeidanLi","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"848803c912af464a73e9a2d18d04321f"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
 
 </body>
 </html>

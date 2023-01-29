@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
   <meta name="description" content="springboot-web 拦截器的使用一. 简述用过 SpringMVC 的应该都知道拦截器，拦截器可以设置在 SpringMVC 接收请求之前处理（返回 true 继续执行或 false 拒绝执行），方法处理请求之后，以及处理完整个请求之后的操作。例如：单体项目的登陆拦截、在进入处理器之前先给线程栈设置一个公用的 UserThreadLocal 等等。GitHub地址：https:&#x2F;&#x2F;git">
 <meta property="og:type" content="article">
@@ -289,15 +289,6 @@
 <h3 id="5-接口测试"><a href="#5-接口测试" class="headerlink" title="5. 接口测试"></a>5. 接口测试</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// 传递错误的 Authorization 头</span><br><span class="line">GET http://localhost:8080</span><br><span class="line">Accept: application/json</span><br><span class="line">Authorization: weidan0</span><br><span class="line"></span><br><span class="line">HTTP/1.1 401 </span><br><span class="line">Content-Length: 0</span><br><span class="line">Date: Wed, 21 Nov 2018 17:44:01 GMT</span><br><span class="line"></span><br><span class="line">&lt;Response body is empty&gt;</span><br><span class="line"></span><br><span class="line">Response code: 401; Time: 29ms; Content length: 0 bytes</span><br><span class="line"></span><br><span class="line">---------------------------------------------------------</span><br><span class="line">// 正确的姿势传递</span><br><span class="line">GET http://localhost:8080</span><br><span class="line">Accept: application/json</span><br><span class="line">Authorization: weidan</span><br><span class="line"></span><br><span class="line">HTTP/1.1 200 </span><br><span class="line">Content-Type: application/json;charset=UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Wed, 21 Nov 2018 17:50:32 GMT</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;hello&quot;: &quot;world&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Response code: 200; Time: 189ms; Content length: 17 bytes</span><br></pre></td></tr></table></figure>
 <h2 id="三-总结"><a href="#三-总结" class="headerlink" title="三. 总结"></a>三. 总结</h2><p>使用拦截器来开发登陆拦截，权限是可行的，就是需要自己编写较多的逻辑如查询数据库啦，判断啦。 所以如果权限模型简单的话，是没有问题的，如果权限问题比较复杂可以结合著名框架 <code>shrio</code> <code>spring-security</code> 等协助开发，当然像我们公司，权限模型自定义程度高，框架是解决不了的，也只能手撸了。 在日常开发中，一般 <code>Authorization</code> 存放的是 <code>jwt</code> 验证字符串，具体后面再细说。在微服务架构中，拦截器可就没什么用场了，我能想到的就是在当前线程栈中设置用户信息这个需求了。一般微服务架构权限的实现会交给路由来解决。</p>
 
-<div id="gitalk-container"></div>
-<script src="https://cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-		<script>
-		var gitalkConfig = {"clientID":"9e1bc39d00e3c90593cb","clientSecret":"f6e987db19088f322e0923bb017b2a907c02bd5d","repo":"blog-gittalk","owner":"WeidanLi","admin":["WeidanLi"],"distractionFreeMode":false};
-	    gitalkConfig.id = md5(location.pathname);
-		var gitalk = new Gitalk(gitalkConfig);
-	    gitalk.render("gitalk-container");
-	    </script>
     </div>
 
     
@@ -382,6 +373,10 @@
 
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"WeidanLi","repo":"blog-gittalk","client_id":"9e1bc39d00e3c90593cb","client_secret":"f6e987db19088f322e0923bb017b2a907c02bd5d","admin_user":"WeidanLi","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"ff90d7e41d4118afd0a1f41a1aa13553"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
 
 </body>
 </html>

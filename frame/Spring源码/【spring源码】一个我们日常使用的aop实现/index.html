@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
   <meta name="description" content="前言关于 AOP 在日常开发中应该不算是一个新的名词了，AOP 可以帮助我们把业务之外，但是很多方法都需要调用的方法，无感的方外外部，并且通过配置让外部的 AOP 函数自动织入目标方法中。 常见的业务有：   记录方法调用的信息，时长；  初始化当前用户信息上下文，方便在业务内部快速获取。  那我就改改我之前的 Context 用的例子，来康康 Spring 是怎么做的。">
 <meta property="og:type" content="article">
@@ -373,15 +373,6 @@
 <p>然而走完 <code>updateUser</code> 缓存直接没了，并没有帮我刷新。 这个确实是 <code>AOP</code> 中模糊了 <code>this</code> 指向的问题。 我们通过刚刚的例子可以看到，其实 <code>AOP</code> 生效的时机是你从 <code>BeanFactory</code> 中拿到 <code>Bean</code> 的时候，因为这个时候你拿到的就是一个代理对象，那么会执行 <code>AOP</code> 中 <code>Advisor</code> 中定义的方法。但是如果我们直接在我们的类中使用 <code>this</code> 的时候，其实指向的是我们自己的类实例，没有走 <code>Spring</code> 外部的逻辑。 那咋办呢… 重点就在于怎么拿到 <code>Spring</code> 的代理对象！<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39951411/article/details/80363121">参考资料</a> 通过配置 <code>exposeProxy</code> ，然后通过 <code>((UserService) AopContext.currentProxy()).userOfUID();</code> 来调用。 配置： 注解：<code>@EnableAspectJAutoProxy(proxyTargteClass = true, exposeProxy = true)</code> <code>xml</code> ：<code>&lt;aop:aspectj-autoproxy expose-proxy=&quot;true&quot;/&gt;</code> 那我就比较懒（sao）了…「好了 还是不要这么用吧…」</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Lazy</span></span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> UserService userService;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@CacheEvict(value=&quot;userCache&quot;,key=&quot;#u.getUID()&quot;)</span></span><br><span class="line">    pubic <span class="keyword">void</span> <span class="title function_">updateUser</span><span class="params">(User u)</span> &#123;</span><br><span class="line">    <span class="comment">// ....逻辑</span></span><br><span class="line">    <span class="comment">//调用其他方法让其重新缓存</span></span><br><span class="line">    userService.userOfUID(u.getUID);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Cacheable(value = &quot;userCache&quot;,key=&quot;#result.getUID()&quot;)</span></span><br><span class="line">  pubic User <span class="title function_">userOfUID</span><span class="params">(String uid)</span> &#123;</span><br><span class="line">    userDao.userOfUID(uid);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="结"><a href="#结" class="headerlink" title="结"></a>结</h2>
-<div id="gitalk-container"></div>
-<script src="https://cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-		<script>
-		var gitalkConfig = {"clientID":"9e1bc39d00e3c90593cb","clientSecret":"f6e987db19088f322e0923bb017b2a907c02bd5d","repo":"blog-gittalk","owner":"WeidanLi","admin":["WeidanLi"],"distractionFreeMode":false};
-	    gitalkConfig.id = md5(location.pathname);
-		var gitalk = new Gitalk(gitalkConfig);
-	    gitalk.render("gitalk-container");
-	    </script>
     </div>
 
     
@@ -468,6 +459,10 @@
 
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"WeidanLi","repo":"blog-gittalk","client_id":"9e1bc39d00e3c90593cb","client_secret":"f6e987db19088f322e0923bb017b2a907c02bd5d","admin_user":"WeidanLi","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"21180a4f05cf27a0306be01e0d572082"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
 
 </body>
 </html>

@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
   <meta name="description" content="零.Netty其实了解到 Netty 已经很久了，一直想用，但是因为之前的水平还不够格，回调事件 TCP 什么的还没感觉，所以学起来一头雾水，加上官网的文档，哎呀，官网貌似就没有文档只有示例代码，读不懂。 写了挺多的回调函数，渐渐地有了感觉（通常使用 CompleteFuture 来请求其他服务的数据信息，请求完在执行自己的业务）。其实我也不知道我做了什么，貌似什么没做就突然融会贯通了，所以我感觉">
 <meta property="og:type" content="article">
@@ -355,15 +355,6 @@
 </blockquote>
 <p>如果你熟悉 <code>JavaScript</code> 那么这一切都很自然，异步请求 <code>Promise</code> 类，<code>Promise.then((result) =&gt; &#123;...&#125;)</code> 里面的 <code>function</code> 她就是回调函数。 <code>jdk8</code> 中提供了很好的回调事件方式的线程类 <code>CompleteFuture</code> 就是用来做这个事情的，你可以使用这个类来体验一下回调事件的感受。（参考文章：<a target="_blank" rel="noopener" href="https://liweidan.cn/java/jdk8/2017/10/25/141/">jdk8 多线程处理的使用</a>） 而 <code>Netty</code> 时代 <code>jdk</code> 还没有到 <code>j8</code> 呀，只提供了 <code>CompleteFuture</code> 的爸爸 <code>Future</code>，那怎么办嘛，<code>Netty</code> 就自己写提个，这就是 <code>ChannelFuture</code> 的出现了。<code>ChannelFuture</code> 也提供了可以自定义的 <code>ChannelFutureListener</code> 来拓展，可以说比 <code>jdk8</code> 的 <code>CompleteFuture</code> 还厉害，可以监听连接完成时做什么（比如检查连接是否正常，远程服务是否能够正确返回信息）。只需要在引导代码里面，使用 <code>ChannelFuture.addListener</code> 即可添加相对应的逻辑。这么说的话，那么 <code>ChannelFutureListener</code> 就是 <code>Future</code> 生命周期中执行的钩子函数。</p>
 <h2 id="完结"><a href="#完结" class="headerlink" title="完结"></a>完结</h2>
-<div id="gitalk-container"></div>
-<script src="https://cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-		<script>
-		var gitalkConfig = {"clientID":"9e1bc39d00e3c90593cb","clientSecret":"f6e987db19088f322e0923bb017b2a907c02bd5d","repo":"blog-gittalk","owner":"WeidanLi","admin":["WeidanLi"],"distractionFreeMode":false};
-	    gitalkConfig.id = md5(location.pathname);
-		var gitalk = new Gitalk(gitalkConfig);
-	    gitalk.render("gitalk-container");
-	    </script>
     </div>
 
     
@@ -451,6 +442,10 @@
 
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"WeidanLi","repo":"blog-gittalk","client_id":"9e1bc39d00e3c90593cb","client_secret":"f6e987db19088f322e0923bb017b2a907c02bd5d","admin_user":"WeidanLi","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"f20024854ea75b727818d3cae0ff4750"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
 
 </body>
 </html>

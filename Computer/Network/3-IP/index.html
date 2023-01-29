@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
   <meta name="description" content="互联网层-IP协议簇上一节聊完了数据链路层，我们知道，两台计算机如果需要进行通讯的话，就需要先知道彼此的 MAC地址，然后将数据封装成 以太网帧 进行传输。但是我们的野心并没有止于此，因为需要更多的计算机参与网络（这个数量是+∞），那总不能把所有计算机的 MAC地址 在每一台上面都存储一份吧，即使这样，物理介质的互通也不现实。所以还能怎么办，那就包多一层嘛。 所以，IP协议 这一层又应运而生。 那">
 <meta property="og:type" content="article">
@@ -402,15 +402,6 @@
 <p><strong>Mobile IP</strong>：手机肯定是不断移动的设备，但是如果每移动到一个地方就需要重新获取 <strong>IP地址</strong> 将会对上层传输层的开发造成很大的麻烦，所以我们就需要一个固定不变的 <strong>IP地址</strong>，所以就需要使用到 <strong>IP隧道</strong> 类似的技术，将数据进行转发。移动设备分配到的 <strong>IP地址</strong> 属于归属地址，而每个地方有不同的 <strong>归属代理</strong>，会进行 <strong>分配到的IP地址</strong> 与 <strong>归属到的IP地址</strong> 进行转换，从而有一种即使移动了换了 <strong>代理</strong> 了，但是 <strong>IP地址</strong> 也没有进行改变的错觉。</p>
 <h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>阐述了 <strong>IP地址</strong> 的组成结构，<strong>IP数据包</strong> 的内容，但是这些并不完成 <strong>重发</strong> <strong>校验</strong> 等功能，只负责最大能力的 <strong>运输数据</strong>，而 <strong>重发</strong> <strong>校验</strong> 可以说是能够传输数据后保证数据完整性的重中之重，但是这些内容将放在 <strong>传输层</strong> 进行处理。那就有 <strong>TCP</strong> 和 <strong>UDP</strong> 协议的诞生，下节再说吧。</p>
 
-<div id="gitalk-container"></div>
-<script src="https://cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-		<script>
-		var gitalkConfig = {"clientID":"9e1bc39d00e3c90593cb","clientSecret":"f6e987db19088f322e0923bb017b2a907c02bd5d","repo":"blog-gittalk","owner":"WeidanLi","admin":["WeidanLi"],"distractionFreeMode":false};
-	    gitalkConfig.id = md5(location.pathname);
-		var gitalk = new Gitalk(gitalkConfig);
-	    gitalk.render("gitalk-container");
-	    </script>
     </div>
 
     
@@ -445,6 +436,7 @@
 
 
 
+    <div class="comments gitalk-container"></div>
 </div>
   </main>
 
@@ -495,6 +487,10 @@
 
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"WeidanLi","repo":"blog-gittalk","client_id":"9e1bc39d00e3c90593cb","client_secret":"f6e987db19088f322e0923bb017b2a907c02bd5d","admin_user":"WeidanLi","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"8f4fe8956efc4a5d52ad513bf41e7a2d"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
 
 </body>
 </html>
