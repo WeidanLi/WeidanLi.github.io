@@ -19,13 +19,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1}},"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
   <meta name="description" content="一. DDDDDD 是 Martin Folwer 提出来的，对现有常见开发模式的一种反转。 举个栗子，我们通常拿到一个业务需求，开始辨认可能需要用到的属性，然后做成数据库表，接着开始编写 JavaBean 映射类。写完了，就开始把需求在业务中实现，开始 get 来 set 去的生活。讲道理，我之前刚刚入门的时候就觉得这种模式太枯燥了，千篇一律，Java 刚开始学的面向对象思想也不知道跑到哪里去了">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DDD和微服务">
 <meta property="og:url" content="http://weidanli.github.io/frame/spring-cloud/ddd%E5%92%8C%E5%BE%AE%E6%9C%8D%E5%8A%A1/index.html">
-<meta property="og:site_name" content="丹崽的技术博客">
+<meta property="og:site_name" content="DanZ&#39;s Blog">
 <meta property="og:description" content="一. DDDDDD 是 Martin Folwer 提出来的，对现有常见开发模式的一种反转。 举个栗子，我们通常拿到一个业务需求，开始辨认可能需要用到的属性，然后做成数据库表，接着开始编写 JavaBean 映射类。写完了，就开始把需求在业务中实现，开始 get 来 set 去的生活。讲道理，我之前刚刚入门的时候就觉得这种模式太枯燥了，千篇一律，Java 刚开始学的面向对象思想也不知道跑到哪里去了">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110161134.png">
@@ -44,7 +44,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":"","permalink":"http://weidanli.github.io/frame/spring-cloud/ddd%E5%92%8C%E5%BE%AE%E6%9C%8D%E5%8A%A1/","path":"frame/spring-cloud/ddd和微服务/","title":"DDD和微服务"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>DDD和微服务 | 丹崽的技术博客</title>
+<title>DDD和微服务 | DanZ's Blog</title>
   
 
 
@@ -74,10 +74,10 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">丹崽的技术博客</p>
+      <p class="site-title">DanZ's Blog</p>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">丹崽的计算机知识博客</p>
+      <p class="site-subtitle" itemprop="description">a normal developer daily blog</p>
   </div>
 
   <div class="site-nav-right">
@@ -210,7 +210,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="丹崽的技术博客">
+      <meta itemprop="name" content="DanZ's Blog">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">

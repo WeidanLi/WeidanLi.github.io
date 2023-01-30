@@ -19,13 +19,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1}},"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
   <meta name="description" content="一. 简述在项目开发的时候，特别是使用 TDD 进行开发的项目，测试便是不可或缺的一个环节。然而我们的服务一般都需要配合其他服务接口来进行开发，那么测试的时候就需要开启所有服务来配合测试，机器配置跟不上，在构建的时候也会出现很多问题。 这时候就需要有一个东西来把调用第三方接口的事情给做了。最近看了Clossoverjie的一篇文章 分享几个 SpringBoot 实用的小技巧，他很巧妙的利用 Sp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微服务Feign本地契约测试--SpringCloudContract">
 <meta property="og:url" content="http://weidanli.github.io/frame/spring-boot/%E5%BE%AE%E6%9C%8D%E5%8A%A1feign%E6%9C%AC%E5%9C%B0%E5%A5%91%E7%BA%A6%E6%B5%8B%E8%AF%95-springcloudcontract/index.html">
-<meta property="og:site_name" content="丹崽的技术博客">
+<meta property="og:site_name" content="DanZ&#39;s Blog">
 <meta property="og:description" content="一. 简述在项目开发的时候，特别是使用 TDD 进行开发的项目，测试便是不可或缺的一个环节。然而我们的服务一般都需要配合其他服务接口来进行开发，那么测试的时候就需要开启所有服务来配合测试，机器配置跟不上，在构建的时候也会出现很多问题。 这时候就需要有一个东西来把调用第三方接口的事情给做了。最近看了Clossoverjie的一篇文章 分享几个 SpringBoot 实用的小技巧，他很巧妙的利用 Sp">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152339.png">
@@ -46,7 +46,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":"","permalink":"http://weidanli.github.io/frame/spring-boot/%E5%BE%AE%E6%9C%8D%E5%8A%A1feign%E6%9C%AC%E5%9C%B0%E5%A5%91%E7%BA%A6%E6%B5%8B%E8%AF%95-springcloudcontract/","path":"frame/spring-boot/微服务feign本地契约测试-springcloudcontract/","title":"微服务Feign本地契约测试--SpringCloudContract"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>微服务Feign本地契约测试--SpringCloudContract | 丹崽的技术博客</title>
+<title>微服务Feign本地契约测试--SpringCloudContract | DanZ's Blog</title>
   
 
 
@@ -76,10 +76,10 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">丹崽的技术博客</p>
+      <p class="site-title">DanZ's Blog</p>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">丹崽的计算机知识博客</p>
+      <p class="site-subtitle" itemprop="description">a normal developer daily blog</p>
   </div>
 
   <div class="site-nav-right">
@@ -212,7 +212,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="丹崽的技术博客">
+      <meta itemprop="name" content="DanZ's Blog">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">

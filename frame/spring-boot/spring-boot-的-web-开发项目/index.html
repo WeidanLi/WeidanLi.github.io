@@ -19,13 +19,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1}},"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
   <meta name="description" content="spring-boot 的 web 开发项目[toc] 一. 导入 spring-boot 父类依赖通常来说，使用 官方脚手架 生成的 spring-boot 的父类依赖都是 spring 官方提供的 parent 然而，在实际生产中，这种方法，很少使用。我们更多的时候依赖自己项目中的父类进行生成。所以我们需要在自己的 pom.xml 中导入 spring 官方提供的 parent 即使现在 2.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spring-boot 的 web 开发项目">
 <meta property="og:url" content="http://weidanli.github.io/frame/spring-boot/spring-boot-%E7%9A%84-web-%E5%BC%80%E5%8F%91%E9%A1%B9%E7%9B%AE/index.html">
-<meta property="og:site_name" content="丹崽的技术博客">
+<meta property="og:site_name" content="DanZ&#39;s Blog">
 <meta property="og:description" content="spring-boot 的 web 开发项目[toc] 一. 导入 spring-boot 父类依赖通常来说，使用 官方脚手架 生成的 spring-boot 的父类依赖都是 spring 官方提供的 parent 然而，在实际生产中，这种方法，很少使用。我们更多的时候依赖自己项目中的父类进行生成。所以我们需要在自己的 pom.xml 中导入 spring 官方提供的 parent 即使现在 2.">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110163010.png">
@@ -45,7 +45,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":"","permalink":"http://weidanli.github.io/frame/spring-boot/spring-boot-%E7%9A%84-web-%E5%BC%80%E5%8F%91%E9%A1%B9%E7%9B%AE/","path":"frame/spring-boot/spring-boot-的-web-开发项目/","title":"spring-boot 的 web 开发项目"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>spring-boot 的 web 开发项目 | 丹崽的技术博客</title>
+<title>spring-boot 的 web 开发项目 | DanZ's Blog</title>
   
 
 
@@ -75,10 +75,10 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">丹崽的技术博客</p>
+      <p class="site-title">DanZ's Blog</p>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">丹崽的计算机知识博客</p>
+      <p class="site-subtitle" itemprop="description">a normal developer daily blog</p>
   </div>
 
   <div class="site-nav-right">
@@ -211,7 +211,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="丹崽的技术博客">
+      <meta itemprop="name" content="DanZ's Blog">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">

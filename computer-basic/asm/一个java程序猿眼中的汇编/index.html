@@ -19,13 +19,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1}},"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
   <meta name="description" content="一、介绍在计算机中，CPU只能识别二进制，当需要CPU做事情的时候，都需要通过二进制去指挥CPU做什么事情。古人觉得二进制实在是难以理解，所以才发明了汇编语言以及后面的高级语言，所以汇编语言可以称作为比较接近机器语言的语言了。 当然后面的古人依然觉得汇编语言难以理解，所以发明了C、C++、Java来解决难以理解的问题。所以后面的语言越来越偏于人类自然语言，并且使用面向对象的思想来设计程序。当然这期">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一个Java程序猿眼中的汇编">
 <meta property="og:url" content="http://weidanli.github.io/computer-basic/asm/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96/index.html">
-<meta property="og:site_name" content="丹崽的技术博客">
+<meta property="og:site_name" content="DanZ&#39;s Blog">
 <meta property="og:description" content="一、介绍在计算机中，CPU只能识别二进制，当需要CPU做事情的时候，都需要通过二进制去指挥CPU做什么事情。古人觉得二进制实在是难以理解，所以才发明了汇编语言以及后面的高级语言，所以汇编语言可以称作为比较接近机器语言的语言了。 当然后面的古人依然觉得汇编语言难以理解，所以发明了C、C++、Java来解决难以理解的问题。所以后面的语言越来越偏于人类自然语言，并且使用面向对象的思想来设计程序。当然这期">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152551.jpg">
@@ -36,6 +36,10 @@
 <meta property="article:published_time" content="2018-02-12T09:04:40.000Z">
 <meta property="article:modified_time" content="2023-01-27T12:02:55.561Z">
 <meta property="article:author" content="Weidan">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="vue">
+<meta property="article:tag" content="开发">
+<meta property="article:tag" content="项目">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152551.jpg">
 
@@ -47,7 +51,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":"","permalink":"http://weidanli.github.io/computer-basic/asm/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96/","path":"computer-basic/asm/一个java程序猿眼中的汇编/","title":"一个Java程序猿眼中的汇编"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>一个Java程序猿眼中的汇编 | 丹崽的技术博客</title>
+<title>一个Java程序猿眼中的汇编 | DanZ's Blog</title>
   
 
 
@@ -77,10 +81,10 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">丹崽的技术博客</p>
+      <p class="site-title">DanZ's Blog</p>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">丹崽的计算机知识博客</p>
+      <p class="site-subtitle" itemprop="description">a normal developer daily blog</p>
   </div>
 
   <div class="site-nav-right">
@@ -213,7 +217,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="丹崽的技术博客">
+      <meta itemprop="name" content="DanZ's Blog">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">

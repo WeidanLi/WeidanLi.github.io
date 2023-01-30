@@ -19,13 +19,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1}},"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
   <meta name="description" content="一.InnoDB的表和数据InnoDB 是怎样存储数据的，表是大概怎样的一种格式，表中的数据行又是怎样的一种格式。如果想要大概知道 B+ 索引的执行过程，这块基本是跳不过去的。当然关于 表 和 数据行 的东西特别多，没办法涵盖所有，所以我只能将我学的，大概知道的重要部分取出来说一说。 这里先大概说下后面才说的 索引 问题，B+索引 其实利用了表中的 行记录头（可以想象是 HTTP 请求的请求头），">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【聊聊MySQL】三.InnoDB的表结构和行记录结构">
 <meta property="og:url" content="http://weidanli.github.io/db/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%B8%89-innodb%E7%9A%84%E8%A1%A8%E7%BB%93%E6%9E%84%E5%92%8C%E8%A1%8C%E8%AE%B0%E5%BD%95%E7%BB%93%E6%9E%84/index.html">
-<meta property="og:site_name" content="丹崽的技术博客">
+<meta property="og:site_name" content="DanZ&#39;s Blog">
 <meta property="og:description" content="一.InnoDB的表和数据InnoDB 是怎样存储数据的，表是大概怎样的一种格式，表中的数据行又是怎样的一种格式。如果想要大概知道 B+ 索引的执行过程，这块基本是跳不过去的。当然关于 表 和 数据行 的东西特别多，没办法涵盖所有，所以我只能将我学的，大概知道的重要部分取出来说一说。 这里先大概说下后面才说的 索引 问题，B+索引 其实利用了表中的 行记录头（可以想象是 HTTP 请求的请求头），">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110114421.png">
@@ -51,7 +51,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":"","permalink":"http://weidanli.github.io/db/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%B8%89-innodb%E7%9A%84%E8%A1%A8%E7%BB%93%E6%9E%84%E5%92%8C%E8%A1%8C%E8%AE%B0%E5%BD%95%E7%BB%93%E6%9E%84/","path":"db/mysql/【聊聊mysql】三-innodb的表结构和行记录结构/","title":"【聊聊MySQL】三.InnoDB的表结构和行记录结构"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>【聊聊MySQL】三.InnoDB的表结构和行记录结构 | 丹崽的技术博客</title>
+<title>【聊聊MySQL】三.InnoDB的表结构和行记录结构 | DanZ's Blog</title>
   
 
 
@@ -81,10 +81,10 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">丹崽的技术博客</p>
+      <p class="site-title">DanZ's Blog</p>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">丹崽的计算机知识博客</p>
+      <p class="site-subtitle" itemprop="description">a normal developer daily blog</p>
   </div>
 
   <div class="site-nav-right">
@@ -217,7 +217,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="丹崽的技术博客">
+      <meta itemprop="name" content="DanZ's Blog">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
