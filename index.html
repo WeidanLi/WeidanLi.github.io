@@ -229,7 +229,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-01-30 09:16:38" itemprop="dateModified" datetime="2023-01-30T09:16:38+08:00">2023-01-30</time>
+      <time title="修改时间：2023-02-02 00:12:27" itemprop="dateModified" datetime="2023-02-02T00:12:27+08:00">2023-02-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -353,7 +353,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-01-27 20:02:52" itemprop="dateModified" datetime="2023-01-27T20:02:52+08:00">2023-01-27</time>
+      <time title="修改时间：2023-02-01 23:57:53" itemprop="dateModified" datetime="2023-02-01T23:57:53+08:00">2023-02-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -411,7 +411,7 @@
           <h1 id="互联网层-IP协议簇"><a href="#互联网层-IP协议簇" class="headerlink" title="互联网层-IP协议簇"></a>互联网层-IP协议簇</h1><p>上一节聊完了数据链路层，我们知道，两台计算机如果需要进行通讯的话，就需要先知道彼此的 <strong>MAC地址</strong>，然后将数据封装成 <strong>以太网帧</strong> 进行传输。但是我们的野心并没有止于此，因为需要更多的计算机参与网络（这个数量是+∞），那总不能把所有计算机的 <strong>MAC地址</strong> 在每一台上面都存储一份吧，即使这样，物理介质的互通也不现实。所以还能怎么办，那就包多一层嘛。</p>
 <p>所以，<strong>IP协议</strong> 这一层又应运而生。</p>
 <p>那么我们可以重新看一下分层模型：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201001104610.png" alt="与七层模型的匹配（via《图解TCP/IP》）"></p>
+<p><img src="/images/3-IP.md/0.png" alt="与七层模型的匹配（via《图解TCP/IP》）"></p>
 <p>他主要位于互联网层，那他在这一层主要解决的问题就是数据的走向问题，也仅仅是走向的问题，不会对数据进行纠错，也不会负责重发的动作（即使数据丢失的话）。而这些问题会在再上一层的 <strong>传输层</strong> 进行补充解决。</p>
           <!--noindex-->
             <div class="post-button">
@@ -477,7 +477,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-01-27 20:02:52" itemprop="dateModified" datetime="2023-01-27T20:02:52+08:00">2023-01-27</time>
+      <time title="修改时间：2023-02-01 23:57:25" itemprop="dateModified" datetime="2023-02-01T23:57:25+08:00">2023-02-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -534,9 +534,9 @@
     <div class="post-body" itemprop="articleBody">
           <h1 id="TCP-IP协议的诞生"><a href="#TCP-IP协议的诞生" class="headerlink" title="TCP/IP协议的诞生"></a>TCP/IP协议的诞生</h1><p>说到 <strong>TCP/IP协议</strong> 我相信各位光头们并不陌生，那他怎么变得如此流行的，我想有个很重要的原因，刚好生在他应该诞生的时机。</p>
 <p>期初，军用方面的应用，需要进行信息的交换，所以有一套这样的网络：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201001102836.png" alt="网络"></p>
+<p><img src="/images/2-TCP-IP-PROTOCOL.md/0.png" alt="网络"></p>
 <p>这样就有一个问题，如果中心节点被敌人偷袭了，那么整套军用系统就全部瘫痪。那为了防止这种事情的发生，我们可以多加几个中心节点：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201001103223.png"></p>
+<p><img src="/images/2-TCP-IP-PROTOCOL.md/1.png"></p>
 <p>这样的话如果中心的节点被袭击了（变成红色表示故障），那么其他计算机还可以通过比较远的输送距离将数据传达到彼此。</p>
           <!--noindex-->
             <div class="post-button">
@@ -602,7 +602,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-01-27 20:02:52" itemprop="dateModified" datetime="2023-01-27T20:02:52+08:00">2023-01-27</time>
+      <time title="修改时间：2023-02-02 00:12:27" itemprop="dateModified" datetime="2023-02-02T00:12:27+08:00">2023-02-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -659,7 +659,7 @@
     <div class="post-body" itemprop="articleBody">
           <h1 id="生活中熟悉又陌生的网络"><a href="#生活中熟悉又陌生的网络" class="headerlink" title="生活中熟悉又陌生的网络"></a>生活中熟悉又陌生的网络</h1><p>在我刚开始了解算计网络之前，我一直认为计算机网络应该指的是：<strong>一台电脑连着网线，他可以通过操作系统上的各个软件访问网络上的资源</strong> 才叫网络。但是其实不是，作为一个 <code>94</code> 年出生的臭男人，其实在小的时候就已经接触到了网络了。那就是电视。</p>
 <p>以前我家里的电视大概是这种（图片来自百度）：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20200925134851.png"></p>
+<p><img src="/images/1-Find-Computer-Network.md/0.png"></p>
 <p>以前这台电视可贵了，<code>3000</code> 多块，可以想象在 <code>1994</code> 年的时候，是什么样的概念。</p>
           <!--noindex-->
             <div class="post-button">
@@ -725,7 +725,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-01-27 20:02:55" itemprop="dateModified" datetime="2023-01-27T20:02:55+08:00">2023-01-27</time>
+      <time title="修改时间：2023-02-01 23:58:14" itemprop="dateModified" datetime="2023-02-01T23:58:14+08:00">2023-02-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -765,7 +765,7 @@
     
     <div class="post-body" itemprop="articleBody">
           <h2 id="图的介绍"><a href="#图的介绍" class="headerlink" title="图的介绍"></a>图的介绍</h2><p>怎么说呢，通过前两篇的编写，我发现学数据结构真的是从一个有序，再到另外一个有序，最后到一个杂乱的东西。那么回想一下，我们在写代码的时候，刚开始，代码是井然有序的，然后慢慢的随着功能的新增，产品经理的无理，我们的项目就会慢慢的变成一碗意大利面（用白话说就是 <code>屎💩</code>）当然，目前知道了图的概念以后，我发现，一碗 <code>屎💩</code> 还有点用处，就是可以研究我们接下来要说的数据结构：<code>图</code>。 大概我们把之前说到的树，连多几条边，就可以感受到 <code>图</code> 了，不过，<code>查找树</code> 也是 <code>图</code>，<code>链表</code> <code>数组</code> 均为图，只不过因为他们的性质让我们利用起来做一些应用的时候会更加的方便，而且 <code>高效</code> <code>性价比高</code>： </p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110151557.jpeg"></p>
+<p><img src="/images/%E5%9B%BE%E7%AE%97%E6%B3%95.md/0.jpeg"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE%E7%AE%97%E6%B3%95/#more" rel="contents">
@@ -830,7 +830,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-01-27 20:02:55" itemprop="dateModified" datetime="2023-01-27T20:02:55+08:00">2023-01-27</time>
+      <time title="修改时间：2023-02-01 23:59:14" itemprop="dateModified" datetime="2023-02-01T23:59:14+08:00">2023-02-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -934,7 +934,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-01-27 20:02:55" itemprop="dateModified" datetime="2023-01-27T20:02:55+08:00">2023-01-27</time>
+      <time title="修改时间：2023-02-01 23:59:28" itemprop="dateModified" datetime="2023-02-01T23:59:28+08:00">2023-02-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1148,7 +1148,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-01-27 20:02:55" itemprop="dateModified" datetime="2023-01-27T20:02:55+08:00">2023-01-27</time>
+      <time title="修改时间：2023-02-01 23:59:25" itemprop="dateModified" datetime="2023-02-01T23:59:25+08:00">2023-02-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1256,7 +1256,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-01-27 20:02:55" itemprop="dateModified" datetime="2023-01-27T20:02:55+08:00">2023-01-27</time>
+      <time title="修改时间：2023-02-01 23:59:14" itemprop="dateModified" datetime="2023-02-01T23:59:14+08:00">2023-02-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">

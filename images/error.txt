@@ -1,0 +1,545 @@
+fileName=【聊聊mysql】六-mysql-innodb的数据库事务背景-bufferpool.md, 第1图片，下载地址 http://blog.itpub.net/29990276/viewspace-2285285/，错误信息：下载状态码 403
+fileName=ddd和微服务.md, 第1图片，下载地址 https://liweidan.cn/java/frame/spring-cloud/2019/04/16/294/)； `Stream`：`SpringCloud` 使用的连接第三方消息队列的工具，提供分组功能，此工具一般用来发送领域事件； `SpringDataJPA`：严格来说这部分不属于 `SpringCloud` 的内容，不过需要对象和数据库保持同步的时候，使用这个框架是比较舒服的，也可以在聚合类发送领域事件，但是缺乏灵活性[SpringBootJpa 与 DDD 开发](https://liweidan.cn/java/frame/spring-boot/2018/12/20/225/，错误信息：
+kong.unirest.UnirestException: java.lang.IllegalArgumentException: Illegal character in path at index 64: https://liweidan.cn/java/frame/spring-cloud/2019/04/16/294/)；%20`Stream`：`SpringCloud`%20使用的连接第三方消息队列的工具，提供分组功能，此工具一般用来发送领域事件；%20`SpringDataJPA`：严格来说这部分不属于%20`SpringCloud`%20的内容，不过需要对象和数据库保持同步的时候，使用这个框架是比较舒服的，也可以在聚合类发送领域事件，但是缺乏灵活性[SpringBootJpa%20与%20DDD%20开发](https://liweidan.cn/java/frame/spring-boot/2018/12/20/225/
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:91)
+	at kong.unirest.apache.RequestPrep.prepare(RequestPrep.java:69)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:119)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: java.lang.IllegalArgumentException: Illegal character in path at index 64: https://liweidan.cn/java/frame/spring-cloud/2019/04/16/294/)；%20`Stream`：`SpringCloud`%20使用的连接第三方消息队列的工具，提供分组功能，此工具一般用来发送领域事件；%20`SpringDataJPA`：严格来说这部分不属于%20`SpringCloud`%20的内容，不过需要对象和数据库保持同步的时候，使用这个框架是比较舒服的，也可以在聚合类发送领域事件，但是缺乏灵活性[SpringBootJpa%20与%20DDD%20开发](https://liweidan.cn/java/frame/spring-boot/2018/12/20/225/
+	at java.net.URI.create(URI.java:852)
+	at org.apache.http.client.methods.HttpGet.<init>(HttpGet.java:66)
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:86)
+	... 5 more
+Caused by: java.net.URISyntaxException: Illegal character in path at index 64: https://liweidan.cn/java/frame/spring-cloud/2019/04/16/294/)；%20`Stream`：`SpringCloud`%20使用的连接第三方消息队列的工具，提供分组功能，此工具一般用来发送领域事件；%20`SpringDataJPA`：严格来说这部分不属于%20`SpringCloud`%20的内容，不过需要对象和数据库保持同步的时候，使用这个框架是比较舒服的，也可以在聚合类发送领域事件，但是缺乏灵活性[SpringBootJpa%20与%20DDD%20开发](https://liweidan.cn/java/frame/spring-boot/2018/12/20/225/
+	at java.net.URI$Parser.fail(URI.java:2848)
+	at java.net.URI$Parser.checkChars(URI.java:3021)
+	at java.net.URI$Parser.parseHierarchical(URI.java:3105)
+	at java.net.URI$Parser.parse(URI.java:3053)
+	at java.net.URI.<init>(URI.java:588)
+	at java.net.URI.create(URI.java:850)
+	... 7 more
+
+fileName=ddd和微服务.md, 第3图片，下载地址 https://liweidan.cn/java/jdk8/2017/10/25/141/，错误信息：下载状态码 404
+fileName=spring-boot-的-web-开发项目.md, 第1图片，下载地址 http，错误信息：
+java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+	at java.lang.String.substring(String.java:1927)
+	at fm.lizhi.PictureDown.main(PictureDown.java:82)
+
+fileName=spring-boot-的-web-开发项目.md, 第3图片，下载地址 httpServletRequest, HttpServletResponse httpServletResponse, Object o，错误信息：
+java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+	at java.lang.String.substring(String.java:1927)
+	at fm.lizhi.PictureDown.main(PictureDown.java:82)
+
+fileName=spring-boot-的-web-开发项目.md, 第4图片，下载地址 httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView，错误信息：
+java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+	at java.lang.String.substring(String.java:1927)
+	at fm.lizhi.PictureDown.main(PictureDown.java:82)
+
+fileName=spring-boot-的-web-开发项目.md, 第5图片，下载地址 httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e，错误信息：
+java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+	at java.lang.String.substring(String.java:1927)
+	at fm.lizhi.PictureDown.main(PictureDown.java:82)
+
+fileName=什么是-spring-boot.md, 第4图片，下载地址 http://www.ityouknow.com/spring-boot.html) [唐亚峰 -- spring-boot](https://blog.battcn.com/categories/SpringBoot/，错误信息：
+kong.unirest.UnirestException: java.lang.IllegalArgumentException: Illegal character in path at index 45: http://www.ityouknow.com/spring-boot.html)%20[唐亚峰%20--%20spring-boot](https://blog.battcn.com/categories/SpringBoot/
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:91)
+	at kong.unirest.apache.RequestPrep.prepare(RequestPrep.java:69)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:119)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: java.lang.IllegalArgumentException: Illegal character in path at index 45: http://www.ityouknow.com/spring-boot.html)%20[唐亚峰%20--%20spring-boot](https://blog.battcn.com/categories/SpringBoot/
+	at java.net.URI.create(URI.java:852)
+	at org.apache.http.client.methods.HttpGet.<init>(HttpGet.java:66)
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:86)
+	... 5 more
+Caused by: java.net.URISyntaxException: Illegal character in path at index 45: http://www.ityouknow.com/spring-boot.html)%20[唐亚峰%20--%20spring-boot](https://blog.battcn.com/categories/SpringBoot/
+	at java.net.URI$Parser.fail(URI.java:2848)
+	at java.net.URI$Parser.checkChars(URI.java:3021)
+	at java.net.URI$Parser.parseHierarchical(URI.java:3105)
+	at java.net.URI$Parser.parse(URI.java:3053)
+	at java.net.URI.<init>(URI.java:588)
+	at java.net.URI.create(URI.java:850)
+	... 7 more
+
+fileName=【spring源码】一个我们日常使用的aop实现.md, 第0图片，下载地址 https://liweidan.cn/java/frame/spring-source/2019/12/03/379/#BeanDefinitionDocumentReader，错误信息：下载状态码 404
+fileName=【spring源码】一个我们日常使用的aop实现.md, 第4图片，下载地址 https://blog.csdn.net/qq_39951411/article/details/80363121) 通过配置 `exposeProxy` ，然后通过 `((UserService) AopContext.currentProxy()).userOfUID();` 来调用。 配置： 注解：`@EnableAspectJAutoProxy(proxyTargteClass = true, exposeProxy = true，错误信息：
+kong.unirest.UnirestException: java.lang.IllegalArgumentException: Illegal character in path at index 69: https://blog.csdn.net/qq_39951411/article/details/80363121)%20通过配置%20`exposeProxy`%20，然后通过%20`((UserService)%20AopContext.currentProxy()).userOfUID();`%20来调用。%20配置：%20注解：`@EnableAspectJAutoProxy(proxyTargteClass%20=%20true,%20exposeProxy%20=%20true
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:91)
+	at kong.unirest.apache.RequestPrep.prepare(RequestPrep.java:69)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:119)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: java.lang.IllegalArgumentException: Illegal character in path at index 69: https://blog.csdn.net/qq_39951411/article/details/80363121)%20通过配置%20`exposeProxy`%20，然后通过%20`((UserService)%20AopContext.currentProxy()).userOfUID();`%20来调用。%20配置：%20注解：`@EnableAspectJAutoProxy(proxyTargteClass%20=%20true,%20exposeProxy%20=%20true
+	at java.net.URI.create(URI.java:852)
+	at org.apache.http.client.methods.HttpGet.<init>(HttpGet.java:66)
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:86)
+	... 5 more
+Caused by: java.net.URISyntaxException: Illegal character in path at index 69: https://blog.csdn.net/qq_39951411/article/details/80363121)%20通过配置%20`exposeProxy`%20，然后通过%20`((UserService)%20AopContext.currentProxy()).userOfUID();`%20来调用。%20配置：%20注解：`@EnableAspectJAutoProxy(proxyTargteClass%20=%20true,%20exposeProxy%20=%20true
+	at java.net.URI$Parser.fail(URI.java:2848)
+	at java.net.URI$Parser.checkChars(URI.java:3021)
+	at java.net.URI$Parser.parseHierarchical(URI.java:3105)
+	at java.net.URI$Parser.parse(URI.java:3053)
+	at java.net.URI.<init>(URI.java:588)
+	at java.net.URI.create(URI.java:850)
+	... 7 more
+
+fileName=springboot-监控-结合-spring-boot-admin-实现项目监控.md, 第0图片，下载地址 http，错误信息：
+java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+	at java.lang.String.substring(String.java:1927)
+	at fm.lizhi.PictureDown.main(PictureDown.java:82)
+
+fileName=springboot-监控-结合-spring-boot-admin-实现项目监控.md, 第1图片，下载地址 http.authorizeRequests().anyRequest().permitAll(，错误信息：
+kong.unirest.UnirestException: org.apache.http.client.ClientProtocolException
+	at kong.unirest.DefaultInterceptor.onFail(DefaultInterceptor.java:43)
+	at kong.unirest.CompoundInterceptor.lambda$onFail$2(CompoundInterceptor.java:54)
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193)
+	at java.util.Collections$2.tryAdvance(Collections.java:4717)
+	at java.util.stream.ReferencePipeline.forEachWithCancel(ReferencePipeline.java:126)
+	at java.util.stream.AbstractPipeline.copyIntoWithCancel(AbstractPipeline.java:498)
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:485)
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:471)
+	at java.util.stream.FindOps$FindOp.evaluateSequential(FindOps.java:152)
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.util.stream.ReferencePipeline.findFirst(ReferencePipeline.java:464)
+	at kong.unirest.CompoundInterceptor.onFail(CompoundInterceptor.java:56)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:132)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: org.apache.http.client.ClientProtocolException
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:187)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:118)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:123)
+	... 3 more
+Caused by: org.apache.http.ProtocolException: Target host is not specified
+	at org.apache.http.impl.conn.DefaultRoutePlanner.determineRoute(DefaultRoutePlanner.java:71)
+	at org.apache.http.impl.client.InternalHttpClient.determineRoute(InternalHttpClient.java:125)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	... 6 more
+
+fileName=springcloud服务使用protolbuffer编码进行传值.md, 第2图片，下载地址 httpInputMessage，错误信息：
+java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+	at java.lang.String.substring(String.java:1927)
+	at fm.lizhi.PictureDown.main(PictureDown.java:82)
+
+fileName=springcloud服务使用protolbuffer编码进行传值.md, 第3图片，下载地址 httpInputMessage.getBody()，错误信息：
+kong.unirest.UnirestException: org.apache.http.client.ClientProtocolException
+	at kong.unirest.DefaultInterceptor.onFail(DefaultInterceptor.java:43)
+	at kong.unirest.CompoundInterceptor.lambda$onFail$2(CompoundInterceptor.java:54)
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193)
+	at java.util.Collections$2.tryAdvance(Collections.java:4717)
+	at java.util.stream.ReferencePipeline.forEachWithCancel(ReferencePipeline.java:126)
+	at java.util.stream.AbstractPipeline.copyIntoWithCancel(AbstractPipeline.java:498)
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:485)
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:471)
+	at java.util.stream.FindOps$FindOp.evaluateSequential(FindOps.java:152)
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.util.stream.ReferencePipeline.findFirst(ReferencePipeline.java:464)
+	at kong.unirest.CompoundInterceptor.onFail(CompoundInterceptor.java:56)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:132)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: org.apache.http.client.ClientProtocolException
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:187)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:118)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:123)
+	... 3 more
+Caused by: org.apache.http.ProtocolException: Target host is not specified
+	at org.apache.http.impl.conn.DefaultRoutePlanner.determineRoute(DefaultRoutePlanner.java:71)
+	at org.apache.http.impl.client.InternalHttpClient.determineRoute(InternalHttpClient.java:125)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	... 6 more
+
+fileName=springcloud服务使用protolbuffer编码进行传值.md, 第4图片，下载地址 httpOutputMessage，错误信息：
+java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+	at java.lang.String.substring(String.java:1927)
+	at fm.lizhi.PictureDown.main(PictureDown.java:82)
+
+fileName=springcloud服务使用protolbuffer编码进行传值.md, 第5图片，下载地址 httpOutputMessage.getBody(，错误信息：
+kong.unirest.UnirestException: org.apache.http.client.ClientProtocolException
+	at kong.unirest.DefaultInterceptor.onFail(DefaultInterceptor.java:43)
+	at kong.unirest.CompoundInterceptor.lambda$onFail$2(CompoundInterceptor.java:54)
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193)
+	at java.util.Collections$2.tryAdvance(Collections.java:4717)
+	at java.util.stream.ReferencePipeline.forEachWithCancel(ReferencePipeline.java:126)
+	at java.util.stream.AbstractPipeline.copyIntoWithCancel(AbstractPipeline.java:498)
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:485)
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:471)
+	at java.util.stream.FindOps$FindOp.evaluateSequential(FindOps.java:152)
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.util.stream.ReferencePipeline.findFirst(ReferencePipeline.java:464)
+	at kong.unirest.CompoundInterceptor.onFail(CompoundInterceptor.java:56)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:132)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: org.apache.http.client.ClientProtocolException
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:187)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:118)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:123)
+	... 3 more
+Caused by: org.apache.http.ProtocolException: Target host is not specified
+	at org.apache.http.impl.conn.DefaultRoutePlanner.determineRoute(DefaultRoutePlanner.java:71)
+	at org.apache.http.impl.client.InternalHttpClient.determineRoute(InternalHttpClient.java:125)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	... 6 more
+
+fileName=springcloud服务使用protolbuffer编码进行传值.md, 第6图片，下载地址 http://localhost:8080/json"，错误信息：
+java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+	at java.lang.String.substring(String.java:1927)
+	at fm.lizhi.PictureDown.main(PictureDown.java:82)
+
+fileName=springcloud服务使用protolbuffer编码进行传值.md, 第7图片，下载地址 http://localhost:8080/"，错误信息：
+java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+	at java.lang.String.substring(String.java:1927)
+	at fm.lizhi.PictureDown.main(PictureDown.java:82)
+
+fileName=springcloud服务使用protolbuffer编码进行传值.md, 第8图片，下载地址 http://localhost:8080/", name = "userFeign"，错误信息：
+java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+	at java.lang.String.substring(String.java:1927)
+	at fm.lizhi.PictureDown.main(PictureDown.java:82)
+
+fileName=springcloud服务使用protolbuffer编码进行传值.md, 第9图片，下载地址 http://localhost:8080/", User.Person.class，错误信息：
+kong.unirest.UnirestException: java.lang.IllegalArgumentException: Illegal character in path at index 22: http://localhost:8080/",%20User.Person.class
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:91)
+	at kong.unirest.apache.RequestPrep.prepare(RequestPrep.java:69)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:119)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: java.lang.IllegalArgumentException: Illegal character in path at index 22: http://localhost:8080/",%20User.Person.class
+	at java.net.URI.create(URI.java:852)
+	at org.apache.http.client.methods.HttpGet.<init>(HttpGet.java:66)
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:86)
+	... 5 more
+Caused by: java.net.URISyntaxException: Illegal character in path at index 22: http://localhost:8080/",%20User.Person.class
+	at java.net.URI$Parser.fail(URI.java:2848)
+	at java.net.URI$Parser.checkChars(URI.java:3021)
+	at java.net.URI$Parser.parseHierarchical(URI.java:3105)
+	at java.net.URI$Parser.parse(URI.java:3053)
+	at java.net.URI.<init>(URI.java:588)
+	at java.net.URI.create(URI.java:850)
+	... 7 more
+
+fileName=【spring源码】开始读源码-基于idea.md, 第0图片，下载地址 https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144402.png) ![image-20191202144945669](https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144409.png，错误信息：
+kong.unirest.UnirestException: java.lang.IllegalArgumentException: Illegal character in path at index 66: https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144402.png)%20![image-20191202144945669](https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144409.png
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:91)
+	at kong.unirest.apache.RequestPrep.prepare(RequestPrep.java:69)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:119)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: java.lang.IllegalArgumentException: Illegal character in path at index 66: https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144402.png)%20![image-20191202144945669](https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144409.png
+	at java.net.URI.create(URI.java:852)
+	at org.apache.http.client.methods.HttpGet.<init>(HttpGet.java:66)
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:86)
+	... 5 more
+Caused by: java.net.URISyntaxException: Illegal character in path at index 66: https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144402.png)%20![image-20191202144945669](https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144409.png
+	at java.net.URI$Parser.fail(URI.java:2848)
+	at java.net.URI$Parser.checkChars(URI.java:3021)
+	at java.net.URI$Parser.parseHierarchical(URI.java:3105)
+	at java.net.URI$Parser.parse(URI.java:3053)
+	at java.net.URI.<init>(URI.java:588)
+	at java.net.URI.create(URI.java:850)
+	... 7 more
+
+fileName=netty组件以及入门体验.md, 第4图片，下载地址 https://liweidan.cn/java/jdk8/2017/10/25/141/，错误信息：下载状态码 404
+fileName=微服务feign本地契约测试-springcloudcontract.md, 第3图片，下载地址 https://github.com/WeidanLi/spring-cloud-contract-demo) [基于Feign的微服务调用之契约测试 Spring Cloud Contract](https://segmentfault.com/a/1190000015555626) [Contract-dsl](https://cloud.spring.io/spring-cloud-contract/single/spring-cloud-contract.html#contract-dsl) [SpringCloudContractDocs](https://cloud.spring.io/spring-cloud-static/Edgware.SR3/single/spring-cloud.html，错误信息：
+kong.unirest.UnirestException: java.lang.IllegalArgumentException: Illegal character in path at index 58: https://github.com/WeidanLi/spring-cloud-contract-demo)%20[基于Feign的微服务调用之契约测试%20Spring%20Cloud%20Contract](https://segmentfault.com/a/1190000015555626)%20[Contract-dsl](https://cloud.spring.io/spring-cloud-contract/single/spring-cloud-contract.html#contract-dsl)%20[SpringCloudContractDocs](https://cloud.spring.io/spring-cloud-static/Edgware.SR3/single/spring-cloud.html
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:91)
+	at kong.unirest.apache.RequestPrep.prepare(RequestPrep.java:69)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:119)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: java.lang.IllegalArgumentException: Illegal character in path at index 58: https://github.com/WeidanLi/spring-cloud-contract-demo)%20[基于Feign的微服务调用之契约测试%20Spring%20Cloud%20Contract](https://segmentfault.com/a/1190000015555626)%20[Contract-dsl](https://cloud.spring.io/spring-cloud-contract/single/spring-cloud-contract.html#contract-dsl)%20[SpringCloudContractDocs](https://cloud.spring.io/spring-cloud-static/Edgware.SR3/single/spring-cloud.html
+	at java.net.URI.create(URI.java:852)
+	at org.apache.http.client.methods.HttpGet.<init>(HttpGet.java:66)
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:86)
+	... 5 more
+Caused by: java.net.URISyntaxException: Illegal character in path at index 58: https://github.com/WeidanLi/spring-cloud-contract-demo)%20[基于Feign的微服务调用之契约测试%20Spring%20Cloud%20Contract](https://segmentfault.com/a/1190000015555626)%20[Contract-dsl](https://cloud.spring.io/spring-cloud-contract/single/spring-cloud-contract.html#contract-dsl)%20[SpringCloudContractDocs](https://cloud.spring.io/spring-cloud-static/Edgware.SR3/single/spring-cloud.html
+	at java.net.URI$Parser.fail(URI.java:2848)
+	at java.net.URI$Parser.checkChars(URI.java:3021)
+	at java.net.URI$Parser.parseHierarchical(URI.java:3105)
+	at java.net.URI$Parser.parse(URI.java:3053)
+	at java.net.URI.<init>(URI.java:588)
+	at java.net.URI.create(URI.java:850)
+	... 7 more
+
+fileName=black-macos-install.md, 第35图片，下载地址 https://imoe.me/os/hackintosh-fonts-blurry-fix.html) [黑苹果开启HiDPI“解决”字体模糊的问题](https://imoe.me/os/hackintosh-hidpi.html，错误信息：
+kong.unirest.UnirestException: java.lang.IllegalArgumentException: Illegal character in path at index 55: https://imoe.me/os/hackintosh-fonts-blurry-fix.html)%20[黑苹果开启HiDPI“解决”字体模糊的问题](https://imoe.me/os/hackintosh-hidpi.html
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:91)
+	at kong.unirest.apache.RequestPrep.prepare(RequestPrep.java:69)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:119)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: java.lang.IllegalArgumentException: Illegal character in path at index 55: https://imoe.me/os/hackintosh-fonts-blurry-fix.html)%20[黑苹果开启HiDPI“解决”字体模糊的问题](https://imoe.me/os/hackintosh-hidpi.html
+	at java.net.URI.create(URI.java:852)
+	at org.apache.http.client.methods.HttpGet.<init>(HttpGet.java:66)
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:86)
+	... 5 more
+Caused by: java.net.URISyntaxException: Illegal character in path at index 55: https://imoe.me/os/hackintosh-fonts-blurry-fix.html)%20[黑苹果开启HiDPI“解决”字体模糊的问题](https://imoe.me/os/hackintosh-hidpi.html
+	at java.net.URI$Parser.fail(URI.java:2848)
+	at java.net.URI$Parser.checkChars(URI.java:3021)
+	at java.net.URI$Parser.parseHierarchical(URI.java:3105)
+	at java.net.URI$Parser.parse(URI.java:3053)
+	at java.net.URI.<init>(URI.java:588)
+	at java.net.URI.create(URI.java:850)
+	... 7 more
+
+fileName=black-macos-install.md, 第37图片，下载地址 http://avi.alkalay.net/software/RDM/，错误信息：下载状态码 404
+fileName=【聊聊mysql】二-innodb体系结构.md, 第2图片，下载地址 https://www.cnblogs.com/lintong/p/4381578.html) [官方文档](https://dev.mysql.com/doc/refman/5.7/en/innodb-checkpoints.html，错误信息：
+kong.unirest.UnirestException: java.lang.IllegalArgumentException: Illegal character in path at index 50: https://www.cnblogs.com/lintong/p/4381578.html)%20[官方文档](https://dev.mysql.com/doc/refman/5.7/en/innodb-checkpoints.html
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:91)
+	at kong.unirest.apache.RequestPrep.prepare(RequestPrep.java:69)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:119)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: java.lang.IllegalArgumentException: Illegal character in path at index 50: https://www.cnblogs.com/lintong/p/4381578.html)%20[官方文档](https://dev.mysql.com/doc/refman/5.7/en/innodb-checkpoints.html
+	at java.net.URI.create(URI.java:852)
+	at org.apache.http.client.methods.HttpGet.<init>(HttpGet.java:66)
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:86)
+	... 5 more
+Caused by: java.net.URISyntaxException: Illegal character in path at index 50: https://www.cnblogs.com/lintong/p/4381578.html)%20[官方文档](https://dev.mysql.com/doc/refman/5.7/en/innodb-checkpoints.html
+	at java.net.URI$Parser.fail(URI.java:2848)
+	at java.net.URI$Parser.checkChars(URI.java:3021)
+	at java.net.URI$Parser.parseHierarchical(URI.java:3105)
+	at java.net.URI$Parser.parse(URI.java:3053)
+	at java.net.URI.<init>(URI.java:588)
+	at java.net.URI.create(URI.java:850)
+	... 7 more
+
+fileName=【tomcat】四-tomcat处理请求（上）.md, 第2图片，下载地址 http11processor.header.parse"), e，错误信息：
+kong.unirest.UnirestException: java.lang.IllegalArgumentException: Illegal character in path at index 28: http11processor.header.parse"),%20e
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:91)
+	at kong.unirest.apache.RequestPrep.prepare(RequestPrep.java:69)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:119)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: java.lang.IllegalArgumentException: Illegal character in path at index 28: http11processor.header.parse"),%20e
+	at java.net.URI.create(URI.java:852)
+	at org.apache.http.client.methods.HttpGet.<init>(HttpGet.java:66)
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:86)
+	... 5 more
+Caused by: java.net.URISyntaxException: Illegal character in path at index 28: http11processor.header.parse"),%20e
+	at java.net.URI$Parser.fail(URI.java:2848)
+	at java.net.URI$Parser.checkChars(URI.java:3021)
+	at java.net.URI$Parser.parseHierarchical(URI.java:3105)
+	at java.net.URI$Parser.parse(URI.java:3063)
+	at java.net.URI.<init>(URI.java:588)
+	at java.net.URI.create(URI.java:850)
+	... 7 more
+
+fileName=【tomcat】四-tomcat处理请求（上）.md, 第3图片，下载地址 http11processor.header.parse"，错误信息：
+kong.unirest.UnirestException: java.lang.IllegalArgumentException: Illegal character in path at index 28: http11processor.header.parse"
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:91)
+	at kong.unirest.apache.RequestPrep.prepare(RequestPrep.java:69)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:119)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: java.lang.IllegalArgumentException: Illegal character in path at index 28: http11processor.header.parse"
+	at java.net.URI.create(URI.java:852)
+	at org.apache.http.client.methods.HttpGet.<init>(HttpGet.java:66)
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:86)
+	... 5 more
+Caused by: java.net.URISyntaxException: Illegal character in path at index 28: http11processor.header.parse"
+	at java.net.URI$Parser.fail(URI.java:2848)
+	at java.net.URI$Parser.checkChars(URI.java:3021)
+	at java.net.URI$Parser.parseHierarchical(URI.java:3105)
+	at java.net.URI$Parser.parse(URI.java:3063)
+	at java.net.URI.<init>(URI.java:588)
+	at java.net.URI.create(URI.java:850)
+	... 7 more
+
+fileName=【tomcat】四-tomcat处理请求（上）.md, 第4图片，下载地址 http11processor.fallToDebug"，错误信息：
+kong.unirest.UnirestException: java.lang.IllegalArgumentException: Illegal character in path at index 27: http11processor.fallToDebug"
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:91)
+	at kong.unirest.apache.RequestPrep.prepare(RequestPrep.java:69)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:119)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: java.lang.IllegalArgumentException: Illegal character in path at index 27: http11processor.fallToDebug"
+	at java.net.URI.create(URI.java:852)
+	at org.apache.http.client.methods.HttpGet.<init>(HttpGet.java:66)
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:86)
+	... 5 more
+Caused by: java.net.URISyntaxException: Illegal character in path at index 27: http11processor.fallToDebug"
+	at java.net.URI$Parser.fail(URI.java:2848)
+	at java.net.URI$Parser.checkChars(URI.java:3021)
+	at java.net.URI$Parser.parseHierarchical(URI.java:3105)
+	at java.net.URI$Parser.parse(URI.java:3063)
+	at java.net.URI.<init>(URI.java:588)
+	at java.net.URI.create(URI.java:850)
+	... 7 more
+
+fileName=【tomcat】四-tomcat处理请求（上）.md, 第5图片，下载地址 http11processor.request.prepare"), t，错误信息：
+kong.unirest.UnirestException: java.lang.IllegalArgumentException: Illegal character in path at index 31: http11processor.request.prepare"),%20t
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:91)
+	at kong.unirest.apache.RequestPrep.prepare(RequestPrep.java:69)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:119)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: java.lang.IllegalArgumentException: Illegal character in path at index 31: http11processor.request.prepare"),%20t
+	at java.net.URI.create(URI.java:852)
+	at org.apache.http.client.methods.HttpGet.<init>(HttpGet.java:66)
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:86)
+	... 5 more
+Caused by: java.net.URISyntaxException: Illegal character in path at index 31: http11processor.request.prepare"),%20t
+	at java.net.URI$Parser.fail(URI.java:2848)
+	at java.net.URI$Parser.checkChars(URI.java:3021)
+	at java.net.URI$Parser.parseHierarchical(URI.java:3105)
+	at java.net.URI$Parser.parse(URI.java:3063)
+	at java.net.URI.<init>(URI.java:588)
+	at java.net.URI.create(URI.java:850)
+	... 7 more
+
+fileName=【tomcat】四-tomcat处理请求（上）.md, 第6图片，下载地址 http11processor.request.process"), t，错误信息：
+kong.unirest.UnirestException: java.lang.IllegalArgumentException: Illegal character in path at index 31: http11processor.request.process"),%20t
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:91)
+	at kong.unirest.apache.RequestPrep.prepare(RequestPrep.java:69)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:119)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: java.lang.IllegalArgumentException: Illegal character in path at index 31: http11processor.request.process"),%20t
+	at java.net.URI.create(URI.java:852)
+	at org.apache.http.client.methods.HttpGet.<init>(HttpGet.java:66)
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:86)
+	... 5 more
+Caused by: java.net.URISyntaxException: Illegal character in path at index 31: http11processor.request.process"),%20t
+	at java.net.URI$Parser.fail(URI.java:2848)
+	at java.net.URI$Parser.checkChars(URI.java:3021)
+	at java.net.URI$Parser.parseHierarchical(URI.java:3105)
+	at java.net.URI$Parser.parse(URI.java:3063)
+	at java.net.URI.<init>(URI.java:588)
+	at java.net.URI.create(URI.java:850)
+	... 7 more
+
+fileName=mysql-8-0-15-主从复制配置.md, 第1图片，下载地址 https://liweidan.cn/wp-content/uploads/2019/04/databse-async.gif) ![](https://liweidan.cn/wp-content/uploads/2019/04/table-async.gif) ![](https://liweidan.cn/wp-content/uploads/2019/04/data-async.gif，错误信息：
+kong.unirest.UnirestException: java.lang.IllegalArgumentException: Illegal character in path at index 69: https://liweidan.cn/wp-content/uploads/2019/04/databse-async.gif)%20![](https://liweidan.cn/wp-content/uploads/2019/04/table-async.gif)%20![](https://liweidan.cn/wp-content/uploads/2019/04/data-async.gif
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:91)
+	at kong.unirest.apache.RequestPrep.prepare(RequestPrep.java:69)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:119)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: java.lang.IllegalArgumentException: Illegal character in path at index 69: https://liweidan.cn/wp-content/uploads/2019/04/databse-async.gif)%20![](https://liweidan.cn/wp-content/uploads/2019/04/table-async.gif)%20![](https://liweidan.cn/wp-content/uploads/2019/04/data-async.gif
+	at java.net.URI.create(URI.java:852)
+	at org.apache.http.client.methods.HttpGet.<init>(HttpGet.java:66)
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:86)
+	... 5 more
+Caused by: java.net.URISyntaxException: Illegal character in path at index 69: https://liweidan.cn/wp-content/uploads/2019/04/databse-async.gif)%20![](https://liweidan.cn/wp-content/uploads/2019/04/table-async.gif)%20![](https://liweidan.cn/wp-content/uploads/2019/04/data-async.gif
+	at java.net.URI$Parser.fail(URI.java:2848)
+	at java.net.URI$Parser.checkChars(URI.java:3021)
+	at java.net.URI$Parser.parseHierarchical(URI.java:3105)
+	at java.net.URI$Parser.parse(URI.java:3053)
+	at java.net.URI.<init>(URI.java:588)
+	at java.net.URI.create(URI.java:850)
+	... 7 more
+
+fileName=排序算法.md, 第4图片，下载地址 https://liweidan.cn/wp-content/uploads/2020/06/heap_arch.jpeg) `完全二叉树` 可以使用一个数组对象装着： ![](https://liweidan.cn/wp-content/uploads/2020/06/heap_arch2.jpeg) 如图，我们可以从 `下标1` 开始装数据，`0位` 就让他空着吧，这样我们在请求子节点的时候会方便很多。 仔细观察可以看出，`子节点index` = `父节点index*2` 和 `父节点index*2+1`。 那么我们就可以创建一个类来存储这个 `二叉堆`： 那比方说，我在上面那颗树插入 `11`： ![](https://liweidan.cn/wp-content/uploads/2020/06/heap_arch_ins1.jpeg，错误信息：
+kong.unirest.UnirestException: java.lang.IllegalArgumentException: Illegal character in path at index 65: https://liweidan.cn/wp-content/uploads/2020/06/heap_arch.jpeg)%20`完全二叉树`%20可以使用一个数组对象装着：%20![](https://liweidan.cn/wp-content/uploads/2020/06/heap_arch2.jpeg)%20如图，我们可以从%20`下标1`%20开始装数据，`0位`%20就让他空着吧，这样我们在请求子节点的时候会方便很多。%20仔细观察可以看出，`子节点index`%20=%20`父节点index*2`%20和%20`父节点index*2+1`。%20那么我们就可以创建一个类来存储这个%20`二叉堆`：%20那比方说，我在上面那颗树插入%20`11`：%20![](https://liweidan.cn/wp-content/uploads/2020/06/heap_arch_ins1.jpeg
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:91)
+	at kong.unirest.apache.RequestPrep.prepare(RequestPrep.java:69)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:119)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: java.lang.IllegalArgumentException: Illegal character in path at index 65: https://liweidan.cn/wp-content/uploads/2020/06/heap_arch.jpeg)%20`完全二叉树`%20可以使用一个数组对象装着：%20![](https://liweidan.cn/wp-content/uploads/2020/06/heap_arch2.jpeg)%20如图，我们可以从%20`下标1`%20开始装数据，`0位`%20就让他空着吧，这样我们在请求子节点的时候会方便很多。%20仔细观察可以看出，`子节点index`%20=%20`父节点index*2`%20和%20`父节点index*2+1`。%20那么我们就可以创建一个类来存储这个%20`二叉堆`：%20那比方说，我在上面那颗树插入%20`11`：%20![](https://liweidan.cn/wp-content/uploads/2020/06/heap_arch_ins1.jpeg
+	at java.net.URI.create(URI.java:852)
+	at org.apache.http.client.methods.HttpGet.<init>(HttpGet.java:66)
+	at kong.unirest.apache.RequestPrep.getHttpRequestBase(RequestPrep.java:86)
+	... 5 more
+Caused by: java.net.URISyntaxException: Illegal character in path at index 65: https://liweidan.cn/wp-content/uploads/2020/06/heap_arch.jpeg)%20`完全二叉树`%20可以使用一个数组对象装着：%20![](https://liweidan.cn/wp-content/uploads/2020/06/heap_arch2.jpeg)%20如图，我们可以从%20`下标1`%20开始装数据，`0位`%20就让他空着吧，这样我们在请求子节点的时候会方便很多。%20仔细观察可以看出，`子节点index`%20=%20`父节点index*2`%20和%20`父节点index*2+1`。%20那么我们就可以创建一个类来存储这个%20`二叉堆`：%20那比方说，我在上面那颗树插入%20`11`：%20![](https://liweidan.cn/wp-content/uploads/2020/06/heap_arch_ins1.jpeg
+	at java.net.URI$Parser.fail(URI.java:2848)
+	at java.net.URI$Parser.checkChars(URI.java:3021)
+	at java.net.URI$Parser.parseHierarchical(URI.java:3105)
+	at java.net.URI$Parser.parse(URI.java:3053)
+	at java.net.URI.<init>(URI.java:588)
+	at java.net.URI.create(URI.java:850)
+	... 7 more
+
+fileName=【spring源码】springweb容器-基于springboot.md, 第0图片，下载地址 httpProperties, WebMvcProperties webMvcProperties，错误信息：
+java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+	at java.lang.String.substring(String.java:1927)
+	at fm.lizhi.PictureDown.main(PictureDown.java:82)
+
+fileName=【spring源码】springweb容器-基于springboot.md, 第1图片，下载地址 httpProperties.isLogRequestDetails()，错误信息：
+kong.unirest.UnirestException: org.apache.http.client.ClientProtocolException
+	at kong.unirest.DefaultInterceptor.onFail(DefaultInterceptor.java:43)
+	at kong.unirest.CompoundInterceptor.lambda$onFail$2(CompoundInterceptor.java:54)
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193)
+	at java.util.Collections$2.tryAdvance(Collections.java:4717)
+	at java.util.stream.ReferencePipeline.forEachWithCancel(ReferencePipeline.java:126)
+	at java.util.stream.AbstractPipeline.copyIntoWithCancel(AbstractPipeline.java:498)
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:485)
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:471)
+	at java.util.stream.FindOps$FindOp.evaluateSequential(FindOps.java:152)
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.util.stream.ReferencePipeline.findFirst(ReferencePipeline.java:464)
+	at kong.unirest.CompoundInterceptor.onFail(CompoundInterceptor.java:56)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:132)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: org.apache.http.client.ClientProtocolException
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:187)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:118)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:123)
+	... 3 more
+Caused by: org.apache.http.ProtocolException: Target host is not specified
+	at org.apache.http.impl.conn.DefaultRoutePlanner.determineRoute(DefaultRoutePlanner.java:71)
+	at org.apache.http.impl.client.InternalHttpClient.determineRoute(InternalHttpClient.java:125)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	... 6 more
+
+fileName=【spring源码】springweb容器-基于springboot.md, 第5图片，下载地址 httpRanges = inputMessage.getHeaders().getRange(，错误信息：
+kong.unirest.UnirestException: org.apache.http.client.ClientProtocolException
+	at kong.unirest.DefaultInterceptor.onFail(DefaultInterceptor.java:43)
+	at kong.unirest.CompoundInterceptor.lambda$onFail$2(CompoundInterceptor.java:54)
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193)
+	at java.util.Collections$2.tryAdvance(Collections.java:4717)
+	at java.util.stream.ReferencePipeline.forEachWithCancel(ReferencePipeline.java:126)
+	at java.util.stream.AbstractPipeline.copyIntoWithCancel(AbstractPipeline.java:498)
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:485)
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:471)
+	at java.util.stream.FindOps$FindOp.evaluateSequential(FindOps.java:152)
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.util.stream.ReferencePipeline.findFirst(ReferencePipeline.java:464)
+	at kong.unirest.CompoundInterceptor.onFail(CompoundInterceptor.java:56)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:132)
+	at kong.unirest.Client.request(Client.java:57)
+	at kong.unirest.BaseRequest.asFile(BaseRequest.java:323)
+	at fm.lizhi.PictureDown.main(PictureDown.java:89)
+Caused by: org.apache.http.client.ClientProtocolException
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:187)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:118)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)
+	at kong.unirest.apache.ApacheClient.request(ApacheClient.java:123)
+	... 3 more
+Caused by: org.apache.http.ProtocolException: Target host is not specified
+	at org.apache.http.impl.conn.DefaultRoutePlanner.determineRoute(DefaultRoutePlanner.java:71)
+	at org.apache.http.impl.client.InternalHttpClient.determineRoute(InternalHttpClient.java:125)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	... 6 more
+
+fileName=【spring源码】springweb容器-基于springboot.md, 第6图片，下载地址 httpRanges, resource，错误信息：
+java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+	at java.lang.String.substring(String.java:1927)
+	at fm.lizhi.PictureDown.main(PictureDown.java:82)
+

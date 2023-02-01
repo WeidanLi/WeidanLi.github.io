@@ -28,31 +28,31 @@
 <meta property="og:site_name" content="DanZ&#39;s Blog">
 <meta property="og:description" content="一.InnoDB锁并发的世界里，就离不开锁这个东西，即使会降低一些执行效率，但是该锁住的还是得锁住。MySQL 也一样，当两个 会话 同时修改一条数据的时候，就需要通过锁机制来保证修改后数据的正确性。锁听起来很牛逼，但是简单的概括一下也就是对某个资源（一个变量）的修改操作撸成一条队列来执行，由于执行之前需要判断一些锁的信息，所以执行效率肯定是要低一点的。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115836.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115837.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115838.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115839.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115840.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115841.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115842.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115843.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115844.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20210209112637.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115846.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115847.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115848.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115849.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115850.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115851.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115852.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115843.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115853.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/0.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/1.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/2.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/3.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/4.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/5.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/6.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/7.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/8.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/9.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/10.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/11.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/12.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/13.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/14.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/15.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/16.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/7.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/18.jpeg">
 <meta property="article:published_time" content="2020-04-01T01:24:47.000Z">
-<meta property="article:modified_time" content="2023-01-27T12:02:55.560Z">
+<meta property="article:modified_time" content="2023-02-01T15:58:41.477Z">
 <meta property="article:author" content="Weidan">
 <meta property="article:tag" content="mysql">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115836.jpeg">
+<meta name="twitter:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/0.jpeg">
 
 
 <link rel="canonical" href="http://weidanli.github.io/db/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81/">
@@ -250,7 +250,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-01-27 20:02:55" itemprop="dateModified" datetime="2023-01-27T20:02:55+08:00">2023-01-27</time>
+      <time title="修改时间：2023-02-01 23:58:41" itemprop="dateModified" datetime="2023-02-01T23:58:41+08:00">2023-02-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -304,12 +304,12 @@
 </ol>
 <h3 id="1-1-写写"><a href="#1-1-写写" class="headerlink" title="1.1 写写"></a>1.1 写写</h3><p>假设两个线程都要对同一个记录进行操作，那么就会产生锁的竞争了：</p>
 <p>首先 <code>线程A</code> 先到达数据行现场：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115836.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/0.jpeg"></p>
 <p>接下来，<code>线程B</code> 说我也要更新：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115837.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/1.jpeg"></p>
 <p>但是发现 <code>线程A</code> 在做操作，这时候只能干巴巴的先等着，不过为了性能，会把线程给睡眠了（类似于 <code>await()</code>）</p>
 <p>然后，<code>线程A</code> 做完了，<del>提起裤子准备要走</del>，这时候就跟 <code>线程B</code> 说，轮到你了：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115838.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/2.jpeg"></p>
 <h3 id="1-2-读和写"><a href="#1-2-读和写" class="headerlink" title="1.2 读和写"></a>1.2 读和写</h3><p>一个 <code>读线程</code> 和一个 <code>写线程</code>，为了防止 <code>脏读</code> <code>不可重复读</code> 等一些事务可能出现的问题，我们前边说过 <code>InnoDB</code> 使用 <code>MVCC</code> 来控制读取的东西，而另外一边，<code>写线程</code> 可以继续写的操作。</p>
 <p>但是，<code>业务经理</code> 说，我就要读取的事务完成，才可以进行操作（例如银行这种比较高要求一致性的系统），那么 <code>读</code> 就需要用到锁了：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>; <span class="operator">/</span><span class="operator">/</span> 排他锁</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span> LOCK <span class="keyword">IN</span> SHARE MODE;<span class="operator">/</span><span class="operator">/</span> 共享锁</span><br></pre></td></tr></table></figure>
@@ -400,22 +400,22 @@
 <li>当一条记录有 <code>X锁</code>，其他事务无论想获取什么类型的 <code>锁</code>，都需要阻塞等待。</li>
 </ul>
 <p>我们知道一个数据页长这样子的：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115839.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/3.jpeg"></p>
 <p>不过为了简单点：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115840.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/4.jpeg"></p>
 <p>那比如说，我现在要操作 <code>prod_id=22</code> 的库存，需要加上一个 <code>X锁</code>：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115841.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/5.jpeg"></p>
 <p>那么其他加锁的操作都会被阻塞。</p>
 <h3 id="3-2-GAP锁"><a href="#3-2-GAP锁" class="headerlink" title="3.2 GAP锁"></a>3.2 GAP锁</h3><p><code>GAP锁</code> 是为了防止 <code>幻影记录</code> 而诞生的，我们知道 <code>REPEATABLE READ</code> 级别的隔离下，幻读是可以通过 <code>MVCC</code> 解决的，但是如果需要通过加锁的方式解决，就有个问题，不知道加哪个记录。</p>
 <p>所以，我们就需要对数据页中的某个数据（边界）加上一个 <code>GAP锁</code>：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115842.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/6.jpeg"></p>
 <p>在这里，比方说查询库存小于 <code>200</code> 的 <code>prod_id</code> 集合，使用加锁的形式：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> stock_info <span class="keyword">WHERE</span> quantity <span class="operator">&lt;</span> <span class="number">200</span> LOCK <span class="keyword">IN</span> SHARE MODE;</span><br></pre></td></tr></table></figure>
 <p>那么这个 <code>GAP锁</code> 就会被加在 <code>stock_id = 3</code> 的前面，这时候如果插入一条数据 <code>INSERT INTO stock_info values(null, 55, 200)</code>；那么这条插入语句将会被阻塞。</p>
 <p>那如果想要锁住最小值或者最大值怎么办，别忘了一个数据页中有两个特殊的列：<code>Infimum</code> 和 <code>Supremum</code>。把这两个锁了是不是就完事了。</p>
 <h3 id="3-3-Next-Key-Locks："><a href="#3-3-Next-Key-Locks：" class="headerlink" title="3.3 Next-Key Locks："></a>3.3 Next-Key Locks：</h3><p>如果想要锁住记录并且也锁住间隙怎么办，就可以使用 <code>Next-Key Locks</code>。他是 <code>Record Locks</code> + <code>GAP锁</code> 的合体，锁住的那条记录即不允许在他前后插入数据，也不允许修改这条 <code>数据行</code> 的数据。</p>
 <h3 id="3-4-Insert-Intention-Locks-插入意向锁"><a href="#3-4-Insert-Intention-Locks-插入意向锁" class="headerlink" title="3.4 Insert Intention Locks 插入意向锁"></a>3.4 Insert Intention Locks 插入意向锁</h3><p>那么在插入数据的时候，需要判断插入的位置是不是被 <code>GAP锁</code> 锁住了，如果有的话就需要阻塞当前事务，等待 <code>GAP锁</code> 的释放。那么 <code>InnoDB</code> 的大佬也规定，如果插入数据的时候进入阻塞状态，也需要生成一个 <code>Insert Intention Locks 插入意向锁</code> 挂在这条记录上边，表明在这个间隙目前有数据想要插入。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115843.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/7.jpeg"></p>
 <blockquote>
 <p>注意：意向锁并不会因为前边有个 GAP 锁就等待，而是直接锁住，再进入等待。事实上他也不介意其他锁进来。</p>
 </blockquote>
@@ -425,7 +425,7 @@
 <li>对于 <code>聚簇索引</code>，该记录的 <code>trx_id</code> 表示当前 <code>事务ID</code>，如果当前事务想要给这一行加锁的时候，就会查看这个 <code>trx_id</code> 的事务在当前是否是活跃状态，如果是的话，就舔狗般的帮他创建一个锁（锁有个属性是 <code>isWaiting=false</code>）然后自己创建一个 <code>isWaiting=true</code> 的锁，然后进入等待状态；</li>
 <li>对于 <code>非聚簇索引</code> 来说，因为没有 <code>trx_id</code> 隐藏列，不过 <code>非聚簇索引数据页</code> 的 <code>PageHeader</code> 有个 <code>PAGE_MAX_TRX_ID</code> 列，表示对这个页面做过改动的最大 <code>事务ID</code>，如果这个值小于当前活跃的 <code>事务ID</code>，那说明对这个页面修改的事务都已经提交了，否则就需要定位到记录，回表重复上面一步的流程。</li>
 </ul>
-<h2 id="四-锁结构"><a href="#四-锁结构" class="headerlink" title="四.锁结构"></a>四.锁结构</h2><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115844.jpeg"></p>
+<h2 id="四-锁结构"><a href="#四-锁结构" class="headerlink" title="四.锁结构"></a>四.锁结构</h2><p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/8.jpeg"></p>
 <p>加锁，那肯定是有事务对 <code>数据行</code> 发生了修改，所以就需要第一个属性记录必要的锁信息。</p>
 <p>然后数据行都在 <code>索引树</code> 中，所以我们需要一些索引信息</p>
 <p>第三个，<code>表锁</code> 就需要记录 <code>数据表</code> 的一些信息，而 <code>行锁</code> 就需要记录 <code>数据行</code> 的信息</p>
@@ -475,7 +475,7 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 一个库存表</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> stock_info (</span><br><span class="line">	id <span class="type">BIGINT</span> auto_increment <span class="keyword">primary</span> key,</span><br><span class="line">	prod_id <span class="type">BIGINT</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">	quantity <span class="type">BIGINT</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> stock_info ENGINE <span class="operator">=</span> InnoDB;</span><br><span class="line"><span class="comment">-- 建立产品ID的索引</span></span><br><span class="line"><span class="keyword">CREATE</span> INDEX stock_info_prod_idx <span class="keyword">ON</span> stock_info(prod_id);</span><br><span class="line"><span class="comment">-- 插入数据</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> stock_info <span class="keyword">VALUES</span>(<span class="keyword">NULL</span>, <span class="number">11</span>, <span class="number">32</span>),</span><br><span class="line">(<span class="keyword">NULL</span>, <span class="number">22</span>, <span class="number">65</span>), (<span class="keyword">NULL</span>, <span class="number">33</span>, <span class="number">213</span>), (<span class="keyword">NULL</span>, <span class="number">44</span>, <span class="number">77</span>),</span><br><span class="line">(<span class="keyword">NULL</span>, <span class="number">55</span>, <span class="number">20</span>), (<span class="keyword">NULL</span>, <span class="number">66</span>, <span class="number">993</span>), (<span class="keyword">NULL</span>, <span class="number">77</span>, <span class="number">142</span>);</span><br></pre></td></tr></table></figure>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">SELECT * FROM stock_info;</span></span><br><span class="line">+----+---------+----------+</span><br><span class="line">| id | prod_id | quantity |</span><br><span class="line">+----+---------+----------+</span><br><span class="line">|  1 |      11 |       32 |</span><br><span class="line">|  2 |      22 |       65 |</span><br><span class="line">|  3 |      33 |      213 |</span><br><span class="line">|  4 |      44 |       77 |</span><br><span class="line">|  5 |      55 |       20 |</span><br><span class="line">|  6 |      66 |      993 |</span><br><span class="line">|  7 |      77 |      142 |</span><br><span class="line">+----+---------+----------+</span><br><span class="line">7 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
 <h3 id="6-1-普通读"><a href="#6-1-普通读" class="headerlink" title="6.1 普通读"></a>6.1 普通读</h3><p>我们使用 <code>MySQL</code> 默认的隔离级别是 <code>REPEATABLE READ</code>，前面说过，解决了 <code>脏读</code>，<code>不可重复读</code> 和 <code>幻读</code> 的问题。但是吧：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20210209112637.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/9.jpeg"></p>
 <p>左边 <code>事务A</code> 第一次查询 <code>id = 9</code> 的数据，是空的，但是由于右边的 <code>事务B</code> 插入了 <code>id = 9</code> 的数据并 <code>提交</code>，<code>事务A</code> 又更新了 <code>id = 9</code> 的数据（所以此时 <code>数据行</code> 的 <code>trx_id</code> 列又变成了 <code>事务A</code> 的 <code>id</code>，又因为执行了 <code>UPDATE</code> 语句，所以 <code>ReadView</code> 被刷新了），并且读取，就可以返回数据啦。</p>
 <p>所以，<code>REPEATABLE READ</code> 可以说并没有完完全全的解决 <code>幻读</code> 的问题。</p>
 <p>那么怎么解决上面的问题，那就剩下 <code>加锁</code> 的方式了。</p>
@@ -491,7 +491,7 @@
 <h3 id="6-xxxxx-分割线，以下属于-READ-UNCOMMITTED-READ-COMMITTED-加锁方式"><a href="#6-xxxxx-分割线，以下属于-READ-UNCOMMITTED-READ-COMMITTED-加锁方式" class="headerlink" title="6.xxxxx 分割线，以下属于 READ UNCOMMITTED/READ COMMITTED 加锁方式"></a>6.xxxxx 分割线，以下属于 READ UNCOMMITTED/READ COMMITTED 加锁方式</h3><h3 id="6-2-等值锁定读"><a href="#6-2-等值锁定读" class="headerlink" title="6.2 等值锁定读"></a>6.2 等值锁定读</h3><p>针对 <code>SELECT</code> 语句，锁一般加在 <code>聚簇索引</code> 的数据行上面。比方说下面两个语句：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- S锁</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> stock_info <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">3</span> LOCK <span class="keyword">IN</span> SHARE MODE;</span><br><span class="line"><span class="comment">-- X锁</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> stock_info <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">3</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;</span><br></pre></td></tr></table></figure>
 <p>一个加 <code>S锁</code>，一个加 <code>X锁</code>：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115846.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/10.jpeg"></p>
 <p>那么这条数据行就被加锁了。</p>
 <p>而如果我更新这条数据：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> stock_info <span class="keyword">SET</span> quantity <span class="operator">=</span> <span class="number">200</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> stock_info <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
@@ -504,11 +504,11 @@
 </ol>
 <p>比如：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> stock_info <span class="keyword">SET</span> prod_id <span class="operator">=</span> <span class="number">99</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> stock_info <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115847.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/11.jpeg"></p>
 <p>而如果查询条件是先从 <code>二级索引</code> 出来的话，比如 <code>UPDATE stock_info SET prod_id = 99 WHERE prod_id = 33;</code>，那加锁顺序又要反过来：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115848.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/12.jpeg"></p>
 <p>而如果，同时有两个事务，一个 <code>UPDATE stock_info SET prod_id = 99 WHERE id = 3;</code> 另外一个 <code>UPDATE stock_info SET prod_id = 99 WHERE prod_id = 33;</code>，那么：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115849.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/13.jpeg"></p>
 <p>就 <code>死锁</code> 了，因为 <code>左事务</code> 先 <code>加锁</code> 了 <code>聚簇索引</code>，后 <code>加锁二级索引</code>，而 <code>右事务</code> 的 <code>加锁顺序</code> 反而是反过来的，这就导致了，<code>左事务</code> 在等待 <code>右事务</code> 释放 <code>二级索引锁</code>，而 <code>右事务</code> 在等待 <code>左事务</code> 释放 <code>聚簇索引锁</code>。所以导致死锁的发生。</p>
 <p><code>UPDATE</code> 和 <code>DELETE</code> 是一样的，所以记住一个结论：</p>
 <p><code>如果使用了索引加锁，则先加二级索引的锁再加聚簇索引的锁，如果使用了聚簇索引则先加聚簇索引的锁再加二级索引的锁。就是谁先到达先加谁的！</code></p>
@@ -537,24 +537,24 @@
 <p>那如果记录不存在的话比如：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> stock_info <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> stock_info <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">5</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;</span><br></pre></td></tr></table></figure>
 <p>那么前面说了那么多的 <code>GAP锁</code> 就来了：</p>
-<p> <img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115850.jpeg"></p>
+<p> <img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/14.jpeg"></p>
 <p>也就是说在 <code>(4, 6)</code> 区间范围内，有个 <code>GAP锁</code>，那其他事务想要把数据插入到这里的话，就要等我 <code>COMMIT</code> 事务以后才能够插入，也就可以防止上面 <code>6.1 普通读</code> 节说到的 <code>幻读</code> 问题。</p>
 <hr>
 <p>而如果用到了 <code>二级索引</code> 比方说 <code>SELECT * FROM stock_info WHERE prod_id = 55 FOR UPDATE</code> 的话，那二级索引对应的节点也会跟 <code>聚簇索引</code> 一样，加上 <code>GAP锁</code>。先后顺序也是取决于先到 <code>二级索引</code> 还是先到 <code>聚簇索引</code>：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115851.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/15.jpeg"></p>
 <p>这里还有一点主意的是，如果 <code>这个二级索引是一个唯一索引</code>，那么 <code>聚簇索引</code> 上的数据就不需要加锁了，因为 <code>二级索引</code> 的列是 <code>唯一的</code>，锁住那一个数据也就可以防止插入数据了。</p>
 <h3 id="6-6-范围锁定读"><a href="#6-6-范围锁定读" class="headerlink" title="6.6 范围锁定读"></a>6.6 范围锁定读</h3><p>上面 <code>READ UNCOMMITTED/READ COMMITTED</code> 我们说，会为满足条件的 <code>数据行</code> 都加上锁，那么在这里为了防止 <code>幻读</code>，所以还要再加上一个锁：<code>next-key锁</code>。因为既要防止 <code>数据行</code> 被修改，也要防止在空隙里面被插入数据。</p>
 <p>比方说 <code>SELECT * FROM stock_info WHERE id &lt; 4</code>，我们说了  <code>READ UNCOMMITTED/READ COMMITTED</code> 中 <code>id = 4</code> 加了一下锁，又会释放掉，但是在 <code>REPEATABLE READ下，他是不会释放的，并且还加上了 3 到 4 之间的 Next-Key 锁</code>。</p>
 <p>而如果此时，我对 <code>id &lt; 4</code> 的数据都更新了 <code>prod_id</code> 的列，因为此时使用的是 <code>聚簇索引</code>，所以 <code>二级索引</code> 上 <code>id = 4</code> 的列不会被加锁。</p>
 <p>那加锁顺序，肯定就是先 <code>聚簇</code> 再<code>二级</code> 了。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115852.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/16.jpeg"></p>
 <hr>
 <p>而如果我们的范围查询发生在 <code>二级索引</code> 上面的话，取而代之的是 <code>二级索引</code> 上的每条记录都会被加 <code>Next-key锁</code>，<code>聚簇</code> 上的数据不加 <code>GAP锁</code>。</p>
 <p>因为需要放置修改 <code>二级索引</code> 以及在 <code>二级索引</code> 间隙插入数据，所以 <code>锁</code> 发生在 <code>二级索引</code> 上，不画图了。</p>
 <h3 id="6-7-全表扫描"><a href="#6-7-全表扫描" class="headerlink" title="6.7 全表扫描"></a>6.7 全表扫描</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> stock_info <span class="keyword">FOR</span> <span class="keyword">UPDATE</span> <span class="keyword">WHERE</span> quantity <span class="operator">&gt;</span> <span class="number">100</span>;</span><br></pre></td></tr></table></figure>
 <p>依然使用这条 <code>SQL</code> 查询，因为每读取一个记录就会给这个记录加上 <code>Next-Key锁</code>，返回 <code>server层</code>，判断满足条件则返回给客户端。而如果发生全表扫描并且加了 <code>锁</code>，因为 <code>REPEATABLE READ</code> <code>不会释放锁</code>，所以，发生这种情况的时候，<code>整个表都被锁住了！！！</code>。那其他的 <code>事务</code> 对这个表操作的时候均会被 <code>阻塞</code>。</p>
 <h2 id="七-INSERT的情况"><a href="#七-INSERT的情况" class="headerlink" title="七.INSERT的情况"></a>七.INSERT的情况</h2><p><code>INSERT</code> 语句插入的时候，如果遇到上一条记录加了 <code>NextKey锁</code> 的话，那么会在该记录上加一个 <code>插入意向锁</code>，并且 <code>事务</code> 进入 <code>阻塞</code> 状态。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115843.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/7.jpeg"></p>
 <p>而如果插入的时候遇见一些状况，也会 <code>加锁</code>：</p>
 <ol>
 <li>遇到重复值的时候，如果说在插入 <code>聚簇索引</code> 或者 <code>唯一二级索引</code> 的时候，发现 <code>INSERT</code> 语句中某个值冲突了（也就是说存在了 <code>索引</code> 中了），那么会对造成冲突的 <code>数据行</code> 加锁：<ol>
@@ -567,7 +567,7 @@
 <li>如果插入的数据带有 <code>外键检查</code>，那么关联到的 <code>数据行</code> 会被加上 <code>S行锁</code>，而如果查找不到 <code>外键记录</code>，则 <code>外键记录</code> 的空白位置在 <code>REPEATABLE READ/SERIALIZABLE</code> 会被加上 <code>GAP锁</code>，其他 <code>隔离级别</code> 则不会加锁。</li>
 </ol>
 <h2 id="七-死锁"><a href="#七-死锁" class="headerlink" title="七.死锁"></a>七.死锁</h2><p>似乎所有程序聊到 <code>锁</code> 的问题，就会有 <code>死锁</code> 的问题：</p>
-<h3 id="7-1-普通资源锁"><a href="#7-1-普通资源锁" class="headerlink" title="7.1 普通资源锁"></a>7.1 普通资源锁</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110115853.jpeg"></p>
+<h3 id="7-1-普通资源锁"><a href="#7-1-普通资源锁" class="headerlink" title="7.1 普通资源锁"></a>7.1 普通资源锁</h3><p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%8D%81%E4%B8%80-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%94%81.md/18.jpeg"></p>
 <p>当两个 <code>事务</code> 锁住的数据需要相互等待的时候，就会出现这种 <code>死锁</code> 的情况。</p>
 <h3 id="7-2-插入GAP锁"><a href="#7-2-插入GAP锁" class="headerlink" title="7.2 插入GAP锁"></a>7.2 插入GAP锁</h3><p>是这样子的：</p>
 <table>

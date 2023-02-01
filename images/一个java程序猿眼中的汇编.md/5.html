@@ -1,0 +1,6046 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="codeva-18Edjlpyk5">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1}},"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="body {   background-color: #f5f5d5; }  #container::before {   display: block;   width: 100%;   padding: 10px;   background: rgba(0,0,0,0.1);   text-align: center;   content: &quot;本站显示不正常">
+<meta property="og:type" content="website">
+<meta property="og:title" content="DanZ&#39;s Blog">
+<meta property="og:url" content="http://weidanli.github.io/images/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96.md/5.html">
+<meta property="og:site_name" content="DanZ&#39;s Blog">
+<meta property="og:description" content="body {   background-color: #f5f5d5; }  #container::before {   display: block;   width: 100%;   padding: 10px;   background: rgba(0,0,0,0.1);   text-align: center;   content: &quot;本站显示不正常">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wangbase.com/blogimg/asset/202107/bg2021072117.png">
+<meta property="og:image" content="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012204.png">
+<meta property="og:image" content="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012202.jpg">
+<meta property="og:image" content="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012203.jpg">
+<meta property="og:image" content="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012205.jpg">
+<meta property="og:image" content="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012206.png">
+<meta property="og:image" content="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012207.png">
+<meta property="og:image" content="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012208.png">
+<meta property="og:image" content="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012209.png">
+<meta property="og:image" content="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012210.png">
+<meta property="og:image" content="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012211.png">
+<meta property="og:image" content="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012212.png">
+<meta property="og:image" content="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012213.jpg">
+<meta property="og:image" content="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012214.jpg">
+<meta property="og:image" content="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012215.png">
+<meta property="og:image" content="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012216.png">
+<meta property="og:image" content="https://www.wangbase.com/blogimg/asset/202001/bg2020013101.jpg">
+<meta property="article:published_time" content="2023-02-01T16:18:28.292Z">
+<meta property="article:modified_time" content="2023-01-31T15:59:04.527Z">
+<meta property="article:author" content="Weidan">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="vue">
+<meta property="article:tag" content="开发">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wangbase.com/blogimg/asset/202107/bg2021072117.png">
+
+
+<link rel="canonical" href="http://weidanli.github.io/images/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96.md/5">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":true,"permalink":"http://weidanli.github.io/images/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96.md/5.html","path":"images/一个java程序猿眼中的汇编.md/5.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title> | DanZ's Blog
+</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DanZ's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">a normal developer daily blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section">首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section">分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section">归档</a></li>
+        <li class="menu-item menu-item-数据结构"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="section">数据结构</a></li>
+        <li class="menu-item menu-item-spring源码"><a href="/spring-sources/" rel="section">Spring源码</a></li>
+        <li class="menu-item menu-item-mysql底层"><a href="/mysql/" rel="section">MySQL底层</a></li>
+        <li class="menu-item menu-item-tomcat源码"><a href="/tomcat-sources/" rel="section">Tomcat源码</a></li>
+        <li class="menu-item menu-item-计算机网络"><a href="/network/" rel="section">计算机网络</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#page-title"><span class="nav-number">1.</span> <span class="nav-text">汇编语言入门教程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#main-content"><span class="nav-number">1.1.</span> <span class="nav-text">一、汇编语言是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#main-content"><span class="nav-number">1.2.</span> <span class="nav-text">二、来历</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#main-content"><span class="nav-number">1.3.</span> <span class="nav-text">三、寄存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#main-content"><span class="nav-number">1.4.</span> <span class="nav-text">四、寄存器的种类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#main-content"><span class="nav-number">1.5.</span> <span class="nav-text">五、内存模型：Heap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#main-content"><span class="nav-number">1.6.</span> <span class="nav-text">六、内存模型：Stack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#main-content"><span class="nav-number">1.7.</span> <span class="nav-text">七、CPU 指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#main-content"><span class="nav-number">1.7.1.</span> <span class="nav-text">7.1 一个实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#main-content"><span class="nav-number">1.7.2.</span> <span class="nav-text">7.2 push 指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#main-content"><span class="nav-number">1.7.3.</span> <span class="nav-text">7.3 call 指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#main-content"><span class="nav-number">1.7.4.</span> <span class="nav-text">7.4 mov 指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#main-content"><span class="nav-number">1.7.5.</span> <span class="nav-text">7.5 add 指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#main-content"><span class="nav-number">1.7.6.</span> <span class="nav-text">7.6 pop 指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#main-content"><span class="nav-number">1.7.7.</span> <span class="nav-text">7.7 ret 指令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#main-content"><span class="nav-number">1.8.</span> <span class="nav-text">八、参考链接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#entry-1973"><span class="nav-number">1.8.1.</span> <span class="nav-text">文档信息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#related_entries"><span class="nav-number">1.9.</span> <span class="nav-text">相关文章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#comments"><span class="nav-number">1.10.</span> <span class="nav-text">留言（133条）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#comments-open"><span class="nav-number">1.11.</span> <span class="nav-text">我要发表看法</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Weidan</p>
+  <div class="site-description" itemprop="description">计算机基础 计算机网络 Java Vue 前端 后端</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WeidanLi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WeidanLi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:toweidan@126.com" title="E-Mail → mailto:toweidan@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/WeidanLi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner page posts-expand">
+  
+  
+
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN"><header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">
+</h1>
+
+<div class="post-meta-container">
+  <ul class="breadcrumb">
+            <li><a href="/images/">IMAGES</a></li>
+            <li><a href="/images/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96.md/">一个JAVA程序猿眼中的汇编.MD</a></li>
+            <li>5</li>
+          
+  </ul>
+</div>
+
+</header>
+
+      
+      
+      <div class="post-body">
+          <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" id="sixapart-standard" lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="Movable Type  5.2.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!--link rel="stylesheet" href="http://www.ruanyifeng.com/blog/styles.css" type="text/css" /-->
+<link rel="start" href="https://www.ruanyifeng.com/blog/" title="Home" />
+<link rel="alternate" type="application/atom+xml" title="Recent Entries" href="https://feeds.feedburner.com/ruanyifeng" />
+<script type="text/javascript" src="https://www.ruanyifeng.com/blog/mt.js"></script>
+<script type="text/javascript" src="/blog/advertisements.js"></script>
+<!--
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="http://www.ruanyifeng.com/blog/2021/04/weekly-issue-152.html">
+<dc:title>科技爱好者周刊（第 152 期）：从北大到技校</dc:title>
+<dc:description>这里记录每周值得分享的科技内容，周五发布。...</dc:description>
+<dc:creator>阮一峰</dc:creator>
+<dc:date>2021-04-02T08:31:26+08:00</dc:date>
+<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/3.0/" />
+</Work>
+<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/3.0/">
+</License>
+</rdf:RDF>
+-->
+
+<style>
+body {
+  background-color: #f5f5d5;
+}
+
+#container::before {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: rgba(0,0,0,0.1);
+  text-align: center;
+  content: "本站显示不正常，可能因为您使用了广告拦截器。";
+}
+
+</style>
+<script>
+function loadjscssfile(filename, filetype){
+    if (filetype=="js"){ //if filename is a external JavaScript file
+        var fileref=document.createElement('script')
+        fileref.setAttribute("type","text/javascript")
+        fileref.setAttribute("src", filename)
+    }
+    else if (filetype=="css"){ //if filename is an external CSS file
+        var fileref=document.createElement("link")
+        fileref.setAttribute("rel", "stylesheet")
+        fileref.setAttribute("type", "text/css")
+        fileref.setAttribute("href", filename)
+    }
+    if (typeof fileref!="undefined")
+        document.getElementsByTagName("head")[0].appendChild(fileref)
+}
+//loadjscssfile("http://www.ruanyifeng.com/blog/styles.css", "css");
+loadjscssfile('/static/themes/theme_scrapbook/theme_scrapbook.min.css', "css");
+
+
+function checker() {
+  if (/mobile|android/i.test(navigator.userAgent)) return; 
+  window.comments && window.comments.setAttribute("style", "!important");
+  // var img = document.querySelector('img[src^="http://www.ruanyifeng.com/blog/images"]');
+  var img = document.querySelector('a > img[src*="wangbase.com/blogimg/asset/"]');
+  var isAdblocker = (typeof adblock === 'undefined');
+  if (
+    /*isAdblocker || */
+    (img && window.getComputedStyle(img).display === 'none') ||
+    (img && window.getComputedStyle(img.parentElement).display === 'none')
+  ){
+    var sponsor = document.querySelector('#main-content');
+    var prompt = document.createElement('div');
+    prompt.style = 'border: 1px solid #c6c6c6;border-radius: 4px;background-color: #f5f2f0;padding: 15px; font-size: 14px;';
+    prompt.innerHTML = '<p>您使用了广告拦截器，导致本站内容无法显示。</p><p>请将 www.ruanyifeng.com 加入白名单，解除广告屏蔽后，刷新页面。谢谢。</p>';
+    sponsor.parentNode.replaceChild(prompt, sponsor);
+    // document.querySelector('#main-content').innerHTML = '';
+  }
+}
+
+setTimeout(checker, 1000);
+</script>
+<script type="text/javascript" charset="UTF-8" src="https://cdn.wwads.cn/js/makemoney.js" async></script>
+
+    
+    <link rel="prev" href="https://www.ruanyifeng.com/blog/2018/01/cryptocurrency-tutorial.html" title="加密货币的本质" />
+    <link rel="next" href="https://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html" title="Docker 入门教程" />
+    
+    <title>汇编语言入门教程 - 阮一峰的网络日志</title>
+</head>
+<body id="scrapbook" class="mt-entry-archive one-column">
+<script>
+if (/mobile/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) document.body.classList.add('mobile');
+
+/*
+window.addEventListener('load', function(event) {
+  setTimeout(function () {
+    hab('#sup-post-2');
+    hab('#cre-inner');
+  }, 1000);
+});
+*/
+</script>
+    <div id="container">
+        <div id="container-inner">
+
+            <div id="header">
+    <div id="header-inner">
+        <div id="header-content">
+
+
+            <div id="header-name">阮一峰的网络日志 <span id="site_location"> » <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/" accesskey="1">首页</a></span><span id="site_archive"> » <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/archives.html">档案</a></span>
+</div>
+
+<div id="google_search">
+<!-- SiteSearch Google -->
+<form action="https://www.baidu.com/s" target="_blank" method="get" id="cse-search-box">
+  <div>
+  <input type="text" size="20" name="origin" class="searchbox" id="sbi" value="" />
+  <input type="hidden" name="wd" value="" />
+  <!--input type="image" src="/static/themes/theme_scrapbook/images/top_search_submit.gif" class="searchbox_submit" value="" alt="搜索" name="sa" onclick="this.form.wd.value = this.form.origin.value + ' inurl:www.ruanyifeng.com/blog'" /-->
+  <input type="image" src="/static/themes/theme_scrapbook/images/top_search_submit.gif" class="searchbox_submit" value="" alt="搜索" name="sa" onclick="this.form.wd.value = this.form.origin.value + ' 阮一峰'" />
+</div>
+</form>
+
+<!-- SiteSearch Google -->
+</div>
+<div id="feed_icon">
+<a href="/feed.html?utm_source=" title="订阅Feed">
+<!--img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAUzSURBVHjavFdbbFRVFF3nPjoz7dTWTittaW0jUDRAUqaNojyqREnEQKgfUj9MqqAmhqRt/OCD4CuY+Kckoh+aiGKC+gMJbdHoRysJ8dkhhmJLNdDKtJU+6GMK87j3Hs85d2Z6HzNtMYWb3Dn3NWftvfba+5xNYDl+e6Fkj6yqb/oDRbWq14vlPBLRKCITkxf0ROLt+hNjp1PPSRK4kA3vF1dXNRcWlyA2OQU9eos9opAkAiKxD+XkKO6t15aRWO7J/MgmAZU8MEgexgZHMX518Dh72sYMmVKShnxWuWHdHtxKIDIYTgMuDzgfmSOIQkYMpdUF8OY92Hytt4/jvkg47czzU16iQovM3QFwmNck+Yyduu7D6NA0Z6JR4THntFs9V4tWQg6Ui3s6MwKDncsFTnXKLJhDSeUK3AgPtyhccDzmVs999buRt/1Vm4i0od+hX7+MRG87jPGB/w1u8FPj9xEw7McVrnYuOCvtpjTth3J/nTg99c8LRhKhr6D3dTB5R24bXFwbMXBsyZzeoXaycEpJ95TB09AGX/NpqLVNtw8urnVzLvHjFNxiFqRy2OOHuqUVnue+ACkoWzo4O6lGzTmuHq6nPvY2m9rVqjrIK2rMEKxqyG5NPAKt+wjo0LklgfNxJkZMA3KJvqRUk3z5UFY3QH14P0h+WUY79HPvgv7VuSg4ZRGY1YgZgqXmORccF17sy2ehnf9AeO085K2HQFbtXBScj0LcpgF2cN+WV+DZ/LJQu6gD4R7oV7pBJwbSgtMvfiPoVp56DySwxm7EtkMs1WdAB7qzggsDJKQYsHucSkOudrkiCPWR/fA2nYCn8SNIK4NptSMyAu3sAdDRkIsJdfth0LzSrODUoPNZ4KI9SxJI5UHk7D4GdQfz2us31c7CoHMjRkKuDPHseCMrONVhNcDJwMJpKFVvg9L4OaTiNWm1x789KCqkrXhVBiEz0WYCT2nAzQAD1/vaETv1GrRfP4Vx5cfMNcDPwvP0h0DhanPym7OIf/+O67vcJ1/PCJ4KgdzaUP6Wz+dU+5yIL6fV+PsHGAOdwlPpvvUOyeeAVGyCdqkDNB6DPjsBSrnndfOGevOh3RhGItxvA+fX1CtbGFhgYUFkFMZPR6F1HnClHq8HyubWtJexX06CRmdt33hrd7nA7SFY4qoGpnYuOKcRykPPgDCBcsHx9Iv+fNL2PueBehCWUfYQIIMGLOCcOmXDXsh1+yCt35tUPfvzGFuSvzvoinXOxqa02qOhM6733nVP2MAdaej2XN11DPKjLZCD+yBvahGCo7JfTKAN9UD7s8Oe9zUNIhz8fWI8DG2k38WCFdxugANcXrvTVd1IEbuv3Jour7Hzn7jLMBNfKs7R3i67gRVrbeCOEDhinmWhAatsqdquM2XzHZINhK2cqTjHr/XZdVJUbgN3MWAVXKbSyg9jesRW2xP9di+lwrL5ojM3m2H/kG9hwcIA37c71W6wJdW2J2S5nrjYbq/t1AHAhJsKQeyfPvf6IMJgghPJhFZ4x0KlfLFvt22du45Au/A1SOlGc0P672XXwhLtOcM0kTTEMMd0qkVmMNXxMd/tsedUjInr4SQDgOfeXMSiN0FCL5WHah4L1qqYXPJOJlttd+a5M+YpcG5poLYKQ5f+6JJ4r8bbJYP47hq4r7QAs9PjYNhHJd4o8l5taiwuOpa7AS4XKqI/5NjJbTnaWK92nLdLuhQAJayRNMiygXPBeQN+Qbvu0zDc3y+aUzhbkGR73sI7ljvUnndx2q3t+X8CDAD66FtrIL864AAAAABJRU5ErkJggg==" alt="" style="border: 0pt none;" /-->
+<img src="https://wangbase.com/blogimg/asset/202107/bg2021072117.png" alt="" style="border: 0pt none;" />
+</a></div>
+
+        </div>
+    </div>
+</div>
+
+
+
+            <div id="content">
+                <div id="content-inner">
+
+
+                    <div id="alpha">
+                        <div id="alpha-inner">
+
+
+                            <div id="entry-1973" class="entry-asset asset hentry">
+                                <div class="asset-header">
+<div class="asset-nav entry-nav">
+
+<div class="entry-location">
+<ul>
+<li>上一篇：<a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/cryptocurrency-tutorial.html" title="加密货币的本质">加密货币的本质&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+<li>下一篇：<a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html" title="Docker 入门教程">Docker&nbsp;入门教程</a></li>
+</ul>
+</div>
+
+
+    
+                                    <div class="entry-categories">
+                                        <p>分类<span class="delimiter">：</span></p>
+                                        <ul>
+                                            <li><a target="_blank" href="https://www.ruanyifeng.com/blog/computer/" rel="tag noopener">理解计算机</a></li>
+                                        </ul>
+                                    </div>
+    
+
+
+                                            
+<div class="entry-location-mobile" style="float: right;">
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/cryptocurrency-tutorial.html" title="加密货币的本质">⇐&nbsp;</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html" title="Docker 入门教程">&nbsp;⇒</a></li>
+</ul>
+</div>
+
+</div>
+</div>
+
+                          
+<article class="hentry">
+                                    <h1 id="page-title" class="asset-name entry-title">汇编语言入门教程</h1>
+
+
+
+<div class="asset-meta">
+                                        
+
+                                            <p class="vcard author">作者： <a class="fn url" target="_blank" rel="noopener" href="https://www.ruanyifeng.com">阮一峰</a></p>
+                                    <p>日期： <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/"><abbr class="published" title="2018-01-21T18:17:48+08:00">2018年1月21日</abbr></a></p>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+                                
+                                <div class="asset-content entry-content" id="main-content">
+
+                                    <!-- div class="asset-body" -->
+                                        <p>学习编程其实就是学高级语言，即那些为人类设计的计算机语言。</p>
+
+                                    <!-- /div -->
+
+
+                                    <!-- div id="more" class="asset-more" -->
+                                        <p>但是，计算机不理解高级语言，必须通过编译器转成二进制代码，才能运行。学会高级语言，并不等于理解计算机实际的运行步骤。</p>
+
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012204.png" alt="" title="" /></p>
+
+<p>计算机真正能够理解的是低级语言，它专门用来控制硬件。汇编语言就是低级语言，直接描述/控制 CPU 的运行。如果你想了解 CPU 到底干了些什么，以及代码的运行步骤，就一定要学习汇编语言。</p>
+
+<p>汇编语言不容易学习，就连简明扼要的介绍都很难找到。下面我尝试写一篇最好懂的汇编语言教程，解释 CPU 如何执行代码。</p>
+
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012202.jpg" alt="" title="" /></p>
+
+<h2>一、汇编语言是什么？</h2>
+
+<p>我们知道，CPU 只负责计算，本身不具备智能。你输入一条指令（instruction），它就运行一次，然后停下来，等待下一条指令。</p>
+
+<p>这些指令都是二进制的，称为操作码（opcode），比如加法指令就是<code>00000011</code>。<a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2014/11/compiler.html">编译器</a>的作用，就是将高级语言写好的程序，翻译成一条条操作码。</p>
+
+<p>对于人类来说，二进制程序是不可读的，根本看不出来机器干了什么。为了解决可读性的问题，以及偶尔的编辑需求，就诞生了汇编语言。</p>
+
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012203.jpg" alt="" title="" /></p>
+
+<p><strong>汇编语言是二进制指令的文本形式</strong>，与指令是一一对应的关系。比如，加法指令<code>00000011</code>写成汇编语言就是 ADD。只要还原成二进制，汇编语言就可以被 CPU 直接执行，所以它是最底层的低级语言。</p>
+
+<h2>二、来历</h2>
+
+<p>最早的时候，编写程序就是手写二进制指令，然后通过各种开关输入计算机，比如要做加法了，就按一下加法开关。后来，发明了纸带打孔机，通过在纸带上打孔，将二进制指令自动输入计算机。</p>
+
+<p>为了解决二进制指令的可读性问题，工程师将那些指令写成了八进制。二进制转八进制是轻而易举的，但是八进制的可读性也不行。很自然地，最后还是用文字表达，加法指令写成 ADD。内存地址也不再直接引用，而是用标签表示。</p>
+
+<p>这样的话，就多出一个步骤，要把这些文字指令翻译成二进制，这个步骤就称为 assembling，完成这个步骤的程序就叫做 assembler。它处理的文本，自然就叫做 aseembly code。标准化以后，称为 assembly language，缩写为 asm，中文译为汇编语言。</p>
+
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012205.jpg" alt="" title="" /></p>
+
+<p>每一种 CPU 的机器指令都是不一样的，因此对应的汇编语言也不一样。本文介绍的是目前最常见的 x86 汇编语言，即 Intel 公司的 CPU 使用的那一种。</p>
+
+<h2>三、寄存器</h2>
+
+<p>学习汇编语言，首先必须了解两个知识点：寄存器和内存模型。</p>
+
+<p>先来看寄存器。CPU 本身只负责运算，不负责储存数据。数据一般都储存在内存之中，CPU 要用的时候就去内存读写数据。但是，CPU 的运算速度远高于内存的读写速度，为了避免被拖慢，CPU 都自带一级缓存和二级缓存。基本上，CPU 缓存可以看作是读写速度较快的内存。</p>
+
+<p>但是，CPU 缓存还是不够快，另外数据在缓存里面的地址是不固定的，CPU 每次读写都要寻址也会拖慢速度。因此，除了缓存之外，CPU 还自带了寄存器（register），用来储存最常用的数据。也就是说，那些最频繁读写的数据（比如循环变量），都会放在寄存器里面，CPU 优先读写寄存器，再由寄存器跟内存交换数据。</p>
+
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012206.png" alt="" title="" /></p>
+
+<p>寄存器不依靠地址区分数据，而依靠名称。每一个寄存器都有自己的名称，我们告诉 CPU 去具体的哪一个寄存器拿数据，这样的速度是最快的。有人比喻寄存器是 CPU 的零级缓存。</p>
+
+<h2>四、寄存器的种类</h2>
+
+<p>早期的 x86 CPU 只有8个寄存器，而且每个都有不同的用途。现在的寄存器已经有100多个了，都变成通用寄存器，不特别指定用途了，但是早期寄存器的名字都被保存了下来。</p>
+
+<blockquote>
+  <ul>
+<li>EAX</li>
+<li>EBX</li>
+<li>ECX</li>
+<li>EDX</li>
+<li>EDI</li>
+<li>ESI</li>
+<li>EBP</li>
+<li>ESP</li>
+</ul>
+</blockquote>
+
+<p>上面这8个寄存器之中，前面七个都是通用的。ESP 寄存器有特定用途，保存当前 Stack 的地址（详见下一节）。</p>
+
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012207.png" alt="" title="" /></p>
+
+<p>我们常常看到 32位 CPU、64位 CPU 这样的名称，其实指的就是寄存器的大小。32 位 CPU 的寄存器大小就是4个字节。</p>
+
+<h2>五、内存模型：Heap</h2>
+
+<p>寄存器只能存放很少量的数据，大多数时候，CPU 要指挥寄存器，直接跟内存交换数据。所以，除了寄存器，还必须了解内存怎么储存数据。</p>
+
+<p>程序运行的时候，操作系统会给它分配一段内存，用来储存程序和运行产生的数据。这段内存有起始地址和结束地址，比如从<code>0x1000</code>到<code>0x8000</code>，起始地址是较小的那个地址，结束地址是较大的那个地址。</p>
+
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012208.png" alt="" title="" /></p>
+
+<p>程序运行过程中，对于动态的内存占用请求（比如新建对象，或者使用<code>malloc</code>命令），系统就会从预先分配好的那段内存之中，划出一部分给用户，具体规则是从起始地址开始划分（实际上，起始地址会有一段静态数据，这里忽略）。举例来说，用户要求得到10个字节内存，那么从起始地址<code>0x1000</code>开始给他分配，一直分配到地址<code>0x100A</code>，如果再要求得到22个字节，那么就分配到<code>0x1020</code>。</p>
+
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012209.png" alt="" title="" /></p>
+
+<p>这种因为用户主动请求而划分出来的内存区域，叫做 Heap（堆）。它由起始地址开始，从低位（地址）向高位（地址）增长。Heap 的一个重要特点就是不会自动消失，必须手动释放，或者由垃圾回收机制来回收。</p>
+
+<h2>六、内存模型：Stack</h2>
+
+<p>除了 Heap 以外，其他的内存占用叫做 Stack（栈）。简单说，Stack 是由于函数运行而临时占用的内存区域。</p>
+
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012210.png" alt="" title="" /></p>
+
+<p>请看下面的例子。</p>
+
+<blockquote><pre><code class="language-clike">
+int main() &#123;
+   int a = 2;
+   int b = 3;
+&#125;
+</code></pre></blockquote>
+
+<p>上面代码中，系统开始执行<code>main</code>函数时，会为它在内存里面建立一个帧（frame），所有<code>main</code>的内部变量（比如<code>a</code>和<code>b</code>）都保存在这个帧里面。<code>main</code>函数执行结束后，该帧就会被回收，释放所有的内部变量，不再占用空间。</p>
+
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012211.png" alt="" title="" /></p>
+
+<p>如果函数内部调用了其他函数，会发生什么情况？</p>
+
+<blockquote><pre><code class="language-clike">
+int main() &#123;
+   int a = 2;
+   int b = 3;
+   return add_a_and_b(a, b);
+&#125;
+</code></pre></blockquote>
+
+<p>上面代码中，<code>main</code>函数内部调用了<code>add_a_and_b</code>函数。执行到这一行的时候，系统也会为<code>add_a_and_b</code>新建一个帧，用来储存它的内部变量。也就是说，此时同时存在两个帧：<code>main</code>和<code>add_a_and_b</code>。一般来说，调用栈有多少层，就有多少帧。</p>
+
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012212.png" alt="" title="" /></p>
+
+<p>等到<code>add_a_and_b</code>运行结束，它的帧就会被回收，系统会回到函数<code>main</code>刚才中断执行的地方，继续往下执行。通过这种机制，就实现了函数的层层调用，并且每一层都能使用自己的本地变量。</p>
+
+<p>所有的帧都存放在 Stack，由于帧是一层层叠加的，所以 Stack 叫做栈。生成新的帧，叫做"入栈"，英文是 push；栈的回收叫做"出栈"，英文是 pop。Stack 的特点就是，最晚入栈的帧最早出栈（因为最内层的函数调用，最先结束运行），这就叫做"后进先出"的数据结构。每一次函数执行结束，就自动释放一个帧，所有函数执行结束，整个 Stack 就都释放了。</p>
+
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012213.jpg" alt="" title="" /></p>
+
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012214.jpg" alt="" title="" /></p>
+
+<p>Stack 是由内存区域的结束地址开始，从高位（地址）向低位（地址）分配。比如，内存区域的结束地址是<code>0x8000</code>，第一帧假定是16字节，那么下一次分配的地址就会从<code>0x7FF0</code>开始；第二帧假定需要64字节，那么地址就会移动到<code>0x7FB0</code>。</p>
+
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012215.png" alt="" title="" /></p>
+
+<h2>七、CPU 指令</h2>
+
+<h3>7.1 一个实例</h3>
+
+<p>了解寄存器和内存模型以后，就可以来看汇编语言到底是什么了。下面是一个简单的程序<code>example.c</code>。</p>
+
+<blockquote><pre><code class="language-clike">
+int add_a_and_b(int a, int b) &#123;
+   return a + b;
+&#125;
+
+int main() &#123;
+   return add_a_and_b(2, 3);
+&#125;
+</code></pre></blockquote>
+
+<p>gcc 将这个程序转成汇编语言。</p>
+
+<blockquote><pre><code class="language-bash">
+$ gcc -S example.c
+</code></pre></blockquote>
+
+<p>上面的命令执行以后，会生成一个文本文件<code>example.s</code>，里面就是汇编语言，包含了几十行指令。这么说吧，一个高级语言的简单操作，底层可能由几个，甚至几十个 CPU 指令构成。CPU 依次执行这些指令，完成这一步操作。</p>
+
+<p><code>example.s</code>经过简化以后，大概是下面的样子。</p>
+
+<blockquote><pre><code class="language-clike">
+_add_a_and_b:
+   push   %ebx
+   mov    %eax, [%esp+8] 
+   mov    %ebx, [%esp+12]
+   add    %eax, %ebx 
+   pop    %ebx 
+   ret  
+
+_main:
+   push   3
+   push   2
+   call   _add_a_and_b 
+   add    %esp, 8
+   ret
+</code></pre></blockquote>
+
+<p>可以看到，原程序的两个函数<code>add_a_and_b</code>和<code>main</code>，对应两个标签<code>_add_a_and_b</code>和<code>_main</code>。每个标签里面是该函数所转成的 CPU 运行流程。</p>
+
+<p>每一行就是 CPU 执行的一次操作。它又分成两部分，就以其中一行为例。</p>
+
+<blockquote><pre><code class="language-clike">
+push   %ebx
+</code></pre></blockquote>
+
+<p>这一行里面，<code>push</code>是 CPU 指令，<code>%ebx</code>是该指令要用到的运算子。一个 CPU 指令可以有零个到多个运算子。</p>
+
+<p>下面我就一行一行讲解这个汇编程序，建议读者最好把这个程序，在另一个窗口拷贝一份，省得阅读的时候再把页面滚动上来。</p>
+
+<h3>7.2 push 指令</h3>
+
+<p>根据约定，程序从<code>_main</code>标签开始执行，这时会在 Stack 上为<code>main</code>建立一个帧，并将 Stack 所指向的地址，写入 ESP 寄存器。后面如果有数据要写入<code>main</code>这个帧，就会写在 ESP 寄存器所保存的地址。</p>
+
+<p>然后，开始执行第一行代码。</p>
+
+<blockquote><pre><code class="language-clike">
+push   3
+</code></pre></blockquote>
+
+<p><code>push</code>指令用于将运算子放入 Stack，这里就是将<code>3</code>写入<code>main</code>这个帧。</p>
+
+<p>虽然看上去很简单，<code>push</code>指令其实有一个前置操作。它会先取出 ESP 寄存器里面的地址，将其减去4个字节，然后将新地址写入 ESP 寄存器。使用减法是因为 Stack 从高位向低位发展，4个字节则是因为<code>3</code>的类型是<code>int</code>，占用4个字节。得到新地址以后， 3 就会写入这个地址开始的四个字节。</p>
+
+<blockquote><pre><code class="language-clike">
+push   2
+</code></pre></blockquote>
+
+<p>第二行也是一样，<code>push</code>指令将<code>2</code>写入<code>main</code>这个帧，位置紧贴着前面写入的<code>3</code>。这时，ESP 寄存器会再减去 4个字节（累计减去8）。</p>
+
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012216.png" alt="" title="" /></p>
+
+<h3>7.3 call 指令</h3>
+
+<p>第三行的<code>call</code>指令用来调用函数。</p>
+
+<blockquote><pre><code class="language-clike">
+call   _add_a_and_b
+</code></pre></blockquote>
+
+<p>上面的代码表示调用<code>add_a_and_b</code>函数。这时，程序就会去找<code>_add_a_and_b</code>标签，并为该函数建立一个新的帧。</p>
+
+<p>下面就开始执行<code>_add_a_and_b</code>的代码。</p>
+
+<blockquote><pre><code class="language-clike">
+push   %ebx
+</code></pre></blockquote>
+
+<p>这一行表示将 EBX 寄存器里面的值，写入<code>_add_a_and_b</code>这个帧。这是因为后面要用到这个寄存器，就先把里面的值取出来，用完后再写回去。</p>
+
+<p>这时，<code>push</code>指令会再将 ESP 寄存器里面的地址减去4个字节（累计减去12）。</p>
+
+<h3>7.4 mov 指令</h3>
+
+<p><code>mov</code>指令用于将一个值写入某个寄存器。</p>
+
+<blockquote><pre><code class="language-clike">
+mov    %eax, [%esp+8] 
+</code></pre></blockquote>
+
+<p>这一行代码表示，先将 ESP 寄存器里面的地址加上8个字节，得到一个新的地址，然后按照这个地址在 Stack 取出数据。根据前面的步骤，可以推算出这里取出的是<code>2</code>，再将<code>2</code>写入 EAX 寄存器。</p>
+
+<p>下一行代码也是干同样的事情。</p>
+
+<blockquote><pre><code class="language-clike">
+mov    %ebx, [%esp+12] 
+</code></pre></blockquote>
+
+<p>上面的代码将 ESP 寄存器的值加12个字节，再按照这个地址在 Stack 取出数据，这次取出的是<code>3</code>，将其写入 EBX 寄存器。</p>
+
+<h3>7.5 add 指令</h3>
+
+<p><code>add</code>指令用于将两个运算子相加，并将结果写入第一个运算子。</p>
+
+<blockquote><pre><code class="language-clike">
+add    %eax, %ebx
+</code></pre></blockquote>
+
+<p>上面的代码将 EAX 寄存器的值（即2）加上 EBX 寄存器的值（即3），得到结果5，再将这个结果写入第一个运算子 EAX 寄存器。</p>
+
+<h3>7.6 pop 指令</h3>
+
+<p><code>pop</code>指令用于取出 Stack 最近一个写入的值（即最低位地址的值），并将这个值写入运算子指定的位置。</p>
+
+<blockquote><pre><code class="language-clike">
+pop    %ebx
+</code></pre></blockquote>
+
+<p>上面的代码表示，取出 Stack 最近写入的值（即 EBX 寄存器的原始值），再将这个值写回 EBX 寄存器（因为加法已经做完了，EBX 寄存器用不到了）。</p>
+
+<p>注意，<code>pop</code>指令还会将 ESP 寄存器里面的地址加4，即回收4个字节。</p>
+
+<h3>7.7 ret 指令</h3>
+
+<p><code>ret</code>指令用于终止当前函数的执行，将运行权交还给上层函数。也就是，当前函数的帧将被回收。</p>
+
+<blockquote><pre><code class="language-clike">
+ret
+</code></pre></blockquote>
+
+<p>可以看到，该指令没有运算子。</p>
+
+<p>随着<code>add_a_and_b</code>函数终止执行，系统就回到刚才<code>main</code>函数中断的地方，继续往下执行。</p>
+
+<blockquote><pre><code class="language-clike">
+add    %esp, 8 
+</code></pre></blockquote>
+
+<p>上面的代码表示，将 ESP 寄存器里面的地址，手动加上8个字节，再写回 ESP 寄存器。这是因为 ESP 寄存器的是 Stack 的写入开始地址，前面的<code>pop</code>操作已经回收了4个字节，这里再回收8个字节，等于全部回收。</p>
+
+<blockquote><pre><code class="language-clike">
+ret
+</code></pre></blockquote>
+
+<p>最后，<code>main</code>函数运行结束，<code>ret</code>指令退出程序执行。</p>
+
+<h2>八、参考链接</h2>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="http://kakaroto.homelinux.net/2017/11/introduction-to-reverse-engineering-and-assembly/">Introduction to reverse engineering and Assembly</a>, by Youness Alaoui</li>
+<li><a target="_blank" rel="noopener" href="https://www.cs.virginia.edu/~evans/cs216/guides/x86.html">x86 Assembly Guide</a>, by University of Virginia Computer Science</li>
+</ul>
+
+<p>（完）</p>
+
+                                    <!-- /div -->
+
+                                </div>
+    <script type="text/javascript" src="/newwindow.js"></script>
+                                <div class="asset-footer">
+
+<h3>文档信息</h3>
+<ul>
+<li>版权声明：自由转载-非商用-非衍生-保持署名（<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">创意共享3.0许可证</a>）</li>
+<li>发表日期： <abbr class="published" title="2018-01-21T18:17:48+08:00">2018年1月21日</abbr></li>
+
+</ul>
+                                </div>
+</article>
+                            </div>
+
+
+  
+  <div style="display: inline-block ! important;width: 100%;">
+    <style>.wwads-content .wwads-text {font-size:1.4em;} .wwads-cn img{ border : none;}</style>
+    <div class="wwads-cn wwads-horizontal" data-id="197" style="max-width:100%"></div>
+  </div>
+
+
+
+<div id="related_entries">
+<h2>相关文章</h2>
+<ul>
+
+<li><strong>2022.08.02: <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2022/08/dns-query.html">DNS 查询原理详解</a></strong>
+
+                           <div class="entry-body">
+                              通过 DNS 查询，得到域名的 IP 地址，才能访问网站。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2022.06.03: <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2022/06/endianness-analysis.html">字节序探析：大端与小端的比较</a></strong>
+
+                           <div class="entry-body">
+                              今天谈谈一个重要的计算机概念，大家可能都听说过它，但是很少深究，那就是字节序（Endianness）。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2022.02.04: <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2022/02/10g-ethernet.html">万兆家庭网络的时代</a></strong>
+
+                           <div class="entry-body">
+                              最近，我想将家里的网络设备，都升级到千兆。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2021.12.07: <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2021/12/web3.html">为什么 Web3 与区块链有关</a></strong>
+
+                           <div class="entry-body">
+                              互联网迄今有两个阶段：Web 1.0 和 Web 2.0。
+
+                           </div>
+
+</li>
+
+ 
+</ul>
+</div>
+
+
+
+                    
+
+                    <div id="comments" class="comments">
+
+
+    
+    
+        
+    <h2 class="comments-header">留言（133条）</h2>
+
+    <div id="comments-content" class="comments-content" style="clear: left;">
+        
+        <div id="comment-384809" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">zhiyang</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384809">
+            <p>以前在学校的时候看过王爽的汇编语言第二版，那个时候还是很喜欢一些偏底层的东西的，计算机原理等书。现在接触到高级语言之后就全忘了。。。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 21, 2018  7:40 PM">2018年1月21日 19:40</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384809">#</a>
+ | <a href="#comment-text" title="引用zhiyang的这条留言" onclick="return CommentQuote('comment-quote-384809','zhiyang');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384811" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">zeon</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384811">
+            <p>阮老师JS的闭包是不是在栈中的内存占用不回收呢？会一直占用？还是说闭包的空间是v8申请的椎的空间？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 21, 2018  8:25 PM">2018年1月21日 20:25</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384811">#</a>
+ | <a href="#comment-text" title="引用zeon的这条留言" onclick="return CommentQuote('comment-quote-384811','zeon');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384815" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">kailin’</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384815">
+            <p>平时接触不到这些细节，但非常喜欢这方面的知识，恳请阮老师推荐一些这方面的权威书籍。；）</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 21, 2018 10:23 PM">2018年1月21日 22:23</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384815">#</a>
+ | <a href="#comment-text" title="引用kailin’的这条留言" onclick="return CommentQuote('comment-quote-384815','kailin’');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384820" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">匿名</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384820">
+            <p>感谢分享</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018  2:09 AM">2018年1月22日 02:09</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384820">#</a>
+ | <a href="#comment-text" title="引用匿名的这条留言" onclick="return CommentQuote('comment-quote-384820','匿名');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384824" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">jimmy</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384824">
+            <p>为什么我们用到EBX就push EBX，而用到EAX却没push EAX呢？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018  8:01 AM">2018年1月22日 08:01</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384824">#</a>
+ | <a href="#comment-text" title="引用jimmy的这条留言" onclick="return CommentQuote('comment-quote-384824','jimmy');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384827" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">阮一峰</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384827">
+            <p>@jimmy</p>
+
+<p>我的理解是 EAX 属于最频繁使用的通用寄存器，所以约定没有必要保留它的值。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018  9:36 AM">2018年1月22日 09:36</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384827">#</a>
+ | <a href="#comment-text" title="引用阮一峰的这条留言" onclick="return CommentQuote('comment-quote-384827','阮一峰');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384829" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">阮一峰</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384829">
+            <p>@kailin：参考链接里面，我已经提供了两篇文章。</p>
+
+<p>@zeon：是的，闭包属于 Stack 里面的帧不回收，详见 <a target="_blank" href="https://blog.sessionstack.com/how-javascript-works-memory-management-how-to-handle-4-common-memory-leaks-3f28b94cfbec" rel="nofollow noopener">https://blog.sessionstack.com/how-javascript-works-memory-management-how-to-handle-4-common-memory-leaks-3f28b94cfbec</a></p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018  9:38 AM">2018年1月22日 09:38</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384829">#</a>
+ | <a href="#comment-text" title="引用阮一峰的这条留言" onclick="return CommentQuote('comment-quote-384829','阮一峰');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384830" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Not</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384830">
+            <p>基本的点都讲到了，但不是计算机专业的读者估计还是会有点懵，建议结合下内存总线和硬件指令的电路原理。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018  9:41 AM">2018年1月22日 09:41</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384830">#</a>
+ | <a href="#comment-text" title="引用Not的这条留言" onclick="return CommentQuote('comment-quote-384830','Not');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384833" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">guge</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384833">
+            <p>关注阮大有一阵时间了，从来没留过言，刚好最近在重新看王爽的《汇编语言》，没想到阮大最近发布了这篇文章，必须手动来赞了！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018 10:17 AM">2018年1月22日 10:17</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384833">#</a>
+ | <a href="#comment-text" title="引用guge的这条留言" onclick="return CommentQuote('comment-quote-384833','guge');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384834" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">阮老师小迷弟</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384834">
+            <p>阮老师牛逼！阮老师，这个汇编语言现在市场上一般企业这方面人的需求不大吧？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018 10:31 AM">2018年1月22日 10:31</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384834">#</a>
+ | <a href="#comment-text" title="引用阮老师小迷弟的这条留言" onclick="return CommentQuote('comment-quote-384834','阮老师小迷弟');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384837" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">张春星</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384837">
+            <p>== 它会先取出 ESP 寄存器里面的地址，将其减去4个字节，然后将新地址写入 ESP 寄存器。使用减法是因为 Stack 从高位向低位发展，4个字节则是因为3的类型是int，占用4个字节。得到新地址以后， 3 就会写入这个地址开始的四个字节。==<br />
+这个地方不懂啊</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018 10:58 AM">2018年1月22日 10:58</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384837">#</a>
+ | <a href="#comment-text" title="引用张春星的这条留言" onclick="return CommentQuote('comment-quote-384837','张春星');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384843" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">bluestonechina</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384843">
+            <blockquote>
+<pre>引用jimmy的发言：</pre>
+
+<p>为什么我们用到EBX就push EBX，而用到EAX却没push EAX呢？</p>
+
+</blockquote>
+
+<p>EAX用于保存返回值，这个值肯定会被覆盖，所以需要调用着保存。<br />
+rbx,rbp,r12-r15是被调用着保存寄存器，如果被调用着需要使用，就需要压入stack中。<br />
+其他寄存器是调用者保存寄存器，调用者如果需要调用前后这些值保持一致，则需要自己保存起来<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018 11:41 AM">2018年1月22日 11:41</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384843">#</a>
+ | <a href="#comment-text" title="引用bluestonechina的这条留言" onclick="return CommentQuote('comment-quote-384843','bluestonechina');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384844" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">lybvinci</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384844">
+            <p>可以看看 小甲鱼的汇编教程视频</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018 12:04 PM">2018年1月22日 12:04</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384844">#</a>
+ | <a href="#comment-text" title="引用lybvinci的这条留言" onclick="return CommentQuote('comment-quote-384844','lybvinci');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384847" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">lnyas</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384847">
+            <p>intel格式的汇编寄存器之前不用加%吧</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018 12:41 PM">2018年1月22日 12:41</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384847">#</a>
+ | <a href="#comment-text" title="引用lnyas的这条留言" onclick="return CommentQuote('comment-quote-384847','lnyas');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384858" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">spark</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384858">
+            <p>	.section	__TEXT,__text,regular,pure_instructions<br />
+	.macosx_version_min 10, 13<br />
+	.globl	_add_a_b<br />
+	.p2align	4, 0x90<br />
+_add_a_b:                               ## @add_a_b<br />
+	.cfi_startproc<br />
+## BB#0:<br />
+	pushq	%rbp<br />
+Lcfi0:<br />
+	.cfi_def_cfa_offset 16<br />
+Lcfi1:<br />
+	.cfi_offset %rbp, -16<br />
+	movq	%rsp, %rbp<br />
+Lcfi2:<br />
+	.cfi_def_cfa_register %rbp<br />
+	movl	%edi, -4(%rbp)<br />
+	movl	%esi, -8(%rbp)<br />
+	movl	-4(%rbp), %esi<br />
+	addl	-8(%rbp), %esi<br />
+	movl	%esi, %eax<br />
+	popq	%rbp<br />
+	retq<br />
+	.cfi_endproc</p>
+
+<p>	.globl	_main<br />
+	.p2align	4, 0x90<br />
+_main:                                  ## @main<br />
+	.cfi_startproc<br />
+## BB#0:<br />
+	pushq	%rbp<br />
+Lcfi3:<br />
+	.cfi_def_cfa_offset 16<br />
+Lcfi4:<br />
+	.cfi_offset %rbp, -16<br />
+	movq	%rsp, %rbp<br />
+Lcfi5:<br />
+	.cfi_def_cfa_register %rbp<br />
+	subq	$16, %rsp<br />
+	movl	$1, %edi<br />
+	movl	$2, %esi<br />
+	movl	$0, -4(%rbp)<br />
+	callq	_add_a_b<br />
+	addq	$16, %rsp<br />
+	popq	%rbp<br />
+	retq<br />
+	.cfi_endproc</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018  1:24 PM">2018年1月22日 13:24</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384858">#</a>
+ | <a href="#comment-text" title="引用spark的这条留言" onclick="return CommentQuote('comment-quote-384858','spark');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384868" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">xxxx</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384868">
+            <blockquote>
+<pre>引用阮老师小迷弟的发言：</pre>
+
+<p>阮老师牛逼！阮老师，这个汇编语言现在市场上一般企业这方面人的需求不大吧？</p>
+
+</blockquote>
+
+<p>一般开发中确实用不到，也很少有人会用到汇编去做开发。但是如果你不了解汇编，就没有办法真正了解Java虚拟机中的各种概念。只有真正学习过汇编的人，才能真正理解各种概念</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018  3:27 PM">2018年1月22日 15:27</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384868">#</a>
+ | <a href="#comment-text" title="引用xxxx的这条留言" onclick="return CommentQuote('comment-quote-384868','xxxx');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384872" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">YY</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384872">
+            <blockquote>
+<pre>引用xxxx的发言：</pre>
+
+<p>一般开发中确实用不到，也很少有人会用到汇编去做开发。但是如果你不了解汇编，就没有办法真正了解Java虚拟机中的各种概念。只有真正学习过汇编的人，才能真正理解各种概念</p>
+
+</blockquote>
+
+<p>不用理解JAVA虚拟机的概念。造汽车的人，无需了解钢铁是如何炼成的。<br />
+很多技术是层叠的，做顶层业务的，是需也不太可能将所有底层技术进行追溯学习的。<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018  4:41 PM">2018年1月22日 16:41</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384872">#</a>
+ | <a href="#comment-text" title="引用YY的这条留言" onclick="return CommentQuote('comment-quote-384872','YY');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384875" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">白菜</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384875">
+            <p>0xFFFF0010(_main+16)这里指的是为_add_a_and_b建立的帧吗？也是占4个字节吗？那_main+16又是指什么？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018  5:41 PM">2018年1月22日 17:41</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384875">#</a>
+ | <a href="#comment-text" title="引用白菜的这条留言" onclick="return CommentQuote('comment-quote-384875','白菜');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384876" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Timothy</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384876">
+            <p>一个汇编指令对应的机器码不一定只有一个。比如，汇编器会根据mov后面的操作数将mov翻译成不同的机器码。以前一直想不明白，后来终于在依照51单片机手册用C写模拟器时弄明白了。同时也知道了寄存器A、AX、EAX、RAX。<br />
+个人还是觉得看看CMU的CSAPP对计算机入门很有帮助，不论平时工作是做哪方面的开发：JS，PHP，Python，Bash，Java，C-like（如果书里的入门内容都不会，估计也做不了C-like开发）。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018  6:22 PM">2018年1月22日 18:22</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384876">#</a>
+ | <a href="#comment-text" title="引用Timothy的这条留言" onclick="return CommentQuote('comment-quote-384876','Timothy');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384877" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">ixx</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384877">
+            <p>当初学汇编，被指令搞的头晕眼花的，习惯了又发现还有32位64位的坑。。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018  6:37 PM">2018年1月22日 18:37</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384877">#</a>
+ | <a href="#comment-text" title="引用ixx的这条留言" onclick="return CommentQuote('comment-quote-384877','ixx');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384885" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Raymond Cheng</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384885">
+            <p>看完阮老師的文章另我想起很久以前做出版時經常出現 postscript 錯誤 stack overflow,</p>
+
+<p>萬分感謝阮老師分享，另我了解底層技術！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2018 11:02 PM">2018年1月22日 23:02</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384885">#</a>
+ | <a href="#comment-text" title="引用Raymond Cheng的这条留言" onclick="return CommentQuote('comment-quote-384885','Raymond Cheng');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384887" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">rednax</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384887">
+            <p>为什么一提汇编就要上x86的汇编呢……x86汇编很麻烦的……</p>
+
+<p>比如我一开始用的汇编就是PS2的CPU（EE）的MIPS汇编，觉得真是简单清晰啊……</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 23, 2018  5:49 AM">2018年1月23日 05:49</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384887">#</a>
+ | <a href="#comment-text" title="引用rednax的这条留言" onclick="return CommentQuote('comment-quote-384887','rednax');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384896" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">mess</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384896">
+            <p>全部忘记了，就像失忆一样。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 23, 2018  9:33 AM">2018年1月23日 09:33</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384896">#</a>
+ | <a href="#comment-text" title="引用mess的这条留言" onclick="return CommentQuote('comment-quote-384896','mess');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384897" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">学了个江</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384897">
+            <blockquote>
+<pre>引用阮老师小迷弟的发言：</pre>
+
+<p>阮老师牛逼！阮老师，这个汇编语言现在市场上一般企业这方面人的需求不大吧？</p>
+
+</blockquote>
+
+<p>基础扎实了，什么高级语言搞不定！<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 23, 2018  9:34 AM">2018年1月23日 09:34</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384897">#</a>
+ | <a href="#comment-text" title="引用学了个江的这条留言" onclick="return CommentQuote('comment-quote-384897','学了个江');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384921" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">立猛</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384921">
+            <p>intel 格式汇编没有% AT&T 汇编有% 但是格式和intel 相反</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 23, 2018  8:09 PM">2018年1月23日 20:09</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384921">#</a>
+ | <a href="#comment-text" title="引用立猛的这条留言" onclick="return CommentQuote('comment-quote-384921','立猛');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384922" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">szpzs</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384922">
+            <p>通俗易懂。阮老师带我们轻松复习了一遍丢掉好久的知识。:-)</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 24, 2018  8:18 AM">2018年1月24日 08:18</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384922">#</a>
+ | <a href="#comment-text" title="引用szpzs的这条留言" onclick="return CommentQuote('comment-quote-384922','szpzs');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384930" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Victor</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384930">
+            <p>讲解生动，十分感人，Heap和Stack百度搜过N多次，这是第一次看到结合‘堆’、‘栈’语义的简单解释，非常好，以后应该都能记住了。</p>
+
+<p>赞 赞 赞</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 24, 2018  9:49 AM">2018年1月24日 09:49</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384930">#</a>
+ | <a href="#comment-text" title="引用Victor的这条留言" onclick="return CommentQuote('comment-quote-384930','Victor');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384939" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">zhanghang</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384939">
+            <p>计算机组成原理...今年刚考完...汗</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 24, 2018 12:52 PM">2018年1月24日 12:52</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384939">#</a>
+ | <a href="#comment-text" title="引用zhanghang的这条留言" onclick="return CommentQuote('comment-quote-384939','zhanghang');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384970" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">阮老师的小粉丝</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384970">
+            <p>我请教一个问题，如文中所述：比如，内存区域的结束地址是0x8000，第一帧假定是16字节，那么下一次分配的地址就会从0x7FF0开始；第二帧假定需要64字节，那么地址就会移动到0x7FB0。</p>
+
+<p>我想知道是怎样分配每一帧的大小呢，比如_add_a_and_b:，我该怎样知道分配多少内存给这一帧呢？<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 25, 2018  9:59 AM">2018年1月25日 09:59</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384970">#</a>
+ | <a href="#comment-text" title="引用阮老师的小粉丝的这条留言" onclick="return CommentQuote('comment-quote-384970','阮老师的小粉丝');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384992" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">oreak</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384992">
+            <p>AT&T 汇编,感觉更舒服,而且目前unix linux 系列支撑</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 25, 2018  2:51 PM">2018年1月25日 14:51</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384992">#</a>
+ | <a href="#comment-text" title="引用oreak的这条留言" onclick="return CommentQuote('comment-quote-384992','oreak');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384993" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">gle</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384993">
+            <blockquote>
+<pre>引用阮老师的小粉丝的发言：</pre>
+
+<p>我请教一个问题，如文中所述：比如，内存区域的结束地址是0x8000，第一帧假定是16字节，那么下一次分配的地址就会从0x7FF0开始；第二帧假定需要64字节，那么地址就会移动到0x7FB0。</p>
+
+<p>我想知道是怎样分配每一帧的大小呢，比如_add_a_and_b:，我该怎样知道分配多少内存给这一帧呢？</p>
+
+<p><br />
+</p></blockquote>
+
+<p>C语言的数据类型都有大小。编译器可以根据函数内定义的所有局部变量（其实真实情况更复杂一些，还有static，const等修饰符会影响），一次性“分配”出相应数量的内存（就是将sp的值减去相应的大小）。函数返回时，会先清理掉自己的局部变量（用leave把bp恢复到sp），再将sp所指地址的内容恢复到bp，然后ret。阮老文章里的例子过于简单，有些指令没用上。</p>
+
+<p>P.S.<br />
+汇编指令也是会分成几个步骤执行（所谓的指令周期，机器周期，时钟周期），所以如果有说错或不清楚的地方，勿喷，多包涵。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 25, 2018  3:21 PM">2018年1月25日 15:21</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384993">#</a>
+ | <a href="#comment-text" title="引用gle的这条留言" onclick="return CommentQuote('comment-quote-384993','gle');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384994" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">alexsaurora</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384994">
+            <p>请教您一个问题，Heap是先进先出的吗？我在StackOverflow上看到的是Heap没有一个明确的顶，所以它可以随时进入和出去。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 25, 2018  3:42 PM">2018年1月25日 15:42</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-384994">#</a>
+ | <a href="#comment-text" title="引用alexsaurora的这条留言" onclick="return CommentQuote('comment-quote-384994','alexsaurora');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385013" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">gle</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385013">
+            <blockquote>
+<pre>引用alexsaurora的发言：</pre>
+
+<p>请教您一个问题，Heap是先进先出的吗？我在StackOverflow上看到的是Heap没有一个明确的顶，所以它可以随时进入和出去。</p>
+
+</blockquote>
+
+<p>堆栈，堆栈，堆是堆，栈是栈。<br />
+（信号是信号，信号量是信号量，一个是signal，一个是semaphore。回想起了好些迷惑的术语翻译）</p>
+
+<p>=======<br />
+进程中heap跟在data区域的后面（请参考任何一个进程的maps）。heap所占用的内存是C库调用brk系统调用向操作系统（暂时不考虑Windows）申请的（详细内容可以man brk家族的文档），操作系统只是维护brk的位置，C库会负责管理申请到的内存。</p>
+
+<p>以前debug segfault时，看过Android的malloc实现，其实就是Doug Lea的dlmalloc（wiki有详细介绍，Android源码也可以随便看）。dlmalloc会根据程序的需求将操作系统给的连续内存分成内存块，每个块的头部保存着大小、是否已分配等信息。块是内存对齐的，相邻块是紧挨着的（因此，可以合并）。当代码调用malloc时，malloc会查找满足需求的块，如果找不到，就会再次调用brk向操作系统申请。当代码调用free时，free会更新块头部的信息，可能还会把相邻的空闲块合并，组成更大的块。</p>
+
+<p>实际情况比描述的要复杂，并且也有其他实现方式。dlmalloc的数据结构和扩展分区的结构很类似。从第一个块开始捋，顺藤摸瓜，就可以遍历所有块。我嘴比较笨，描述不清楚，网上有很多形象的图片可以看。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 25, 2018  6:22 PM">2018年1月25日 18:22</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385013">#</a>
+ | <a href="#comment-text" title="引用gle的这条留言" onclick="return CommentQuote('comment-quote-385013','gle');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385077" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Yummy</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385077">
+            <p>感谢分享,学过微机原理,没用上</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 26, 2018  5:17 PM">2018年1月26日 17:17</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385077">#</a>
+ | <a href="#comment-text" title="引用Yummy的这条留言" onclick="return CommentQuote('comment-quote-385077','Yummy');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385164" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">小调用</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385164">
+            <blockquote>
+<pre>引用zeon的发言：</pre>
+
+<p>阮老师JS的闭包是不是在栈中的内存占用不回收呢？会一直占用？还是说闭包的空间是v8申请的椎的空间？</p>
+
+</blockquote>
+
+<p>JS里的闭包，都是在堆中申请的，由GC管理，不是这里的栈，“JS栈”与汇编或C语言中的栈是两个概念。汇编栈不存在GC，由函数调用与返回来自动更新SP指针实现的。JS函数与这儿的函数是两种东西。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 28, 2018  5:49 PM">2018年1月28日 17:49</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385164">#</a>
+ | <a href="#comment-text" title="引用小调用的这条留言" onclick="return CommentQuote('comment-quote-385164','小调用');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385201" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">邹振忠</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385201">
+            <p>忘的差不多了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 29, 2018 12:19 PM">2018年1月29日 12:19</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385201">#</a>
+ | <a href="#comment-text" title="引用邹振忠的这条留言" onclick="return CommentQuote('comment-quote-385201','邹振忠');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385231" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">_4NK4</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385231">
+            <p>这一句话是错误的：“32 位 CPU 的寄存器大小就是4个字节”。32位CPU容量是可拓展的，可修正为32位CPU的的最大寻址范围是4G。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 30, 2018  9:41 AM">2018年1月30日 09:41</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385231">#</a>
+ | <a href="#comment-text" title="引用_4NK4的这条留言" onclick="return CommentQuote('comment-quote-385231','_4NK4');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385271" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">业余草</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385271">
+            <p>阮老师好像有10天的时间没更新文章了！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 31, 2018 10:21 AM">2018年1月31日 10:21</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385271">#</a>
+ | <a href="#comment-text" title="引用业余草的这条留言" onclick="return CommentQuote('comment-quote-385271','业余草');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385355" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">张宇</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385355">
+            <p>阮老师，您好，我是将在今年毕业的一名大学生，对前端很感兴趣，希望你能给我学习前端的建议的大概方向书籍网站资源等。我看过了你的JavaScript标准参考教程，觉得写得很通俗易懂。希望您能看到，等待您的宝贵建议。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February  1, 2018  4:26 PM">2018年2月 1日 16:26</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385355">#</a>
+ | <a href="#comment-text" title="引用张宇的这条留言" onclick="return CommentQuote('comment-quote-385355','张宇');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385390" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">monster</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385390">
+            <p>想知道这个留言系统</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February  2, 2018  9:46 AM">2018年2月 2日 09:46</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385390">#</a>
+ | <a href="#comment-text" title="引用monster的这条留言" onclick="return CommentQuote('comment-quote-385390','monster');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385412" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Geomatic</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385412">
+            <blockquote>
+<pre>引用jimmy的发言：</pre>
+
+<p>为什么我们用到EBX就push EBX，而用到EAX却没push EAX呢？</p>
+
+</blockquote>
+
+<p>好久没看汇编，忘得差不多了。</p>
+
+<p>好像是eax里面一般保存的是返回值，所以执行过程中ebx寄存器需要先把内容压栈，<br />
+使用完恢复，eax则不用，因为最终的返回值就在里面。<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February  2, 2018  6:11 PM">2018年2月 2日 18:11</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385412">#</a>
+ | <a href="#comment-text" title="引用Geomatic的这条留言" onclick="return CommentQuote('comment-quote-385412','Geomatic');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385413" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Geomatic</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385413">
+            <blockquote>
+<pre>引用张春星的发言：</pre>
+
+<p>== 它会先取出 ESP 寄存器里面的地址，将其减去4个字节，然后将新地址写入 ESP 寄存器。使用减法是因为 Stack 从高位向低位发展，4个字节则是因为3的类型是int，占用4个字节。得到新地址以后， 3 就会写入这个地址开始的四个字节。==<br />
+这个地方不懂啊</p>
+
+</blockquote>
+
+<p>ESP始终指向栈顶，栈从高地址向低地址增长，push 2,push 3分别把两个<br />
+参数压入栈中，此时的栈顶的指针因为压入两个4字节的Int类型，指向初始地址<br />
+减8的内存单元，然后函数调用返回后，add esp,8就是直接设置esp指向的位置，<br />
+进行加8操作后，栈顶指针回到函数调用前的位置，这个叫栈平衡，然后好像是intel，<br />
+还是windowis，他们的编译器规定函数调用，由调用者恢复栈平衡，所以最后是main函数部分做加8这个操作。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February  2, 2018  6:18 PM">2018年2月 2日 18:18</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385413">#</a>
+ | <a href="#comment-text" title="引用Geomatic的这条留言" onclick="return CommentQuote('comment-quote-385413','Geomatic');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385523" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">王念一</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385523">
+            <p>那，printf 那种的函数会被编译成什么呢？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February  4, 2018 11:18 PM">2018年2月 4日 23:18</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385523">#</a>
+ | <a href="#comment-text" title="引用王念一的这条留言" onclick="return CommentQuote('comment-quote-385523','王念一');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385532" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">hjs</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385532">
+            <blockquote>
+<pre>引用zeon的发言：</pre>
+
+<p>阮老师JS的闭包是不是在栈中的内存占用不回收呢？会一直占用？还是说闭包的空间是v8申请的椎的空间？</p>
+
+</blockquote>
+
+<p>建议了解浏览器内存回收机制。闭包是因为一直保持引用关系，所以不会被回收</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February  5, 2018  9:38 AM">2018年2月 5日 09:38</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385532">#</a>
+ | <a href="#comment-text" title="引用hjs的这条留言" onclick="return CommentQuote('comment-quote-385532','hjs');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385598" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Aaron</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385598">
+            <p>阮老师的文章很赞</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February  6, 2018  5:15 PM">2018年2月 6日 17:15</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385598">#</a>
+ | <a href="#comment-text" title="引用Aaron的这条留言" onclick="return CommentQuote('comment-quote-385598','Aaron');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385601" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">烽火</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385601">
+            <blockquote>
+<pre>引用zhanghang的发言：</pre>
+
+<p>计算机组成原理...今年刚考完...汗</p>
+
+</blockquote>
+
+<p>你好，可能理解力不够。我还是没看懂的一点是，汇编语言只是二进制的文本形式，那最后计算机是直接识别运行这个汇编代码吗？感觉还差一步，就是汇编语言 -> 机器码</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February  6, 2018  5:54 PM">2018年2月 6日 17:54</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385601">#</a>
+ | <a href="#comment-text" title="引用烽火的这条留言" onclick="return CommentQuote('comment-quote-385601','烽火');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385651" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">王刚</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385651">
+            <p>为啥称呼为x86</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February  7, 2018  9:51 PM">2018年2月 7日 21:51</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385651">#</a>
+ | <a href="#comment-text" title="引用王刚的这条留言" onclick="return CommentQuote('comment-quote-385651','王刚');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385652" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Silen</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385652">
+            <p>mov    %eax, [%esp+8] <br />
+mov    %ebx, [%esp+12]</p>
+
+<p>怎么感觉应该是</p>
+
+<p>mov    %eax, [%esp+4] <br />
+mov    %ebx, [%esp+8]<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February  8, 2018  1:24 AM">2018年2月 8日 01:24</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385652">#</a>
+ | <a href="#comment-text" title="引用Silen的这条留言" onclick="return CommentQuote('comment-quote-385652','Silen');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385660" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">rus</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385660">
+            <blockquote> 
+<pre>引用Silen的发言：</pre> 
+
+<p>mov%eax, [%esp+8] <br />
+mov%ebx, [%esp+12] </p>
+
+<p>怎么感觉应该是 </p>
+
+<p>mov%eax, [%esp+4] <br />
+mov%ebx, [%esp+8] </p>
+
+<p><br />
+</p></blockquote> 
+
+<p><br />
+同问，比较疑惑，如果push写入栈时是从低位开始写，那读取应该也是从低位开始读吧？那地址应该是 <br />
+[%esp+4]（取到2）， <br />
+[%esp+8]（取到3） <br />
+这样吧？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February  8, 2018  5:57 PM">2018年2月 8日 17:57</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385660">#</a>
+ | <a href="#comment-text" title="引用rus的这条留言" onclick="return CommentQuote('comment-quote-385660','rus');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385663" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">GD</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385663">
+            <blockquote>
+<pre>引用rus的发言：</pre>
+
+<p> </p>
+
+<p><br />
+同问，比较疑惑，如果push写入栈时是从低位开始写，那读取应该也是从低位开始读吧？那地址应该是 <br />
+[%esp+4]（取到2）， <br />
+[%esp+8]（取到3） <br />
+这样吧？</p>
+
+</blockquote>
+
+<p>%ebx 占了4个字节<br />
+2    本身占了4个字节<br />
+读取数据时得返回到数据开始的位置<br />
+是这样吧？<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February  8, 2018 11:43 PM">2018年2月 8日 23:43</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385663">#</a>
+ | <a href="#comment-text" title="引用GD的这条留言" onclick="return CommentQuote('comment-quote-385663','GD');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-385721" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">小情</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-385721">
+            <p>阮大写的很好,非计算机专业的我也能理解,很缺乏这方面知识,看完学会了很多,感谢.</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 11, 2018 12:18 AM">2018年2月11日 00:18</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-385721">#</a>
+ | <a href="#comment-text" title="引用小情的这条留言" onclick="return CommentQuote('comment-quote-385721','小情');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-386086" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">amenzai</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-386086">
+            <p>阮大佬写的东西总是那么通俗易懂</p>
+
+<p>在这不光学到了知识，平常写文章的思路也清晰了<br />
+-.-<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 27, 2018  1:30 PM">2018年2月27日 13:30</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-386086">#</a>
+ | <a href="#comment-text" title="引用amenzai的这条留言" onclick="return CommentQuote('comment-quote-386086','amenzai');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-386317" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Alex</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-386317">
+            <p>大神<br />
+量子计算机的底层语言方面的能来一篇么。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March  4, 2018  9:41 AM">2018年3月 4日 09:41</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-386317">#</a>
+ | <a href="#comment-text" title="引用Alex的这条留言" onclick="return CommentQuote('comment-quote-386317','Alex');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-386474" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">v</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-386474">
+            <p>"得到结果5，再将这个结果写入第一个运算子 EAX 寄存器"<br />
+结果是如何返回的呢?阮老师。感觉EBX寄存器被临时拿来用恢复原样，但EAX寄存器存的固定的是内存全部回收后返回值么？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March  8, 2018 11:25 AM">2018年3月 8日 11:25</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-386474">#</a>
+ | <a href="#comment-text" title="引用v的这条留言" onclick="return CommentQuote('comment-quote-386474','v');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-386494" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">William_ch</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-386494">
+            <blockquote>
+<pre>引用GD的发言：</pre>
+
+<p></p>
+
+<p>%ebx 占了4个字节<br />
+2本身占了4个字节<br />
+读取数据时得返回到数据开始的位置<br />
+是这样吧？</p>
+
+<p><br />
+</p></blockquote>
+
+<p>[%esp]--> %ebx <br />
+[%esp+4] --> call 语句的下一条指令的地址<br />
+[%esp+8] --> 第一个参数<br />
+[%esp+12] --> 第二个参数<br />
+正是因为[%esp+4] 是call 语句的下一条指令地址，才会有Stack OverFlow。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March  8, 2018  5:13 PM">2018年3月 8日 17:13</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-386494">#</a>
+ | <a href="#comment-text" title="引用William_ch的这条留言" onclick="return CommentQuote('comment-quote-386494','William_ch');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-386593" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">ssw</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-386593">
+            <p>期待下一讲。百度一大堆教程，没几个看得懂的，而且头疼。<br />
+阮老师这一讲精彩，期待更多内容</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 10, 2018  8:47 PM">2018年3月10日 20:47</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-386593">#</a>
+ | <a href="#comment-text" title="引用ssw的这条留言" onclick="return CommentQuote('comment-quote-386593','ssw');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-386698" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">牛强</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-386698">
+            <blockquote>
+<pre>引用kailin’的发言：</pre>
+
+<p>平时接触不到这些细节，但非常喜欢这方面的知识，恳请阮老师推荐一些这方面的权威书籍。；）</p>
+
+</blockquote>
+
+<p><a target="_blank" href="https://item.jd.com/12006637.html" rel="nofollow noopener">https://item.jd.com/12006637.html</a> 可以看这本书</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 14, 2018 12:02 PM">2018年3月14日 12:02</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-386698">#</a>
+ | <a href="#comment-text" title="引用牛强的这条留言" onclick="return CommentQuote('comment-quote-386698','牛强');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-386818" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Loop</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-386818">
+            <p>阮老师，我正在学汇编，突然看到这篇文章让我对汇编又有了更深的理解。但是我发现老师你文中的汇编代码是 Intel 风格和 AT&T 风格的混用体</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 19, 2018  3:32 PM">2018年3月19日 15:32</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-386818">#</a>
+ | <a href="#comment-text" title="引用Loop的这条留言" onclick="return CommentQuote('comment-quote-386818','Loop');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-387166" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">a14907</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-387166">
+            <p>同问，<br />
+mov%eax, [%esp+8] <br />
+mov%ebx, [%esp+12]<br />
+为什么不是<br />
+mov%eax, [%esp+4] <br />
+mov%ebx, [%esp+8]<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 27, 2018  4:39 PM">2018年3月27日 16:39</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-387166">#</a>
+ | <a href="#comment-text" title="引用a14907的这条留言" onclick="return CommentQuote('comment-quote-387166','a14907');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-387173" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Leon</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-387173">
+            <p>看了很多文章都不太通透，当然现在还是不太通透，但比过去好太多了，老师的讲解的很细致，非常感谢。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 27, 2018  8:54 PM">2018年3月27日 20:54</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-387173">#</a>
+ | <a href="#comment-text" title="引用Leon的这条留言" onclick="return CommentQuote('comment-quote-387173','Leon');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-387224" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">韩世锋</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-387224">
+            <p>楼主写的太好了，简单易懂，高人。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 29, 2018 10:16 AM">2018年3月29日 10:16</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-387224">#</a>
+ | <a href="#comment-text" title="引用韩世锋的这条留言" onclick="return CommentQuote('comment-quote-387224','韩世锋');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-387255" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">迪伦</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-387255">
+            <p>举例来说，用户要求得到10个字节内存，那么从起始地址0x1000开始给他分配，一直分配到地址0x100A，如果再要求得到22个字节，那么就分配到0x1020<br />
+这里没看懂，22个字节不是应该分配到0x1016吗？，我感觉32个字节才应该是0x1020</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 30, 2018  1:18 AM">2018年3月30日 01:18</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-387255">#</a>
+ | <a href="#comment-text" title="引用迪伦的这条留言" onclick="return CommentQuote('comment-quote-387255','迪伦');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-387256" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">迪伦</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-387256">
+            <p>六、内存模型：Stack<br />
+这里也不太懂后进先出，main和add_a_and_b，我觉得后进栈的应该是add_a and b,那么先出的也应该是它，但是从图看感觉是main先完成的，然后再进行的add_a and b,这里就很懵了，希望大哥们指点迷津</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 30, 2018  1:34 AM">2018年3月30日 01:34</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-387256">#</a>
+ | <a href="#comment-text" title="引用迪伦的这条留言" onclick="return CommentQuote('comment-quote-387256','迪伦');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-387699" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">呆</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-387699">
+            <p>写的很不错</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April  8, 2018  7:59 PM">2018年4月 8日 19:59</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-387699">#</a>
+ | <a href="#comment-text" title="引用呆的这条留言" onclick="return CommentQuote('comment-quote-387699','呆');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-387899" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Eric Cui</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-387899">
+            <blockquote>
+<pre>引用William_ch的发言：</pre>
+
+<p></p>
+
+<p>[%esp]--&gt; %ebx <br />
+[%esp+4] --&gt; call 语句的下一条指令的地址<br />
+[%esp+8] --&gt; 第一个参数<br />
+[%esp+12] --&gt; 第二个参数<br />
+正是因为[%esp+4] 是call 语句的下一条指令地址，才会有Stack OverFlow。</p>
+
+</blockquote>
+
+<p>我理解其实应该是因为+4的位置放了一条函数指针，也就是返回main函数的入口，指针存放的是地址，大小4字节，所以数据2和3对应的是+8和+12，不知道这样理解是否正确，还请指正，谢谢~</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 12, 2018 10:08 AM">2018年4月12日 10:08</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-387899">#</a>
+ | <a href="#comment-text" title="引用Eric Cui的这条留言" onclick="return CommentQuote('comment-quote-387899','Eric Cui');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-387947" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">shine</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-387947">
+            <p>有点疑问：</p>
+
+<p>   push   %ebx<br />
+   mov    %eax, [%esp+8] <br />
+   mov    %ebx, [%esp+12]<br />
+这里ebx存的是什么？是push esp的那两个参数吗？<br />
+那在函数_add_a_and_b下<br />
+   mov    %eax, [%esp+8] 和  <br />
+   mov    %ebx, [%esp+12] 为什么不是减少地址而是加？<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 13, 2018 12:18 PM">2018年4月13日 12:18</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-387947">#</a>
+ | <a href="#comment-text" title="引用shine的这条留言" onclick="return CommentQuote('comment-quote-387947','shine');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-388253" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Lee</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-388253">
+            <blockquote>
+<pre>引用shine的发言：</pre>
+
+<p>有点疑问：</p>
+
+<p> push %ebx<br />
+ mov%eax, [%esp+8] <br />
+ mov%ebx, [%esp+12]<br />
+这里ebx存的是什么？是push esp的那两个参数吗？<br />
+那在函数_add_a_and_b下<br />
+ mov%eax, [%esp+8] 和<br />
+ mov%ebx, [%esp+12] 为什么不是减少地址而是加？</p>
+
+<p><br />
+</p></blockquote>
+
+<p>ebx原来保存的数据先取出来，防止原数据被覆盖；<br />
+加是因为栈区是从高位地址开始分配，esp当前保存的总是低地址</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 25, 2018 11:31 AM">2018年4月25日 11:31</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-388253">#</a>
+ | <a href="#comment-text" title="引用Lee的这条留言" onclick="return CommentQuote('comment-quote-388253','Lee');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-388614" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">嘉汇</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-388614">
+            <p>关于+4 +8的，我觉得其实其中还有一块存放着上一个函数的return地址（32位地址占4个） 所以是+8去取参数2的开头地址。 </p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  6, 2018 10:10 PM">2018年5月 6日 22:10</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-388614">#</a>
+ | <a href="#comment-text" title="引用嘉汇的这条留言" onclick="return CommentQuote('comment-quote-388614','嘉汇');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-389234" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">mnikn</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-389234">
+            <p>请教一下这些图片是用什么软件画出来的？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May 30, 2018  3:44 PM">2018年5月30日 15:44</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-389234">#</a>
+ | <a href="#comment-text" title="引用mnikn的这条留言" onclick="return CommentQuote('comment-quote-389234','mnikn');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-389306" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">易</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-389306">
+            <p>阮老师讲的很通俗易懂，思路清晰，我一个计算机原理小白都看的一知半解的了，希望以后有更多这样的文章</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="June  1, 2018  4:58 PM">2018年6月 1日 16:58</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-389306">#</a>
+ | <a href="#comment-text" title="引用易的这条留言" onclick="return CommentQuote('comment-quote-389306','易');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-389626" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">阿宝</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-389626">
+            <p>从零学汇编，只有会这方面的人才懂得我这份热情</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="June 11, 2018  1:12 PM">2018年6月11日 13:12</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-389626">#</a>
+ | <a href="#comment-text" title="引用阿宝的这条留言" onclick="return CommentQuote('comment-quote-389626','阿宝');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-389630" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Singu</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-389630">
+            <blockquote>
+<pre>引用阮一峰的发言：</pre>
+
+<p>@jimmy</p>
+
+<p>我的理解是 EAX 属于最频繁使用的通用寄存器，所以约定没有必要保留它的值。<br />
+</p></blockquote>
+
+<p>哈哈，我觉得是因为程序中的return，假设把原程序修改一下，改成:</p>
+
+<p>   int add_a_and_b(int a, int b) {<br />
+      return a + b;<br />
+   }</p>
+
+<p>   int main() {<br />
+      return add_a_and_b(2, 3) + 3; // 修改此处代码<br />
+   }</p>
+
+<p>那么，在_add_a_and_b函数返回时，就不需要再从内存中取出结果了，直接把后面累加的3存到EBX中，然后执行add    %eax, %ebx即可。</p>
+
+<p>这样就少了一次从内存中取出数据的操作(可能还有存入内存的操作)。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="June 11, 2018  5:58 PM">2018年6月11日 17:58</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-389630">#</a>
+ | <a href="#comment-text" title="引用Singu的这条留言" onclick="return CommentQuote('comment-quote-389630','Singu');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-389631" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Singu</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-389631">
+            <p>第一个问题：</p>
+
+<p>    为什么Stack要设计成从高位到低位？<br />
+    这样做，每次向Stack内执行push的时候，ESP都要执行减法操作，这样性能难道比"从低位到高 <br />
+    位，每次执行加法操作"更好？</p>
+
+<p>    还是说，因为为了读取数据的时候执行加法( [%esp+8] )而做出的优化？</p>
+
+<p>第二个问题：<br />
+    计算机是怎么知道3存在0x0000到0x0004之间，2存在0x0005到0x0008之间？<br />
+    毕竟ESP只是记住了当前Stack所存储的数据的最低位地址！</p>
+
+<p>    难道是写死在程序里的？就像例子中的<br />
+       mov    %eax, [%esp+8] <br />
+       mov    %ebx, [%esp+12]<br />
+   一样，程序已经写死了偏移量？</p>
+
+<p>如果我的问题描述不够明确，您可以通过邮箱联系我，这两个问题我很想知道</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="June 11, 2018  6:19 PM">2018年6月11日 18:19</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-389631">#</a>
+ | <a href="#comment-text" title="引用Singu的这条留言" onclick="return CommentQuote('comment-quote-389631','Singu');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-389985" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">王天脑</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-389985">
+            <p>讲得真好！ 不过，语句讲得太少了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="June 21, 2018  4:17 PM">2018年6月21日 16:17</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-389985">#</a>
+ | <a href="#comment-text" title="引用王天脑的这条留言" onclick="return CommentQuote('comment-quote-389985','王天脑');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-391104" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">webxiaohua</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-391104">
+            <p>棒，看了很多讲解汇编原理的，大都晦涩难懂，唯有这篇看了以后令人茅塞顿开</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 19, 2018 12:43 AM">2018年7月19日 00:43</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-391104">#</a>
+ | <a href="#comment-text" title="引用webxiaohua的这条留言" onclick="return CommentQuote('comment-quote-391104','webxiaohua');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-391209" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">kimika</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-391209">
+            <p>我想请问一下为什么我的GCC编译出来的汇编指令全是movl popq 以及.cfi_startproc之类的很复杂的指令，与老师的大不相同？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 21, 2018 12:11 AM">2018年7月21日 00:11</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-391209">#</a>
+ | <a href="#comment-text" title="引用kimika的这条留言" onclick="return CommentQuote('comment-quote-391209','kimika');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-391366" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">xxx</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-391366">
+            <blockquote>
+<pre>引用kimika的发言：</pre>
+
+<p>我想请问一下为什么我的GCC编译出来的汇编指令全是movl popq 以及.cfi_startproc之类的很复杂的指令，与老师的大不相同？</p>
+
+</blockquote>
+
+<p>因为你用的是64位的（q代表以4字节为单位操作），必需在gcc后面加个“-m32”</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 24, 2018 11:46 PM">2018年7月24日 23:46</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-391366">#</a>
+ | <a href="#comment-text" title="引用xxx的这条留言" onclick="return CommentQuote('comment-quote-391366','xxx');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-391367" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">wyf</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-391367">
+            <p>原来留言不可以超过1200字……我只好分开发了……<br />
+（↑↑↑上面的xxx其实也是我……）</p>
+
+<p>只能说阮老师简化得太多了，我表示很遗憾……<br />
+那我尽量讲清楚吧</p>
+
+<p>开始写这个已经半夜了……如果以上有错误其实很正常，请立即指出但要多多包涵。</p>
+
+<blockquote>
+<pre>引用Singu的发言：</pre>
+
+<p>第一个问题：</p>
+
+<p>为什么Stack要设计成从高位到低位？<br />
+这样做，每次向Stack内执行push的时候，ESP都要执行减法操作，这样性能难道比"从低位</p>
+
+<p>到高 <br />
+位，每次执行加法操作"更好？</p>
+
+<p>还是说，因为为了读取数据的时候执行加法( [%esp+8] )而做出的优化？</p>
+
+<p>第二个问题：<br />
+计算机是怎么知道3存在0x0000到0x0004之间，2存在0x0005到0x0008之间？<br />
+毕竟ESP只是记住了当前Stack所存储的数据的最低位地址！</p>
+
+<p>难道是写死在程序里的？就像例子中的<br />
+ mov%eax, [%esp+8] <br />
+ mov%ebx, [%esp+12]<br />
+ 一样，程序已经写死了偏移量？</p>
+
+<p>如果我的问题描述不够明确，您可以通过邮箱联系我，这两个问题我很想知道</p>
+
+</blockquote>
+
+<p>这两个问题被问了很多遍啊……我想解决它……</p>
+
+<p>能一起提出这两个问题的人很厉害啊，因为这两个问题是相互关联的！！！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 25, 2018  1:30 AM">2018年7月25日 01:30</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-391367">#</a>
+ | <a href="#comment-text" title="引用wyf的这条留言" onclick="return CommentQuote('comment-quote-391367','wyf');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-391368" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">wyf</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-391368">
+            <p><strong>以32位x86为例：</strong></p>
+
+<p>信息1. call [addr]等价于push %eip加jmp [addr]，无非%eip是不能直接操作的（就是说</p>
+
+<p>push %eip是无效指令）<br />
+	（注：%eip是存储下一条指令地址的寄存器）<br />
+信息2. push [data]等价于sub sizeof(data),%esp加mov [data],[%esp]，也就是说，在</p>
+
+<p>push时%esp只能减小，这是历史遗留问题……（你要自己设计cpu当然可以定义为增加）</p>
+
+<p>信息3. ret（无参）等价于pop %eip（有跳转效果，因为直接修改%eip相当于跳转，jmp指</p>
+
+<p>令内部原理就是修改%eip）</p>
+
+<p>信息4. 对于现代32位x86，正确（完整且没经过优化的）函数应该大概长这样：</p>
+
+<p>// gcc -S test.cpp -o test.s -m32 （<strong>64位机器一定要加-m32，指定使用32位</strong></p>
+
+<p>）<br />
+void foo(int,int);<br />
+int test() {<br />
+	int a = 3;<br />
+	int b = 2;<br />
+	foo(2,3);<br />
+	foo(a,b);<br />
+	return 999;<br />
+}</p>
+
+<p>（注：这是真实的gcc输出）<br />
+（详见下一条）</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 25, 2018  1:30 AM">2018年7月25日 01:30</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-391368">#</a>
+ | <a href="#comment-text" title="引用wyf的这条留言" onclick="return CommentQuote('comment-quote-391368','wyf');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-391369" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">wyf</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-391369">
+            <p><br />
+__Z4testv:（使用一般<strong>调用协议</strong>，详情请查询“ABI”，有历史遗留问题</p>
+
+<p>)</p>
+
+<p>	pushl	%ebp（保存调用者设置的%ebp）<br />
+	movl	%esp, %ebp（保存调用者设置的%esp）<br />
+		（注意：调用者的%esp被保存%ebp里，以上两句指令可以缩写为enter，</p>
+
+<p>这是另一个指令）<br />
+		（从此以后%ebp成为栈空间寻址的基准，因此%ebp全称为（扩展）基址指</p>
+
+<p>针寄存器）<br />
+		（问：根据信息1和2，在%ebp - 4上的是什么东西？）<br />
+			（答：返回地址）<br />
+		（问：那么在%ebp - 8上的是什么东西？）<br />
+			（答：保存的%esp）<br />
+		（问：那么，在%ebp上的是什么东西？）<br />
+			（答：不知道~<strong>这个地址原则上不可以访问，它属于调</strong></p>
+
+<p>用者的栈空间）<br />
+		（问：那么%ebp - 12呢？）<br />
+			（答：变量a，见下）</p>
+
+<p>	subl	$40, %esp（为call预留%esp，也就是栈空间，共计40字节，<strong>由</strong></p>
+
+<p>编译器计算得）<br />
+		（这个40很复杂，用于保存局部变量、传出的参数等，不展开，因为这个</p>
+
+<p><strong>由编译器决定</strong>）<br />
+		（40字节不是都被使用了，因为我们并没有开优化，你能否计算出有多少</p>
+
+<p>字节没被使用？）<br />
+			（答：有16字节被浪费了，16=40-8-sizeof(a)-sizeof(b)-</p>
+
+<p>sizeof(传出参数消耗的栈)，详情见下）</p>
+
+<p>	movl	$3, -12(%ebp)（预留了就可以使用这种方法保存变量，这个相当于int a </p>
+
+<p>= 3）<br />
+	movl	$2, -16(%ebp)（相当于int b = 2，具体地址<strong>由编译器分配</strong></p>
+
+<p>）</p>
+
+<p><br />
+（还没完，见下一条）</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 25, 2018  1:31 AM">2018年7月25日 01:31</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-391369">#</a>
+ | <a href="#comment-text" title="引用wyf的这条留言" onclick="return CommentQuote('comment-quote-391369','wyf');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-391370" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">wyf</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-391370">
+            <p>	movl	$3, 4(%esp)（这里<strong>还是被编译器优化过了</strong>，相当于</p>
+
+<p>push %eax，见信息2，mov比push快，无非栈空间必需够大）<br />
+		（注：别忘了esp=ebp-40）<br />
+	movl	$2, (%esp)（所以这两句话相当于先push $3，再push $2）</p>
+
+<p>	call	__Z3fooii（干一点其他事情，不用管栈空间变量，因为栈空间比%esp地</p>
+
+<p>址高，被保护）</p>
+
+<p>	movl	-16(%ebp), %eax（先从栈空间加载数据到%eax寄存器）<br />
+	movl	%eax, 4(%esp)（再把%eax里的数据转入%esp，因为mov指令一次只能操作</p>
+
+<p>一个单位的内存）<br />
+		（拓展：局部变量的赋值如果不开优化也是类似这么写的）<br />
+	movl	-12(%ebp), %eax<br />
+	movl	%eax, (%esp)<br />
+	call	__Z3fooii</p>
+
+<p>	movl	$999, %eax （设置返回值，返回值存在%eax里，历史遗留问题）<br />
+	leave （恢复调用者的%ebp和%esp，这句指令也有另一种写法，大家可以思考一下</p>
+
+<p>）<br />
+	ret （真正的返回，思考：根据信息3，为什么这样用是安全的，栈不是被动过了</p>
+
+<p>吗？）</p>
+
+<p>ps: 是不是觉得编译器超强大（我还没开优化呢……）<br />
+ps: 软件底层概念超多，极耗脑力，还有极多历史遗留问题，这种问题真的很难一次性给答</p>
+
+<p>案……我已经尽力了，打字打的我累死</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 25, 2018  1:32 AM">2018年7月25日 01:32</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-391370">#</a>
+ | <a href="#comment-text" title="引用wyf的这条留言" onclick="return CommentQuote('comment-quote-391370','wyf');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-391371" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">wyf</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-391371">
+            <p>其实我觉得阮老师对汇编的掌握也不够多（或许只是文章篇幅太短？）同学们别问了……（阮老师要再想写这方面的文章，讲真的可以联系我）</p>
+
+<p>（我发的东西格式是不是出了点问题……）</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 25, 2018  1:38 AM">2018年7月25日 01:38</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-391371">#</a>
+ | <a href="#comment-text" title="引用wyf的这条留言" onclick="return CommentQuote('comment-quote-391371','wyf');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-391854" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">芮佳蕾</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-391854">
+            <p>有一个疑问，esp寄存器中存放的函数的地址是起始地址和结束地址还是只是结束地址呢?不好意思哦，可能问题有点白痴。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August  5, 2018 11:49 PM">2018年8月 5日 23:49</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-391854">#</a>
+ | <a href="#comment-text" title="引用芮佳蕾的这条留言" onclick="return CommentQuote('comment-quote-391854','芮佳蕾');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-393265" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">齐军</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-393265">
+            <blockquote>
+<pre>引用Singu的发言：</pre>
+
+<p>第一个问题：</p>
+
+<p>为什么Stack要设计成从高位到低位？<br />
+这样做，每次向Stack内执行push的时候，ESP都要执行减法操作，这样性能难道比"从低位到高 <br />
+位，每次执行加法操作"更好？</p>
+
+<p>还是说，因为为了读取数据的时候执行加法( [%esp+8] )而做出的优化？</p>
+
+<p>第二个问题：<br />
+计算机是怎么知道3存在0x0000到0x0004之间，2存在0x0005到0x0008之间？<br />
+毕竟ESP只是记住了当前Stack所存储的数据的最低位地址！</p>
+
+<p>难道是写死在程序里的？就像例子中的<br />
+ mov%eax, [%esp+8] <br />
+ mov%ebx, [%esp+12]<br />
+ 一样，程序已经写死了偏移量？</p>
+
+<p>如果我的问题描述不够明确，您可以通过邮箱联系我，这两个问题我很想知道</p>
+
+</blockquote>
+
+<p>第一个问题, 因为heap从低到高分配性能高,stack只能从高到低喽,地址两头往中间拱,空间利用率高啊<br />
+第二个问题, 什么偏移量,什么写死,32位系统,除8,就是4啊</p>
+
+<p>个人理解,欢迎拍</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 20, 2018 11:20 AM">2018年9月20日 11:20</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-393265">#</a>
+ | <a href="#comment-text" title="引用齐军的这条留言" onclick="return CommentQuote('comment-quote-393265','齐军');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-393337" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">0x9093</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-393337">
+            <p>写得真好，期待第二课</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 21, 2018  5:04 PM">2018年9月21日 17:04</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-393337">#</a>
+ | <a href="#comment-text" title="引用0x9093的这条留言" onclick="return CommentQuote('comment-quote-393337','0x9093');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-393561" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Andy</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-393561">
+            <p>确实学到知识了，谢谢~</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 30, 2018 10:17 AM">2018年9月30日 10:17</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-393561">#</a>
+ | <a href="#comment-text" title="引用Andy的这条留言" onclick="return CommentQuote('comment-quote-393561','Andy');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-393809" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Dennis</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-393809">
+            <blockquote>
+<pre>引用齐军的发言：</pre>
+
+<p>第二个问题, 什么偏移量,什么写死,32位系统,除8,就是4啊</p>
+
+</blockquote>
+
+<p>第二个问题，我觉得是编译器写死的</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October  9, 2018  1:50 PM">2018年10月 9日 13:50</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-393809">#</a>
+ | <a href="#comment-text" title="引用Dennis的这条留言" onclick="return CommentQuote('comment-quote-393809','Dennis');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-394084" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">28</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-394084">
+            <p>太感谢了，前段时间想学汇编，看朱邦复老先生的《组合语言的艺术》，看不太懂，他还推荐《ZEN of Assembly Language》</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October 16, 2018  7:39 PM">2018年10月16日 19:39</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-394084">#</a>
+ | <a href="#comment-text" title="引用28的这条留言" onclick="return CommentQuote('comment-quote-394084','28');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-394317" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">PDF</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-394317">
+            <blockquote>
+<pre>引用阮一峰的发言：</pre>
+
+<p>@jimmy</p>
+
+<p>我的理解是 EAX 属于最频繁使用的通用寄存器，所以约定没有必要保留它的值。</p>
+
+</blockquote>
+
+<p>南大的《计算机系统基础》上说，每个指令集体系有一个约定，规定哪些寄存器是调用者保存，哪些寄存器由被调用者来保存</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October 23, 2018  2:29 PM">2018年10月23日 14:29</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-394317">#</a>
+ | <a href="#comment-text" title="引用PDF的这条留言" onclick="return CommentQuote('comment-quote-394317','PDF');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-397159" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">hazdzz</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-397159">
+            <p>「帧」的英文叫什么？segment?</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 12, 2018 11:08 PM">2018年12月12日 23:08</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-397159">#</a>
+ | <a href="#comment-text" title="引用hazdzz的这条留言" onclick="return CommentQuote('comment-quote-397159','hazdzz');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-399015" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">龙强</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-399015">
+            <p>高级语言学的不少，但是对内存、CPU对程序的执行还是不了解，所以，看看汇编确实受益匪浅，感谢！！！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 27, 2018  6:54 PM">2018年12月27日 18:54</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-399015">#</a>
+ | <a href="#comment-text" title="引用龙强的这条留言" onclick="return CommentQuote('comment-quote-399015','龙强');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-405843" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">cindy_liao</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-405843">
+            <blockquote>
+<pre>引用Silen的发言：</pre>
+
+<p>mov%eax, [%esp+8] <br />
+mov%ebx, [%esp+12]</p>
+
+<p>怎么感觉应该是</p>
+
+<p>mov%eax, [%esp+4] <br />
+mov%ebx, [%esp+8]</p>
+
+<p><br />
+</p></blockquote>
+
+<p>第一天看汇编，看了阮老师提供的英文链接，在调用函数“ _add_a_and_b"时，首先会在stack中保存main函数中下一条指令“ add    %esp, 8”的地址,距离“_main”有4条指令，所以是“_main+4*4”即“_main+16”。此时<br />
+ESP 寄存器会再减去 4个字节（累计减去12）。</p>
+
+<p>然后再执行子函数中的“push   %ebx”这时，push指令会再将 ESP 寄存器里面的地址减去4个字节（累计减去16）。所以感觉阮老师在文中此处的解释应该有误（原文解释此时累计减去12）。</p>
+
+<p>所以<br />
+mov%eax, [%esp+8]  对应数据“2”<br />
+mov%ebx, [%esp+12] 对应数据“3”</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 22, 2019  5:35 PM">2019年1月22日 17:35</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-405843">#</a>
+ | <a href="#comment-text" title="引用cindy_liao的这条留言" onclick="return CommentQuote('comment-quote-405843','cindy_liao');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-408611" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">radmanxu</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-408611">
+            <blockquote>
+<pre>引用立猛的发言：</pre>
+
+<p>intel 格式汇编没有% AT&amp;T 汇编有% 但是格式和intel 相反</p>
+
+</blockquote>
+
+<p>是的，阮老师的这篇文章写的有问题。<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 24, 2019  5:13 PM">2019年2月24日 17:13</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-408611">#</a>
+ | <a href="#comment-text" title="引用radmanxu的这条留言" onclick="return CommentQuote('comment-quote-408611','radmanxu');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-408781" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">龙龙</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-408781">
+            <p>我觉得通过汇编来深刻理解高级语言的原理不是最大的作用,最大的作用应该就是反汇编写外挂了....,要学写外挂,汇编是第一个要掌握的东西</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 25, 2019 10:10 AM">2019年2月25日 10:10</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-408781">#</a>
+ | <a href="#comment-text" title="引用龙龙的这条留言" onclick="return CommentQuote('comment-quote-408781','龙龙');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-409257" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Xiao</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-409257">
+            <blockquote>
+<pre>引用hazdzz的发言：</pre>
+
+<p>「帧」的英文叫什么？segment?</p>
+
+</blockquote>
+
+<p>frame吧</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 26, 2019  6:46 PM">2019年2月26日 18:46</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-409257">#</a>
+ | <a href="#comment-text" title="引用Xiao的这条留言" onclick="return CommentQuote('comment-quote-409257','Xiao');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-410134" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">f</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-410134">
+            <p>这样的话，就多出一个步骤，要把这些文字指令翻译成二进制，这个步骤就称为 assembling，完成这个步骤的程序就叫做 assembler。它处理的文本，自然就叫做 aseembly code。标准化以后，称为 assembly language，缩写为 asm，中文译为汇编语言。<br />
+单词拼错了 第三个 assembly code   error -> aseembly.</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 25, 2019  4:46 PM">2019年3月25日 16:46</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-410134">#</a>
+ | <a href="#comment-text" title="引用f的这条留言" onclick="return CommentQuote('comment-quote-410134','f');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-410602" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">陈汉轩</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-410602">
+            <p>个人感觉原文有一处的错误：<br />
+【原文】<br />
+“这一行表示将 EBX 寄存器里面的值，写入_add_a_and_b这个帧。这是因为后面要用到这个寄存器，就先把里面的值取出来，用完后再写回去。</p>
+
+<p>这时，push指令会再将 ESP 寄存器里面的地址减去4个字节（累计减去12）。”<br />
+【修正为】<br />
+应该是累计减去16<br />
+因为call指令是默认有压栈操作的，还会占用4个字节（假设是32位操作系统）</p>
+
+<p>【说明】<br />
+本人目前正在学习深入理解计算机系统（原书第3版，中文版，机械工业出版社），看了博主的文章，感觉很清晰，但是与本书的P150面有出入，书上说明了：<br />
+“call指令的效果是将返回地址入栈，并跳转到被调用过程的起始处”<br />
+博主的图是对的，压栈3，2之后又call指令的压栈，但可能是笔误的原因，最后在调用add函数之后再进行压栈%ebp操作时，偏移量应该是4*4=16，希望博主能够修改一下</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 18, 2019 12:02 AM">2019年4月18日 00:02</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-410602">#</a>
+ | <a href="#comment-text" title="引用陈汉轩的这条留言" onclick="return CommentQuote('comment-quote-410602','陈汉轩');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-411069" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Mononoke</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-411069">
+            <p>还是看英文链接的文章比较清楚，<br />
+7.3中 “这时，push指令会再将 ESP 寄存器里面的地址减去4个字节（累计减去12）。”</p>
+
+<p>这里应该写错了，在call _add_a_and_b时，会把main函数中call的下一条指令“add %esp, 8”的地址写到stack去，ESP减去4字节。<br />
+之后跳转到_add_a_and_b函数，执行"push %ebx"时，ESP再次减去4字节，累计是减去16字节。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  9, 2019 10:10 AM">2019年5月 9日 10:10</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-411069">#</a>
+ | <a href="#comment-text" title="引用Mononoke的这条留言" onclick="return CommentQuote('comment-quote-411069','Mononoke');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-411271" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">不知明的网友</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-411271">
+            <p>7.5 add 指令<br />
+add指令用于将两个运算子相加，并将结果写入第一个运算子。</p>
+
+<p><br />
+add    %eax, %ebx<br />
+上面的代码将 EAX 寄存器的值（即2）加上 EBX 寄存器的值（即3），得到结果5，再将这个结果写入第一个运算子 EAX 寄存器。</p>
+
+<p>这里是不是写错了，应该是写入到 运算子 EBX 寄存器</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May 19, 2019  7:15 PM">2019年5月19日 19:15</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-411271">#</a>
+ | <a href="#comment-text" title="引用不知明的网友的这条留言" onclick="return CommentQuote('comment-quote-411271','不知明的网友');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-412811" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">曾</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-412811">
+            <p>谢谢沅老师，您的知识分享永远是最通俗易懂，而且最详细明白的！！！看过你老各个不同领域语言的各个文章，其它人写的总是要么不够详细，要么就很多细节没介绍到，总是看的不明不白！谢谢您！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 19, 2019 10:23 AM">2019年8月19日 10:23</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-412811">#</a>
+ | <a href="#comment-text" title="引用曾的这条留言" onclick="return CommentQuote('comment-quote-412811','曾');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-412974" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">feixin</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-412974">
+            <blockquote>
+<pre>引用阮一峰的发言：</pre>
+
+<p>@jimmy</p>
+
+<p>我的理解是 EAX 属于最频繁使用的通用寄存器，所以约定没有必要保留它的值。</p>
+
+</blockquote>
+
+<p>有一个 “调用规约” 可以了解一下，调用规约是程序员需要遵守的关于函数调用顺序的约定。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 26, 2019  6:41 PM">2019年8月26日 18:41</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-412974">#</a>
+ | <a href="#comment-text" title="引用feixin的这条留言" onclick="return CommentQuote('comment-quote-412974','feixin');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-413028" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">seed</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-413028">
+            <blockquote>
+<pre>引用不知明的网友的发言：</pre>
+
+<p>7.5 add 指令<br />
+add指令用于将两个运算子相加，并将结果写入第一个运算子。</p>
+
+<p><br />
+add%eax, %ebx<br />
+上面的代码将 EAX 寄存器的值（即2）加上 EBX 寄存器的值（即3），得到结果5，再将这个结果写入第一个运算子 EAX 寄存器。</p>
+
+<p>这里是不是写错了，应该是写入到 运算子 EBX 寄存器</p>
+
+</blockquote>
+
+<p>看规范 如果是intel格式的，add ax,bx 意思是ax=ax+bx；如果是at&t的 意思是 bx=ax+bx</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 28, 2019  2:53 PM">2019年8月28日 14:53</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-413028">#</a>
+ | <a href="#comment-text" title="引用seed的这条留言" onclick="return CommentQuote('comment-quote-413028','seed');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-413288" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">lul</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-413288">
+            <p>了解汇编语言并不是为了用汇编语言去怎么编程，而是为了了解计算机编译器的优化过程，或者从基层了解某些C++或者Java某些语言的实现原理。举一个例子：编译器有一个循环展开的过程，想了解循环展开必须得看汇编代码；还有C++里面的指针和引用的区别，如果从汇编语言去看，就会发现指针和引用在大多数情况下是同一个东西，引用只是指针的语法糖而已。C++之所以提出引用这个概念，就是为了避免指针满天飞。汇编语言的学习是为了更好的了解语言、更好的优化代码。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  6, 2019  2:01 PM">2019年9月 6日 14:01</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-413288">#</a>
+ | <a href="#comment-text" title="引用lul的这条留言" onclick="return CommentQuote('comment-quote-413288','lul');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-413336" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">NoobCoder</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-413336">
+            <p>大学学微机原理学的是CortexM3，里面涉及到了汇编，但是当时老师讲的像天书一般，所以最后没学会。<br />
+后来在学习，工作种频繁遇到堆栈等概念，但是去搜，搜出来的又不是讲的那么明白，这次终于在这里弄懂了堆栈的概念了。<br />
+十分感谢</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  9, 2019 12:47 AM">2019年9月 9日 00:47</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-413336">#</a>
+ | <a href="#comment-text" title="引用NoobCoder的这条留言" onclick="return CommentQuote('comment-quote-413336','NoobCoder');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-414208" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">k4er</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-414208">
+            <blockquote>
+<pre>引用迪伦的发言：</pre>
+
+<p>举例来说，用户要求得到10个字节内存，那么从起始地址0x1000开始给他分配，一直分配到地址0x100A，如果再要求得到22个字节，那么就分配到0x1020<br />
+这里没看懂，22个字节不是应该分配到0x1016吗？，我感觉32个字节才应该是0x1020</p>
+
+</blockquote>
+
+<p>这里应该是笔误，确实是 32 才对</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October 28, 2019  5:15 PM">2019年10月28日 17:15</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-414208">#</a>
+ | <a href="#comment-text" title="引用k4er的这条留言" onclick="return CommentQuote('comment-quote-414208','k4er');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-414864" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Linus</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-414864">
+            <blockquote>
+<pre>引用张春星的发言：</pre>
+
+<p>== 它会先取出 ESP 寄存器里面的地址，将其减去4个字节，然后将新地址写入 ESP 寄存器。使用减法是因为 Stack 从高位向低位发展，4个字节则是因为3的类型是int，占用4个字节。得到新地址以后， 3 就会写入这个地址开始的四个字节。==</p>
+
+<p>这个地方不懂啊</p>
+
+</blockquote>
+
+<p>你不明白是这里表述有歧义。</p>
+
+<p>前面表述都很准确，意思就是ESP原来指向栈的某个地址，现在将这个地址取出，减去4个字节，再存回ESP，相当于释放了栈的4个字节。</p>
+
+<p>“得到新地址以后， 3 就会写入这个地址开始的四个字节”<br />
+这句表述不准确，让人很容易理解成“得到新地址以后”自动使得“3写入刚才释放的4个字节”。<br />
+其实是得到了新地址，我们再手动把3写入刚才释放的这四个字节。这是分来的两步。</p>
+
+<p>以上是我的理解。<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December  3, 2019  2:28 PM">2019年12月 3日 14:28</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-414864">#</a>
+ | <a href="#comment-text" title="引用Linus的这条留言" onclick="return CommentQuote('comment-quote-414864','Linus');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-415194" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">cc</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-415194">
+            <p>example.s经过简化以后，大概是下面的样子。<br />
+大佬，能不能别简化，简化的内容差别太大了，是怎么简化的？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 17, 2019  5:06 PM">2019年12月17日 17:06</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-415194">#</a>
+ | <a href="#comment-text" title="引用cc的这条留言" onclick="return CommentQuote('comment-quote-415194','cc');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-415199" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">cc</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-415199">
+            <p>_add_a_and_b:<br />
+   push   %ebx<br />
+   mov    %eax, [%esp+8] <br />
+   mov    %ebx, [%esp+12]<br />
+   add    %eax, %ebx <br />
+   pop    %ebx <br />
+   ret  <br />
+上面的代码，eax没有取出原来的值就直接写进去，不会有问题吗？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 18, 2019 10:45 AM">2019年12月18日 10:45</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-415199">#</a>
+ | <a href="#comment-text" title="引用cc的这条留言" onclick="return CommentQuote('comment-quote-415199','cc');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-415208" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">cc</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-415208">
+            <p>add    %eax, %ebx<br />
+eax的值和ebx的值相加，得到的值写入eax，那么原来eax的值怎么办？会被覆盖吗？后面再要用到原来eax的值的时候怎么办？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 18, 2019  2:22 PM">2019年12月18日 14:22</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-415208">#</a>
+ | <a href="#comment-text" title="引用cc的这条留言" onclick="return CommentQuote('comment-quote-415208','cc');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-415518" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">NoLenJ</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-415518">
+            <p>C# Emit IL 构建动态程序，应该是汇编语言语法</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 28, 2019  4:32 PM">2019年12月28日 16:32</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-415518">#</a>
+ | <a href="#comment-text" title="引用NoLenJ的这条留言" onclick="return CommentQuote('comment-quote-415518','NoLenJ');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-416274" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">dics</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416274">
+            <p>在windows上用nasm写示例程序，总是跑不出正确结果。然而，把函数内esp那俩地址偏移量改一下就有正确结果了:</p>
+
+<p><br />
+extern _printf<br />
+global _main</p>
+
+<p>section .data<br />
+_fmt: db "%d", 0Ah, 0</p>
+
+<p>section .text<br />
+_add:<br />
+    mov eax, dword [esp + 4]<br />
+    mov ebx, dword [esp + 8]<br />
+    add eax, ebx<br />
+    ret</p>
+
+<p>_main:<br />
+    push 4<br />
+    push 5<br />
+    call _add<br />
+    add esp, 8<br />
+    push eax<br />
+    push _fmt<br />
+    call _printf<br />
+    add esp, 8<br />
+    ret<br />
+</p>
+
+<p>大概是不同的系统的调用方式也不同?</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 19, 2020  9:11 PM">2020年2月19日 21:11</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-416274">#</a>
+ | <a href="#comment-text" title="引用dics的这条留言" onclick="return CommentQuote('comment-quote-416274','dics');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-416415" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">杨小瀷</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416415">
+            <p>阮老师，这汇编例子是<i>Intel</i>和<i>AT&T</i>的<b>结合体</b>！！！</p>
+<p>换那个汇编器都通不了啊……</p>
+
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 26, 2020  6:40 PM">2020年2月26日 18:40</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-416415">#</a>
+ | <a href="#comment-text" title="引用杨小瀷的这条留言" onclick="return CommentQuote('comment-quote-416415','杨小瀷');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-416544" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">任兴</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416544">
+            <p>AT&T的源操作数，目的操作数的顺序，和Intel是相反的</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March  3, 2020 10:02 AM">2020年3月 3日 10:02</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-416544">#</a>
+ | <a href="#comment-text" title="引用任兴的这条留言" onclick="return CommentQuote('comment-quote-416544','任兴');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-417706" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">大名</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-417706">
+            <p>汇编语言就可以被 CPU 直接执行? 机器语言才可以</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 13, 2020  9:56 PM">2020年4月13日 21:56</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-417706">#</a>
+ | <a href="#comment-text" title="引用大名的这条留言" onclick="return CommentQuote('comment-quote-417706','大名');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-418056" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">赶快把</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-418056">
+            <p>完全看懂了，啦啦啦</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 28, 2020  8:58 PM">2020年4月28日 20:58</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-418056">#</a>
+ | <a href="#comment-text" title="引用赶快把的这条留言" onclick="return CommentQuote('comment-quote-418056','赶快把');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-418376" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">王艳红</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-418376">
+            <p>强，内容通俗易懂，感谢分享</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May 18, 2020  3:14 PM">2020年5月18日 15:14</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-418376">#</a>
+ | <a href="#comment-text" title="引用王艳红的这条留言" onclick="return CommentQuote('comment-quote-418376','王艳红');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-419405" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">狮子舞</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-419405">
+            <p>"通过这种机制，就实现了函数的层层调用，并且每一层都能使用自己的本地变量。"<br />
+=>请教下，如何在每一层访问到自己的本地变量呢？ 这个时候的本地变量和该函数在栈上的分布是怎么样的呢？谢谢！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="June 17, 2020 11:57 AM">2020年6月17日 11:57</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-419405">#</a>
+ | <a href="#comment-text" title="引用狮子舞的这条留言" onclick="return CommentQuote('comment-quote-419405','狮子舞');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-422071" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">xiniao</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-422071">
+            <p>上面的是AT&T汇编，文章当成Intel汇编讲了</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  7, 2020  2:10 PM">2020年9月 7日 14:10</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-422071">#</a>
+ | <a href="#comment-text" title="引用xiniao的这条留言" onclick="return CommentQuote('comment-quote-422071','xiniao');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-423943" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">MyC</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-423943">
+            <p>阮大这篇文章，好凌乱啊！<br />
+C代码使用 gcc 的 gas 给翻译成汇编代码后，默认应该是 AT&T 语法格式，即便是最新版 gas 已经支持加 -masm=intel 参数翻译成 Intel 语法格式，确不会翻译成这种 Intel和AT&T的结合体！！！</p>
+
+<p>阮大您重新整理一下吧，我也懵圈了！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November 24, 2020  9:01 PM">2020年11月24日 21:01</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-423943">#</a>
+ | <a href="#comment-text" title="引用MyC的这条留言" onclick="return CommentQuote('comment-quote-423943','MyC');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-424165" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">越行勤</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-424165">
+            <p>谢谢老师，太感谢您了，我最近也在学习汇编，我将你的博客转载到了我的博客上了，但是也加入了我些许理解，感谢老师</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December  6, 2020  8:46 PM">2020年12月 6日 20:46</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-424165">#</a>
+ | <a href="#comment-text" title="引用越行勤的这条留言" onclick="return CommentQuote('comment-quote-424165','越行勤');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-424166" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">gigglesun</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-424166">
+            <p>“我们常常看到 32位 CPU、64位 CPU 这样的名称，其实指的就是寄存器的大小”<br />
+这样表述不太严谨：X 位的CPU应该是指：<br />
+1. 运算器一次可以处理x位的数据<br />
+2. 寄存器的最大宽度为x位<br />
+3. 寄存器与运算器之间的通路宽度为x位</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December  6, 2020 10:17 PM">2020年12月 6日 22:17</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-424166">#</a>
+ | <a href="#comment-text" title="引用gigglesun的这条留言" onclick="return CommentQuote('comment-quote-424166','gigglesun');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-425573" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">shau</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-425573">
+            <p>一直使用高级语言，对底层原理模糊不清，看了这篇文章，通俗易懂，完全可以使用汇编上手一些简单的程序，后面会持续关注阮老师的文章。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 22, 2021  5:36 PM">2021年2月22日 17:36</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-425573">#</a>
+ | <a href="#comment-text" title="引用shau的这条留言" onclick="return CommentQuote('comment-quote-425573','shau');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-425577" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">阮一峰nb</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-425577">
+            <p>对底层知识一窍不通，刚入了门，确实通俗易懂，谢谢</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 22, 2021 10:54 PM">2021年2月22日 22:54</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-425577">#</a>
+ | <a href="#comment-text" title="引用阮一峰nb的这条留言" onclick="return CommentQuote('comment-quote-425577','阮一峰nb');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-426490" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">youyuxiansen</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-426490">
+            <p>想说，多线程情况下，eax被另一个程序占了，怎么办？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 22, 2021  4:01 PM">2021年4月22日 16:01</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-426490">#</a>
+ | <a href="#comment-text" title="引用youyuxiansen的这条留言" onclick="return CommentQuote('comment-quote-426490','youyuxiansen');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-428280" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">q3</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-428280">
+            <p>光靠两个寄存器，如何实现下面这个算术<br />
+int a = 2<br />
+int b = 3<br />
+int c = 4<br />
+int d = 5<br />
+return a * b + c * d + a * c</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 23, 2021  4:36 PM">2021年7月23日 16:36</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-428280">#</a>
+ | <a href="#comment-text" title="引用q3的这条留言" onclick="return CommentQuote('comment-quote-428280','q3');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-428837" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">ZL</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-428837">
+            <p>@a14907：</p>
+
+<p>esp+4存的是函数返回地址，调用call指令时自动入栈的数据，也就是call语句的下一条指令地址<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 16, 2021  3:14 PM">2021年8月16日 15:14</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-428837">#</a>
+ | <a href="#comment-text" title="引用ZL的这条留言" onclick="return CommentQuote('comment-quote-428837','ZL');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-429141" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Sulfuric-Acid1024</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-429141">
+            <p>我有个问题，为啥我把一个程序用g++编译成.s汇编文件后的文件很短，但是编译程序出来的exe却有好几MB？如果我用g++编译汇编文件，也是好几MB</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 27, 2021  5:28 PM">2021年8月27日 17:28</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-429141">#</a>
+ | <a href="#comment-text" title="引用Sulfuric-Acid1024的这条留言" onclick="return CommentQuote('comment-quote-429141','Sulfuric-Acid1024');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-430084" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">月光照在酒瓶上</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-430084">
+            <p>希望写篇汇编设计模式的文章，这个我看了下，几乎整个网络都没人写，其中一个主要问题就是怎么使用寄存器，现在寄存器这么多，传统汇编教材几乎都不涉及这些，总感觉在寄存器使用上，没找到最佳实践</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October 15, 2021  2:21 PM">2021年10月15日 14:21</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-430084">#</a>
+ | <a href="#comment-text" title="引用月光照在酒瓶上的这条留言" onclick="return CommentQuote('comment-quote-430084','月光照在酒瓶上');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-430979" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">张博奇</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-430979">
+            <p>这里是否有点问题？<br />
+这时，push指令会再将 ESP 寄存器里面的地址减去4个字节（累计减去12）。</p>
+
+<p>既然已经累计减去12，那这里再%esp+8不应该是3吗？</p>
+
+<p>mov    %eax, [%esp+8] </p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December  4, 2021 11:48 AM">2021年12月 4日 11:48</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-430979">#</a>
+ | <a href="#comment-text" title="引用张博奇的这条留言" onclick="return CommentQuote('comment-quote-430979','张博奇');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-431314" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Colin</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-431314">
+            <blockquote>
+<pre>引用YY的发言：</pre>
+
+<p></p>
+
+<p>不用理解JAVA虚拟机的概念。造汽车的人，无需了解钢铁是如何炼成的。<br />
+很多技术是层叠的，做顶层业务的，是需也不太可能将所有底层技术进行追溯学习的。</p>
+
+<p><br />
+</p></blockquote>
+
+<p>這應該就是東尼史塔克跟一般工程師的差別<br />
+精進自我的工程師連新元素煉成都會</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 20, 2021 12:21 PM">2021年12月20日 12:21</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-431314">#</a>
+ | <a href="#comment-text" title="引用Colin的这条留言" onclick="return CommentQuote('comment-quote-431314','Colin');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-432724" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Heart</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-432724">
+            <p>深入浅出，讲得真好，谢谢老师~</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 20, 2022  2:03 PM">2022年3月20日 14:03</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-432724">#</a>
+ | <a href="#comment-text" title="引用Heart的这条留言" onclick="return CommentQuote('comment-quote-432724','Heart');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-436298" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">高中在读生</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-436298">
+            <blockquote>
+<pre>引用Not的发言：</pre>
+
+<p>基本的点都讲到了，但不是计算机专业的读者估计还是会有点懵，建议结合下内存总线和硬件指令的电路原理。</p>
+
+</blockquote>
+
+<p>还好，我不是计算机专业的，还是能看懂，反正电脑这玩意就是懂得都懂</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 11, 2022  5:49 PM">2022年12月11日 17:49</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-436298">#</a>
+ | <a href="#comment-text" title="引用高中在读生的这条留言" onclick="return CommentQuote('comment-quote-436298','高中在读生');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-436689" class="comment">
+    <div id="comment-last" class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2a604f4c4c4f58536a796669">[email&#160;protected]</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-436689">
+            <blockquote>
+<pre>引用Not的发言：</pre>
+
+<p>基本的点都讲到了，但不是计算机专业的读者估计还是会有点懵，建议结合下内存总线和硬件指令的电路原理。</p>
+
+</blockquote>
+
+<p>参考下面这个blog内容，基于x86-64架构，AT&T语法，写得很详细。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 26, 2023  7:50 AM">2023年1月26日 07:50</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html#comment-436689">#</a>
+ | <a href="#comment-text" title="引用Jeffery@SLC的这条留言" onclick="return CommentQuote('comment-quote-436689','Jeffery@SLC');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    </div>
+        
+    
+
+
+    
+    
+    <div class="comments-open" id="comments-open">
+        <h2 class="comments-open-header">我要发表看法</h2>
+        <div class="comments-open-content">
+
+        
+            <div id="comment-greeting"></div>
+
+            <form method="post" action="https://www.ruanyifeng.com/cgi-bin/mtos/mt-comments.cgi" name="comments_form" id="comments-form" onsubmit="return pleaseWait();">
+                <input type="hidden" name="static" value="1" />
+                <input type="hidden" name="entry_id" value="1973" />
+                <input type="hidden" name="__lang" value="en" />
+                <input type="hidden" name="parent_id" value="" id="comment-parent-id" />
+                <input type="hidden" name="armor" value="1" />
+                <input type="hidden" name="preview" value="" />
+                <input type="hidden" name="sid" value="" />
+                <div id="comments-open-data">
+            <div id="comments-open-text">
+                    <p><label for="comment-text">您的留言
+                    （HTML标签部分可用）</label></p>
+                    <p><textarea id="comment-text" name="text" rows="10" cols="50"></textarea></p>
+                </div>
+                    <div id="comment-form-name">
+                        <p><label for="comment-author">您的大名：</label></p>
+                        <p><input id="comment-author" name="author" size="30" value="" />  <span class="hint"> &laquo;-必填</span></p>
+                    </div>
+                    <div id="comment-form-email">
+                        <p><label for="comment-email">电子邮件：</label></p>
+                        <p><input id="comment-email" name="email" size="30" value="" />  <span class="hint"> &laquo;-必填，不公开</span></p>
+                    </div>
+                    <div id="comment-form-url">
+                        <p><label for="comment-url">个人网址：</label></p>
+                        <p><input id="comment-url" name="url" size="30" value="" />  <span class="hint"> &laquo;-我信任你，不会填写广告链接</span></p>
+                    </div>
+                    <div id="comment-form-remember-me">
+                        <p>
+                        <label for="comment-bake-cookie">记住个人信息？</label><input type="checkbox" id="comment-bake-cookie" name="bakecookie" onclick="!this.checked?forgetMe(document.comments_form):rememberMe(document.comments_form)" value="1" accesskey="r" /></p>
+                    </div>
+                </div>
+                    <div id="comment-form-reply" style="display:none">
+                    <input type="checkbox" id="comment-reply" name="comment_reply" value="" onclick="mtSetCommentParentID()" />
+                    <label for="comment-reply" id="comment-reply-label"></label>
+                </div>
+                <div id="comments-open-captcha"></div>
+                <div id="comments-open-footer">
+<div id="wait" style="display:none;">
+<p><strong>正在发表您的评论，请稍候</strong></p>
+<p>
+<input type="text" name="percent" size="3" style="font-family:Arial; color:black;text-align:center; border-width:medium; border-style:none;">           
+<input type="text" name="chart" size="46" style="font-family:Arial;font-weight:bolder; color:black; padding:0px; border-style:none;">
+</p>
+</div>
+
+                    <p><input type="submit" accesskey="s" name="post" id="comment-submit" value="发表" />  <span class="hint"> &laquo;- 点击按钮</span></p>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+
+    
+
+
+</div>
+
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/javascript" src="https://www.ruanyifeng.com/blog/js/prism.js"></script>
+        <script type="text/javascript" src="/blog/checker.js"></script> 
+            <div id="footer">
+<div id="footer-inner">
+  <div id="footer-content">
+
+      
+<!--
+      <section> 
+     </section>
+  <p><a title="Instagram" target="_blank" href="http://instagram.com/ruanyf">Instagram</a></p>
+       <p><a title="订阅" href="https://app.feedblitz.com/f/f.fbz?Sub=348868" target="_blank">邮件订阅</a></p>
+  
+       <h2>Feed</h2>
+       <p><a title="FeedBurner" href="http://feeds.feedburner.com/ruanyifeng" target="_blank">FeedBurner</a></p>
+       <p><a title="atom.xml" href="http://www.ruanyifeng.com/blog/atom.xml" target="_blank">atom.xml</a></p>
+     
+      <p>支付宝：<a title="支付宝" href="alipays://platformapi/startapp?appId=20000067&url=http%3A%2F%2Fwww.ruanyifeng.com%2Fblog" target="_blank">yifeng.ruan@gmail.com</a></p>
+-->
+
+     <section>
+<!--
+       <h2>授权方式</h2>
+       <p><a title="许可证" href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">自由转载-非商用-非衍生-保持署名</a></p>
+       <h2>微信公号</h2>
+       <h2>社交帐号</h2>
+       <h2>联系方式</h2>
+     -->
+       <p><img src="https://www.wangbase.com/blogimg/asset/202001/bg2020013101.jpg" alt="微信扫描"></p>
+       <p>
+         <a title="微博" href="https://weibo.com/ruanyf" target="_blank">Weibo</a> | 
+         <a title="Twitter" target="_blank" href="https://twitter.com/ruanyf">Twitter</a> |
+         <a title="GitHub" target="_blank" href="https://github.com/ruanyf">GitHub</a>
+       </p>
+     
+     <p>Email: <a title="电子邮件" href="/cdn-cgi/l/email-protection#9fe6f6f9faf1f8b1edeafef1dff8f2fef6f3b1fcf0f2" target="_blank"><span class="__cf_email__" data-cfemail="f28b9b94979c95dc8087939cb2959f939b9edc919d9f">[email&#160;protected]</span></a></p>
+     </section>
+  
+  
+
+
+  </div>
+</div>
+</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function insertLine(e,t){for(var n=0;n<t;n++)e.parentNode.insertBefore(document.createElement("p"),e)}function getImg(){if(!window["main-content"])return!1;for(var e,t=Array.prototype.slice.call(window["main-content"].getElementsByTagName("img")),n=0;n<t.length;n++){if("display: none !important;"===(e=t[n]).getAttribute("style"))return e;if(n===t.length-1)return!1}}function toObjectUrl(e,t){return fetch(e).then(e=>e.blob()).then(e=>{t(URL.createObjectURL(e))})}function toDataURL(e,t){var n=new XMLHttpRequest;n.open("get",e),n.responseType="blob",n.onload=function(){var e=new FileReader;e.onload=function(){t(this.result)},e.readAsDataURL(n.response)},n.send()}setTimeout(function(){var e=getImg();e&&(insertLine(e.parentNode,2),toObjectUrl(e.src,function(t){var n=document.createElement("p"),r=document.createElement("img");r.src=t,n.appendChild(r),e.parentNode.parentNode.insertBefore(n,e.parentNode)}))},3e3);
+</script>                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-46829782-1', 'ruanyifeng.com');
+  ga('send', 'pageview');
+
+</script>
+
+<script type="text/javascript" src="/blog/stats.js"></script>
+<script>
+var supportImg = document.querySelector('#support-img');
+
+if (supportImg && _hmt) {
+  _hmt.push(['_trackEvent', 'banner', 'load']);
+  supportImg.addEventListener('click', function () {
+    _hmt.push(['_trackEvent', 'banner', 'click']);
+  }, false);
+}
+
+var homepageImg = document.querySelector('#homepage_sponsor');
+if (homepageImg && _hmt) {
+  _hmt.push(['_trackEvent', 'homepage-banner', 'load']);
+  homepageImg.addEventListener('click', function () {
+    _hmt.push(['_trackEvent', 'homepage-banner', 'click']);
+  }, false);
+}
+</script>
+
+
+
+        </div>
+    </div>
+<script>(function(){var js = "window['__CF$cv$params']={r:'7923a6ffc9690460',m:'lh5fNAMxcHjkyGWYZwWlvvYK6LB72XTg8oUXfzVxyls-1675180743-0-AQQt63Ijddck50fzKy/dg2tKMiF0nFUyHeNdokBwB9jr9WoN5qfa6U1aRgaWSVS/k94+gF0h1QgzTHo7ixK8i5thPDfItlsXTkUZIG4gO1TT+5TCYveJZJArfCb0/yHLJfOo2Dbr0mlz68f+bS4We+XyuAYAHcEqa27fj9/MsGOd',s:[0x5962642673,0x8edff80867],u:'/cdn-cgi/challenge-platform/h/g'};var now=Date.now()/1000,offset=14400,ts=''+(Math.floor(now)-Math.floor(now%offset)),_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/h/g/scripts/alpha/invisible.js?ts='+ts,document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.nonce = '';_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
+</html>
+      </div>
+      
+      
+      
+    </div>
+  <ul class="breadcrumb">
+            <li><a href="/images/">IMAGES</a></li>
+            <li><a href="/images/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96.md/">一个JAVA程序猿眼中的汇编.MD</a></li>
+            <li>5</li>
+          
+  </ul>
+
+    
+    
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weidan</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">218k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">13:12</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"liweidan-cn","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

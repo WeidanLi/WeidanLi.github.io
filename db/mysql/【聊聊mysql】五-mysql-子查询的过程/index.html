@@ -28,13 +28,13 @@
 <meta property="og:site_name" content="DanZ&#39;s Blog">
 <meta property="og:description" content="一.子查询我们平时在查询数据的时候，特别是报表数据的时候，或多或少都会接触到 子查询 这个东西的吧。因为有些数据，他就是需要前套一层 子查询 来先拿到部分数据，然后再结合这部分的数据接着进行查询。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144205.png">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%BA%94-mysql-%E5%AD%90%E6%9F%A5%E8%AF%A2%E7%9A%84%E8%BF%87%E7%A8%8B.md/0.png">
 <meta property="article:published_time" content="2020-02-25T09:23:12.000Z">
-<meta property="article:modified_time" content="2023-01-27T12:02:55.557Z">
+<meta property="article:modified_time" content="2023-02-01T16:06:44.278Z">
 <meta property="article:author" content="Weidan">
 <meta property="article:tag" content="mysql">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144205.png">
+<meta name="twitter:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%BA%94-mysql-%E5%AD%90%E6%9F%A5%E8%AF%A2%E7%9A%84%E8%BF%87%E7%A8%8B.md/0.png">
 
 
 <link rel="canonical" href="http://weidanli.github.io/db/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%BA%94-mysql-%E5%AD%90%E6%9F%A5%E8%AF%A2%E7%9A%84%E8%BF%87%E7%A8%8B/">
@@ -232,7 +232,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-01-27 20:02:55" itemprop="dateModified" datetime="2023-01-27T20:02:55+08:00">2023-01-27</time>
+      <time title="修改时间：2023-02-02 00:06:44" itemprop="dateModified" datetime="2023-02-02T00:06:44+08:00">2023-02-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -311,7 +311,7 @@
 <h4 id="4-4-2-半连接"><a href="#4-4-2-半连接" class="headerlink" title="4.4.2 半连接"></a>4.4.2 半连接</h4><p>半连接可以说，为了不像上面一样创建临时表或者优化创建的临时表，然后去进行查询的一种策略。 <strong>仅适用于不相关子查询</strong> <strong>方式一</strong> <code>Table Pullout</code> 把表拉出去 如果关联查询的子查询的结果集的那个列是唯一索引，那么子查询将被跳过生成临时表的步骤，然后被拉到外面直接内连查询！ <strong>方式二</strong> <code>DuplicateWeedout execution strategy</code> 消除重复值 生成一个只有一个列并且这个列 <code>PRIMARY KEY</code>，然后根据外部表的列来排除已经被加入到结果集的数据（因为这个列是唯一的）这种方式可以用于统计省市情况，由于满足某个条件（比如人口大于某个比率），而省可能包含很多个市，可能这个省多个市可以加入结果集，那么就可以使用这种方式来消除重复的省结果集。 <strong>方式三</strong> <code>LooseScan execution strategy</code> 松散策略</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> order_info oi</span><br><span class="line"><span class="keyword">WHERE</span> order_id <span class="keyword">IN</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> order_id <span class="keyword">FROM</span> deliver_bill db <span class="keyword">WHERE</span> db.order_id <span class="keyword">LIKE</span> <span class="string">&#x27;XXX&#x27;</span></span><br><span class="line">)</span><br><span class="line"># deliver_bill 中 order_id 是二级索引</span><br></pre></td></tr></table></figure>
 <p>那么在执行子查询查发货单表的时候，由于 <code>order_id</code> 模糊查询，而且在发货单中可能存在很多重复的记录，那么在使用发货单二级索引的时候，就可以直接跳过这些重复的订单号值，拿到不重复的值就可以了。 <strong>方式四</strong> <code>Semi-join Materialization execution strategy</code> 这是上面临时表策略 <strong>方式五</strong> <code>FirstMatch execution strategy</code> 匹配字表跳出字表查询 从外表取出记录去一次一次匹配字表的记录，是一种最原始的方式。如果这条记录已经满足了条件，那么假如结果集，不再去匹配子表而是回到外表，继续下一条记录。 </p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110144205.png" alt="img"> 图来自 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/abclife/p/10895624.html">semi-join子查询优化 – FirstMatch策略</a></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%BA%94-mysql-%E5%AD%90%E6%9F%A5%E8%AF%A2%E7%9A%84%E8%BF%87%E7%A8%8B.md/0.png" alt="img"><br> 图来自 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/abclife/p/10895624.html">semi-join子查询优化 – FirstMatch策略</a></p>
 
     </div>
 

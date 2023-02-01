@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="codeva-18Edjlpyk5">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1}},"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="body {   background-color: #f5f5d5; }  #container::before {   display: block;   width: 100%;   padding: 10px;   background: rgba(0,0,0,0.1);   text-align: center;   content: &quot;本站显示不正常">
+<meta property="og:type" content="website">
+<meta property="og:title" content="DanZ&#39;s Blog">
+<meta property="og:url" content="http://weidanli.github.io/images/1-Find-Computer-Network.md/11.html">
+<meta property="og:site_name" content="DanZ&#39;s Blog">
+<meta property="og:description" content="body {   background-color: #f5f5d5; }  #container::before {   display: block;   width: 100%;   padding: 10px;   background: rgba(0,0,0,0.1);   text-align: center;   content: &quot;本站显示不正常">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wangbase.com/blogimg/asset/202107/bg2021072117.png">
+<meta property="og:image" content="http://weidanli.github.io/blogimg/asset/201103/bg2011032001.png">
+<meta property="og:image" content="http://weidanli.github.io/blogimg/asset/201103/bg2011032002.jpg">
+<meta property="og:image" content="https://www.wangbase.com/blogimg/asset/202001/bg2020013101.jpg">
+<meta property="article:published_time" content="2023-02-01T16:18:27.853Z">
+<meta property="article:modified_time" content="2023-01-31T15:59:14.740Z">
+<meta property="article:author" content="Weidan">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="vue">
+<meta property="article:tag" content="开发">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wangbase.com/blogimg/asset/202107/bg2021072117.png">
+
+
+<link rel="canonical" href="http://weidanli.github.io/images/1-Find-Computer-Network.md/11">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":true,"permalink":"http://weidanli.github.io/images/1-Find-Computer-Network.md/11.html","path":"images/1-Find-Computer-Network.md/11.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title> | DanZ's Blog
+</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DanZ's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">a normal developer daily blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section">首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section">分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section">归档</a></li>
+        <li class="menu-item menu-item-数据结构"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="section">数据结构</a></li>
+        <li class="menu-item menu-item-spring源码"><a href="/spring-sources/" rel="section">Spring源码</a></li>
+        <li class="menu-item menu-item-mysql底层"><a href="/mysql/" rel="section">MySQL底层</a></li>
+        <li class="menu-item menu-item-tomcat源码"><a href="/tomcat-sources/" rel="section">Tomcat源码</a></li>
+        <li class="menu-item menu-item-计算机网络"><a href="/network/" rel="section">计算机网络</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#page-title"><span class="nav-number">1.</span> <span class="nav-text">IETF：互联网精神的典范</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#entry-1531"><span class="nav-number">1.0.1.</span> <span class="nav-text">文档信息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#related_entries"><span class="nav-number">1.1.</span> <span class="nav-text">相关文章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#comments"><span class="nav-number">1.2.</span> <span class="nav-text">留言（18条）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#comments-open"><span class="nav-number">1.3.</span> <span class="nav-text">我要发表看法</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Weidan</p>
+  <div class="site-description" itemprop="description">计算机基础 计算机网络 Java Vue 前端 后端</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WeidanLi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WeidanLi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:toweidan@126.com" title="E-Mail → mailto:toweidan@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/WeidanLi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner page posts-expand">
+  
+  
+
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN"><header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">
+</h1>
+
+<div class="post-meta-container">
+  <ul class="breadcrumb">
+            <li><a href="/images/">IMAGES</a></li>
+            <li><a href="/images/1-Find-Computer-Network.md/">1-FIND-COMPUTER-NETWORK.MD</a></li>
+            <li>11</li>
+          
+  </ul>
+</div>
+
+</header>
+
+      
+      
+      <div class="post-body">
+          <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" id="sixapart-standard" lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="Movable Type  5.2.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!--link rel="stylesheet" href="http://www.ruanyifeng.com/blog/styles.css" type="text/css" /-->
+<link rel="start" href="https://www.ruanyifeng.com/blog/" title="Home" />
+<link rel="alternate" type="application/atom+xml" title="Recent Entries" href="https://feeds.feedburner.com/ruanyifeng" />
+<script type="text/javascript" src="https://www.ruanyifeng.com/blog/mt.js"></script>
+<script type="text/javascript" src="/blog/advertisements.js"></script>
+<!--
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html">
+<dc:title>字符编码笔记：ASCII，Unicode 和 UTF-8</dc:title>
+<dc:description>今天中午，我突然想搞清楚 Unicode 和 UTF-8 之间的关系，就开始查资料。...</dc:description>
+<dc:creator>阮一峰</dc:creator>
+<dc:date>2007-10-28T22:29:57+08:00</dc:date>
+<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/3.0/" />
+</Work>
+<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/3.0/">
+</License>
+</rdf:RDF>
+-->
+
+<style>
+body {
+  background-color: #f5f5d5;
+}
+
+#container::before {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: rgba(0,0,0,0.1);
+  text-align: center;
+  content: "本站显示不正常，可能因为您使用了广告拦截器。";
+}
+
+</style>
+<script>
+function loadjscssfile(filename, filetype){
+    if (filetype=="js"){ //if filename is a external JavaScript file
+        var fileref=document.createElement('script')
+        fileref.setAttribute("type","text/javascript")
+        fileref.setAttribute("src", filename)
+    }
+    else if (filetype=="css"){ //if filename is an external CSS file
+        var fileref=document.createElement("link")
+        fileref.setAttribute("rel", "stylesheet")
+        fileref.setAttribute("type", "text/css")
+        fileref.setAttribute("href", filename)
+    }
+    if (typeof fileref!="undefined")
+        document.getElementsByTagName("head")[0].appendChild(fileref)
+}
+//loadjscssfile("http://www.ruanyifeng.com/blog/styles.css", "css");
+loadjscssfile('/static/themes/theme_scrapbook/theme_scrapbook.min.css', "css");
+
+
+function checker() {
+  if (/mobile|android/i.test(navigator.userAgent)) return; 
+  window.comments && window.comments.setAttribute("style", "!important");
+  // var img = document.querySelector('img[src^="http://www.ruanyifeng.com/blog/images"]');
+  var img = document.querySelector('a > img[src*="wangbase.com/blogimg/asset/"]');
+  var isAdblocker = (typeof adblock === 'undefined');
+  if (
+    /*isAdblocker || */
+    (img && window.getComputedStyle(img).display === 'none') ||
+    (img && window.getComputedStyle(img.parentElement).display === 'none')
+  ){
+    var sponsor = document.querySelector('#main-content');
+    var prompt = document.createElement('div');
+    prompt.style = 'border: 1px solid #c6c6c6;border-radius: 4px;background-color: #f5f2f0;padding: 15px; font-size: 14px;';
+    prompt.innerHTML = '<p>您使用了广告拦截器，导致本站内容无法显示。</p><p>请将 www.ruanyifeng.com 加入白名单，解除广告屏蔽后，刷新页面。谢谢。</p>';
+    sponsor.parentNode.replaceChild(prompt, sponsor);
+    // document.querySelector('#main-content').innerHTML = '';
+  }
+}
+
+setTimeout(checker, 1000);
+</script>
+<script type="text/javascript" charset="UTF-8" src="https://cdn.wwads.cn/js/makemoney.js" async></script>
+
+    
+    <link rel="prev" href="https://www.ruanyifeng.com/blog/2011/03/what_chinese_government_should_do_now.html" title="中国经济：转变和对策" />
+    <link rel="next" href="https://www.ruanyifeng.com/blog/2011/03/firebug_console_tutorial.html" title="Firebug控制台详解" />
+    
+    <title>IETF：互联网精神的典范 - 阮一峰的网络日志</title>
+</head>
+<body id="scrapbook" class="mt-entry-archive one-column">
+<script>
+if (/mobile/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) document.body.classList.add('mobile');
+
+/*
+window.addEventListener('load', function(event) {
+  setTimeout(function () {
+    hab('#sup-post-2');
+    hab('#cre-inner');
+  }, 1000);
+});
+*/
+</script>
+    <div id="container">
+        <div id="container-inner">
+
+            <div id="header">
+    <div id="header-inner">
+        <div id="header-content">
+
+
+            <div id="header-name">阮一峰的网络日志 <span id="site_location"> » <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/" accesskey="1">首页</a></span><span id="site_archive"> » <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/archives.html">档案</a></span>
+</div>
+
+<div id="google_search">
+<!-- SiteSearch Google -->
+<form action="https://www.baidu.com/s" target="_blank" method="get" id="cse-search-box">
+  <div>
+  <input type="text" size="20" name="origin" class="searchbox" id="sbi" value="" />
+  <input type="hidden" name="wd" value="" />
+  <!--input type="image" src="/static/themes/theme_scrapbook/images/top_search_submit.gif" class="searchbox_submit" value="" alt="搜索" name="sa" onclick="this.form.wd.value = this.form.origin.value + ' inurl:www.ruanyifeng.com/blog'" /-->
+  <input type="image" src="/static/themes/theme_scrapbook/images/top_search_submit.gif" class="searchbox_submit" value="" alt="搜索" name="sa" onclick="this.form.wd.value = this.form.origin.value + ' 阮一峰'" />
+</div>
+</form>
+
+<!-- SiteSearch Google -->
+</div>
+<div id="feed_icon">
+<a href="/feed.html?utm_source=" title="订阅Feed">
+<!--img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAUzSURBVHjavFdbbFRVFF3nPjoz7dTWTittaW0jUDRAUqaNojyqREnEQKgfUj9MqqAmhqRt/OCD4CuY+Kckoh+aiGKC+gMJbdHoRysJ8dkhhmJLNdDKtJU+6GMK87j3Hs85d2Z6HzNtMYWb3Dn3NWftvfba+5xNYDl+e6Fkj6yqb/oDRbWq14vlPBLRKCITkxf0ROLt+hNjp1PPSRK4kA3vF1dXNRcWlyA2OQU9eos9opAkAiKxD+XkKO6t15aRWO7J/MgmAZU8MEgexgZHMX518Dh72sYMmVKShnxWuWHdHtxKIDIYTgMuDzgfmSOIQkYMpdUF8OY92Hytt4/jvkg47czzU16iQovM3QFwmNck+Yyduu7D6NA0Z6JR4THntFs9V4tWQg6Ui3s6MwKDncsFTnXKLJhDSeUK3AgPtyhccDzmVs999buRt/1Vm4i0od+hX7+MRG87jPGB/w1u8FPj9xEw7McVrnYuOCvtpjTth3J/nTg99c8LRhKhr6D3dTB5R24bXFwbMXBsyZzeoXaycEpJ95TB09AGX/NpqLVNtw8urnVzLvHjFNxiFqRy2OOHuqUVnue+ACkoWzo4O6lGzTmuHq6nPvY2m9rVqjrIK2rMEKxqyG5NPAKt+wjo0LklgfNxJkZMA3KJvqRUk3z5UFY3QH14P0h+WUY79HPvgv7VuSg4ZRGY1YgZgqXmORccF17sy2ehnf9AeO085K2HQFbtXBScj0LcpgF2cN+WV+DZ/LJQu6gD4R7oV7pBJwbSgtMvfiPoVp56DySwxm7EtkMs1WdAB7qzggsDJKQYsHucSkOudrkiCPWR/fA2nYCn8SNIK4NptSMyAu3sAdDRkIsJdfth0LzSrODUoPNZ4KI9SxJI5UHk7D4GdQfz2us31c7CoHMjRkKuDPHseCMrONVhNcDJwMJpKFVvg9L4OaTiNWm1x789KCqkrXhVBiEz0WYCT2nAzQAD1/vaETv1GrRfP4Vx5cfMNcDPwvP0h0DhanPym7OIf/+O67vcJ1/PCJ4KgdzaUP6Wz+dU+5yIL6fV+PsHGAOdwlPpvvUOyeeAVGyCdqkDNB6DPjsBSrnndfOGevOh3RhGItxvA+fX1CtbGFhgYUFkFMZPR6F1HnClHq8HyubWtJexX06CRmdt33hrd7nA7SFY4qoGpnYuOKcRykPPgDCBcsHx9Iv+fNL2PueBehCWUfYQIIMGLOCcOmXDXsh1+yCt35tUPfvzGFuSvzvoinXOxqa02qOhM6733nVP2MAdaej2XN11DPKjLZCD+yBvahGCo7JfTKAN9UD7s8Oe9zUNIhz8fWI8DG2k38WCFdxugANcXrvTVd1IEbuv3Jour7Hzn7jLMBNfKs7R3i67gRVrbeCOEDhinmWhAatsqdquM2XzHZINhK2cqTjHr/XZdVJUbgN3MWAVXKbSyg9jesRW2xP9di+lwrL5ojM3m2H/kG9hwcIA37c71W6wJdW2J2S5nrjYbq/t1AHAhJsKQeyfPvf6IMJgghPJhFZ4x0KlfLFvt22du45Au/A1SOlGc0P672XXwhLtOcM0kTTEMMd0qkVmMNXxMd/tsedUjInr4SQDgOfeXMSiN0FCL5WHah4L1qqYXPJOJlttd+a5M+YpcG5poLYKQ5f+6JJ4r8bbJYP47hq4r7QAs9PjYNhHJd4o8l5taiwuOpa7AS4XKqI/5NjJbTnaWK92nLdLuhQAJayRNMiygXPBeQN+Qbvu0zDc3y+aUzhbkGR73sI7ljvUnndx2q3t+X8CDAD66FtrIL864AAAAABJRU5ErkJggg==" alt="" style="border: 0pt none;" /-->
+<img src="https://wangbase.com/blogimg/asset/202107/bg2021072117.png" alt="" style="border: 0pt none;" />
+</a></div>
+
+        </div>
+    </div>
+</div>
+
+
+
+            <div id="content">
+                <div id="content-inner">
+
+
+                    <div id="alpha">
+                        <div id="alpha-inner">
+
+
+                            <div id="entry-1531" class="entry-asset asset hentry">
+                                <div class="asset-header">
+<div class="asset-nav entry-nav">
+
+<div class="entry-location">
+<ul>
+<li>上一篇：<a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/what_chinese_government_should_do_now.html" title="中国经济：转变和对策">中国经济：转变和对策&nbsp;</a></li>
+<li>下一篇：<a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/firebug_console_tutorial.html" title="Firebug控制台详解">Firebug控制台详</a></li>
+</ul>
+</div>
+
+
+    
+                                    <div class="entry-categories">
+                                        <p>分类<span class="delimiter">：</span></p>
+                                        <ul>
+                                            <li><a target="_blank" href="https://www.ruanyifeng.com/blog/sci-tech/" rel="tag noopener">科技爱好者</a></li>
+                                        </ul>
+                                    </div>
+    
+
+
+                                            
+<div class="entry-location-mobile" style="float: right;">
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/what_chinese_government_should_do_now.html" title="中国经济：转变和对策">⇐&nbsp;</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/firebug_console_tutorial.html" title="Firebug控制台详解">&nbsp;⇒</a></li>
+</ul>
+</div>
+
+</div>
+</div>
+
+                          
+<article class="hentry">
+                                    <h1 id="page-title" class="asset-name entry-title">IETF：互联网精神的典范</h1>
+
+
+
+<div class="asset-meta">
+                                        
+
+                                            <p class="vcard author">作者： <a class="fn url" target="_blank" rel="noopener" href="https://www.ruanyifeng.com">阮一峰</a></p>
+                                    <p>日期： <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/"><abbr class="published" title="2011-03-20T17:57:58+08:00">2011年3月20日</abbr></a></p>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+                                
+                                <div class="asset-content entry-content" id="main-content">
+
+                                    <!-- div class="asset-body" -->
+                                        <p>今年是<a target="_blank" rel="noopener" href="https://www.ietf.org/">IETF</a>成立25周年，<a target="_blank" rel="noopener" href="https://arstechnica.com/tech-policy/news/2011/01/25-years-of-ietf-setting-standards-without-kings-or-votes.ars">ars technica</a>有一篇介绍文章，回顾了它的辉煌成就。</p>
+                                    <!-- /div -->
+
+
+                                    <!-- div id="more" class="asset-more" -->
+                                        <p>IETF的全称是"互联网工程任务组"（Internet Engineering Task Force），主要目标是协调制定互联网标准。</p>
+
+<p>几乎所有重要的网络底层协议，都是由IETF制定的，比如<a target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc793.txt">TCP协议</a>、<a target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc791.txt">IP协议</a>、<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc2616">HTTP协议</a>、<a target="_blank" rel="noopener" href="https://www.rfc-editor.org/categories/rfc-standard.html">等等</a>。可以毫不夸张地说，没有IETF就没有互联网。</p>
+
+<p><img src="/blogimg/asset/201103/bg2011032001.png" /></p>
+
+<p>我一直以为，IETF与其他权力机构没有不同----一些人高高在上，另一些人服从指挥。但是，读完介绍文章以后，我震惊了，IETF居然是网友自发组织，并且自我管理的！</p>
+
+<p>IETF这样介绍自己：</p>
+
+<blockquote>
+
+<p>"我们没有会员的概念，所有人都可以参与，都可以报名参加会议。只要加入<a target="_blank" rel="noopener" href="https://www.ietf.org/list/">邮件列表</a>，你就可以把自己看做是一个IETF成员。</p>
+
+<p>----摘自The Tao of IETF（<a target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/fyi/fyi17.txt">英文版</a>，<a target="_blank" rel="noopener" href="https://www.ietf.org/documents/Tao-Chinese.pdf">中文版</a>）"</p>
+
+</blockquote>
+
+<p>这就是说，任何人都可以加入IETF，提出自己的互联网标准！这与其他标准制定机构（比如ANSI、ISO、IEEE等等）截然不同，那些机构的门槛很高，有时你必须是主权国家，才有资格加入。</p>
+
+<p>IETF的运行原则，也完全是民主平等的。</p>
+
+<blockquote>
+
+<p>"我们拒绝国王、主席和投票。我们相信共识和运行的代码。（We reject kings, presidents and voting.  We believe in rough consensus and running code.）"</p>
+
+</blockquote>
+
+<p>对于IETF来说，你是谁不重要，只要得到大多数人的赞同，或者代码运行得更好，你的标准就有可能成为整个互联网的标准。之所以不搞投票，只是为了避免平均主义，只需要那些真正关心和了解这个问题的人保持一致就行了。</p>
+
+<p>IETF的邮件列表是不受审查的，任何意见都可以发表。虽然有志愿者担任的管理员，但那是为了保证讨论秩序，而不是为了控制讨论。</p>
+
+<blockquote>
+
+<p>"某个领域的负责人（area director）是选出来协助大家思考，而不是接管整个思考过程。（ADs are selected to think, not to just run the process.）"</p>
+
+</blockquote>
+
+<p>IETF进一步地明确表示，虽然自己制定标准，但并不硬性推广标准，更不谋求控制互联网。</p>
+
+<blockquote>
+
+<p>"如果你对IETF感兴趣，只是因为你想当互联网的监督者，那么你可能会对我们极其失望。（If your interest in the IETF is because you want to be part of the overseers, you may be badly disappointed by the IETF.）"</p>
+
+</blockquote>
+
+<blockquote>
+
+<p>"我们的角色是指出方向，而不是下命令。（its role is to set directions rather than to give orders.）"</p>
+
+</blockquote>
+
+<p>IETF每年举办三次年会，它关于年会的定位和安排，更是令人瞠目结舌，将自由合作的精神发挥到了极致。</p>
+
+<blockquote>
+
+<p>"我们的年会与别的年会不一样。我们的主要目的，是为了让大家放松一下。"</p>
+
+</blockquote>
+
+<blockquote>
+
+<p>"任何人都可以报名参加。你不要有精神负担，完全可以为了感受一下气氛，而来参加会议。"</p>
+
+</blockquote>
+
+<blockquote>
+
+<p>"穿着的一般原则是'根据天气而定'（如果你一整天都不打算去室外，我们的建议就是怎么舒服怎么穿）。"</p>
+
+</blockquote>
+
+<blockquote>
+
+<p>"因为必须在胸口佩戴姓名标签，所以上身最好穿衬衫或短上衣。下身推荐穿普通的裤子或者裙子。许多新人穿着西装亮相会场，他们会感到很尴尬，因为其他人只穿T恤、牛仔裤（如果天气允许，不少人还会穿短裤）和拖鞋。"</p>
+
+</blockquote>
+
+<blockquote>
+
+<p>"如果你对发言者的主题不感兴趣，你可以低头阅读自己的email和上网，这是很普遍的现象。"</p>
+
+</blockquote>
+
+<blockquote>
+
+<p>"所有会议都可以随便坐，任何平整的表面、任何有电源插座的地方，都可以坐下。你可以与旁边的人，一边打开笔记本电脑，一边讨论。"</p>
+
+</blockquote>
+
+<p><img src="/blogimg/asset/201103/bg2011032002.jpg" /></p>
+
+<p>在IETF身上，充分体现了自由、开放、合作、共享的精神。这是互联网的核心价值。正是这样的机构，以及信奉这些价值的人，奠定了互联网的基础。</p>
+
+<p>可是，当今世界还有另一些人，他们拼命地想要管制互联网，把它变成一个封闭的、信息不能自由流动的、等级制的、存在中央管理机构的"监狱"。只要IETF这样的机构存在，只要IETF制定的标准构成互联网的基础，那些企图控制互联网的人就注定会可耻地失败。</p>
+
+<p>（完）<br />
+</p>
+                                    <!-- /div -->
+
+                                </div>
+    <script type="text/javascript" src="/newwindow.js"></script>
+                                <div class="asset-footer">
+
+<h3>文档信息</h3>
+<ul>
+<li>版权声明：自由转载-非商用-非衍生-保持署名（<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">创意共享3.0许可证</a>）</li>
+<li>发表日期： <abbr class="published" title="2011-03-20T17:57:58+08:00">2011年3月20日</abbr></li>
+
+</ul>
+                                </div>
+</article>
+                            </div>
+
+
+  
+  <div style="display: inline-block ! important;width: 100%;">
+    <style>.wwads-content .wwads-text {font-size:1.4em;} .wwads-cn img{ border : none;}</style>
+    <div class="wwads-cn wwads-horizontal" data-id="197" style="max-width:100%"></div>
+  </div>
+
+
+
+<div id="related_entries">
+<h2>相关文章</h2>
+<ul>
+
+<li><strong>2015.06.02: <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2015/06/powerwall.html">能量墙与家庭电厂</a></strong>
+
+                           <div class="entry-body">
+                              去年下半年，《财新周刊》缺一个专栏作者，问我写不写。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2013.10.25: <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2013/10/bitcoin.html">比特币的用途</a></strong>
+
+                           <div class="entry-body">
+                              这两周，比特币（bitcoin）的价格大幅上涨，我也凑热闹关注了一阵。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2012.12.06: <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2012/12/bayer_filter.html">为什么数码相机可以拍出彩色照片？</a></strong>
+
+                           <div class="entry-body">
+                              上个月（11月13日），83岁的柯达公司退休工程师布赖斯·拜尔（Bryce Bayer）去世。
+                           </div>
+
+</li>
+
+ 
+<li><strong>2012.01.23: <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2012/01/modern_medicine_timeline.html">现代医学200年</a></strong>
+
+                           <div class="entry-body">
+                              今年是世界最有影响力的医学杂志《新英格兰医学杂志》（The New England Journal of Medicine, NEJM）创刊200周年。
+                           </div>
+
+</li>
+
+ 
+</ul>
+</div>
+
+
+
+                    
+
+                    <div id="comments" class="comments">
+
+
+    
+    
+        
+    <h2 class="comments-header">留言（18条）</h2>
+
+    <div id="comments-content" class="comments-content" style="clear: left;">
+        
+        <div id="comment-213069" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">ufo</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-213069">
+            <p>很难相信世界有这么一个组织</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 20, 2011  6:07 PM">2011年3月20日 18:07</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-213069">#</a>
+ | <a href="#comment-text" title="引用ufo的这条留言" onclick="return CommentQuote('comment-quote-213069','ufo');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-213070" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">不是方滨兴</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-213070">
+            <p>GFW的执行者会可耻的失败！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 20, 2011  6:09 PM">2011年3月20日 18:09</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-213070">#</a>
+ | <a href="#comment-text" title="引用不是方滨兴的这条留言" onclick="return CommentQuote('comment-quote-213070','不是方滨兴');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-213071" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">小骆驼商队</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-213071">
+            <p>"某个领域的负责人（area director）是选出来协助大家思考，而不是接管整个思考过程。（ADs are selected to think, not to just run the process.）"</p>
+
+<p>这里的理解有点问题吧……应该是说某个领域的负责人也要自己思考，而不是仅仅维持讨论秩序。（与此相对的是某些会议主持人只维持会场秩序，不发表自己的观点。）</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 20, 2011  6:18 PM">2011年3月20日 18:18</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-213071">#</a>
+ | <a href="#comment-text" title="引用小骆驼商队的这条留言" onclick="return CommentQuote('comment-quote-213071','小骆驼商队');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-213074" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Para</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-213074">
+            <p><a target="_blank" href="http://chinese.engadget.com/2011/03/18/china-tightens-grip-on-vpn-access-amid-pro-democracy-protests-g/" rel="nofollow noopener">http://chinese.engadget.com/2011/03/18/china-tightens-grip-on-vpn-access-amid-pro-democracy-protests-g/</a></p>
+
+<p>just see ,don't explain.</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 20, 2011  8:34 PM">2011年3月20日 20:34</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-213074">#</a>
+ | <a href="#comment-text" title="引用Para的这条留言" onclick="return CommentQuote('comment-quote-213074','Para');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-213077" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Dianso</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-213077">
+            <p>决策权还是BOSS</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 20, 2011  9:40 PM">2011年3月20日 21:40</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-213077">#</a>
+ | <a href="#comment-text" title="引用Dianso的这条留言" onclick="return CommentQuote('comment-quote-213077','Dianso');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-213078" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">陈子江</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-213078">
+            <p>向往。。。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 20, 2011 10:06 PM">2011年3月20日 22:06</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-213078">#</a>
+ | <a href="#comment-text" title="引用陈子江的这条留言" onclick="return CommentQuote('comment-quote-213078','陈子江');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-213093" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">TY</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-213093">
+            <p>控制互联网注定失败，但控制一个局域网却垂手可成;-(</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 21, 2011  3:41 PM">2011年3月21日 15:41</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-213093">#</a>
+ | <a href="#comment-text" title="引用TY的这条留言" onclick="return CommentQuote('comment-quote-213093','TY');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-213110" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">sasiky</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-213110">
+            <p>自由、开放、合作、共享的精神。这是互联网的核心价值。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 21, 2011 11:21 PM">2011年3月21日 23:21</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-213110">#</a>
+ | <a href="#comment-text" title="引用sasiky的这条留言" onclick="return CommentQuote('comment-quote-213110','sasiky');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-213129" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">猫科动物</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-213129">
+            <p>这个在上研的时候接触过一点<br />
+其实IETF开年会的时候，很多与会者背后都是有大公司存在的<br />
+比根据他们的说法，很多具体的协议，都是已经画好地盘的——比如说，某某协议的负责人是思科的，某某协议是爱立信的。当负责该协议的工作组要进行年会时，相关的设备厂商就会很热心的参与到邮件列表的讨论，并且进行原型开发。<br />
+还有一点就是，比如说制定某个协议的主席是思科的人，然后一个爱立信或者华为的人到这里提出意见，想发Draft并最终加入到IETF文档，鉴于双方存在利益冲突，主席一般是不乐意的，还是希望这些工作由思科的人完成。然后双方就扯皮了...</p>
+
+<p>当然，讨论的氛围还是很友好的。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 22, 2011  1:58 PM">2011年3月22日 13:58</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-213129">#</a>
+ | <a href="#comment-text" title="引用猫科动物的这条留言" onclick="return CommentQuote('comment-quote-213129','猫科动物');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-213235" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">fisher</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-213235">
+            <p>老猫说的也是人之常情。不过，我想IETF不会诞生在英国。英国诞生ISO。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 24, 2011  1:48 AM">2011年3月24日 01:48</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-213235">#</a>
+ | <a href="#comment-text" title="引用fisher的这条留言" onclick="return CommentQuote('comment-quote-213235','fisher');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-213253" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">bush</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-213253">
+            <p>讀完這篇文章我也很震驚，這麽重要的組織居然自己還是第一次聽說。大概是因為國人一向崇拜權威，所以對開放性的組織都不太在意～</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 24, 2011  9:11 AM">2011年3月24日 09:11</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-213253">#</a>
+ | <a href="#comment-text" title="引用bush的这条留言" onclick="return CommentQuote('comment-quote-213253','bush');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-213764" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">fromoon</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-213764">
+            <p>IETF的公信力还可以。<br />
+互联网大会上各国质疑比较多的是ICANN，比如它现在的主席是美国前情报官员，哪位可以找到公开的选举记录，看看有没有一点IETF的精神典范？</p>
+
+<p>如果把国际互联网的管理都交给IETF，应该得到美国以外大部分国家的通过。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 28, 2011 12:05 PM">2011年3月28日 12:05</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-213764">#</a>
+ | <a href="#comment-text" title="引用fromoon的这条留言" onclick="return CommentQuote('comment-quote-213764','fromoon');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-218603" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">真想</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-218603">
+            <p>一篇幼稚到不行的文章。任何组织都有自己的一套标榜性文字，你看看联合国宪章，各国的宪法，Google也说自己不做恶，比尔盖茨号称是慈善家，比这个说的好听的多。但是事实呢？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  9, 2011 10:33 PM">2011年5月 9日 22:33</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-218603">#</a>
+ | <a href="#comment-text" title="引用真想的这条留言" onclick="return CommentQuote('comment-quote-218603','真想');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-220300" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Ricky</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-220300">
+            <blockquote>
+<pre>引用真想的发言：</pre>
+
+<p>一篇幼稚到不行的文章。任何组织都有自己的一套标榜性文字，你看看联合国宪章，各国的宪法，Google也说自己不做恶，比尔盖茨号称是慈善家，比这个说的好听的多。但是事实呢？</p>
+
+</blockquote>
+
+<p>同意“任何组织都有自己的一套标榜性文字”。<br />
+不过请列举你想说的IETF的“事实”。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May 27, 2011  9:53 AM">2011年5月27日 09:53</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-220300">#</a>
+ | <a href="#comment-text" title="引用Ricky的这条留言" onclick="return CommentQuote('comment-quote-220300','Ricky');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-220828" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">alex</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-220828">
+            <p>cisco在里面的话语权是很强势的，也不是绝对的公平。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="June  5, 2011 11:22 AM">2011年6月 5日 11:22</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-220828">#</a>
+ | <a href="#comment-text" title="引用alex的这条留言" onclick="return CommentQuote('comment-quote-220828','alex');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-226583" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">w</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-226583">
+            <blockquote>
+<pre>引用真想的发言：</pre>
+
+<p>一篇幼稚到不行的文章。</p>
+
+</blockquote>
+
+<p>第一个句话就暴露了你的基因。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 31, 2011  4:10 PM">2011年8月31日 16:10</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-226583">#</a>
+ | <a href="#comment-text" title="引用w的这条留言" onclick="return CommentQuote('comment-quote-226583','w');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-349936" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">御宅暴君</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-349936">
+            <p>有个笑话叫「互联网大会」。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May 25, 2015  4:50 PM">2015年5月25日 16:50</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-349936">#</a>
+ | <a href="#comment-text" title="引用御宅暴君的这条留言" onclick="return CommentQuote('comment-quote-349936','御宅暴君');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-394554" class="comment">
+    <div id="comment-last" class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">kk</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-394554">
+            <p>确实是“一篇幼稚到不行了的文章”</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October 31, 2018 11:33 AM">2018年10月31日 11:33</abbr>
+ | <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2011/03/ietf.html#comment-394554">#</a>
+ | <a href="#comment-text" title="引用kk的这条留言" onclick="return CommentQuote('comment-quote-394554','kk');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    </div>
+        
+    
+
+
+    
+    
+    <div class="comments-open" id="comments-open">
+        <h2 class="comments-open-header">我要发表看法</h2>
+        <div class="comments-open-content">
+
+        
+            <div id="comment-greeting"></div>
+
+            <form method="post" action="https://www.ruanyifeng.com/cgi-bin/mtos/mt-comments.cgi" name="comments_form" id="comments-form" onsubmit="return pleaseWait();">
+                <input type="hidden" name="static" value="1" />
+                <input type="hidden" name="entry_id" value="1531" />
+                <input type="hidden" name="__lang" value="en" />
+                <input type="hidden" name="parent_id" value="" id="comment-parent-id" />
+                <input type="hidden" name="armor" value="1" />
+                <input type="hidden" name="preview" value="" />
+                <input type="hidden" name="sid" value="" />
+                <div id="comments-open-data">
+            <div id="comments-open-text">
+                    <p><label for="comment-text">您的留言
+                    （HTML标签部分可用）</label></p>
+                    <p><textarea id="comment-text" name="text" rows="10" cols="50"></textarea></p>
+                </div>
+                    <div id="comment-form-name">
+                        <p><label for="comment-author">您的大名：</label></p>
+                        <p><input id="comment-author" name="author" size="30" value="" />  <span class="hint"> &laquo;-必填</span></p>
+                    </div>
+                    <div id="comment-form-email">
+                        <p><label for="comment-email">电子邮件：</label></p>
+                        <p><input id="comment-email" name="email" size="30" value="" />  <span class="hint"> &laquo;-必填，不公开</span></p>
+                    </div>
+                    <div id="comment-form-url">
+                        <p><label for="comment-url">个人网址：</label></p>
+                        <p><input id="comment-url" name="url" size="30" value="" />  <span class="hint"> &laquo;-我信任你，不会填写广告链接</span></p>
+                    </div>
+                    <div id="comment-form-remember-me">
+                        <p>
+                        <label for="comment-bake-cookie">记住个人信息？</label><input type="checkbox" id="comment-bake-cookie" name="bakecookie" onclick="!this.checked?forgetMe(document.comments_form):rememberMe(document.comments_form)" value="1" accesskey="r" /></p>
+                    </div>
+                </div>
+                    <div id="comment-form-reply" style="display:none">
+                    <input type="checkbox" id="comment-reply" name="comment_reply" value="" onclick="mtSetCommentParentID()" />
+                    <label for="comment-reply" id="comment-reply-label"></label>
+                </div>
+                <div id="comments-open-captcha"></div>
+                <div id="comments-open-footer">
+<div id="wait" style="display:none;">
+<p><strong>正在发表您的评论，请稍候</strong></p>
+<p>
+<input type="text" name="percent" size="3" style="font-family:Arial; color:black;text-align:center; border-width:medium; border-style:none;">           
+<input type="text" name="chart" size="46" style="font-family:Arial;font-weight:bolder; color:black; padding:0px; border-style:none;">
+</p>
+</div>
+
+                    <p><input type="submit" accesskey="s" name="post" id="comment-submit" value="发表" />  <span class="hint"> &laquo;- 点击按钮</span></p>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+
+    
+
+
+</div>
+
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        <script type="text/javascript" src="https://www.ruanyifeng.com/blog/js/prism.js"></script>
+        <script type="text/javascript" src="/blog/checker.js"></script> 
+            <div id="footer">
+<div id="footer-inner">
+  <div id="footer-content">
+
+      
+<!--
+      <section> 
+     </section>
+  <p><a title="Instagram" target="_blank" href="http://instagram.com/ruanyf">Instagram</a></p>
+       <p><a title="订阅" href="https://app.feedblitz.com/f/f.fbz?Sub=348868" target="_blank">邮件订阅</a></p>
+  
+       <h2>Feed</h2>
+       <p><a title="FeedBurner" href="http://feeds.feedburner.com/ruanyifeng" target="_blank">FeedBurner</a></p>
+       <p><a title="atom.xml" href="http://www.ruanyifeng.com/blog/atom.xml" target="_blank">atom.xml</a></p>
+     
+      <p>支付宝：<a title="支付宝" href="alipays://platformapi/startapp?appId=20000067&url=http%3A%2F%2Fwww.ruanyifeng.com%2Fblog" target="_blank">yifeng.ruan@gmail.com</a></p>
+-->
+
+     <section>
+<!--
+       <h2>授权方式</h2>
+       <p><a title="许可证" href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">自由转载-非商用-非衍生-保持署名</a></p>
+       <h2>微信公号</h2>
+       <h2>社交帐号</h2>
+       <h2>联系方式</h2>
+     -->
+       <p><img src="https://www.wangbase.com/blogimg/asset/202001/bg2020013101.jpg" alt="微信扫描"></p>
+       <p>
+         <a title="微博" href="https://weibo.com/ruanyf" target="_blank">Weibo</a> | 
+         <a title="Twitter" target="_blank" href="https://twitter.com/ruanyf">Twitter</a> |
+         <a title="GitHub" target="_blank" href="https://github.com/ruanyf">GitHub</a>
+       </p>
+     
+     <p>Email: <a title="电子邮件" href="/cdn-cgi/l/email-protection#dfa6b6b9bab1b8f1adaabeb19fb8b2beb6b3f1bcb0b2" target="_blank"><span class="__cf_email__" data-cfemail="275e4e41424940095552464967404a464e4b0944484a">[email&#160;protected]</span></a></p>
+     </section>
+  
+  
+
+
+  </div>
+</div>
+</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function insertLine(e,t){for(var n=0;n<t;n++)e.parentNode.insertBefore(document.createElement("p"),e)}function getImg(){if(!window["main-content"])return!1;for(var e,t=Array.prototype.slice.call(window["main-content"].getElementsByTagName("img")),n=0;n<t.length;n++){if("display: none !important;"===(e=t[n]).getAttribute("style"))return e;if(n===t.length-1)return!1}}function toObjectUrl(e,t){return fetch(e).then(e=>e.blob()).then(e=>{t(URL.createObjectURL(e))})}function toDataURL(e,t){var n=new XMLHttpRequest;n.open("get",e),n.responseType="blob",n.onload=function(){var e=new FileReader;e.onload=function(){t(this.result)},e.readAsDataURL(n.response)},n.send()}setTimeout(function(){var e=getImg();e&&(insertLine(e.parentNode,2),toObjectUrl(e.src,function(t){var n=document.createElement("p"),r=document.createElement("img");r.src=t,n.appendChild(r),e.parentNode.parentNode.insertBefore(n,e.parentNode)}))},3e3);
+</script>                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-46829782-1', 'ruanyifeng.com');
+  ga('send', 'pageview');
+
+</script>
+
+<script type="text/javascript" src="/blog/stats.js"></script>
+<script>
+var supportImg = document.querySelector('#support-img');
+
+if (supportImg && _hmt) {
+  _hmt.push(['_trackEvent', 'banner', 'load']);
+  supportImg.addEventListener('click', function () {
+    _hmt.push(['_trackEvent', 'banner', 'click']);
+  }, false);
+}
+
+var homepageImg = document.querySelector('#homepage_sponsor');
+if (homepageImg && _hmt) {
+  _hmt.push(['_trackEvent', 'homepage-banner', 'load']);
+  homepageImg.addEventListener('click', function () {
+    _hmt.push(['_trackEvent', 'homepage-banner', 'click']);
+  }, false);
+}
+</script>
+
+
+
+        </div>
+    </div>
+<script>(function(){var js = "window['__CF$cv$params']={r:'7923a741ab766e40',m:'Ub7CSKmrAgO56K6eQ3skFT8YpuSSUjVZ95vZmqXCSPc-1675180754-0-AbuRW/SaBwNEG9VBArIZ6N2vOUL1L5+3BLnmhBVZLjM7vxSBy0RSRmEMARnim3wUoBd8mD49fIlaBVeIeeO2GshM8h0yg8fC8WpO20TDNPNbpOAAzy8v5wTEK7ypRJdmW4gmJyMV0y2Zc56rPgRqEEM=',s:[0x53b51af9bd,0xff486cb753],u:'/cdn-cgi/challenge-platform/h/g'};var now=Date.now()/1000,offset=14400,ts=''+(Math.floor(now)-Math.floor(now%offset)),_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/h/g/scripts/alpha/invisible.js?ts='+ts,document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.nonce = '';_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
+</html>
+      </div>
+      
+      
+      
+    </div>
+  <ul class="breadcrumb">
+            <li><a href="/images/">IMAGES</a></li>
+            <li><a href="/images/1-Find-Computer-Network.md/">1-FIND-COMPUTER-NETWORK.MD</a></li>
+            <li>11</li>
+          
+  </ul>
+
+    
+    
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weidan</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">218k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">13:12</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"liweidan-cn","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

@@ -28,27 +28,27 @@
 <meta property="og:site_name" content="DanZ&#39;s Blog">
 <meta property="og:description" content="一.REDO LOG数据库最主要的特性是 持久性，即修改了数据库数据以后，无论发生什么事情，数据都不会丢失。MySQL-InnDB 就利用 REDO LOG 来满足持久性。REDO LOG 中文称为 重做日志，那也可以简洁一点叫做 REDO 日志。是数据库启动的时候，用于读取计算 BufferPool 中脏页数据的方式，这样可以避免由于其他原因导致数据库掉线但是脏页未刷新到硬盘，而导致数据丢失的尴">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113159.jpeg">
-<meta property="og:image" content="https://liweidan.cn/wp-content/uploads/2020/03/B_plus_tree_split.gif">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113210.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113221.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113229.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113237.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113245.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113254.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113308.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113316.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113335.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113350.gif">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113407.jpeg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113418.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/0.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/1.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/2.gif">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/3.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/4.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/5.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/6.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/7.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/8.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/9.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/10.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/11.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/12.gif">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/13.jpeg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/14.jpeg">
 <meta property="article:published_time" content="2020-03-11T09:15:21.000Z">
-<meta property="article:modified_time" content="2023-01-27T12:02:55.558Z">
+<meta property="article:modified_time" content="2023-02-01T15:58:14.406Z">
 <meta property="article:author" content="Weidan">
 <meta property="article:tag" content="mysql">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg">
+<meta name="twitter:image" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/0.jpeg">
 
 
 <link rel="canonical" href="http://weidanli.github.io/db/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log/">
@@ -246,7 +246,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-01-27 20:02:55" itemprop="dateModified" datetime="2023-01-27T20:02:55+08:00">2023-01-27</time>
+      <time title="修改时间：2023-02-01 23:58:14" itemprop="dateModified" datetime="2023-02-01T23:58:14+08:00">2023-02-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -294,7 +294,7 @@
 <p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
 <h2 id="三-日志格式"><a href="#三-日志格式" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
 <a id="more"></a>
-<h3 id="3-1-装载数据的通用格式"><a href="#3-1-装载数据的通用格式" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113143.jpeg"></p>
+<h3 id="3-1-装载数据的通用格式"><a href="#3-1-装载数据的通用格式" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/0.jpeg"></p>
 <p>一条重做日志，肯定会包含上面这些信息。</p>
 <p>日志类型，在现在常用的 <code>5.7</code> 中，有 <code>53</code> 种类型，这个类型字段就很重要了，决定着程序恢复数据的方式。</p>
 <ol>
@@ -304,7 +304,7 @@
 <li><code>MLOG_8BYTE</code>（<code>type = 8</code>）：写入 <code>8byte</code> 的数据；</li>
 <li><code>MLOG_WRITE_STRING</code>（<code>type = 30</code>）：写入一串数据，具体长度会放在上图中 <code>黄色</code> 的部分；</li>
 </ol>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113159.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/1.jpeg"></p>
 <p>可以看到第 <code>5</code> 中类型在具体内容中带有一个 <code>len</code> 表示数据的长度，也有点类似于我们做 <code>RPC</code> 的时候为了粘包写的长度。那我们业务中每次更新都会更新很多东西，可以说基本都是使用第 <code>5</code> 种日志类型了。</p>
 <p>而 <code>偏移量在上面所有类型的日志中都有</code>。</p>
 <h3 id="3-2-插入数据时日志格式"><a href="#3-2-插入数据时日志格式" class="headerlink" title="3.2 插入数据时日志格式"></a>3.2 插入数据时日志格式</h3><p>OK，现在我们来了解下日志存储哪些东西。</p>
@@ -451,11 +451,11 @@
 </blockquote>
 <blockquote>
 <p>页分裂：</p>
-<p><img src="https://liweidan.cn/wp-content/uploads/2020/03/B_plus_tree_split.gif"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/2.gif"></p>
 </blockquote>
 <p>好了，所以说，插入一条数据的时候需要调整的东西特别多，而且这些地方的调整都需要生成 <code>REDO 日志</code>。</p>
 <p>但是这些需要修改的地方特别零散，他并不是聚集在一起的</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113210.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/3.jpeg"></p>
 <p>上图黄色的地方就是被修改的数据。</p>
 <p>那现在有两种解决方案，一种是修改多少个地方就记录多少条日志，这样就需要 <code>8</code> 条 <code>REDO 日志</code>。</p>
 <p>那如果说将第一个修改的地方，和最后一个修改的地方，所有数据都进行记录的话，像上面那张图，最后一个因为拉的很远，中间那些没有修改的数据就都需要放到 <code>REDO 日志</code> 上去，那么这样又感觉不优雅（讲真我以前我还真的这么干过用户编辑信息）。</p>
@@ -470,11 +470,11 @@
 <p>但是有个比较特殊，那就是 <code>批量删除</code> 了：</p>
 <p><code>MLOG_COMP_LIST_START_DELETE</code>（<code>type = 44</code>）和 <code>MLOG_COMP_LIST_END_DELETE</code> （<code>type = 43</code>）表示批量删除的时候，开始删除跟结束删除的两条范围记录。</p>
 <h3 id="3-2-REDO-日志内容"><a href="#3-2-REDO-日志内容" class="headerlink" title="3.2 REDO 日志内容"></a>3.2 REDO 日志内容</h3><p>而一个 <code>REDO 日志</code> 包含了两个层面的东西：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113221.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/4.jpeg"></p>
 <p>而逻辑层面的东西，并不是说在重启的时候直接回复到数据文件中，而是需要经过一系列的计算，然后再得出最后结果写入数据文件，类似于 <code>Java</code> 写 <code>方法</code> 的时候需要用到的一些参数信息。而上一节中的类型，指的是参数的不同，<code>InnoDB</code> 恰好可以根据这些参数计算出来对应的 <code>PAGE_N_DIR_SLOTS</code> <code>PAGE_N_HEAP</code> 等等信息，然后恢复到数据库中。</p>
 <h2 id="四-重做LOG的’事务’"><a href="#四-重做LOG的’事务’" class="headerlink" title="四.重做LOG的’事务’"></a>四.重做LOG的’事务’</h2><p><code>重做LOG</code> 的’事务’ 也成为 <code>Mini-Transaction</code>，因为我们知道系统每次写一页是 <code>4kb</code>，磁盘一次 <code>IO</code> 是 <code>512 byte</code>。那如果 <code>重做LOG</code> 在写入硬盘的时候，写少了点东西，势必导致这部分的日志被破坏不可用了，所以 <code>InnoDB</code> 规定，某些修改数据页的 <code>重做LOG</code> 必须一起被写入硬盘，这部分的 <code>重做LOG</code> 才算真的有效。</p>
 <p>我们上面已经知道，一条修改语句或者新增语句将会更多多个地方，就真的可能出现了多个 <code>重做LOG</code>，更何况我们一般开事务也不会无聊到只运行一条增删改语句，所以一个事务下来，就会出现很多条 <code>重做LOG</code>，那从上面又知道，因为各个硬件写入的速率不同，所以需要有些 <code>Mini-Transaction</code>：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113229.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/5.jpeg"></p>
 <p>以下这些常见情况，必须视为一个不可分割的 <code>Mini-Transaction</code>：</p>
 <ol>
 <li>没有指定 <code>主键</code> 的情况下，全局更新 <code>Max Row ID</code> 时候产生的 <code>重做LOG</code>；</li>
@@ -483,10 +483,10 @@
 <li>……</li>
 </ol>
 <h2 id="五-重做LOG缓冲区"><a href="#五-重做LOG缓冲区" class="headerlink" title="五.重做LOG缓冲区"></a>五.重做LOG缓冲区</h2><p>日志已经生成，这时候需要考虑的就是怎么落地的问题了，所以就有了 <code>日志缓冲区</code>，<code>区</code> 放的是 <code>重做LOG数据页（跟数据的数据页不同）</code>：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113237.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/6.jpeg"></p>
 <p><code>HEADER</code> 和 <code>FOOTER</code> 并不打算细说了，主要就是为了校验，以及管理 <code>BODY</code> 中的内容。所以我们主要来说说 <code>BODY</code>。</p>
 <p>那么 <code>重做LOG</code> 不可能是串行写入的，要不然速度就上不去了，所以运行时 <code>日志缓冲区</code> 就看起来可能是这样的：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113245.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/7.jpeg"></p>
 <p>如图，<code>事务1</code> 和 <code>事务2</code> 的 <code>MiniTransaction</code> 是交叉运行的，而 <code>事务3</code> 更新的内容比较多，所以会占用多个 <code>缓冲页</code>，有些甚至更大，会占用多个 <code>缓冲页</code>。</p>
 <h2 id="六-触发重做LOG刷盘"><a href="#六-触发重做LOG刷盘" class="headerlink" title="六.触发重做LOG刷盘"></a>六.触发重做LOG刷盘</h2><p>上面那张图引出另外一个问题，已经写入 <code>缓冲区</code> 的 <code>重做LOG</code> 需要怎么落地，如果不落地，那已关机，内存中的 <code>缓冲区</code> 一旦清空，<code>重做LOG</code> 就没有意义了。所以就需要有个机制来刷新这些 <code>重做LOG数据</code> 到硬盘中，那么刷盘的触发情况分为以下几种情况：</p>
 <ol>
@@ -505,12 +505,12 @@
 <p>那 <code>InnoDB</code> 在写 <code>重做LOG</code> 的时候就从编号 <code>0</code> 开始，写到最后一个。如果到了最后一个并且已经用完了所有空间了，那就重新从 <code>0</code> 开始，依次类推循环的写入硬盘。</p>
 <p>循环从头开始写 <code>重做LOG</code> 的时候，那必须会碰到 <code>前面的重做LOG</code> 被覆盖的问题，那如何判断前面的 <code>重做LOG</code> 是否还有用，就是需要判断 <code>BufferPool</code> 中的 <code>脏页</code> 是否已经被刷新到硬盘了，如果已经刷新成功，那么这部分的 <code>重做LOG</code> 肯定是没有用的，可以放心的覆盖。这就回到了我们的初衷：<code>持久化且高效的保存数据</code>。</p>
 <p>那如何判断咧，需要结合之前我们在 <code>BufferPool</code> 中说到的 <code>flush链表</code> 了。</p>
-<h2 id="八-重做LOG缓冲页与日志文件的关系"><a href="#八-重做LOG缓冲页与日志文件的关系" class="headerlink" title="八.重做LOG缓冲页与日志文件的关系"></a>八.重做LOG缓冲页与日志文件的关系</h2><h3 id="8-1-重做日志文件的格式"><a href="#8-1-重做日志文件的格式" class="headerlink" title="8.1 重做日志文件的格式"></a>8.1 重做日志文件的格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113254.jpeg"></p>
+<h2 id="八-重做LOG缓冲页与日志文件的关系"><a href="#八-重做LOG缓冲页与日志文件的关系" class="headerlink" title="八.重做LOG缓冲页与日志文件的关系"></a>八.重做LOG缓冲页与日志文件的关系</h2><h3 id="8-1-重做日志文件的格式"><a href="#8-1-重做日志文件的格式" class="headerlink" title="8.1 重做日志文件的格式"></a>8.1 重做日志文件的格式</h3><p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/8.jpeg"></p>
 <p>上面 <code>第一个管理单元</code> 和 <code>第二四管理单元</code> 里面涉及到的 <code>LSN</code> 和 <code>CheckPoint</code> 是重点。</p>
 <h3 id="8-2-LSN-Log-Swquence-Number"><a href="#8-2-LSN-Log-Swquence-Number" class="headerlink" title="8.2 LSN - Log Swquence Number"></a>8.2 LSN - Log Swquence Number</h3><p><code>LSN</code> 是一个日志的序列号，这个值从开始有 <code>REDO</code> 开始，将会不停的自增，可以理解为数据表的主键一样，插入一条新的数据的 <code>自增ID</code> 变化情况。<code>InnoDB</code> 会有一个全局变量，专门用于记录这个值变化到哪个数据点，不过他不是从 <code>0</code> 开始而是从 <code>8704</code> 开始，也就是规定一条 <code>重做LOG</code> 都没有的情况下，这个 <code>全局变量</code> 的值就是 <code>8704</code>。</p>
-<p>而 <code>LSN</code> 的增长，是会加上 <code>重做LOG页</code> 的头部和尾部的，就是说当一个 <code>MiniTransaction</code> 跨越几个区的时候，那这个值里面就包含了覆盖到的 <code>HEADER</code> 和 <code>FOOTER</code> 值。  <img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113308.jpeg"></p>
+<p>而 <code>LSN</code> 的增长，是会加上 <code>重做LOG页</code> 的头部和尾部的，就是说当一个 <code>MiniTransaction</code> 跨越几个区的时候，那这个值里面就包含了覆盖到的 <code>HEADER</code> 和 <code>FOOTER</code> 值。  <img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/9.jpeg"></p>
 <h3 id="8-4-日志缓冲数据刷盘"><a href="#8-4-日志缓冲数据刷盘" class="headerlink" title="8.4 日志缓冲数据刷盘"></a>8.4 日志缓冲数据刷盘</h3><p>由于需要刷盘，并且记录哪些数据已经被刷新到硬盘了，这样才能够释放内存空间让后面的 <code>重做LOG</code> 来用。所以上面提到的 <code>LSN</code> 就开始有用处了。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113316.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/10.jpeg"></p>
 <p>这时候，<code>InnoDB</code> 中又出现了几个全局变量（可以理解为指针）：</p>
 <ol>
 <li><code>buf_next_to_write</code>：此指针之前的数据表示已经准备刷盘的日志数据，这部分的日志数据已经可以被复用的；</li>
@@ -526,14 +526,14 @@
 <p>flush链表：</p>
 <p><code>flush链表</code> 主要是用来管理 <code>BufferPool</code> 中已经被修改的数据页，因为此时内存中的数据页已经发生修改，和硬盘上原有的数据页不同，所以就需要在某个时刻由 <code>后台线程</code> 刷新到硬盘上去。</p>
 <p>但是，这个时候总不可能去循环所有数据页，然后判断是不是脏页吧，所以又有一条链表产生，就是 <code>flush链表</code>。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113335.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/11.jpeg"></p>
 </blockquote>
 <p>我们在对数据进行修改的时候，一直处于 <code>重做LOG缓冲区</code> 的视觉，现在需要将视觉切换到 <code>BufferPool</code> 中去，<code>BufferPool</code> 还有个东西，叫做 <code>flush链表</code>，为了回忆我已经将上次写的东西放在了上面。</p>
 <p>那我们需要结合 <code>MiniTransaction</code> 来说，每个控制块里面有两个属性，一个叫做 <code>oldest_modification</code> 一个叫做 <code>newest_modification</code>。<code>oldest_modification</code> 会记录在开始做修改时 <code>LSN</code> 的值，修改完成后，<code>newest_modification</code> 记录修改后的 <code>LSN</code> 的值。</p>
 <p>那 <code>flush链表</code> 会发生哪些变化，我直接画个动态图来说吧：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113350.gif"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/12.gif"></p>
 <p>最后的状态：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113407.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/13.jpeg"></p>
 <p>归纳几个特点：</p>
 <ol>
 <li>最新被修改的数据页，总是会被移动到链表的开始；</li>
@@ -547,7 +547,7 @@
 <p>所以我们的两个日志文件 <code>ib_logfile0</code> 和 <code>ib_logfile1</code> ，<code>ib_logfile1</code> 在写到结尾的时候，会重新回到 <code>ib_logfile0</code> 开始写，那么 <code>Checkpoint</code> 的提出就是为了解决在回去写 <code>ib_logfile0</code> 的时候是否可以覆盖前面的日志的问题。</p>
 <p>结合上面说的 <code>flush链表</code>，那就可以说了，<code>InnoDB</code> 只需要判断前面的 <code>重做LOG</code> 对应的数据页是否存在 <code>flush链表</code>，如果不存在，则表示这些数据页已经顺利写到数据页中去，也就表明前面的 <code>重做LOG</code> 已经可以覆盖掉了。</p>
 <p>所以，<code>InnoDB</code> 又用了一个全局的变量 <code>checkpoint_lsn</code> 来表示数据页刷新到哪个 <code>LSN</code> 了，而这个值每次在脏页被写入硬盘的时候就会被修改成当前脏页的 <code>newest_modification</code>。也是下一个脏页的 <code>oldest_modification</code>。那么 <code>重做LOG</code> 刚开始的日志 <code>LSN</code> 如果小于这个 <code>checkpoint_lsn</code> 的话，表示这些日志已经没用了，可以被覆盖掉。而每进行一次 <code>checkpoint</code> 后，<code>checkpoint_lsn</code> 的值就会被写入日志实体文件的管理信息里面，就是下面蓝色部分：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110113418.jpeg"></p>
+<p><img src="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log.md/14.jpeg"></p>
 <p>那这时候我们就可以来说说管理信息中两个 <code>Checkpoint</code> 块信息的事情了。</p>
 <p><code>LOG_CHECKPOINT_NO</code> 是服务器做 <code>Checkpoint</code> 的次数，这个变量有个全局变量，每做一次，此变量就会自增加1，然后被一起写入到这个管理信息块中去。而 <code>LOG_CHECKPOINT_OFFSET</code> 则对应的日志数据的偏移量。那这个偏移量前面的数据就是可以丢弃的。而放入那个 <code>Checkpoint块</code> 中，<code>InnoDB</code> 会判断 <code>LOG_CHECKPOINT_NO</code>，如果这个数是 <code>偶数</code> 就写入 <code>第一个</code> 块中，如果是 <code>奇数</code> 就写入 <code>第二个</code> 块中。</p>
 <h2 id="九-崩溃重做数据页"><a href="#九-崩溃重做数据页" class="headerlink" title="九.崩溃重做数据页"></a>九.崩溃重做数据页</h2><p><code>第八节</code> 说了这么多记录重做的事情，那如果系统发生崩溃需要重做，这时候 <code>重做LOG</code> 就发挥用处了。</p>

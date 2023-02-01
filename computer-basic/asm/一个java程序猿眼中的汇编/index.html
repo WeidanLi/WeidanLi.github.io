@@ -28,20 +28,20 @@
 <meta property="og:site_name" content="DanZ&#39;s Blog">
 <meta property="og:description" content="一、介绍在计算机中，CPU只能识别二进制，当需要CPU做事情的时候，都需要通过二进制去指挥CPU做什么事情。古人觉得二进制实在是难以理解，所以才发明了汇编语言以及后面的高级语言，所以汇编语言可以称作为比较接近机器语言的语言了。 当然后面的古人依然觉得汇编语言难以理解，所以发明了C、C++、Java来解决难以理解的问题。所以后面的语言越来越偏于人类自然语言，并且使用面向对象的思想来设计程序。当然这期">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152551.jpg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152616.jpg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152642.jpg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152657.jpg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152710.jpg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96.md/0.jpg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96.md/1.jpg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96.md/2.jpg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96.md/3.jpg">
+<meta property="og:image" content="http://weidanli.github.io/images/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96.md/4.jpg">
 <meta property="article:published_time" content="2018-02-12T09:04:40.000Z">
-<meta property="article:modified_time" content="2023-01-27T12:02:55.561Z">
+<meta property="article:modified_time" content="2023-02-01T16:12:27.439Z">
 <meta property="article:author" content="Weidan">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="vue">
 <meta property="article:tag" content="开发">
 <meta property="article:tag" content="项目">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152551.jpg">
+<meta name="twitter:image" content="http://weidanli.github.io/images/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96.md/0.jpg">
 
 
 <link rel="canonical" href="http://weidanli.github.io/computer-basic/asm/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96/">
@@ -239,7 +239,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-01-27 20:02:55" itemprop="dateModified" datetime="2023-01-27T20:02:55+08:00">2023-01-27</time>
+      <time title="修改时间：2023-02-02 00:12:27" itemprop="dateModified" datetime="2023-02-02T00:12:27+08:00">2023-02-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -291,16 +291,16 @@
 <li> 栈（Stack）：用于存储方法运行中需要使用到的临时变量的空间。Java中的栈，当需要的临时变量如果是对象的情况下，存储的是对象在堆中的引用地址，基本数据类型的话那就是直接存储数据了。</li>
 </ol>
 <h3 id="（二）堆空间的使用"><a href="#（二）堆空间的使用" class="headerlink" title="（二）堆空间的使用"></a>（二）堆空间的使用</h3><p>（内存模型引用阮老师的图片） 1.当一个程序被启动，系统中会在内存中为改程序划分一块空闲内存： </p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152551.jpg"> </p>
+<p><img src="/images/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96.md/0.jpg"> </p>
 <p>这块内存是从低到高进行划分的，当该程序需要分配对象的时候（使用<code>malloc</code>命令），系统将从这块内存的低位开始，按照对象的大小划分一块内存供这个对象存放： </p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152616.jpg"></p>
+<p><img src="/images/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96.md/1.jpg"></p>
 <p> 图中的对象中用了32个字节： 具体计算（8进制）： <code>0x1000 + 32 = 0x1020</code> 堆空间必须手动释放或者通过程序的垃圾回收器，如果该对象被GC判定为无用的对象，那么GC将对这块内存进行释放。</p>
 <h3 id="（三）栈空间的使用"><a href="#（三）栈空间的使用" class="headerlink" title="（三）栈空间的使用"></a>（三）栈空间的使用</h3><p>栈空间用于存储一个函数运行过程中需要用到的数据的内存。 栈和堆不同的是：栈是从高位开始占用内存的，而且遵从LIFO (Last-In-First-Out)原则。 为啥是先进后出：因为函数调用的时候，最后一个调用的函数是最先结束的： 举个例子：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">   <span class="type">int</span> a = <span class="number">2</span>;</span><br><span class="line">   <span class="type">int</span> b = <span class="number">3</span>;</span><br><span class="line">   <span class="keyword">return</span> add_a_and_b(a, b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在这段代码中，main函数先入栈，其次调用了<code>add_a_and_b(a, b)</code>，该函数入栈。那么是不是<code>add_a_and_b(a, b)</code>函数先执行完成，再把结果返回给<code>main</code>方法，<code>main</code>再运行结束。 栈空间： </p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152642.jpg"></p>
+<p><img src="/images/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96.md/2.jpg"></p>
 <h2 id="三、寄存器"><a href="#三、寄存器" class="headerlink" title="三、寄存器"></a>三、寄存器</h2><h3 id="（一）寄存器的介绍"><a href="#（一）寄存器的介绍" class="headerlink" title="（一）寄存器的介绍"></a>（一）寄存器的介绍</h3><p>我们还要知道的另外一件事情是CPU只负责做事情，并不能够存储任何数据，包括运算过程中需要用到的临时数据，都需要通过缓存、内存以及寄存器来存储。 那么何为缓存：缓存是CPU能够够得到的第一级存储物质，再之是内存。为啥有内存了还需要这些东西呢，因为设计者认为，CPU的速度要远快于内存的速度，如果任何数据都通过去读取和写入内存操作的话，就会拖慢CPU的速度，所以在京东或者其他地方购买CPU的时候，是会出现缓存这个东西的： </p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152657.jpg"></p>
+<p><img src="/images/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96.md/3.jpg"></p>
 <p> 现在普通一点的CPU都会自带一级缓存二级缓存（图中还有三级缓存= =），说的就是这个事情，当然这个缓存也不是越大越好，仔细想想如果这个缓存过大，那么在同步缓存和内存的数据的时候，是不是也会变慢。这个东西和jvm虚拟机中的堆和栈大小是一致的，如果jvm中堆栈过大，放数据是爽很多了，但是在进行垃圾清理的时候就是悲剧了。 接下来还有寄存器的概念：设计者认为每次需要数据的时候去读取数据，都需要寻址读取，那么还是会变慢很多，那如果把数据的地址存放在一个地方，需要的时候直接取出这个地址，然后再在缓存中去取出来，就会快很多，这个过程就是寄存器需要做的事情了。寄存器相当于用于寄放地址的地方，当程序指示CPU去读取什么数据的时候，CPU优先从寄存器中取出数据的地址，然后从缓存读取数据进行运算。 那么计算机运行的过程相当于： 1. 用户告诉CPU启动一个程序 2. 程序把数据放入系统为其开辟的一块内存空间 3. CPU从内存读取数据放入缓存，以及在寄存器放入缓存数据的地址 4. CPU通过协调内存、寄存器、CPU缓存完成用户继续给予的指令。</p>
 <h3 id="（二）寄存器的种类"><a href="#（二）寄存器的种类" class="headerlink" title="（二）寄存器的种类"></a>（二）寄存器的种类</h3><p>一个CPU都会提供多种寄存器，用于存储不同的数据（不同程序使用不同的寄存器），在早期的x86处理器当中，CPU提供9种不同的寄存器，但是程序中可用的只有7中，其中2中用于做特殊作用：</p>
 <blockquote>
@@ -323,10 +323,10 @@
 <p>运行编译，他将会被编译成以下的汇编语言：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">_main:</span><br><span class="line">   push 3 ;                        把第二个参数&#x27;3&#x27;Push（推）进内存</span><br><span class="line">   push 2 ;                        把第一个参数&#x27;2&#x27;Push进内存</span><br><span class="line">   call _add_a_and_b ;     调用add_a_and_b 函数：并且让当前程序运行的指针（在EIP寄存器中）</span><br><span class="line">                                        指向函数的第一条指令（push %ebx）</span><br><span class="line">   add %esp, 8 ;              将esp指针在栈上向上移动8个字节，弹出我们上面压入的两个值，此时第一个值已经变成计算以后的值了。</span><br><span class="line">   ret ;                               返回到调用main函数的函数中。</span><br><span class="line"></span><br><span class="line">_add_a_and_b:</span><br><span class="line">   push %ebx ;                    程序准备修改ebx寄存器中的值, 所以程序需要将ebx推入栈中</span><br><span class="line">                                            以便让后面程序运行结束以后可以还原数据</span><br><span class="line">   mov %eax, [%esp+8] ;    将第一个参数移入EAX（详看下图可以知道为什么是+8）</span><br><span class="line">   mov %ebx, [%esp+12] ;  将第二个参数移入EBX</span><br><span class="line">   add %eax, %ebx ;           将eax和ebx中的值进行相加，并且把结果存储在eax中</span><br><span class="line">   pop %ebx ;                      将ebx中的值弹出，以便还原ebx中的数据</span><br><span class="line">   ret ;                                   返回到main函数. 这个步骤将会把下一步运行地址弹出到栈内存中</span><br><span class="line">                                             (当call执行完以后的下一步地址) 放入eip寄存器</span><br></pre></td></tr></table></figure>
 <p>程序运行的时候，内存模型如下： </p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110152710.jpg"> </p>
+<p><img src="/images/%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%8C%BF%E7%9C%BC%E4%B8%AD%E7%9A%84%E6%B1%87%E7%BC%96.md/4.jpg"> </p>
 <p>第一步：当main开始运行的时候，需要先把临时的值压入栈内存中： 所以有两个参数<code>3和2</code>被压入占中，这就是栈内存中前两个的值的地址。 第二步：临时变量已经准备好了，我们要把main函数压入栈中，因为main函数一共有四条指令，而一条指令只用<code>4</code>个字节，所以一共有16个字节被压入栈中 第三步：因为在函数<code>_add_a_and_b</code>中，我们用到了中间寄存器用来计算ebx，所以ebx被压入栈中。 经过了这三个步骤，那么esp（程序运行指针）被多次往下移动了16个字节，其中包括main函数四条命令4个字节以及两个参数8个字节，还有一个临时寄存器使用了4个字节， 当然图中那么画还不够具体。</p>
 <p>首先main函数入栈，将参数推入栈中。 然后运行到了<code>call _add_a_and_b</code>步骤，函数入栈，继续刚刚的操作 这里因为<code>call _add_a_and_b</code>中有个步骤是推入一个中间寄存器，所以esp在call部分又向下推一个4字节的空间。 所以在函数当中，需要访问第一个参数的时候，应该是通过<code>esp + 8</code>去获取，第二个就更需要<code>esp + 12</code>去获取了 这里有个重点，就是我们如何保证我们使用的寄存器不会被其他程序的执行而让我们的程序运行过程中遭到破坏。 很简单：当我们需要用到一个寄存器的时候，我们把一个寄存器的副本压入栈中，然后我们即可在函数中对这个寄存器进行使用以及清理。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html">阮一峰《汇编语言入门教程》</a> <a target="_blank" rel="noopener" href="http://kakaroto.homelinux.net/2017/11/introduction-to-reverse-engineering-and-assembly/">Introduction to reverse engineering and Assembly.</a> <a target="_blank" rel="noopener" href="http://blog.csdn.net/daleiwang/article/details/50579776">堆栈的工作原理</a> </p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html">阮一峰《汇编语言入门教程》</a><br><a target="_blank" rel="noopener" href="http://kakaroto.homelinux.net/2017/11/introduction-to-reverse-engineering-and-assembly/">Introduction to reverse engineering and Assembly.</a><br><a target="_blank" rel="noopener" href="http://blog.csdn.net/daleiwang/article/details/50579776">堆栈的工作原理</a> </p>
 
     </div>
 

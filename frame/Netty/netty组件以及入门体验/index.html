@@ -29,12 +29,12 @@
 <meta property="og:description" content="零.Netty其实了解到 Netty 已经很久了，一直想用，但是因为之前的水平还不够格，回调事件 TCP 什么的还没感觉，所以学起来一头雾水，加上官网的文档，哎呀，官网貌似就没有文档只有示例代码，读不懂。 写了挺多的回调函数，渐渐地有了感觉（通常使用 CompleteFuture 来请求其他服务的数据信息，请求完在执行自己的业务）。其实我也不知道我做了什么，貌似什么没做就突然融会贯通了，所以我感觉">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://weidanli.github.io/frame/Netty/netty%E7%BB%84%E4%BB%B6%E4%BB%A5%E5%8F%8A%E5%85%A5%E9%97%A8%E4%BD%93%E9%AA%8C/SimpleNettyDemoTest.gif">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110162538.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110162458.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110162252.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110162315.png">
+<meta property="og:image" content="http://weidanli.github.io/images/netty%E7%BB%84%E4%BB%B6%E4%BB%A5%E5%8F%8A%E5%85%A5%E9%97%A8%E4%BD%93%E9%AA%8C.md/0.png">
+<meta property="og:image" content="http://weidanli.github.io/images/netty%E7%BB%84%E4%BB%B6%E4%BB%A5%E5%8F%8A%E5%85%A5%E9%97%A8%E4%BD%93%E9%AA%8C.md/1.png">
+<meta property="og:image" content="http://weidanli.github.io/images/netty%E7%BB%84%E4%BB%B6%E4%BB%A5%E5%8F%8A%E5%85%A5%E9%97%A8%E4%BD%93%E9%AA%8C.md/2.png">
+<meta property="og:image" content="http://weidanli.github.io/images/netty%E7%BB%84%E4%BB%B6%E4%BB%A5%E5%8F%8A%E5%85%A5%E9%97%A8%E4%BD%93%E9%AA%8C.md/3.png">
 <meta property="article:published_time" content="2019-07-18T02:56:39.000Z">
-<meta property="article:modified_time" content="2023-01-27T12:02:54.553Z">
+<meta property="article:modified_time" content="2023-02-01T15:58:41.469Z">
 <meta property="article:author" content="Weidan">
 <meta property="article:tag" content="Netty">
 <meta property="article:tag" content="Channel">
@@ -239,7 +239,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-01-27 20:02:54" itemprop="dateModified" datetime="2023-01-27T20:02:54+08:00">2023-01-27</time>
+      <time title="修改时间：2023-02-01 23:58:41" itemprop="dateModified" datetime="2023-02-01T23:58:41+08:00">2023-02-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -335,8 +335,8 @@
 <li> <code>ChannelInitializer</code> 将自己从 <code>ChannelPipeline</code> 中移除。</li>
 </ol>
 <p><code>ChannelHandler</code> 以及子类：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110162538.png"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110162458.png"></p>
+<p><img src="/images/netty%E7%BB%84%E4%BB%B6%E4%BB%A5%E5%8F%8A%E5%85%A5%E9%97%A8%E4%BD%93%E9%AA%8C.md/0.png"></p>
+<p><img src="/images/netty%E7%BB%84%E4%BB%B6%E4%BB%A5%E5%8F%8A%E5%85%A5%E9%97%A8%E4%BD%93%E9%AA%8C.md/1.png"></p>
 <p>数据入站的时候，将按照安装的顺序，依次执行 <code>ChannelInboundHandler</code> 中的逻辑，其实说到底就是处理链吧，当数据到达 <code>Pipeline</code> 尾端的时候，表示数据处理已经结束。 数据的出站运动（正在被写的数据）则是从 <code>Pipeline</code> 末端开始执行，与 <code>ChannelInboundHandler</code> 执行顺序相反的情况下依次处理。</p>
 <blockquote>
 <p>Netty 中 提供了 ChannelInboundHandlerAdapter 和 ChannelOutboundHandlerAdapter 两个适配类，其实这两个类就是已经解决了简单顺序传值的问题，Netty 会简单的帮你按照上面的顺序执行 ChannelHandler 我们只需要覆写与业务相关的处理即可。所以如果我们只是想简单的传递的话可以直接使用这两个类。</p>
@@ -347,9 +347,9 @@
 <p>NIO 刚开始我感觉就是 New IO，可是这么多年过去了，再叫 New IO 就有点不合适了。 所以现在大多数人认为应该叫 Non-blocking IO，而阻塞IO则是 block IO 或者 old IO (BIO/OIO)</p>
 </blockquote>
 <p>其实聊到 <code>NIO</code> 就应该是，传统的 <code>IO</code> 如果同时执行同一个业务的话，而且想要多人都可以同时并行处理的话，那么就需要开启多个线程来同时执行。 </p>
-<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110162252.png"> </p>
+<p><img src="/images/netty%E7%BB%84%E4%BB%B6%E4%BB%A5%E5%8F%8A%E5%85%A5%E9%97%A8%E4%BD%93%E9%AA%8C.md/2.png"> </p>
 <p>那么每一个新的客户端进来，我就需要预留一个线程来处理，线程中 <code>BIO</code> 在读取文件或者其他 <code>IO</code> 输入的时候，需要阻塞进入等待，这都算是一种资源浪费（CPU还需要切换线程去查看哪个线程已经阻塞完成了）。据我们所知，一个线程占用栈空间 <code>64k</code> - <code>1m</code>，理论线程越多每个线程拿到的栈空间就更少了。这时候线程他就在那里等待了什么事情都不做，然后还占用了系统上一个线程的位置（系统限制可开启线程数）。如果小数量的线程数（用户数）那么勉强还是撑得过去的，而且工作的也还不错。那么如果上万个用户上十万个用户呢，这时候，<code>CPU</code> 需要浪费很大的力气来切换轮询。 于是乎这时候，<code>NIO</code> 横空出世（其实系统早就支持了，在 <code>jdk1.4</code> 之前都没有支持） <code>NIO</code> 有个很牛逼的管理员 <code>Selector</code>，他的任务就是提交 <code>IO</code> 任务并且告诉系统，他做完了告诉我，我会执行下一步操作。于是乎模型就编程这样：</p>
-<p> <img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110162315.png"> </p>
+<p> <img src="/images/netty%E7%BB%84%E4%BB%B6%E4%BB%A5%E5%8F%8A%E5%85%A5%E9%97%A8%E4%BD%93%E9%AA%8C.md/3.png"> </p>
 <p>这个模型只要一个线程就够了，他找 <code>Selector</code> 要已经完成 <code>IO</code> 操作的名单，然后放到自己的线程开始执行我们的业务逻辑，如果没有 <code>IO</code> 那么这个线程还可以去做其他的事情。</p>
 <h5 id="Netty中的Channel"><a href="#Netty中的Channel" class="headerlink" title="Netty中的Channel"></a>Netty中的Channel</h5><p>在 <code>Netty</code> 中，一个 <code>Channel</code> 代表一个实体（硬件设备，文件，Socket，能够执行一个或不同 <code>IO</code> 操作的程序组件）的连接。这里可以套用 <code>Linux</code> 中万物皆文件的理念，只要是一个物，他就有输入输出，那么她就是 <code>Channel</code>。 而 <code>Channel</code> 中我们实现了他的一些方法如 <code>channelRead</code> <code>channelReadComplete</code>，其实这些是回调事件，我们也可以称实现这些动作是实现回调事件。那么啥是回调事件：</p>
 <blockquote>

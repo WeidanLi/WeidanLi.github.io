@@ -28,14 +28,14 @@
 <meta property="og:site_name" content="DanZ&#39;s Blog">
 <meta property="og:description" content="一. 简述针对基于 SpringBoot 构建的微服务项目（当然也可以是普通项目），我们可以通过 SpringBoot 官方提供的 spring-boot-starter-actuator 套件进行监控。但是这个套件有个问题，就是只有 HTTP 接口可以调用，如果我们需要可视化的监控界面，则需要配置 ELK 或者其他的后台管理系统调用这个接口获取系统的信息。 当然，还有一种解决方案就是使用 spr">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110163603.png">
+<meta property="og:image" content="http://weidanli.github.io/images/springboot-%E7%9B%91%E6%8E%A7-%E7%BB%93%E5%90%88-spring-boot-admin-%E5%AE%9E%E7%8E%B0%E9%A1%B9%E7%9B%AE%E7%9B%91%E6%8E%A7.md/2.png">
 <meta property="article:published_time" content="2019-02-05T07:46:45.000Z">
-<meta property="article:modified_time" content="2023-01-27T12:02:55.071Z">
+<meta property="article:modified_time" content="2023-02-01T15:58:30.090Z">
 <meta property="article:author" content="Weidan">
 <meta property="article:tag" content="spring-boot">
 <meta property="article:tag" content="spring-boot-admin">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110163603.png">
+<meta name="twitter:image" content="http://weidanli.github.io/images/springboot-%E7%9B%91%E6%8E%A7-%E7%BB%93%E5%90%88-spring-boot-admin-%E5%AE%9E%E7%8E%B0%E9%A1%B9%E7%9B%AE%E7%9B%91%E6%8E%A7.md/2.png">
 
 
 <link rel="canonical" href="http://weidanli.github.io/frame/spring-boot/springboot-%E7%9B%91%E6%8E%A7-%E7%BB%93%E5%90%88-spring-boot-admin-%E5%AE%9E%E7%8E%B0%E9%A1%B9%E7%9B%AE%E7%9B%91%E6%8E%A7/">
@@ -233,7 +233,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-01-27 20:02:55" itemprop="dateModified" datetime="2023-01-27T20:02:55+08:00">2023-01-27</time>
+      <time title="修改时间：2023-02-01 23:58:30" itemprop="dateModified" datetime="2023-02-01T23:58:30+08:00">2023-02-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -287,7 +287,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AdminClientApplication</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Configuration</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SecurityPermitAllConfig</span> <span class="keyword">extends</span> <span class="title class_">WebSecurityConfigurerAdapter</span> &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">            http.authorizeRequests().anyRequest().permitAll()</span><br><span class="line">                    .and().csrf().disable();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(AdminClientApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="3-配置文件application-yml"><a href="#3-配置文件application-yml" class="headerlink" title="3.配置文件application.yml"></a>3.配置文件application.yml</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8082</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">boot:</span></span><br><span class="line">    <span class="attr">admin:</span></span><br><span class="line">      <span class="attr">client:</span></span><br><span class="line">        <span class="attr">url:</span> <span class="string">http://localhost:8081/</span></span><br><span class="line"><span class="attr">management:</span></span><br><span class="line">  <span class="attr">endpoints:</span></span><br><span class="line">    <span class="attr">web:</span></span><br><span class="line">      <span class="attr">exposure:</span></span><br><span class="line">        <span class="attr">include:</span> [<span class="string">&#x27;*&#x27;</span>]</span><br></pre></td></tr></table></figure>
 <p>同上，配置都是最简单的配置，整合起来先。暴露了所有安全相关的端口以及配置了一个 <code>admin-server</code> 的地址，让他可以发送相关信息给服务端。</p>
-<h2 id="三-测试"><a href="#三-测试" class="headerlink" title="三. 测试"></a>三. 测试</h2><p>打开服务端的地址：<code>http://localhost:8081</code> <img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20201110163603.png"> 可见，<code>spring-boot-admin</code> 已经显示了我们当前启动的系统的一些信息，包括 <code>jvm</code> 的信息，以及一些日志的情况，可以动态设置我们打印日志的一些等级等等。当然后面如果使用了 <code>spring-cloud</code> 的套件集成进来会更加的容易了。 </p>
+<h2 id="三-测试"><a href="#三-测试" class="headerlink" title="三. 测试"></a>三. 测试</h2><p>打开服务端的地址：<code>http://localhost:8081</code><br><img src="/images/springboot-%E7%9B%91%E6%8E%A7-%E7%BB%93%E5%90%88-spring-boot-admin-%E5%AE%9E%E7%8E%B0%E9%A1%B9%E7%9B%AE%E7%9B%91%E6%8E%A7.md/2.png"><br>可见，<code>spring-boot-admin</code> 已经显示了我们当前启动的系统的一些信息，包括 <code>jvm</code> 的信息，以及一些日志的情况，可以动态设置我们打印日志的一些等级等等。当然后面如果使用了 <code>spring-cloud</code> 的套件集成进来会更加的容易了。 </p>
 
     </div>
 

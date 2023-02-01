@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="codeva-18Edjlpyk5">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1}},"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="MySQL管理工具集 MySQL Utilities | 利用frm和ibd文件恢复表数据 - 轻风博客  window._deel &#x3D; {name: &#39;轻风博客&#39;,url: &#39;https:&#x2F;&#x2F;pdf.us&#x2F;wp-content&#x2F;themes&#x2F;yusi1.0&#39;, ajaxpager: &#39;&#39;, commenton: 1, roll: [0,0]}     		 			window._wp">
+<meta property="og:type" content="website">
+<meta property="og:title" content="DanZ&#39;s Blog">
+<meta property="og:url" content="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%B8%89-innodb%E7%9A%84%E8%A1%A8%E7%BB%93%E6%9E%84%E5%92%8C%E8%A1%8C%E8%AE%B0%E5%BD%95%E7%BB%93%E6%9E%84.md/2.html">
+<meta property="og:site_name" content="DanZ&#39;s Blog">
+<meta property="og:description" content="MySQL管理工具集 MySQL Utilities | 利用frm和ibd文件恢复表数据 - 轻风博客  window._deel &#x3D; {name: &#39;轻风博客&#39;,url: &#39;https:&#x2F;&#x2F;pdf.us&#x2F;wp-content&#x2F;themes&#x2F;yusi1.0&#39;, ajaxpager: &#39;&#39;, commenton: 1, roll: [0,0]}     		 			window._wp">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pdf.us/wp-content/themes/yusi1.0/timthumb.php?src=http://pdf.us/wp-content/uploads/2020/01/20200119150817.jpg&h=110&w=185&q=90&zc=1&ct=1">
+<meta property="og:image" content="https://pdf.us/wp-content/themes/yusi1.0/timthumb.php?src=http://pdf.us/wp-content/uploads/2019/03/12640032826.png&h=110&w=185&q=90&zc=1&ct=1">
+<meta property="og:image" content="https://pdf.us/wp-content/themes/yusi1.0/timthumb.php?src=https://pdf.us/wp-content/uploads/2018/08/timg-2.jpg&h=110&w=185&q=90&zc=1&ct=1">
+<meta property="og:image" content="https://pdf.us/wp-content/themes/yusi1.0/timthumb.php?src=https://pdf.us/wp-content/uploads/2018/08/timg-1.jpg&h=110&w=185&q=90&zc=1&ct=1">
+<meta property="og:image" content="https://pdf.us/wp-content/themes/yusi1.0/img/weixin.gif">
+<meta property="article:published_time" content="2023-02-01T16:18:26.912Z">
+<meta property="article:modified_time" content="2023-01-31T15:59:10.883Z">
+<meta property="article:author" content="Weidan">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="vue">
+<meta property="article:tag" content="开发">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pdf.us/wp-content/themes/yusi1.0/timthumb.php?src=http://pdf.us/wp-content/uploads/2020/01/20200119150817.jpg&h=110&w=185&q=90&zc=1&ct=1">
+
+
+<link rel="canonical" href="http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%B8%89-innodb%E7%9A%84%E8%A1%A8%E7%BB%93%E6%9E%84%E5%92%8C%E8%A1%8C%E8%AE%B0%E5%BD%95%E7%BB%93%E6%9E%84.md/2">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":true,"permalink":"http://weidanli.github.io/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%B8%89-innodb%E7%9A%84%E8%A1%A8%E7%BB%93%E6%9E%84%E5%92%8C%E8%A1%8C%E8%AE%B0%E5%BD%95%E7%BB%93%E6%9E%84.md/2.html","path":"images/【聊聊mysql】三-innodb的表结构和行记录结构.md/2.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title> | DanZ's Blog
+</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DanZ's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">a normal developer daily blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section">首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section">分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section">归档</a></li>
+        <li class="menu-item menu-item-数据结构"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="section">数据结构</a></li>
+        <li class="menu-item menu-item-spring源码"><a href="/spring-sources/" rel="section">Spring源码</a></li>
+        <li class="menu-item menu-item-mysql底层"><a href="/mysql/" rel="section">MySQL底层</a></li>
+        <li class="menu-item menu-item-tomcat源码"><a href="/tomcat-sources/" rel="section">Tomcat源码</a></li>
+        <li class="menu-item menu-item-计算机网络"><a href="/network/" rel="section">计算机网络</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#header"><span class="nav-number">1.</span> <span class="nav-text">
+    轻风博客
+     小马奔腾的成长脚步
+  </span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">MySQL管理工具集 MySQL Utilities | 利用frm和ibd文件恢复表数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">2.0.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5MySQL%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">2.0.2.</span> <span class="nav-text">连接MySQL服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#login-paths(.mylogin.cnf)"><span class="nav-number">2.0.2.0.1.</span> <span class="nav-text">login-paths(.mylogin.cnf)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">2.0.2.0.2.</span> <span class="nav-text">使用配置文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0"><span class="nav-number">2.0.2.0.3.</span> <span class="nav-text">命令行参数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B1%82%E9%9D%A2"><span class="nav-number">2.0.3.</span> <span class="nav-text">数据库层面</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqldbcompare"><span class="nav-number">2.0.3.0.1.</span> <span class="nav-text">mysqldbcompare</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqldbcopy"><span class="nav-number">2.0.3.0.2.</span> <span class="nav-text">mysqldbcopy</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqldbexport"><span class="nav-number">2.0.3.0.3.</span> <span class="nav-text">mysqldbexport</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqldbimport"><span class="nav-number">2.0.3.0.4.</span> <span class="nav-text">mysqldbimport</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqldiff"><span class="nav-number">2.0.3.0.5.</span> <span class="nav-text">mysqldiff</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E6%A0%B8%E6%97%A5%E5%BF%97%E5%B1%82%E9%9D%A2"><span class="nav-number">2.0.4.</span> <span class="nav-text">审核日志层面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B1%82%E9%9D%A2"><span class="nav-number">2.0.5.</span> <span class="nav-text">服务器层面</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqlserverclone"><span class="nav-number">2.0.5.0.1.</span> <span class="nav-text">mysqlserverclone</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqlserverinfo"><span class="nav-number">2.0.5.0.2.</span> <span class="nav-text">mysqlserverinfo</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%B1%82%E9%9D%A2"><span class="nav-number">2.0.5.0.3.</span> <span class="nav-text">系统层面</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqldiskusage"><span class="nav-number">2.0.5.0.4.</span> <span class="nav-text">mysqldiskusage</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqlfrm"><span class="nav-number">2.0.5.0.5.</span> <span class="nav-text">mysqlfrm</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%88%A9%E7%94%A8frm%E5%92%8Cibd%E6%81%A2%E5%A4%8D%E6%95%B0%E6%8D%AE"><span class="nav-number">2.0.5.0.5.1.</span> <span class="nav-text">利用frm和ibd恢复数据</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqlindexcheck"><span class="nav-number">2.0.5.0.6.</span> <span class="nav-text">mysqlindexcheck</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqlmetagrep"><span class="nav-number">2.0.5.0.7.</span> <span class="nav-text">mysqlmetagrep</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqlprocgrep"><span class="nav-number">2.0.5.0.8.</span> <span class="nav-text">mysqlprocgrep</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqluserclone"><span class="nav-number">2.0.5.0.9.</span> <span class="nav-text">mysqluserclone</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqluc"><span class="nav-number">2.0.5.0.10.</span> <span class="nav-text">mysqluc</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7%E5%B1%82%E9%9D%A2"><span class="nav-number">2.0.6.</span> <span class="nav-text">高可用性层面</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqlfailover"><span class="nav-number">2.0.6.0.1.</span> <span class="nav-text">mysqlfailover</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqlreplicate"><span class="nav-number">2.0.6.0.2.</span> <span class="nav-text">mysqlreplicate</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqlrplms"><span class="nav-number">2.0.6.0.3.</span> <span class="nav-text">mysqlrplms</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqlrpladmin"><span class="nav-number">2.0.6.0.4.</span> <span class="nav-text">mysqlrpladmin</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqlrplcheck"><span class="nav-number">2.0.6.0.5.</span> <span class="nav-text">mysqlrplcheck</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqlrplshow"><span class="nav-number">2.0.6.0.6.</span> <span class="nav-text">mysqlrplshow</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysqlrplsync"><span class="nav-number">2.0.6.0.7.</span> <span class="nav-text">mysqlrplsync</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">2.1.</span> <span class="nav-text">近期文章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">2.2.</span> <span class="nav-text">文章归档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">2.3.</span> <span class="nav-text">标签云</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">2.4.</span> <span class="nav-text"></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">2.4.1.</span> <span class="nav-text">特别推荐</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Weidan</p>
+  <div class="site-description" itemprop="description">计算机基础 计算机网络 Java Vue 前端 后端</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WeidanLi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WeidanLi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:toweidan@126.com" title="E-Mail → mailto:toweidan@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/WeidanLi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner page posts-expand">
+  
+  
+
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN"><header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">
+</h1>
+
+<div class="post-meta-container">
+  <ul class="breadcrumb">
+            <li><a href="/images/">IMAGES</a></li>
+            <li><a href="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%B8%89-innodb%E7%9A%84%E8%A1%A8%E7%BB%93%E6%9E%84%E5%92%8C%E8%A1%8C%E8%AE%B0%E5%BD%95%E7%BB%93%E6%9E%84.md/">【聊聊MYSQL】三-INNODB的表结构和行记录结构.MD</a></li>
+            <li>2</li>
+          
+  </ul>
+</div>
+
+</header>
+
+      
+      
+      <div class="post-body">
+          <!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=10,IE=9,IE=8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<title>MySQL管理工具集 MySQL Utilities | 利用frm和ibd文件恢复表数据 - 轻风博客</title>
+<script>
+window._deel = {name: '轻风博客',url: 'https://pdf.us/wp-content/themes/yusi1.0', ajaxpager: '', commenton: 1, roll: [0,0]}
+</script>
+
+<link rel='dns-prefetch' href='//libs.baidu.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/pdf.us\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.8.21"}};
+			!function(t,a,e){var r,i,n,o=a.createElement("canvas"),l=o.getContext&&o.getContext("2d");function c(t){var e=a.createElement("script");e.src=t,e.defer=e.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(e)}for(n=Array("flag","emoji4"),e.supports={everything:!0,everythingExceptFlag:!0},i=0;i<n.length;i++)e.supports[n[i]]=function(t){var e,a=String.fromCharCode;if(!l||!l.fillText)return!1;switch(l.clearRect(0,0,o.width,o.height),l.textBaseline="top",l.font="600 32px Arial",t){case"flag":return(l.fillText(a(55356,56826,55356,56819),0,0),e=o.toDataURL(),l.clearRect(0,0,o.width,o.height),l.fillText(a(55356,56826,8203,55356,56819),0,0),e===o.toDataURL())?!1:(l.clearRect(0,0,o.width,o.height),l.fillText(a(55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447),0,0),e=o.toDataURL(),l.clearRect(0,0,o.width,o.height),l.fillText(a(55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447),0,0),e!==o.toDataURL());case"emoji4":return l.fillText(a(55358,56794,8205,9794,65039),0,0),e=o.toDataURL(),l.clearRect(0,0,o.width,o.height),l.fillText(a(55358,56794,8203,9794,65039),0,0),e!==o.toDataURL()}return!1}(n[i]),e.supports.everything=e.supports.everything&&e.supports[n[i]],"flag"!==n[i]&&(e.supports.everythingExceptFlag=e.supports.everythingExceptFlag&&e.supports[n[i]]);e.supports.everythingExceptFlag=e.supports.everythingExceptFlag&&!e.supports.flag,e.DOMReady=!1,e.readyCallback=function(){e.DOMReady=!0},e.supports.everything||(r=function(){e.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",r,!1),t.addEventListener("load",r,!1)):(t.attachEvent("onload",r),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&e.readyCallback()})),(r=e.source||{}).concatemoji?c(r.concatemoji):r.wpemoji&&r.twemoji&&(c(r.twemoji),c(r.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='crayon-css'  href='https://pdf.us/wp-content/plugins/crayon-syntax-highlighter/css/min/crayon.min.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='style-css'  href='https://pdf.us/wp-content/themes/yusi1.0/style.css?ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='tablepress-default-css'  href='https://pdf.us/wp-content/plugins/tablepress/css/default.min.css?ver=1.8.1' type='text/css' media='all' />
+<script type='text/javascript' src='//libs.baidu.com/jquery/1.8.3/jquery.min.js?ver=1.0'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var quicktagsL10n = {"closeAllOpenTags":"\u5173\u95ed\u6240\u6709\u6253\u5f00\u7684\u6807\u7b7e","closeTags":"\u5173\u95ed\u6807\u7b7e","enterURL":"\u8f93\u5165URL","enterImageURL":"\u8f93\u5165\u56fe\u50cfURL","enterImageDescription":"\u4e3a\u56fe\u50cf\u8f93\u5165\u63cf\u8ff0","textdirection":"\u6587\u672c\u65b9\u5411","toggleTextdirection":"\u5207\u6362\u7f16\u8f91\u5668\u6587\u672c\u4e66\u5199\u65b9\u5411","dfw":"\u514d\u6253\u6270\u5199\u4f5c\u6a21\u5f0f","strong":"\u7c97\u4f53","strongClose":"\u5173\u95ed\u7c97\u4f53\u6807\u7b7e","em":"\u659c\u4f53","emClose":"\u5173\u95ed\u659c\u4f53\u6807\u7b7e","link":"\u63d2\u5165\u94fe\u63a5","blockquote":"\u5757\u5f15\u7528","blockquoteClose":"\u5173\u95ed\u5757\u5f15\u7528\u6807\u7b7e","del":"\u5220\u9664\u7684\u6587\u5b57\uff08\u5220\u9664\u7ebf\uff09","delClose":"\u5173\u95ed\u5220\u9664\u7ebf\u6807\u7b7e","ins":"\u63d2\u5165\u7684\u6587\u5b57","insClose":"\u5173\u95ed\u63d2\u5165\u7684\u6587\u5b57\u6807\u7b7e","image":"\u63d2\u5165\u56fe\u50cf","ul":"\u9879\u76ee\u7b26\u53f7\u5217\u8868","ulClose":"\u5173\u95ed\u9879\u76ee\u7b26\u53f7\u5217\u8868\u6807\u7b7e","ol":"\u7f16\u53f7\u5217\u8868","olClose":"\u5173\u95ed\u7f16\u53f7\u5217\u8868\u6807\u7b7e","li":"\u5217\u8868\u9879\u76ee","liClose":"\u5173\u95ed\u5217\u8868\u9879\u76ee\u6807\u7b7e","code":"\u4ee3\u7801","codeClose":"\u5173\u95ed\u4ee3\u7801\u6807\u7b7e","more":"\u63d2\u5165\u201cMore\u201d\u6807\u7b7e"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://pdf.us/wp-includes/js/quicktags.min.js?ver=4.8.21'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"https:\/\/pdf.us\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"Press %s to Copy, %s to Paste","minimize":"Click To Expand Code"};
+var CrayonTagEditorSettings = {"home_url":"https:\/\/pdf.us","css":"crayon-te","css_selected":"crayon-selected","code_css":"#crayon-code","url_css":"#crayon-url","url_info_css":"#crayon-te-url-info","lang_css":"#crayon-lang","title_css":"#crayon-title","mark_css":"#crayon-mark","range_css":"#crayon-range","inline_css":"crayon-inline","inline_hide_css":"crayon-hide-inline","inline_hide_only_css":"crayon-hide-inline-only","hl_css":"#crayon-highlight","switch_html":"#content-html","switch_tmce":"#content-tmce","tinymce_button_generic":".mce-btn","tinymce_button":"a.mce_crayon_tinymce,.mce-i-crayon_tinymce","tinymce_button_unique":"mce_crayon_tinymce","tinymce_highlight":"mce-active","submit_css":"#crayon-te-ok","cancel_css":"#crayon-te-cancel","content_css":"#crayon-te-content","dialog_title_css":"#crayon-te-title","submit_wrapper_css":"#crayon-te-submit-wrapper","data_value":"data-value","attr_sep":":","css_sep":"_","fallback_lang":"sh","add_text":"Add Code","edit_text":"Edit Code","quicktag_text":"crayon","submit_add":"Add","submit_edit":"Save","bar":"#crayon-te-bar","bar_content":"#crayon-te-bar-content","extensions":{"scpt":"applescript","applescript":"applescript","swf":"as","fla":"as","cs":"c#","h":"c++","hh":"c++","hpp":"c++","hxx":"c++","h++":"c++","cc":"c++","cpp":"c++","cxx":"c++","c++":"c++","pas":"delphi","java":"java","class":"java","jar":"java","mel":"mel","ma":"mel","mv":"miva","mvc":"miva","mvt":"miva","m":"objc","mm":"objc","psc":"papyrus","pl":"perl","py":"python","pyw":"python","pyc":"python","pyo":"python","pyd":"python","rb":"ruby","rbx":"ruby","rhtml":"ruby","vbs":"vb"}};
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"https:\/\/pdf.us\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"Press %s to Copy, %s to Paste","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://pdf.us/wp-content/plugins/crayon-syntax-highlighter/js/min/crayon.te.min.js?ver=_2.7.2_beta'></script>
+<link rel='https://api.w.org/' href='https://pdf.us/wp-json/' />
+<link rel='prev' title='Ansible使用指南-05-插件扩展/应用实战' href='https://pdf.us/2019/01/03/2605.html' />
+<link rel='next' title='Windows Thin PC-微软官方精简版Windows7系统' href='https://pdf.us/2019/01/21/2642.html' />
+<link rel="canonical" href="https://pdf.us/2019/01/10/2620.html" />
+<link rel='shortlink' href='https://pdf.us/?p=2620' />
+<link rel="alternate" type="application/json+oembed" href="https://pdf.us/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fpdf.us%2F2019%2F01%2F10%2F2620.html" />
+<link rel="alternate" type="text/xml+oembed" href="https://pdf.us/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fpdf.us%2F2019%2F01%2F10%2F2620.html&#038;format=xml" />
+<link rel="stylesheet" href="https://pdf.us/wp-content/plugins/wp-content-index/style.css" type="text/css" media="all" />
+<meta name="keywords" content="mysql, Mysql-笔记">
+<meta name="description" content="MySQL Utilities是官方提供的MySQL管理工具集 下载地址：https://downloads.mysql.com/archives/utilities/ 当前版本1.6.5 https://downloads.mysql.com/archives/get/file/mysql-utilities-1.6.5-1.el7.noarch.rpm 二进制包：https://cdn.mysql.com/archives/mysq">
+<link rel="icon" href="https://pdf.us/wp-content/uploads/2017/07/cropped-235092-1305101F24669-32x32.jpg" sizes="32x32" />
+<link rel="icon" href="https://pdf.us/wp-content/uploads/2017/07/cropped-235092-1305101F24669-192x192.jpg" sizes="192x192" />
+<link rel="apple-touch-icon-precomposed" href="https://pdf.us/wp-content/uploads/2017/07/cropped-235092-1305101F24669-180x180.jpg" />
+<meta name="msapplication-TileImage" content="https://pdf.us/wp-content/uploads/2017/07/cropped-235092-1305101F24669-270x270.jpg" />
+<!--[if lt IE 9]><script src="https://pdf.us/wp-content/themes/yusi1.0/js/html5.js"></script><![endif]-->
+</head>
+<body class="post-template-default single single-post postid-2620 single-format-standard">
+<header id="header" class="header">
+
+	<div id="nav-header" class="navbar">
+		<ul class="nav">
+			<li id="menu-item-82" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-82"><a href="/">轻风博客</a></li>
+<li id="menu-item-103" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-103"><a target="_blank" rel="noopener" href="https://pdf.us/about">关于本站</a>
+<ul  class="sub-menu">
+	<li id="menu-item-107" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-107"><a target="_blank" rel="noopener" href="https://pdf.us/about/message">给我留言</a></li>
+	<li id="menu-item-106" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-106"><a target="_blank" rel="noopener" href="https://pdf.us/about/me">关于自己</a></li>
+	<li id="menu-item-108" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-108"><a target="_blank" rel="noopener" href="https://pdf.us/about/dashang">赞助作者</a></li>
+	<li id="menu-item-109" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-109"><a target="_blank" rel="noopener" href="https://pdf.us/about/talk">技术交流</a></li>
+</ul>
+</li>
+<li id="menu-item-83" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor menu-item-has-children menu-item-83"><a target="_blank" rel="noopener" href="https://pdf.us/category/mynotes">学习笔记</a>
+<ul  class="sub-menu">
+	<li id="menu-item-84" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-84"><a target="_blank" rel="noopener" href="https://pdf.us/category/mynotes/mysql-notes">Mysql-笔记</a></li>
+</ul>
+</li>
+<li id="menu-item-101" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-101"><a target="_blank" rel="noopener" href="https://pdf.us/category/others">杂七杂八</a></li>
+<li id="menu-item-85" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-85"><a target="_blank" rel="noopener" href="https://pdf.us/category/techtalk">技术杂谈</a>
+<ul  class="sub-menu">
+	<li id="menu-item-86" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-86"><a target="_blank" rel="noopener" href="https://pdf.us/category/techtalk/docker">Docker</a></li>
+	<li id="menu-item-87" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-87"><a target="_blank" rel="noopener" href="https://pdf.us/category/techtalk/html">HTML</a></li>
+	<li id="menu-item-88" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-88"><a target="_blank" rel="noopener" href="https://pdf.us/category/techtalk/linux">Linux</a></li>
+	<li id="menu-item-89" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-89"><a target="_blank" rel="noopener" href="https://pdf.us/category/techtalk/other">Other</a></li>
+	<li id="menu-item-90" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-90"><a target="_blank" rel="noopener" href="https://pdf.us/category/techtalk/python">Python</a></li>
+</ul>
+</li>
+<li id="menu-item-344" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-344"><a target="_blank" rel="noopener" href="https://pdf.us/category/route-switch">路由交换</a>
+<ul  class="sub-menu">
+	<li id="menu-item-347" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-347"><a target="_blank" rel="noopener" href="https://pdf.us/category/route-switch/software">工具软件</a></li>
+	<li id="menu-item-346" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-346"><a target="_blank" rel="noopener" href="https://pdf.us/category/route-switch/l2">二层网络</a></li>
+	<li id="menu-item-345" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-345"><a target="_blank" rel="noopener" href="https://pdf.us/category/route-switch/l3">三层网络</a></li>
+</ul>
+</li>
+<li id="menu-item-94" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-94"><a target="_blank" rel="noopener" href="https://pdf.us/category/yunwei">运维技术</a>
+<ul  class="sub-menu">
+	<li id="menu-item-621" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-621"><a target="_blank" rel="noopener" href="https://pdf.us/category/yunwei/psutil">Psutil</a></li>
+	<li id="menu-item-95" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-95"><a target="_blank" rel="noopener" href="https://pdf.us/category/yunwei/ansible">Ansible</a></li>
+	<li id="menu-item-96" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-96"><a target="_blank" rel="noopener" href="https://pdf.us/category/yunwei/saltstack">SaltStack</a></li>
+	<li id="menu-item-778" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-778"><a target="_blank" rel="noopener" href="https://pdf.us/category/yunwei/elk-stack">ELK Stack</a></li>
+</ul>
+</li>
+<li id="menu-item-91" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-91"><a target="_blank" rel="noopener" href="https://pdf.us/category/lifenotes">生活笔记</a>
+<ul  class="sub-menu">
+	<li id="menu-item-92" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-92"><a target="_blank" rel="noopener" href="https://pdf.us/category/lifenotes/essay">个人随笔</a></li>
+	<li id="menu-item-93" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-93"><a target="_blank" rel="noopener" href="https://pdf.us/category/lifenotes/daily">生活点滴</a></li>
+</ul>
+</li>
+		</ul>
+	</div>
+	</div>
+<div class="container-inner">
+ <div class="yusi-logo">
+  <a href="/">
+  <h1>
+    <span class="yusi-mono">轻风博客</span>
+  <span class="yusi-bloger">   小马奔腾的成长脚步</span>
+  </h1>
+  </a>
+    </div>
+</div>
+</header>
+<section class="container"><div class="speedbar">
+				<div class="toptip"><strong class="text-success"><i class="fa fa-volume-up"></i> </strong>欢迎访问我的博客，你的支持，是我最大的动力！
+<form style="float:right;" method="get" class="searchform themeform" onsubmit="location.href='https://pdf.us/search/' + encodeURIComponent(this.s.value).replace(/%20/g, '+'); return false;" action="/">
+<div> <input type="ext" class="search" name="s" onblur="if(this.value=='')this.value='搜搜看...';" onfocus="if(this.value=='搜搜看...')this.value='';" value="搜搜看..."></div></form>
+
+</div>
+	</div>
+
+<header class="archive-header  searchctrl"> 
+<form  method="get" class="searchform themeform" onsubmit="location.href='https://pdf.us/search/' + encodeURIComponent(this.s.value).replace(/%20/g, '+'); return false;" action="/">
+<div> 
+<input type="ext" class="search searchkk" name="s" onblur="if(this.value=='')this.value='搜搜看...';" onfocus="if(this.value=='搜搜看...')this.value='';" value="搜搜看...">
+<input type="submit" class="newgame" value="搜索" />
+</div>
+</form>
+</header>
+
+
+
+	<div class="content-wrap">
+	<div class="content">
+<div class="breadcrumbs"><a title="返回首页" target="_blank" rel="noopener" href="https://pdf.us"><i class="fa fa-home"></i></a> <small>></small> <a target="_blank" rel="noopener" href="https://pdf.us/category/mynotes">学习笔记</a> <small>></small> <a target="_blank" rel="noopener" href="https://pdf.us/category/mynotes/mysql-notes">Mysql-笔记</a> <small>></small> <span class="muted">MySQL管理工具集 MySQL Utilities | 利用frm和ibd文件恢复表数据</span></div>
+				<header class="article-header">
+			<h1 class="article-title"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html">MySQL管理工具集 MySQL Utilities | 利用frm和ibd文件恢复表数据</a></h1>
+			<div class="meta">
+				<span id="mute-category" class="muted"><i class="fa fa-list-alt"></i><a target="_blank" rel="noopener" href="https://pdf.us/category/mynotes/mysql-notes"> Mysql-笔记</a></span>				<span class="muted"><i class="fa fa-user"></i> <a target="_blank" rel="noopener" href="https://pdf.us/author/admin">小马奔腾</a></span>
+				<time class="muted"><i class="fa fa-clock-o"></i> 4年前 (2019-01-10)</time>
+				<span class="muted"><i class="fa fa-eye"></i> 6239℃</span>
+
+<!--此为新添加畅言评论代码20170815-->
+<span class="muted"><i class="fa fa-comments-o"></i>
+<a href="#SOHUCS" id="changyan_count_unit"></a><font color="#00a67c">评论</font></span>
+<script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js">
+</script>
+
+
+<!--模板原来的评论
+				<span class="muted"><i class="fa fa-comments-o"></i> <a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#respond">0评论</a></span>-->
+
+							</div>
+		</header>
+		<article class="article-content">
+			<div id="content-index" class="content-index" style="margin:0 0 10px 10px;float:right;"><div class="content-index-title">目录：</div><span class="content-index-toctoggle">[<a id="content-index-togglelink" href="javascript:content_index_toggleToc()">显示</a>]</span>
+<script type="text/javascript" language="javascript">
+window.content_index_showTocToggle=false;function content_index_toggleToc(){var tts="显示";var tth="隐藏";if(window.content_index_showTocToggle){window.content_index_showTocToggle=false;document.getElementById("content-index-contents").style.display="none";document.getElementById("content-index-togglelink").innerHTML=tts}else{window.content_index_showTocToggle=true;document.getElementById("content-index-contents").style.display="block";document.getElementById("content-index-togglelink").innerHTML=tth}}
+</script>
+<ul id="content-index-contents" style="display:none"><li class="content-index-level-1"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#安装" title="安装"><em>1</em><span>安装</span></a></li><li class="content-index-level-1"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#连接MySQL服务器" title="连接MySQL服务器"><em>2</em><span>连接MySQL服务器</span></a><ul class="children"><li class="content-index-level-2"><a class="hide" onclick="return false;" target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#" title=""><em>2.1</em><span></span></a><ul class="children"><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#login-paths(.mylogin.cnf)" title="login-paths(.mylogin.cnf)"><em>2.1.1</em><span>login-paths(.mylogin.cnf)</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#使用配置文件" title="使用配置文件"><em>2.1.2</em><span>使用配置文件</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#命令行参数" title="命令行参数"><em>2.1.3</em><span>命令行参数</span></a></li></ul></li></ul></li><li class="content-index-level-1"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#数据库层面" title="数据库层面"><em>3</em><span>数据库层面</span></a><ul class="children"><li class="content-index-level-2"><a class="hide" onclick="return false;" target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#" title=""><em>3.1</em><span></span></a><ul class="children"><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqldbcompare" title="mysqldbcompare"><em>3.1.1</em><span>mysqldbcompare</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqldbcopy" title="mysqldbcopy"><em>3.1.2</em><span>mysqldbcopy</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqldbexport" title="mysqldbexport"><em>3.1.3</em><span>mysqldbexport</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqldbimport" title="mysqldbimport"><em>3.1.4</em><span>mysqldbimport</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqldiff" title="mysqldiff"><em>3.1.5</em><span>mysqldiff</span></a></li></ul></li></ul></li><li class="content-index-level-1"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#审核日志层面" title="审核日志层面"><em>4</em><span>审核日志层面</span></a></li><li class="content-index-level-1"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#服务器层面" title="服务器层面"><em>5</em><span>服务器层面</span></a><ul class="children"><li class="content-index-level-2"><a class="hide" onclick="return false;" target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#" title=""><em>5.1</em><span></span></a><ul class="children"><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqlserverclone" title="mysqlserverclone"><em>5.1.1</em><span>mysqlserverclone</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqlserverinfo" title="mysqlserverinfo"><em>5.1.2</em><span>mysqlserverinfo</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#系统层面" title="系统层面"><em>5.1.3</em><span>系统层面</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqldiskusage" title="mysqldiskusage"><em>5.1.4</em><span>mysqldiskusage</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqlfrm" title="mysqlfrm"><em>5.1.5</em><span>mysqlfrm</span></a><ul class="children"><li class="content-index-level-4"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#利用frm和ibd恢复数据" title="利用frm和ibd恢复数据"><em>5.1.5.1</em><span>利用frm和ibd恢复数据</span></a></li></ul></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqlindexcheck" title="mysqlindexcheck"><em>5.1.6</em><span>mysqlindexcheck</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqlmetagrep" title="mysqlmetagrep"><em>5.1.7</em><span>mysqlmetagrep</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqlprocgrep" title="mysqlprocgrep"><em>5.1.8</em><span>mysqlprocgrep</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqluserclone" title="mysqluserclone"><em>5.1.9</em><span>mysqluserclone</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqluc" title="mysqluc"><em>5.1.10</em><span>mysqluc</span></a></li></ul></li></ul></li><li class="content-index-level-1"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#高可用性层面" title="高可用性层面"><em>6</em><span>高可用性层面</span></a><ul class="children"><li class="content-index-level-2"><a class="hide" onclick="return false;" target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#" title=""><em>6.1</em><span></span></a><ul class="children"><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqlfailover" title="mysqlfailover"><em>6.1.1</em><span>mysqlfailover</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqlreplicate" title="mysqlreplicate"><em>6.1.2</em><span>mysqlreplicate</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqlrplms" title="mysqlrplms"><em>6.1.3</em><span>mysqlrplms</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqlrpladmin" title="mysqlrpladmin"><em>6.1.4</em><span>mysqlrpladmin</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqlrplcheck" title="mysqlrplcheck"><em>6.1.5</em><span>mysqlrplcheck</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqlrplshow" title="mysqlrplshow"><em>6.1.6</em><span>mysqlrplshow</span></a></li><li class="content-index-level-3"><a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html#mysqlrplsync" title="mysqlrplsync"><em>6.1.7</em><span>mysqlrplsync</span></a></li></ul></li></ul></li></ul></div>
+<p>MySQL Utilities是官方提供的MySQL管理工具集<br />
+下载地址：<a target="_blank" rel="noopener" href="https://downloads.mysql.com/archives/utilities/">https://downloads.mysql.com/archives/utilities/</a><br />
+当前版本1.6.5 <a target="_blank" rel="noopener" href="https://downloads.mysql.com/archives/get/file/mysql-utilities-1.6.5-1.el7.noarch.rpm">https://downloads.mysql.com/archives/get/file/mysql-utilities-1.6.5-1.el7.noarch.rpm</a><br />
+二进制包：<a target="_blank" rel="noopener" href="https://cdn.mysql.com/archives/mysql-utilities/mysql-utilities-1.6.5.tar.gz">https://cdn.mysql.com/archives/mysql-utilities/mysql-utilities-1.6.5.tar.gz</a><br />
+二进制包：<a target="_blank" rel="noopener" href="https://downloads.mysql.com/archives/get/file/mysql-utilities-1.6.5.tar.gz">https://downloads.mysql.com/archives/get/file/mysql-utilities-1.6.5.tar.gz</a></p>
+<p>MySQL Utilities是基于python编写的，不需要安装其他任何工具和库<br />
+提供一组命令行工具用于维护和管理MySQL服务器：<br />
+数据库层面：复制、比较、差异、导出、导入<br />
+审核日志层面：<br />
+服务器层面：实例克隆、实例信息<br />
+系统层面：磁盘使用情况、冗余索引、搜索元数据、进程<br />
+高可用层面：主从复制、故障转移、主从同步</p>
+<h3 id="安装">安装</h3>
+<p>尽量不要用 yum 来安装 mysql-utilities 1.6.5版本的mysql-utilites和mysql-connector-python有兼容性问题<br />
+实测，可以使用 yum 安装 1.3.6的mysql-utilites和1.1.6的mysql-connector-python</p>
+<div class="mystyle02"><strong># 安装 1.3.6 版本 yum方式</strong><br />
+yum install https://mirrors.tuna.tsinghua.edu.cn/epel/7/x86_64/Packages/m/mysql-connector-python-1.1.6-1.el7.noarch.rpm<br />
+yum install https://mirrors.tuna.tsinghua.edu.cn/epel/7/x86_64/Packages/m/mysql-utilities-1.3.6-1.el7.noarch.rpm<br />
+# 卸载<br />
+yum -y remove mysql-connector-python<br />
+<strong># 安装 1.6.5 版本 二进制方式</strong><br />
+# <span style="color: #0000ff;">最新版本 1.6.5 建议使用二进制安装</span>(tar包中自带connector无需单独安装)<br />
+wget https://cdn.mysql.com/archives/mysql-utilities/mysql-utilities-1.6.5.tar.gz<br />
+tar zxf mysql-utilities-1.6.5.tar.gz<br />
+cd mysql-utilities-1.6.5<br />
+python ./setup.py build<br />
+python ./setup.py install</div>
+<h3 id="连接MySQL服务器">连接MySQL服务器</h3>
+<h5 id="login-paths(.mylogin.cnf)">login-paths(.mylogin.cnf)</h5>
+<p>推荐方式，加密的，不会暴露连接信息<br />
+<span style="background-color: #ffff99;">mysql_config_editor set --login-path=<strong>mysql_77</strong> --host=192.168.1.77 --user=root --port=3306 --password</span><br />
+mysql_config_editor是mysql自带工具，执行如上命令后会在家目录生成加密文件.mylogin.cnf<br />
+查看文件内容：<br />
+<span style="background-color: #ffff99;">mysql_config_editor print --login-path=<strong>mysql_77</strong></span><br />
+<span style="color: #999999;">[mysql_77]</span><br />
+<span style="color: #999999;">user = root</span><br />
+<span style="color: #999999;">password = *****</span><br />
+<span style="color: #999999;">host = 192.168.1.77</span><br />
+<span style="color: #999999;">port = 3306</span><br />
+使用：<br />
+<span style="background-color: #ffff99;">mysqlserverinfo --server=<strong>mysql_77</strong> --format=vertical<br />
+mysql --login-path=<strong>mysql_77</strong></span></p>
+<h5 id="使用配置文件">使用配置文件</h5>
+<p>/etc/my.cnf 中[client]段<br />
+[client]<br />
+port = 3306<br />
+socket = /tmp/mysql.sock<br />
+user=root<br />
+password=root123<br />
+使用：<br />
+<span style="background-color: #ffff99;">mysqlserverinfo --server=<strong>/etc/my.cnf[client]</strong> --format=vertical</span></p>
+<h5 id="命令行参数">命令行参数</h5>
+<p>该方式最不安全<br />
+&lt;user&gt;[:&lt;passwd&gt;]@&lt;host&gt;[:&lt;port&gt;][:&lt;socket&gt;]<br />
+使用：<br />
+<span style="background-color: #ffff99;">mysqlserverinfo --server=<strong>root:root123@192.168.1.77:3306</strong> --format=vertical</span></p>
+<h3 id="数据库层面">数据库层面</h3>
+<p>以下工具工作在数据库级别，用于管理一个或多个服务器的数据库</p>
+<p><strong><span style="background-color: #ccffcc;">mysqldbcompare</span></strong><br />
+- 比较两个服务器或同个服务器上的数据库<br />
+- 比较定义文件和数据<br />
+- 产生差异报告<br />
+- 生成差异性的转换SQL语句<br />
+<span style="background-color: #ccffcc;"><strong>mysqldbcopy</strong></span><br />
+- 服务器之间复制数据库<br />
+- 在同一服务器上克隆数据库<br />
+- 支持重命名<br />
+<span style="background-color: #ccffcc;"><strong>mysqldbexport</strong></span><br />
+- 从一个或多个数据库导出元数据或数据<br />
+- 支持格式：SQL CSV TAB Grid Vertical<br />
+<span style="background-color: #ccffcc;"><strong>mysqldbimport</strong></span><br />
+- 从一个或多个文件导入元数据或数据<br />
+- 支持mysqldbexport的各种格式<br />
+<span style="background-color: #ccffcc;"><strong>mysqldiff</strong></span><br />
+- 比较对象的定义<br />
+- 产生差异报告</p>
+<h5 id="mysqldbcompare">mysqldbcompare</h5>
+<p><span style="background-color: #ffff99;">mysqldbcompare --server1=user:pass@host:port:socket --server2=user:pass@host:port:socket db1:db2</span></p>
+<p>比较两个数据库对象的差异，包括表、视图、触发器、存储过程、函数、事件<br />
+<strong>比较检测的步骤：</strong><br />
+1、数据库定义，确保数据库存在，若不存在，不需要下一步检测<br />
+2、数据库对象，--skip-object-compare跳过<br />
+3、对象定义，比较create语句，--skip-diff跳过<br />
+4、检测表行数，仅检查行数是否一致，--skip-row-count跳过<br />
+5、表数据一致性，先全表checksum校验，然后找出不同 --skip-checksum-table跳过表校验，--skip-data-check跳过数据检查</p>
+<p><span style="background-color: #ccffcc;">--diff-style</span> 定义输出风格：<br />
+unified 默认，统一格式<br />
+context 上下文格式<br />
+differ differ-style格式<br />
+sql 转换语句<br />
+<span style="background-color: #ccffcc;">--format</span> 显示行丢失或改变的输出<br />
+grid 默认，网格化<br />
+vertical 类似\G<br />
+csv 、tab<br />
+<span style="background-color: #ccffcc;">--changes-for</span> 控制差异报告(默认)还是转换报告(需要--difftype=sql)</p>
+<p><strong>权限：</strong><br />
+对所比较的数据库，select,create temporary tables,insert<br />
+mysql数据库，select<br />
+防止比较操作被写入二进制日志，需要启用 <span style="background-color: #ccffcc;">--disable-binary-logging</span></p>
+<p><span style="background-color: #ffff99;">mysqldbcompare --server1=mysql_78 --server2=mysql_88 db1:db2 --run-all-tests</span></p>
+<p><span style="color: #ff0000;">实际上并不好用</span></p>
+<h5 id="mysqldbcopy">mysqldbcopy</h5>
+<p><span style="background-color: #ffff99;">mysqldbcopy --source=user:pass@host:port:socket --destination=user:pass@host:port:socket orig_db:new_db</span></p>
+<p>从源服务器上复制一个数据库到另一个目标服务器上，源服务器和目标服务器可以是同一台，数据库名字可相同也可不同<br />
+希望复制的新库或新的服务器改变存储引擎，在这种情况下，使用mysqldbcopy工具非常便捷</p>
+<p><strong>参数：</strong><br />
+-d,--drop-first 若目录中存在，先drop<br />
+--new-storage-engine 目标使用新的引擎<br />
+--default-storage-engine 目标的默认引擎<br />
+--locking 复制过程中的锁级别：no-locks,lock-all,snaphot(默认)<br />
+--rpl-user<br />
+--rpl  直接搭建主从</p>
+<p><strong>权限：</strong><br />
+源数据库，select,show view,event,trigger  同时mysql数据库要有select<br />
+目标数据库，create,alter,select,insert,update,lock tables,drop(--drop-first),super(二进制日志启用),create view,create routine,execute,event,trigger,grant option,</p>
+<p><span style="background-color: #ffff99;">mysqldbcopy --source=mysql_77 --destination=mysql_77 ecard:new_ecard</span><br />
+<span style="background-color: #ffff99;">mysqldbcopy --source=mysql_77 --destination=mysql_77 test:new_test -vvv --drop-first --locking=lock-all<br />
+mysqldbcopy --source=mysql_77 --destination=mysql_88 --drop-first --all  #复制整个实例</span></p>
+<h5 id="mysqldbexport">mysqldbexport</h5>
+<p><span style="background-color: #ffff99;">mysqldbexport --server=user:pass@host:port:socket db1, db2, db3</span></p>
+<p>导出数据</p>
+<p><strong>选项：</strong><br />
+--file-per-table 每个表单独保存，格式，db.table.csv<br />
+--rpl 和 --rpl-user 包含主从同步语句 --comment-rpl 注释主从语句</p>
+<p><strong>权限：</strong><br />
+源服务器 select,show view mysql数据库的select</p>
+<p># 只导出定义语句<br />
+<span style="background-color: #ffff99;">mysqldbexport --server=mysql_77 --format=sql ecard --export=definitions &gt; ecard.sql</span><br />
+# 只导入数据 批量插入<br />
+<span style="background-color: #ffff99;">mysqldbexport --server=mysql_77 --format=sql ecard --export=data --bulk-insert &gt; ecard.sql<br />
+mysqldbexport --server=mysql_77 --format=sql ecard --export=data --bulk-insert --file-per-table  #一个表一个文件</span><br />
+若数据库中并不是所有表是innodb引擎，为确保数据一致性，需要在导入 前锁定表，加上 --locking=lock-all<br />
+# 导出结构和数据 并为当前数据库创建一个从服务器<br />
+<span style="background-color: #ffff99;">mysqldbexport --server=mysql_77 --format=sql ecard --export=both --rpl-user=root --rpl=master &gt; ecard.sql</span></p>
+<h5 id="mysqldbimport">mysqldbimport</h5>
+<p><span style="background-color: #ffff99;">mysqldbimport --server=user:pass@host:port:socket db1.csv db2.sql db3.grid</span></p>
+<p>导入数据，若一个对象已经存在于目标服务器上，将先删除再导入</p>
+<p><strong>选项：</strong><br />
+<span class="crayon-o">--</span><span class="crayon-v">format</span> 格式<br />
+<span class="crayon-o">--</span><span class="crayon-v">import</span> data definitions(默认) both<br />
+<span class="crayon-o">--</span><span class="crayon-v">drop</span><span class="crayon-o">-</span><span class="crayon-e">first</span><br />
+<span class="crayon-o">--</span><span class="crayon-v">no</span><span class="crayon-o">-</span><span class="crayon-e">headers</span> 排除表头，适用于tab csv格式<br />
+<span class="crayon-o">--</span><span class="crayon-i">dryrun</span><span class="crayon-h">  </span>预导入不执行，测试用。测试文件是否有效<br />
+<span class="crayon-o">--</span><span class="crayon-v">table<br />
+<span class="crayon-o">--</span>skip<span class="crayon-o">-</span><span class="crayon-e">blobs <span class="crayon-o">--</span>skip<span class="crayon-o">-</span>rpl <span class="crayon-o">--</span>skip<span class="crayon-o">-</span>gtid<br />
+<span class="crayon-o">--</span>skip<span class="crayon-o">=</span>SKIP_OBJECTS 忽略的对象 </span></span><span class="crayon-v">tables</span><span class="crayon-sy">,</span> <span class="crayon-v">views</span><span class="crayon-sy">,</span> <span class="crayon-v">triggers</span><span class="crayon-sy">,</span> <span class="crayon-v">procedures</span><span class="crayon-sy">,</span> <span class="crayon-v">functions</span><span class="crayon-sy">,</span><span class="crayon-v">events</span><span class="crayon-sy">,</span> <span class="crayon-v">grants</span><span class="crayon-sy">,</span> <span class="crayon-v">data</span><span class="crayon-sy">,</span> <span class="crayon-v">create_db</span></p>
+<p><span class="crayon-v"><span class="crayon-e"><span style="background-color: #ffff99;">mysqldbimport --server=mysql_77 --import=definitions --format=csv data.csv</span><br />
+<span style="background-color: #ffff99;">mysqldbimport --server=mysql_77 --import=data --bulk-insert --format=csv data.csv</span><br />
+</span> </span></p>
+<h5 id="mysqldiff">mysqldiff</h5>
+<p><span style="background-color: #ffff99;">mysqldiff --server1=user:pass@host:port:socket --server2=user:pass@host:port:socket db1.object1:db2.object1 db3:db4</span></p>
+<p>比较对象定义是否相同，不能比较数据是否一致</p>
+<p><span style="background-color: #ffff99;">mysqldiff --server1=mysql_77 test.mytest:test.t</span><br />
+<span style="background-color: #ffff99;">mysqldiff --server1=mysql_77 test.mytest:test.t --difftype=sql --show-reverse -vvv</span></p>
+<h3 id="审核日志层面">审核日志层面</h3>
+<p>审核日志是MySQL企业版的功能，必需开启审核日志插件</p>
+<p><span style="background-color: #ccffcc;"><strong>mysqlauditadmin</strong></span><br />
+- 监控审计日志<br />
+- 复制 轮换和配置审核日志<br />
+<span style="background-color: #ccffcc;"><strong>mysqlauditgrep</strong></span><br />
+- 搜索日志<br />
+- 输出不同格式的结果</p>
+<p><span style="background-color: #ffff99;">mysqlauditadmin --server=user:pass@host:port --show-options</span><br />
+<span style="background-color: #ffff99;">mysqlauditgrep [options] AUDIT_LOG_FILE</span></p>
+<h3 id="服务器层面">服务器层面</h3>
+<p><span style="background-color: #ccffcc;"><strong>mysqlserverclone</strong></span><br />
+- 克隆一个新的实例<br />
+<span style="background-color: #ccffcc;"><strong>mysqlserverinfo</strong></span><br />
+- 显示服务器信息<br />
+- 搜索主机上运行的服务<br />
+- 访问在线或离线的服务</p>
+<h5 id="mysqlserverclone">mysqlserverclone</h5>
+<p><span style="background-color: #ffff99;">mysqlserverclone --server=user:pass@host:port:socket --new-data=/tmp/data2 --new-port=3310 --new-id=12 --root-password=root</span></p>
+<p>在同一个主机上创建一个新的服务实例，创建一个新的datadir和socket文件，并启动该实例<br />
+克隆前要先删除datadir目录下文件并配置读写权限</p>
+<p><span style="background-color: #ffff99;">mysqlserverclone --server=instance_3306 --new-data=/data/tmp/ --new-port=3310 --root-password=3310 --mysqld=--log-bin=mysql-bin-3310 --new-id=3310 --user=mysql -vvv</span></p>
+<h5 id="mysqlserverinfo">mysqlserverinfo</h5>
+<p><span style="background-color: #ffff99;">mysqlserverinfo --server=user:pass@host:port:socket --format=grid</span></p>
+<p><strong>选项：</strong><br />
+<span class="crayon-o">-</span><span class="crayon-v">d</span><span class="crayon-sy">,</span> <span class="crayon-o">--</span><span class="crayon-v">show</span><span class="crayon-o">-</span><span class="crayon-e">defaults</span> 显示config文件信息<br />
+<span class="crayon-o">--</span><span class="crayon-v">show</span><span class="crayon-o">-</span><span class="crayon-e">servers</span> 若启动了多个实例 可使用该命令查看</p>
+<p><span style="background-color: #ffff99;">mysqlserverinfo --server=mysql_77 -d --format=grid -vvv --show-defaults</span>  #额外显示defaults信息<br />
+<span style="background-color: #ffff99;">mysqlserverinfo --server=mysql_77 -d --format=grid -vvv --show-defaults --no-headers</span></p>
+<h5 id="系统层面">系统层面</h5>
+<p><span style="background-color: #ccffcc;"><strong>mysqldiskusage</strong></span><br />
+- 显示数据库磁盘使用情况<br />
+- 生成报表支持 sql csv tab grid vertical<br />
+<span style="background-color: #ccffcc;"><strong>mysqlfrm</strong></span><br />
+- 读取 frm 文件<br />
+- 生成表 create 语句<br />
+<span style="background-color: #ccffcc;"><strong>mysqlindexcheck</strong></span><br />
+- 读取一个或多个表的索引<br />
+- 检查冗余和重复的索引<br />
+<span style="background-color: #ccffcc;"><strong>mysqlmetagrep</strong></span><br />
+- 搜索元数据<br />
+- 正则表达式搜索数据库<br />
+- 搜索查询生成sql语句<br />
+<span style="background-color: #ccffcc;"><strong>mysqlprocgrep</strong></span><br />
+- 搜索进程信息<br />
+- 搜索生成 sql 语句<br />
+- kill匹配到的进程<br />
+<span style="background-color: #ccffcc;"><strong>mysqluserclone</strong></span><br />
+- 克隆用户<br />
+- 显示用户权限<br />
+<span style="background-color: #ccffcc;"><strong>mysqluc</strong></span><br />
+- MySQL Utilities命令行客户端<br />
+- 允许长连接到MySQL服务器<br />
+- 可使用tab完成工具名称和选项<br />
+- 允许使用命令短名称 如 mysqlserverinfo -&gt; serverinfo</p>
+<h5 id="mysqldiskusage">mysqldiskusage</h5>
+<p><span style="background-color: #ffff99;">mysqldiskusage --server=user:pass@host:port:socket db1 --all</span></p>
+<p>显示一个或多个数据库所使用磁盘空间大小，可显示二进制日志、慢查询日志、错误日志、查询日志、二进制中继日志、innodb表空间大小<br />
+读取文件系统失败，或者服务不在本地，那么将不能确定文件大小</p>
+<p><strong>选项：</strong><br />
+<span class="crayon-o">-</span><span class="crayon-v">b</span><span class="crayon-sy">,</span> <span class="crayon-o">--</span><span class="crayon-e">binlog</span><br />
+<span class="crayon-o">-</span><span class="crayon-v">r</span><span class="crayon-sy">,</span> <span class="crayon-o">--</span><span class="crayon-e">relaylo</span><br />
+<span class="crayon-o">-</span><span class="crayon-v">l</span><span class="crayon-sy">,</span> <span class="crayon-o">--</span><span class="crayon-e">logs<br />
+</span><span class="crayon-o">-</span><span class="crayon-v">i</span><span class="crayon-sy">,</span> <span class="crayon-o">--</span><span class="crayon-e">innodb</span><br />
+<span class="crayon-o">-</span><span class="crayon-v">m</span><span class="crayon-sy">,</span> <span class="crayon-o">--</span><span class="crayon-e">empty<br />
+</span><span class="crayon-o">-</span><span class="crayon-v">a</span><span class="crayon-sy">,</span> <span class="crayon-o">--</span><span class="crayon-e">all</span></p>
+<p><span style="background-color: #ffff99;">mysqldiskusage --server=mysql_77</span><br />
+<span style="background-color: #ffff99;">mysqldiskusage --server=mysql_77 --format=g -a -vvv</span></p>
+<h5 id="mysqlfrm">mysqlfrm</h5>
+<p><span style="background-color: #ffff99;">mysqlfrm --server=[user[:&lt;pass&gt;]@host[:&lt;port&gt;][:&lt;socket&gt;]|&lt;login-path&gt;[:&lt;port&gt;][:&lt;socket&gt;]]  [path\tbl1.frm|db:tbl.frm]</span></p>
+<p>恢复工具，读取frm文件并从中找到<span style="color: #ff0000;"><strong>表</strong></span>、<span style="color: #ff0000;"><strong>视图</strong></span>定义语句<br />
+注意：不能读取到外键约束和自增长序列</p>
+<p><strong>再生实例模式：</strong><br />
+--basedir或--server选项连接到已经安装的实例。该过程不会改变原始frm文件，指定--port选项给再生实例使用，该端口不能与现有端口冲突，读取完frm文件后，再生实例会关闭，所有临时文件将被删除<br />
+<strong>诊断模式：</strong><br />
+指定--diagnostic选项，byte-by-byte读取frm文件，尽可能多的恢复信息，该模式不能校验字符集</p>
+<p><strong>选项：</strong><br />
+--quiet 仅显示create语句和警告、错误信息<br />
+--show-stats 统计frm文件信息</p>
+<p><span class="crayon-p"><span style="background-color: #ffff99;">mysqlfrm --basedir=/usr ttlsa_com:data.frm --port=3333 --user=mysql -vvv</span><br />
+<span style="background-color: #ffff99;">mysqlfrm --diagnostic /root/data_center </span> #读取data_center目录下所有frm文件<br />
+<span style="background-color: #ffff99;">mysqlfrm --diagnostic /root/t7_data_center/t7_venue.frm</span><br />
+</span></p>
+<h6 id="利用frm和ibd恢复数据">利用frm和ibd恢复数据</h6>
+<p>在某此情况下，数据库崩溃，无法启动，此时，可利用磁盘中的frm和ibd文件恢复数据，因为数据库存储的数据实际上还是存储在文件里的</p>
+<div class="mystyle02"><span style="background-color: #ffcc99;">myisam引擎</span>：直接复制这三个文件即可使用，不需要恢复<br />
+xxx.frm 表结构文件<br />
+xxx.MYD 数据文件<br />
+xxx.MYI 索引文件<br />
+<span style="background-color: #ffcc99;">innodb引擎</span>：<strong>innodb某些元数据是存储在<span style="color: #ff0000;">ibdata1</span>文件中的</strong><br />
+xxx.frm 表结构文件  -&gt; 使用mysqlfrm获取<br />
+xxx.ibd 数据和索引文件 -&gt; 覆盖文件</div>
+<p><span style="color: #0000ff;"><strong>恢复前提：innodb_file_per_table = 1</strong></span><br />
+若不能使用mysqlfrm工具时，要获得表结构语句[<span style="color: #0000ff;">不推荐</span>]：<br />
+1、创建同名表，create table t_access(id int);<br />
+2、使用要恢复表的frm文件替换同名frm文件，修改frm文件权限 chown mysql:mysql xxx.frm<br />
+3、flush tables;<br />
+4、show create table t_access;  #注意，此时数据库日志中会显示字段数量，如<br />
+<span style="color: #999999;">[Warning] InnoDB: Table tt/t_access contains 1 user defined columns in InnoDB, but </span><span style="color: #0000ff;"><span style="color: #999999;">4 columns</span><br />
+</span>5、重新创建拥有相同字段的同名表<br />
+6、再次用要恢复的表的frm文件替换同名frm文件，修改权限<br />
+7、数据库关机<br />
+8、配置文件设置 innodb_force_recovery=6 重启数据库<br />
+9、得到表结构<br />
+显然，使用mysqlfrm工具更为方便</p>
+<p><strong><span class="mystyle01" style="color: #ffffff; background-color: #fc9b3c; padding: 4px 3px 4px 3px; padding-left: 3px; padding-right: 3px; margin-left: 3px; margin-right: 3px;">利用frm和ibd恢复数据操作流程</span></strong></p>
+<p>场景：因数据库损坏，ibdata1文件被误删，数据库启动后，所有innodb引擎的表能显示名称，但打开时提示表不存在<br />
+目标：需要恢复其中一张表 t7_system_nodes 可利用的文件为<br />
+/tmp/t7_system_nodes.frm -&gt; 存储了表结构<br />
+/tmp/t7_system_nodes.ibd -&gt; 存储了表数据</p>
+<div class="mystyle02"><span style="color: #993300;"><strong>第一步：利用mysqlfrm工具恢复表结构</strong></span><br />
+mysqlfrm --diagnostic /tmp/t7_system_nodes.frm --quiet<br />
+<span style="color: #999999;"># WARNING: Cannot generate character set or collation names without the --server option.</span><br />
+<span style="color: #999999;"># CAUTION: The diagnostic mode is a best-effort parse of the .frm file. As such, it may not identify all of the components of the table correctly. This is especially true for damaged files. It will also not read the default values for the columns and the resulting statement may not be syntactically correct.</span><br />
+<span style="color: #339966;">CREATE TABLE <code>tmp</code>.<code>t7_system_nodes</code> (</span><br />
+<span style="color: #339966;"> <code>id</code> int(10) unsigned NOT NULL AUTO_INCREMENT comment '主键ID', </span><br />
+<span style="color: #339966;"> <code>title</code> varchar(150) DEFAULT NULL comment '节点名', </span><br />
+<span style="color: #339966;"> <code>action</code> varchar(60) DEFAULT NULL comment '路径名', </span><br />
+<span style="color: #339966;"> <code>status</code> tinyint(1) DEFAULT NULL comment '状态(1: 启用, 2: 禁用)', </span><br />
+<span style="color: #339966;"> <code>remark</code> varchar(765) DEFAULT NULL comment '备注', </span><br />
+<span style="color: #339966;"> <code>sort</code> smallint(4) DEFAULT NULL comment '排序', </span><br />
+<span style="color: #339966;"> <code>pid</code> int(11) DEFAULT NULL comment '父节点ID', </span><br />
+<span style="color: #339966;"> <code>level</code> tinyint(1) DEFAULT NULL comment '等级', </span><br />
+<span style="color: #339966;">PRIMARY KEY <code>PRIMARY</code> (<code>id</code>)</span><br />
+<span style="color: #339966;">) ENGINE=InnoDB COMMENT '系统节点表';</span><br />
+<span style="color: #993300;"><strong>第二步：在任意数据库创建该表 如test库</strong></span><br />
+注意，上一步的表名包含库名<code>tmp</code>.<code>t7_system_nodes</code> 创建时需要把库名去掉或改成<code>test</code>.<code>t7_system_nodes</code><br />
+<span style="color: #999999;">mysql&gt;</span> CREATE TABLE <code>t7_system_nodes</code> (<br />
+<code>id</code> int(10) unsigned NOT NULL AUTO_INCREMENT comment '主键ID',<br />
+<code>title</code> varchar(150) DEFAULT NULL comment '节点名',<br />
+<code>action</code> varchar(60) DEFAULT NULL comment '路径名',<br />
+<code>status</code> tinyint(1) DEFAULT NULL comment '状态(1: 启用, 2: 禁用)',<br />
+<code>remark</code> varchar(765) DEFAULT NULL comment '备注',<br />
+<code>sort</code> smallint(4) DEFAULT NULL comment '排序',<br />
+<code>pid</code> int(11) DEFAULT NULL comment '父节点ID',<br />
+<code>level</code> tinyint(1) DEFAULT NULL comment '等级',<br />
+PRIMARY KEY <code>PRIMARY</code> (<code>id</code>)<br />
+) ENGINE=InnoDB COMMENT '系统节点表';<br />
+<span style="color: #999999;">Query OK, 0 rows affected</span><br />
+<span style="color: #993300;"><strong>第三步：卸载表空间</strong></span><br />
+<span style="color: #999999;">mysql&gt;</span> alter table <code>t7_system_nodes</code> discard tablespace ;<br />
+<span style="color: #999999;">Query OK, 0 rows affected</span><br />
+该操作会删除t7_system_nodes.ibd文件<br />
+<span style="color: #993300;"><strong>第四步：复制t7_system_nodes.ibd文件</strong></span><br />
+<span style="color: #339966;">将要还原数据的t7_system_nodes.ibd文件复制到数据库目录下，并修改文件属主</span><br />
+cp /tmp/t7_system_nodes.ibd /data/mysql/test<br />
+chown mysql:mysql /data/mysql/test/t7_system_nodes.ibd<br />
+<span style="color: #993300;"><strong>第五步：导入表空间</strong></span><br />
+<span style="color: #999999;">mysql&gt;</span> alter table <code>t7_system_nodes</code> import tablespace;<br />
+<span style="color: #999999;">Query OK, 0 rows affected</span><br />
+<span style="color: #993300;"><strong>第六步：检查数据是否已恢复</strong></span><br />
+<span style="color: #999999;">mysql&gt;</span> select count(*) from <code>t7_system_nodes</code>;<br />
+<span style="color: #999999;">+----------+</span><br />
+<span style="color: #999999;">| count(*) |</span><br />
+<span style="color: #999999;">+----------+</span><br />
+<span style="color: #999999;">| 75 |</span><br />
+<span style="color: #999999;">+----------+</span><br />
+<span style="color: #999999;">1 row in set</span><br />
+数据已经恢复！<br />
+该过程不需要重启数据库实例、不需要修改数据库配置、操作方便，推荐</div>
+<h5 id="mysqlindexcheck">mysqlindexcheck</h5>
+<p><span style="background-color: #ffff99;">mysqlindexcheck --server=user:pass@host:port:socket db1.table1 db2 db3.table2</span></p>
+<p>识别重复的和潜在冗余的表索引<br />
+除了这些库的表mysql, INFORMATION_SCHEMA, performance_schema，可以扫描所有其他库</p>
+<p><strong>选项：</strong><br />
+--show-drops 显示drop语句删除冗余索引<br />
+<span class="crayon-o">--</span><span class="crayon-v">show</span><span class="crayon-o">-</span><span class="crayon-e">indexes</span> 显示每个表的索引</p>
+<p><span style="background-color: #ffff99;">mysqlindexcheck --server=mysql_77 ecard</span><br />
+<span style="background-color: #ffff99;">mysqlindexcheck --server=mysql_77 ecard --show-drops --show-indexes --report-indexes</span></p>
+<h5 id="mysqlmetagrep">mysqlmetagrep</h5>
+<p><span style="background-color: #ffff99;">mysqlmetagrep --server=user:pass@host:port:socket [options] pattern</span></p>
+<p>搜索数据库对象</p>
+<p><span style="background-color: #ffff99;">mysqlmetagrep --server=mysql_77 --pattern="d_"</span><br />
+<span style="background-color: #ffff99;">mysqlmetagrep --server=mysql_77 --pattern="%school%"</span><br />
+<span style="background-color: #ffff99;">mysqlmetagrep --server=mysql_77 -Gb --pattern="ent"</span>  #-Gb正则匹配</p>
+<h5 id="mysqlprocgrep">mysqlprocgrep</h5>
+<p><span style="background-color: #ffff99;">mysqlprocgrep --server=user:pass@host:port:socket [options]</span></p>
+<p>搜索进程，并执行某些操作</p>
+<p><strong>选项：</strong><br />
+--age 指定时间<br />
+--match-xxx 指定匹配条件，xxx可以是 id user host db command info state<br />
+<span class="crayon-o">--</span><span class="crayon-v">kill</span><span class="crayon-o">-</span><span class="crayon-e">connection<br />
+</span><span class="crayon-o">--</span><span class="crayon-v">kill</span><span class="crayon-o">-</span><span class="crayon-e">query</span></p>
+<p><span style="background-color: #ffff99;">mysqlprocgrep --server=mysql_77</span><br />
+<span class="crayon-p"><span style="background-color: #ffff99;">mysqlprocgrep --server=mysql_77 --match-user=root  --kill-connection --match-state=sleep</span>  #kill掉root用户状态为sleep的进程<br />
+<span style="background-color: #ffff99;">mysqlprocgrep --kill-connection --match-state=sleep --print-sql </span> #生成kill空闲进程的存储过程<br />
+<span style="background-color: #ffff99;">mysqlprocgrep --server=mysql_77 --match-user=lepei --age=5 --kill-query</span></span></p>
+<p>kill进程测试并不成功</p>
+<h5 id="mysqluserclone">mysqluserclone</h5>
+<p><span style="background-color: #ffff99;">mysqluserclone --source=user:pass@host:port:socket --destination=user:pass@host:port:socket joe@localhost sam:secret1@localhost</span></p>
+<p>以现有数据库上的用户作为模板创作一个或多个具有相同权限的账户</p>
+<p><strong>选项：</strong><br />
+<span class="crayon-o">-</span><span class="crayon-v">d</span><span class="crayon-sy">,</span> <span class="crayon-o">--</span><span class="crayon-e">dump</span> 显示grant语句并不执行<br />
+<span class="crayon-o">-</span><span class="crayon-v">l</span><span class="crayon-sy">,</span> <span class="crayon-o">--</span><span class="crayon-e">list</span> 列出所有用户</p>
+<p># 显示所有用户<br />
+<span style="background-color: #ffff99;">mysqluserclone --source=mysql_77 --list -vvv</span><br />
+# 复制admin用户到3308实例，用户名为user1，密码为passwd1，主机为10.%<br />
+<span class="crayon-p"><span style="background-color: #ffff99;">mysqluserclone --source=instance_3306 --destination=instance_3308 admin@localhost  user1:passwd1@10.% -vvv</span><br />
+# 显示用户grant语句<br />
+<span style="background-color: #ffff99;">mysqluserclone --source=mysql_77 --dump --list</span></span></p>
+<h5 id="mysqluc">mysqluc</h5>
+<p>命令行工具，允许执行用户当前安装mysql工具的任何命令 --utildir用于指定MySQL Utilities安装路径<br />
+支持tab 支持管道</p>
+<p>mysqluc -e "help utilities"<br />
+<span class="crayon-p">mysqluc -e "set SRV=mysql_77; mysqldiskusage --server=$SRV" -vvv</span></p>
+<p>help<br />
+help mysqldiskusage</p>
+<h3 id="高可用性层面">高可用性层面</h3>
+<p><span style="background-color: #ccffcc;"><strong>mysqlfailover</strong></span><br />
+- 提供对复制结构故障自动转移<br />
+- 使用GTID<br />
+<span style="background-color: #ccffcc;"><strong>mysqlreplicate</strong></span><br />
+- 设置复制<br />
+- 从一开始 当前 特定binlog pos复制<br />
+<span style="background-color: #ccffcc;"><strong>mysqlrplms</strong></span><br />
+- 提供round-robin multi-source复制<br />
+- 使用GTID<br />
+<span style="background-color: #ccffcc;"><strong>mysqlrpladmin</strong></span><br />
+- 管理复制拓扑<br />
+- 允许恢复主<br />
+- 命令包括 select failover gtid health start stop switchover<br />
+<span style="background-color: #ccffcc;"><strong>mysqlrplcheck</strong></span><br />
+- 检查复制配置<br />
+- 在主上测试二进制日志<br />
+<span style="background-color: #ccffcc;"><strong>mysqlrplshow</strong></span><br />
+- 查看从连接到的主<br />
+- 可递归搜索<br />
+- 显示复制拓扑图或列表<br />
+<span style="background-color: #ccffcc;"><strong>mysqlrplsync</strong></span><br />
+- 检查服务器之间数据一致性<br />
+- 使用GTID</p>
+<h5 id="mysqlfailover">mysqlfailover</h5>
+<p><span style="background-color: #ffff99;">mysqlfailover --master=root@localhost --discover-slaves-login=root --candidates=root@host123:3306,root@host456:3306</span></p>
+<p>对复制进行健康检测和实现故障自动转移<br />
+需要gtid_mode=ON<br />
+所有从必需使用--report-host 和 --report-port 启动参数<br />
+许用户指定外部脚本在切换和故障转移命令之前或之后执行</p>
+<p>--failover-mode<br />
+auto 执行故障自动转移到第一候选人<br />
+elect 与auto一样，但若在指定候选从列表中没有可行的，不检查剩余从，产生错误并退出<br />
+fail 产生一个错误，不进行故障转移</p>
+<h5 id="mysqlreplicate">mysqlreplicate</h5>
+<p><span style="background-color: #ffff99;">mysqlreplicate --master=root@localhost:3306 --slave=root@localhost:3310 --rpl-user=rpl:passwd</span></p>
+<p>在两台服务器间设置和启动复制</p>
+<h5 id="mysqlrplms">mysqlrplms</h5>
+<p><span style="background-color: #ffff99;">mysqlrplms --slave=root@localhost:3306 --masters=root@localhost:3310,root@localhost:3311 --rpl-user=rpl:passwd</span></p>
+<p>设置多主单从的复制，即从多个主复制</p>
+<h5 id="mysqlrpladmin">mysqlrpladmin</h5>
+<p><span style="background-color: #ffff99;"> mysqlrpladmin --slaves=root@localhost:3306 &lt;command&gt;</span></p>
+<p>MySQL复制的管理工具</p>
+<h5 id="mysqlrplcheck">mysqlrplcheck</h5>
+<p><span style="background-color: #ffff99;">mysqlrplcheck --master=root@localhost:3306 --slave=root@localhost:3310</span></p>
+<p>检查复制的先决条件</p>
+<h5 id="mysqlrplshow" class="entry-title">mysqlrplshow</h5>
+<p><span style="background-color: #ffff99;">mysqlrplshow --master=root@localhost:3306</span></p>
+<p>显示主从复制关系，并绘制主的图形结构，标注每个主机名和端口</p>
+<h5 id="mysqlrplsync">mysqlrplsync</h5>
+<p><span style="background-color: #ffff99;">mysqlrplsync --master=user:pass@host:port --slaves=user:pass@host:port [&lt;db_name&gt;[.&lt;tbl_name&gt;]]</span></p>
+<p>对复制同步进行检查，检查主从或从从之间的数据是否一致，并报告丢失的对象以及数据</p>
+<p>&nbsp;</p>
+<p>参考：https://blog.csdn.net/anzhen0429/article/details/78007341</p>
+<p>转载请注明：<a target="_blank" rel="noopener" href="https://pdf.us">轻风博客</a> &raquo; <a target="_blank" rel="noopener" href="https://pdf.us/2019/01/10/2620.html">MySQL管理工具集 MySQL Utilities | 利用frm和ibd文件恢复表数据</a></p>
+
+      
+<div class="article-social">
+			<a href="javascript:;" data-action="ding" data-id="2620" id="Addlike" class="action"><i class="fa fa-heart-o"></i>喜欢 (<span class="count">3</span>)</a><span class="or">or</span><span class="action action-share bdsharebuttonbox"><i class="fa fa-share-alt"></i>分享 (<span class="bds_count" data-cmd="count" title="累计分享0次">0</span>)<div class="action-popover"><div class="popover top in"><div class="arrow"></div><div class="popover-content"><a href="#" class="sinaweibo fa fa-weibo" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_qzone fa fa-star" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="tencentweibo fa fa-tencent-weibo" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="qq fa fa-qq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_renren fa fa-renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin fa fa-weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_more fa fa-ellipsis-h" data-cmd="more"></a></div></div></div></span>	
+</div>
+	</article>	
+				<footer class="article-footer">
+			<div class="article-tags"><i class="fa fa-tags"></i><a target="_blank" href="https://pdf.us/tag/mysql" rel="tag noopener">mysql</a></div></footer>
+	<nav class="article-nav">
+			<span class="article-nav-prev"><i class="fa fa-angle-double-left"></i> <a target="_blank" href="https://pdf.us/2019/01/03/2605.html" rel="prev noopener">Ansible使用指南-05-插件扩展/应用实战</a></span>
+			<span class="article-nav-next"><a target="_blank" href="https://pdf.us/2019/01/21/2642.html" rel="next noopener">Windows Thin PC-微软官方精简版Windows7系统</a>  <i class="fa fa-angle-double-right"></i></span>
+		</nav>
+
+		<div class="related_top">
+			<div class="related_posts"><ul class="related_img">
+
+		<li class="related_box"  >
+		<a href="https://pdf.us/2020/01/19/3813.html" title="基于Vitess管理大型MySQL实例集群" target="_blank">
+<img src="https://pdf.us/wp-content/themes/yusi1.0/timthumb.php?src=http://pdf.us/wp-content/uploads/2020/01/20200119150817.jpg&h=110&w=185&q=90&zc=1&ct=1" alt="基于Vitess管理大型MySQL实例集群" />	<br><span class="r_title">基于Vitess管理大型MySQL实例集群</span></a>
+		</li>
+	
+		<li class="related_box"  >
+		<a href="https://pdf.us/2019/03/05/2938.html" title="MySQL的join查询-图片" target="_blank">
+<img src="https://pdf.us/wp-content/themes/yusi1.0/timthumb.php?src=http://pdf.us/wp-content/uploads/2019/03/12640032826.png&h=110&w=185&q=90&zc=1&ct=1" alt="MySQL的join查询-图片" />	<br><span class="r_title">MySQL的join查询-图片</span></a>
+		</li>
+	
+		<li class="related_box"  >
+		<a href="https://pdf.us/2018/08/31/1838.html" title="MySQL binlog解析canal + kafka实践|ZooKeeper集群部署" target="_blank">
+<img src="https://pdf.us/wp-content/themes/yusi1.0/timthumb.php?src=https://pdf.us/wp-content/uploads/2018/08/timg-2.jpg&h=110&w=185&q=90&zc=1&ct=1" alt="MySQL binlog解析canal + kafka实践|ZooKeeper集群部署" />	<br><span class="r_title">MySQL binlog解析canal + kafka实践|ZooKeeper集群部署</span></a>
+		</li>
+	
+		<li class="related_box"  >
+		<a href="https://pdf.us/2018/08/30/1819.html" title="阿里数据库增量日志解析工具canal资料整理" target="_blank">
+<img src="https://pdf.us/wp-content/themes/yusi1.0/timthumb.php?src=https://pdf.us/wp-content/uploads/2018/08/timg-1.jpg&h=110&w=185&q=90&zc=1&ct=1" alt="阿里数据库增量日志解析工具canal资料整理" />	<br><span class="r_title">阿里数据库增量日志解析工具canal资料整理</span></a>
+		</li>
+	</ul>
+
+<div class="relates">
+<ul>
+<li><i class="fa fa-minus"></i><a target="_blank" rel="noopener" href="https://pdf.us/2020/01/19/3813.html">基于Vitess管理大型MySQL实例集群</a></li><li><i class="fa fa-minus"></i><a target="_blank" rel="noopener" href="https://pdf.us/2019/03/05/2938.html">MySQL的join查询-图片</a></li><li><i class="fa fa-minus"></i><a target="_blank" rel="noopener" href="https://pdf.us/2018/08/31/1838.html">MySQL binlog解析canal + kafka实践|ZooKeeper集群部署</a></li><li><i class="fa fa-minus"></i><a target="_blank" rel="noopener" href="https://pdf.us/2018/08/30/1819.html">阿里数据库增量日志解析工具canal资料整理</a></li><li><i class="fa fa-minus"></i><a target="_blank" rel="noopener" href="https://pdf.us/2018/08/24/1750.html">MySQL Binlog解析工具Maxwell 1.17.1 的安装和使用</a></li><li><i class="fa fa-minus"></i><a target="_blank" rel="noopener" href="https://pdf.us/2018/08/20/1729.html">利用MariaDB实现主从同步从库(Slave)触发器(trigger)的自动触发</a></li><li><i class="fa fa-minus"></i><a target="_blank" rel="noopener" href="https://pdf.us/2018/07/28/1633.html">MySQL王者晋级之路(九)优化、Lepus监控、升级、参考</a></li><li><i class="fa fa-minus"></i><a target="_blank" rel="noopener" href="https://pdf.us/2018/07/24/1600.html">MySQL王者晋级之路(八)ProxySQL</a></li>
+</ul></div></div>		</div>
+						<a name="comments"></a>
+<div id="SOHUCS" sid="2620"></div> 
+<script type="text/javascript"> 
+(function(){ 
+    var appid = 'cyt9DpPc3'; 
+    var conf = 'prod_04fcb894125b7e12eda353f4f3af1774'; 
+    var width = window.innerWidth || document.documentElement.clientWidth; 
+    if (width < 960) { 
+        window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); 
+    } else { 
+        var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); 
+    }})(); 
+</script>            			</div>
+</div>
+<aside class="sidebar">	
+<div class="widget widget_text"><div class="textwidget"><div class="social">
+
+<a href="" rel="external nofollow" title="新浪微博" target="_blank"><i class="sinaweibo fa fa-weibo"></i></a><a  href="" rel="external nofollow" title="腾讯微博" target="_blank"><i class="tencentweibo fa fa-tencent-weibo"></i></a><a class="weixin"><i class="weixins fa fa-weixin"></i><div class="weixin-popover"><div class="popover bottom in"><div class="arrow"></div><div class="popover-title">订阅号“多维学习”</div><div class="popover-content"><img src="https://pdf.us/wp-content/themes/yusi1.0/img/weixin.gif" ></div></div></div></a><a href="qingsmail@qq.com" rel="external nofollow" title="Email" target="_blank"><i class="email fa fa-envelope-o"></i></a><a href="2445528601" rel="external nofollow" title="联系QQ" target="_blank"><i class="qq fa fa-qq"></i></a><a href="" rel="external nofollow" target="_blank"  title="订阅本站"><i class="rss fa fa-rss"></i></a>
+</div></div></div>
+
+		<div class="widget widget_recent_entries">		<div class="title"><h2>近期文章</h2></div>		<ul>
+					<li>
+				<a target="_blank" rel="noopener" href="https://pdf.us/2022/01/17/4206.html">client-go使用token访问集群资源</a>
+						</li>
+					<li>
+				<a target="_blank" rel="noopener" href="https://pdf.us/2021/12/23/4200.html">keda k8s负载hpa扩展组件</a>
+						</li>
+					<li>
+				<a target="_blank" rel="noopener" href="https://pdf.us/2021/11/23/4193.html">windows下wsl2使用技巧</a>
+						</li>
+					<li>
+				<a target="_blank" rel="noopener" href="https://pdf.us/2021/10/26/4189.html">收集的golang常用库-2021-下</a>
+						</li>
+					<li>
+				<a target="_blank" rel="noopener" href="https://pdf.us/2021/10/26/4187.html">精品技术文章搜集-2021-下</a>
+						</li>
+				</ul>
+		</div>		<div class="widget widget_archive"><div class="title"><h2>文章归档</h2></div>		<ul>
+			<li><a target="_blank" rel="noopener" href='https://pdf.us/2022/01'>2022年1月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2021/12'>2021年12月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2021/11'>2021年11月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2021/10'>2021年10月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2021/09'>2021年9月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2021/08'>2021年8月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2021/07'>2021年7月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2021/06'>2021年6月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2021/05'>2021年5月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2021/04'>2021年4月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2021/03'>2021年3月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2021/02'>2021年2月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2021/01'>2021年1月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2020/12'>2020年12月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2020/11'>2020年11月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2020/10'>2020年10月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2020/09'>2020年9月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2020/08'>2020年8月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2020/07'>2020年7月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2020/06'>2020年6月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2020/05'>2020年5月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2020/04'>2020年4月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2020/03'>2020年3月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2020/02'>2020年2月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2020/01'>2020年1月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2019/12'>2019年12月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2019/11'>2019年11月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2019/10'>2019年10月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2019/09'>2019年9月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2019/08'>2019年8月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2019/07'>2019年7月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2019/06'>2019年6月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2019/05'>2019年5月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2019/04'>2019年4月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2019/03'>2019年3月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2019/02'>2019年2月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2019/01'>2019年1月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2018/12'>2018年12月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2018/11'>2018年11月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2018/10'>2018年10月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2018/09'>2018年9月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2018/08'>2018年8月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2018/07'>2018年7月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2018/06'>2018年6月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2018/05'>2018年5月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2018/04'>2018年4月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2018/03'>2018年3月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2018/02'>2018年2月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2018/01'>2018年1月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2017/10'>2017年10月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2017/09'>2017年9月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2017/08'>2017年8月</a></li>
+	<li><a target="_blank" rel="noopener" href='https://pdf.us/2017/07'>2017年7月</a></li>
+		</ul>
+		</div><div class="widget d_tag"><div class="title"><h2>标签云</h2></div><div class="d_tags"><a title="30个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/kubernetes">kubernetes (30)</a><a title="29个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/go">go (29)</a><a title="25个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/linux">linux (25)</a><a title="24个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/mysql">mysql (24)</a><a title="21个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/docker">docker (21)</a><a title="10个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/nginx">nginx (10)</a><a title="7个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/python">python (7)</a><a title="7个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/shell">shell (7)</a><a title="6个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/jenkins">jenkins (6)</a><a title="6个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/elasticsearch">elasticsearch (6)</a><a title="5个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/%e6%96%87%e7%ab%a0%e6%94%b6%e8%97%8f">文章收藏 (5)</a><a title="5个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/ansible">ansible (5)</a><a title="4个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/kafka">kafka (4)</a><a title="3个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/git">git (3)</a><a title="3个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/php">php (3)</a><a title="3个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/rabbitmq">rabbitmq (3)</a><a title="3个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/windows">windows (3)</a><a title="3个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/%e6%96%87%e7%ab%a0%e5%bd%92%e6%a1%a3">文章归档 (3)</a><a title="2个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/wordpress">wordpress (2)</a><a title="2个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/centos">centos (2)</a><a title="2个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/flask">flask (2)</a><a title="2个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/bypy">bypy (2)</a><a title="2个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/elk">elk (2)</a><a title="2个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/openresty">openresty (2)</a><a title="2个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/javascript">javascript (2)</a><a title="2个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/redis">redis (2)</a><a title="2个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/canal">canal (2)</a><a title="2个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/mesos">mesos (2)</a><a title="2个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/zookeeper">zookeeper (2)</a><a title="2个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/java">java (2)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/ss">ss (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/gns3">gns3 (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/568b">568B (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/rsyslog">rsyslog (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/samba">samba (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/%e4%b8%bb%e4%bb%8e%e5%a4%8d%e5%88%b6">主从复制 (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/ntp">ntp (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/%e7%99%be%e5%ba%a6%e4%ba%91%e7%9b%98">百度云盘 (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/psutil">psutil (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/repo">repo (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/glances">glances (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/dstat">dstat (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/multitail">multitail (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/ulimit">ulimit (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/lua">lua (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4">常用命令 (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/jdk">jdk (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/json">json (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/grafana">grafana (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/logstash">logstash (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/tcpdump">tcpdump (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/iptables">iptables (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/kickstart">kickstart (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/maxwell">maxwell (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/workerman">workerman (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/binlog">binlog (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/selenium">selenium (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/xpath">xpath (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/ceph">ceph (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/journalctl">journalctl (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/vim">vim (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/proxysql">proxysql (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/mysql-python">mysql-python (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/tomcat">tomcat (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/beego">beego (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/guacamole">guacamole (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/lsof">lsof (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/tsar">tsar (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/glusterfs">glusterfs (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/%e8%bf%90%e7%bb%b4%e5%b7%a5%e5%85%b7">运维工具 (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/rpmbuild">rpmbuild (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/postgre">postgre (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/supervisor">supervisor (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/kong">kong (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/cobbler">cobbler (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/sed">sed (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/sublime">sublime (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/%e4%bf%9d%e9%99%a9">保险 (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/%e5%b7%a5%e5%85%b7">工具 (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/%e5%89%8d%e7%ab%af">前端 (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/echarts">echarts (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/influxdb">influxdb (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/prometheus">prometheus (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/clickhouse">clickhouse (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/loki">loki (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/consul">consul (1)</a><a title="1个话题" target="_blank" rel="noopener" href="https://pdf.us/tag/druid">druid (1)</a></div></div><div class="widget d_textbanner"><a class="style01" href=""><div class="title"><h2></h2></div><h3>特别推荐</h3><p></p></a></div></aside></section>
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="copyright pull-left">
+         <a href="#" title="轻风博客">轻风博客</a> 版权所有，保留一切权利 · <a href="http://#/sitemap.xml" title="站点地图">站点地图</a>   ·   基于WordPress构建   © 2016-2022  ·   托管于 <a rel="nofollow" target="_blank" href="https://aws.amazon.com/">AWS</a>
+        </div>
+        <div class="trackcode pull-right">
+            <script type="text/javascript" src="https://s22.cnzz.com/z_stat.php?id=1264348461&web_id=1264348461"></script>        </div>
+    </div>
+</footer>
+
+<script type='text/javascript' src='https://pdf.us/wp-content/themes/yusi1.0/js/jquery.js?ver=1.0'></script>
+<script type='text/javascript' src='https://pdf.us/wp-includes/js/wp-embed.min.js?ver=4.8.21'></script>
+<script>with(document)0[(getElementsByTagName("head")[0]||body).appendChild(createElement("script")).src="http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion="+~(-new Date()/36e5)];</script></body>
+</html>
+
+      </div>
+      
+      
+      
+    </div>
+  <ul class="breadcrumb">
+            <li><a href="/images/">IMAGES</a></li>
+            <li><a href="/images/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%B8%89-innodb%E7%9A%84%E8%A1%A8%E7%BB%93%E6%9E%84%E5%92%8C%E8%A1%8C%E8%AE%B0%E5%BD%95%E7%BB%93%E6%9E%84.md/">【聊聊MYSQL】三-INNODB的表结构和行记录结构.MD</a></li>
+            <li>2</li>
+          
+  </ul>
+
+    
+    
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weidan</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">218k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">13:12</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"liweidan-cn","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
