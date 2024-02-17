@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="codeva-18Edjlpyk5">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1}},"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="一.REDO LOG数据库最主要的特性是 持久性，即修改了数据库数据以后，无论发生什么事情，数据都不会丢失。MySQL-InnDB 就利用 REDO LOG 来满足持久性。REDO LOG 中文称为 重做日志，那也可以简洁一点叫做 REDO 日志。是数据库启动的时候，用于读取计算 BufferPool 中脏页数据的方式，这样可以避免由于其他原因导致数据库掉线但是脏页未刷新到硬盘，而导致数据丢失的尴">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【聊聊MySQL】八.MySQL-InnoDB的数据库事务的执行之REDO_LOG">
+<meta property="og:url" content="http://weidanli.github.io/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log/index.html">
+<meta property="og:site_name" content="DanZ&#39;s Blog">
+<meta property="og:description" content="一.REDO LOG数据库最主要的特性是 持久性，即修改了数据库数据以后，无论发生什么事情，数据都不会丢失。MySQL-InnDB 就利用 REDO LOG 来满足持久性。REDO LOG 中文称为 重做日志，那也可以简洁一点叫做 REDO 日志。是数据库启动的时候，用于读取计算 BufferPool 中脏页数据的方式，这样可以避免由于其他原因导致数据库掉线但是脏页未刷新到硬盘，而导致数据丢失的尴">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103513.jpeg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103514.jpeg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103519.gif">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103539.jpeg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103522.jpeg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103524.jpeg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103516.jpeg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103518.jpeg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103520.jpeg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103525.jpeg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103511.jpeg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103515.jpeg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103527.gif">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103537.jpeg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103523.jpeg">
+<meta property="article:published_time" content="2020-03-11T09:15:21.000Z">
+<meta property="article:modified_time" content="2023-12-05T02:35:40.243Z">
+<meta property="article:author" content="Weidan">
+<meta property="article:tag" content="mysql">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103513.jpeg">
+
+
+<link rel="canonical" href="http://weidanli.github.io/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":"","permalink":"http://weidanli.github.io/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log/index.html","path":"/mysql/【聊聊mysql】八-mysql-innodb的数据库事务的执行之redo-log/index.html","title":"【聊聊MySQL】八.MySQL-InnoDB的数据库事务的执行之REDO_LOG"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【聊聊MySQL】八.MySQL-InnoDB的数据库事务的执行之REDO_LOG | DanZ's Blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DanZ's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">a normal developer daily blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-REDO-LOG"><span class="nav-number">1.</span> <span class="nav-text">一.REDO LOG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E9%AB%98%E6%95%88%E4%B8%94%E6%8C%81%E4%B9%85%E5%8C%96%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">二.高效且持久化的方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">三.日志格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E8%A3%85%E8%BD%BD%E6%95%B0%E6%8D%AE%E7%9A%84%E9%80%9A%E7%94%A8%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 装载数据的通用格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE%E6%97%B6%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 插入数据时日志格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-REDO-%E6%97%A5%E5%BF%97%E5%86%85%E5%AE%B9"><span class="nav-number">3.3.</span> <span class="nav-text">3.2 REDO 日志内容</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B-%E9%87%8D%E5%81%9ALOG%E7%9A%84%E2%80%99%E4%BA%8B%E5%8A%A1%E2%80%99"><span class="nav-number">4.</span> <span class="nav-text">四.重做LOG的’事务’</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94-%E9%87%8D%E5%81%9ALOG%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="nav-number">5.</span> <span class="nav-text">五.重做LOG缓冲区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD-%E8%A7%A6%E5%8F%91%E9%87%8D%E5%81%9ALOG%E5%88%B7%E7%9B%98"><span class="nav-number">6.</span> <span class="nav-text">六.触发重做LOG刷盘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83-%E9%87%8D%E5%81%9ALOG%E5%88%B7%E5%88%B0%E5%93%AA%E4%BA%9B%E6%96%87%E4%BB%B6%E9%87%8C"><span class="nav-number">7.</span> <span class="nav-text">七.重做LOG刷到哪些文件里</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB-%E9%87%8D%E5%81%9ALOG%E7%BC%93%E5%86%B2%E9%A1%B5%E4%B8%8E%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">8.</span> <span class="nav-text">八.重做LOG缓冲页与日志文件的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-%E9%87%8D%E5%81%9A%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E7%9A%84%E6%A0%BC%E5%BC%8F"><span class="nav-number">8.1.</span> <span class="nav-text">8.1 重做日志文件的格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-LSN-Log-Swquence-Number"><span class="nav-number">8.2.</span> <span class="nav-text">8.2 LSN - Log Swquence Number</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-4-%E6%97%A5%E5%BF%97%E7%BC%93%E5%86%B2%E6%95%B0%E6%8D%AE%E5%88%B7%E7%9B%98"><span class="nav-number">8.3.</span> <span class="nav-text">8.4 日志缓冲数据刷盘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-5-flush%E9%93%BE%E8%A1%A8%E5%92%8CLSN"><span class="nav-number">8.4.</span> <span class="nav-text">8.5 flush链表和LSN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-6-Checkpoint"><span class="nav-number">8.5.</span> <span class="nav-text">8.6 Checkpoint</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%9D-%E5%B4%A9%E6%BA%83%E9%87%8D%E5%81%9A%E6%95%B0%E6%8D%AE%E9%A1%B5"><span class="nav-number">9.</span> <span class="nav-text">九.崩溃重做数据页</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81-%E9%85%8D%E7%BD%AE%E9%87%8D%E5%81%9A%E6%97%A5%E5%BF%97%E7%9A%84%E7%BA%A7%E5%88%AB"><span class="nav-number">10.</span> <span class="nav-text">十.配置重做日志的级别</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Weidan</p>
+  <div class="site-description" itemprop="description">计算机基础 计算机网络 Java Vue 前端 后端</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WeidanLi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WeidanLi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:toweidan@126.com" title="E-Mail → mailto:toweidan@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WeidanLi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E5%85%AB-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bredo-log/index.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DanZ's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【聊聊MySQL】八.MySQL-InnoDB的数据库事务的执行之REDO_LOG
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-03-11 17:15:21" itemprop="dateCreated datePublished" datetime="2020-03-11T17:15:21+08:00">2020-03-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-12-05 10:35:40" itemprop="dateModified" datetime="2023-12-05T10:35:40+08:00">2023-12-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E8%83%BD/" itemprop="url" rel="index"><span itemprop="name">技能</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E8%83%BD/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E8%83%BD/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+        </span>
+    </span>
+
+  
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>18 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="一-REDO-LOG"><a href="#一-REDO-LOG" class="headerlink" title="一.REDO LOG"></a>一.REDO LOG</h2><p>数据库最主要的特性是 <code>持久性</code>，即修改了数据库数据以后，无论发生什么事情，数据都不会丢失。<code>MySQL-InnDB</code> 就利用 <code>REDO LOG</code> 来满足持久性。<code>REDO LOG</code> 中文称为 <code>重做日志</code>，那也可以简洁一点叫做 <code>REDO 日志</code>。是数据库启动的时候，用于读取计算 <code>BufferPool</code> 中脏页数据的方式，这样可以避免由于其他原因导致数据库掉线但是脏页未刷新到硬盘，而导致数据丢失的尴尬局面。</p>
+<h2 id="二-高效且持久化的方式"><a href="#二-高效且持久化的方式" class="headerlink" title="二.高效且持久化的方式"></a>二.高效且持久化的方式</h2><p>由于 <code>REDO 日志</code> 存在的意义就是，<strong>重启数据库的时候能够重新将数据恢复回来</strong>。所以在数据库没有发生重启或者异常宕机的时候，他是没有任何意义的，甚至还多了一些开销…</p>
+<p>所以为了减少开销，<code>REDO 日志</code> 应当尽量轻巧，记录一些必要的信息就可以了，比如：<code>某个区，某个页号，的某一行，修改成xx</code>。第二个减少开销的方式就是顺序写入硬盘，先发生的事务，<code>REDO 日志</code> 先被写入硬盘，后边的排队顺序追加到后面去。</p>
+<h2 id="三-日志格式"><a href="#三-日志格式" class="headerlink" title="三.日志格式"></a>三.日志格式</h2><p>首先明白一点，<code>REDO 日志</code> 所携带的数据是 <code>MySQL_InnoDB</code> 在重启系统的时候，需要调用某些函数进行恢复时所需要的参数。不过，为了减少容量的开销，又做了一些事情。</p>
+<a id="more"></a>
+<h3 id="3-1-装载数据的通用格式"><a href="#3-1-装载数据的通用格式" class="headerlink" title="3.1 装载数据的通用格式"></a>3.1 装载数据的通用格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103513.jpeg"></p>
+<p>一条重做日志，肯定会包含上面这些信息。</p>
+<p>日志类型，在现在常用的 <code>5.7</code> 中，有 <code>53</code> 种类型，这个类型字段就很重要了，决定着程序恢复数据的方式。</p>
+<ol>
+<li><code>MLOG_1BYTE</code>（<code>type = 1</code>）：表示在页面的某个偏移量写入 <code>1byte</code> 的数据的 <code>REDO 日志</code> 类型；</li>
+<li><code>MLOG_2BYTE</code>（<code>type = 2</code>）：写入 <code>2byte</code> 的数据；</li>
+<li><code>MLOG_4BYTE</code>（<code>type = 4</code>）：写入 <code>4byte</code> 的数据；</li>
+<li><code>MLOG_8BYTE</code>（<code>type = 8</code>）：写入 <code>8byte</code> 的数据；</li>
+<li><code>MLOG_WRITE_STRING</code>（<code>type = 30</code>）：写入一串数据，具体长度会放在上图中 <code>黄色</code> 的部分；</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103514.jpeg"></p>
+<p>可以看到第 <code>5</code> 中类型在具体内容中带有一个 <code>len</code> 表示数据的长度，也有点类似于我们做 <code>RPC</code> 的时候为了粘包写的长度。那我们业务中每次更新都会更新很多东西，可以说基本都是使用第 <code>5</code> 种日志类型了。</p>
+<p>而 <code>偏移量在上面所有类型的日志中都有</code>。</p>
+<h3 id="3-2-插入数据时日志格式"><a href="#3-2-插入数据时日志格式" class="headerlink" title="3.2 插入数据时日志格式"></a>3.2 插入数据时日志格式</h3><p>OK，现在我们来了解下日志存储哪些东西。</p>
+<p>我们日常插入，比如说 <code>INSERT INTO student values(1, &#39;Weidan&#39;, &#39;BOY&#39;)</code> 这条插入语句，看似只需要插入一条数据即可，但是还记得吗，之前说过的页分裂问题呀，还有调整页参数信息的问题：</p>
+<blockquote>
+<p><strong>如果还记得这些内容的话，跳过我引用的内容</strong></p>
+<p>页头信息主要包含以下几个部分：</p>
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="center">大小（字节数）</th>
+<th>主要作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">FILE_PAGE_SPACE_OR_CHKSUM</td>
+<td align="center">4</td>
+<td><code>4.0.14</code> 之前存放在哪个表空间<br/>后面的版本存储 <code>checksum</code> 值</td>
+</tr>
+<tr>
+<td align="left">FILE_PAGE_OFFSET</td>
+<td align="center">4</td>
+<td>表空间中页的页号</td>
+</tr>
+<tr>
+<td align="left">FILE_PAGE_PREV</td>
+<td align="center">4</td>
+<td>上一页</td>
+</tr>
+<tr>
+<td align="left">FILE_PAGE_NEXT</td>
+<td align="center">4</td>
+<td>下一页</td>
+</tr>
+<tr>
+<td align="left">FILE_PAGE_LSN</td>
+<td align="center">8</td>
+<td>最后修改的日志序号<br/><code>Log Swquence Number</code></td>
+</tr>
+<tr>
+<td align="left">FILE_PAGE_TYPE</td>
+<td align="center">2</td>
+<td>页的类型：<code>在后面给出</code></td>
+</tr>
+<tr>
+<td align="left">FILE_PAGE_FILE_FLUSH_LSN</td>
+<td align="center">8</td>
+<td>代表文件被更新到该指定的LSN值</td>
+</tr>
+<tr>
+<td align="left">FILE_PAGE_ARCH_LOG_NO_OR_SPACE_ID</td>
+<td align="center">4</td>
+<td>属于哪个表空间</td>
+</tr>
+</tbody></table>
+</blockquote>
+<blockquote>
+<p>如果说 <code>FileHeader</code> 是用来记录文件的信息，那 <code>PageHeader</code> 就是用来记录当前数据页的状态信息了。</p>
+<p>同样也是一堆 <code>Key</code>：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th align="center">大小（字节）</th>
+<th>主要作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PAGE_N_DIR_SLOTS</td>
+<td align="center">2</td>
+<td>Page Directory 页目录中的槽数</td>
+</tr>
+<tr>
+<td>PAGE_HEAP_TOP</td>
+<td align="center">2</td>
+<td>堆中第一个记录的指针</td>
+</tr>
+<tr>
+<td>PAGE_N_HEAP</td>
+<td align="center">2</td>
+<td>堆中记录数</td>
+</tr>
+<tr>
+<td>PAGE_FREE</td>
+<td align="center">2</td>
+<td>空闲列表首指针</td>
+</tr>
+<tr>
+<td>PAGE_GARBAGE</td>
+<td align="center">2</td>
+<td>已删除的字节数</td>
+</tr>
+<tr>
+<td>PAGE_LAST_INSERT</td>
+<td align="center">2</td>
+<td>最后插入的位置</td>
+</tr>
+<tr>
+<td>PAGE_DIRECTION</td>
+<td align="center">2</td>
+<td>插入数据的方向</td>
+</tr>
+<tr>
+<td>PAGE_N_DIRECTION</td>
+<td align="center">2</td>
+<td>一个方向连续插入记录的数量</td>
+</tr>
+<tr>
+<td>PAGE_N_RECS</td>
+<td align="center">2</td>
+<td>该页记录数</td>
+</tr>
+<tr>
+<td>PAGE_MAX_TRX_ID</td>
+<td align="center">8</td>
+<td>当前页最大事务ID</td>
+</tr>
+<tr>
+<td>PAGE_LEVEL</td>
+<td align="center">2</td>
+<td>索引树中的位置 0x00代表叶节点</td>
+</tr>
+<tr>
+<td>PAGE_INDEX_ID</td>
+<td align="center">8</td>
+<td>当前页属于哪个索引的id</td>
+</tr>
+<tr>
+<td>PAGE_BTR_SEG_LEAF</td>
+<td align="center">10</td>
+<td>叶子节点中文件段首指针位置（B+的Root页中定义）</td>
+</tr>
+<tr>
+<td>PAGE_BTR_SEG_TOP</td>
+<td align="center">10</td>
+<td>非叶子节点中文件段首指针位置（B+的Root页中定义）</td>
+</tr>
+</tbody></table>
+</blockquote>
+<blockquote>
+<p><code>Infimum</code> 记录比当前页最小主键还要小的“值”，<code>Supremum</code> 记录比当前页最大值还要大的“值”。</p>
+<p>值我打了双引号，并不是说他就是一个值，而是一个规定：<strong>一个页中，Infimum 记录的下一条记录就是本页中最小的记录，而本页中最大的记录的下一条记录就是 Supremum 记录 。</strong> （这里的下一条 <code>next_record</code> 的字段是 <code>Row Format</code> 规定的头，后面讲行信息的头部消息的时候我会重新说一下这句的）</p>
+</blockquote>
+<blockquote>
+<p>页分裂：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103519.gif"></p>
+</blockquote>
+<p>好了，所以说，插入一条数据的时候需要调整的东西特别多，而且这些地方的调整都需要生成 <code>REDO 日志</code>。</p>
+<p>但是这些需要修改的地方特别零散，他并不是聚集在一起的</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103539.jpeg"></p>
+<p>上图黄色的地方就是被修改的数据。</p>
+<p>那现在有两种解决方案，一种是修改多少个地方就记录多少条日志，这样就需要 <code>8</code> 条 <code>REDO 日志</code>。</p>
+<p>那如果说将第一个修改的地方，和最后一个修改的地方，所有数据都进行记录的话，像上面那张图，最后一个因为拉的很远，中间那些没有修改的数据就都需要放到 <code>REDO 日志</code> 上去，那么这样又感觉不优雅（讲真我以前我还真的这么干过用户编辑信息）。</p>
+<p>两种方案，一个太多，一个太大。所以就诞生了其他的 <code>REDO 日志</code> 类型：</p>
+<ol>
+<li><code>MLOG_COMP_REC_INSERT</code> （<code>type = 38</code>）：表示插入一条使用紧凑行格式的记录时的日志类型；</li>
+<li><code>MLOG_COMP_PAGE_CREATE</code>（<code>type = 58</code>）：表示创建一个存储紧凑行格式记录的页面的日志类型；</li>
+<li><code>MLOG_COMP_REC_DELETE</code>（<code>type = 42</code>）：表示删除一条紧凑型行格式的数据的日志类型；</li>
+<li>……</li>
+</ol>
+<p>太多了，不过看第三个表示 <code>REC</code> 和 <code>PAGE</code> 分别表示对应的行还是页做操作，第四个就是增删查改了。</p>
+<p>但是有个比较特殊，那就是 <code>批量删除</code> 了：</p>
+<p><code>MLOG_COMP_LIST_START_DELETE</code>（<code>type = 44</code>）和 <code>MLOG_COMP_LIST_END_DELETE</code> （<code>type = 43</code>）表示批量删除的时候，开始删除跟结束删除的两条范围记录。</p>
+<h3 id="3-2-REDO-日志内容"><a href="#3-2-REDO-日志内容" class="headerlink" title="3.2 REDO 日志内容"></a>3.2 REDO 日志内容</h3><p>而一个 <code>REDO 日志</code> 包含了两个层面的东西：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103522.jpeg"></p>
+<p>而逻辑层面的东西，并不是说在重启的时候直接回复到数据文件中，而是需要经过一系列的计算，然后再得出最后结果写入数据文件，类似于 <code>Java</code> 写 <code>方法</code> 的时候需要用到的一些参数信息。而上一节中的类型，指的是参数的不同，<code>InnoDB</code> 恰好可以根据这些参数计算出来对应的 <code>PAGE_N_DIR_SLOTS</code> <code>PAGE_N_HEAP</code> 等等信息，然后恢复到数据库中。</p>
+<h2 id="四-重做LOG的’事务’"><a href="#四-重做LOG的’事务’" class="headerlink" title="四.重做LOG的’事务’"></a>四.重做LOG的’事务’</h2><p><code>重做LOG</code> 的’事务’ 也成为 <code>Mini-Transaction</code>，因为我们知道系统每次写一页是 <code>4kb</code>，磁盘一次 <code>IO</code> 是 <code>512 byte</code>。那如果 <code>重做LOG</code> 在写入硬盘的时候，写少了点东西，势必导致这部分的日志被破坏不可用了，所以 <code>InnoDB</code> 规定，某些修改数据页的 <code>重做LOG</code> 必须一起被写入硬盘，这部分的 <code>重做LOG</code> 才算真的有效。</p>
+<p>我们上面已经知道，一条修改语句或者新增语句将会更多多个地方，就真的可能出现了多个 <code>重做LOG</code>，更何况我们一般开事务也不会无聊到只运行一条增删改语句，所以一个事务下来，就会出现很多条 <code>重做LOG</code>，那从上面又知道，因为各个硬件写入的速率不同，所以需要有些 <code>Mini-Transaction</code>：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103524.jpeg"></p>
+<p>以下这些常见情况，必须视为一个不可分割的 <code>Mini-Transaction</code>：</p>
+<ol>
+<li>没有指定 <code>主键</code> 的情况下，全局更新 <code>Max Row ID</code> 时候产生的 <code>重做LOG</code>；</li>
+<li>向聚簇索引的 <code>B+树</code> 插入一条记录产生的 <code>重做LOG</code>；</li>
+<li>向二级索引对应的 <code>B+树</code> 插入一条记录的日志；</li>
+<li>……</li>
+</ol>
+<h2 id="五-重做LOG缓冲区"><a href="#五-重做LOG缓冲区" class="headerlink" title="五.重做LOG缓冲区"></a>五.重做LOG缓冲区</h2><p>日志已经生成，这时候需要考虑的就是怎么落地的问题了，所以就有了 <code>日志缓冲区</code>，<code>区</code> 放的是 <code>重做LOG数据页（跟数据的数据页不同）</code>：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103516.jpeg"></p>
+<p><code>HEADER</code> 和 <code>FOOTER</code> 并不打算细说了，主要就是为了校验，以及管理 <code>BODY</code> 中的内容。所以我们主要来说说 <code>BODY</code>。</p>
+<p>那么 <code>重做LOG</code> 不可能是串行写入的，要不然速度就上不去了，所以运行时 <code>日志缓冲区</code> 就看起来可能是这样的：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103518.jpeg"></p>
+<p>如图，<code>事务1</code> 和 <code>事务2</code> 的 <code>MiniTransaction</code> 是交叉运行的，而 <code>事务3</code> 更新的内容比较多，所以会占用多个 <code>缓冲页</code>，有些甚至更大，会占用多个 <code>缓冲页</code>。</p>
+<h2 id="六-触发重做LOG刷盘"><a href="#六-触发重做LOG刷盘" class="headerlink" title="六.触发重做LOG刷盘"></a>六.触发重做LOG刷盘</h2><p>上面那张图引出另外一个问题，已经写入 <code>缓冲区</code> 的 <code>重做LOG</code> 需要怎么落地，如果不落地，那已关机，内存中的 <code>缓冲区</code> 一旦清空，<code>重做LOG</code> 就没有意义了。所以就需要有个机制来刷新这些 <code>重做LOG数据</code> 到硬盘中，那么刷盘的触发情况分为以下几种情况：</p>
+<ol>
+<li>空间不足，占用配置的 <code>innodb_log_buffer_size</code> <strong>一半左右</strong> 的时候，就会触发刷盘；</li>
+<li>事务提交时刷盘，只有刷盘了，才能保证持久性；</li>
+<li>后台线程，循环着做这件事情，这个前面已经有说过了；</li>
+<li>关闭服务器；</li>
+<li>…</li>
+</ol>
+<h2 id="七-重做LOG刷到哪些文件里"><a href="#七-重做LOG刷到哪些文件里" class="headerlink" title="七.重做LOG刷到哪些文件里"></a>七.重做LOG刷到哪些文件里</h2><p>既然要刷盘，那就肯定有对应的文件来接收这些数据，可以通过 <code>SHOW VARIABLES LIKE &#39;%datadir%&#39;</code> 来查看是哪些文件，默认是有 <code>ib_logfile0</code> 和 <code>ib_logfile1</code>。那如果我们需要调整，调大或者调小就使用下面的参数进行调整：</p>
+<ol>
+<li><code>innodb_log_group_home_dir</code>：存储日志的目录；</li>
+<li><code>innodb_log_file_size</code>：每个文件的大小，感觉大小这个度需要把握好，太小会导致很多 <code>重做LOG</code> 不完整，太大又不利于 <code>防灾</code>；</li>
+<li><code>innodb_log_files_in_group</code>：分割日志的个数，默认是 <code>2</code> 个；</li>
+</ol>
+<p>那 <code>InnoDB</code> 在写 <code>重做LOG</code> 的时候就从编号 <code>0</code> 开始，写到最后一个。如果到了最后一个并且已经用完了所有空间了，那就重新从 <code>0</code> 开始，依次类推循环的写入硬盘。</p>
+<p>循环从头开始写 <code>重做LOG</code> 的时候，那必须会碰到 <code>前面的重做LOG</code> 被覆盖的问题，那如何判断前面的 <code>重做LOG</code> 是否还有用，就是需要判断 <code>BufferPool</code> 中的 <code>脏页</code> 是否已经被刷新到硬盘了，如果已经刷新成功，那么这部分的 <code>重做LOG</code> 肯定是没有用的，可以放心的覆盖。这就回到了我们的初衷：<code>持久化且高效的保存数据</code>。</p>
+<p>那如何判断咧，需要结合之前我们在 <code>BufferPool</code> 中说到的 <code>flush链表</code> 了。</p>
+<h2 id="八-重做LOG缓冲页与日志文件的关系"><a href="#八-重做LOG缓冲页与日志文件的关系" class="headerlink" title="八.重做LOG缓冲页与日志文件的关系"></a>八.重做LOG缓冲页与日志文件的关系</h2><h3 id="8-1-重做日志文件的格式"><a href="#8-1-重做日志文件的格式" class="headerlink" title="8.1 重做日志文件的格式"></a>8.1 重做日志文件的格式</h3><p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103520.jpeg"></p>
+<p>上面 <code>第一个管理单元</code> 和 <code>第二四管理单元</code> 里面涉及到的 <code>LSN</code> 和 <code>CheckPoint</code> 是重点。</p>
+<h3 id="8-2-LSN-Log-Swquence-Number"><a href="#8-2-LSN-Log-Swquence-Number" class="headerlink" title="8.2 LSN - Log Swquence Number"></a>8.2 LSN - Log Swquence Number</h3><p><code>LSN</code> 是一个日志的序列号，这个值从开始有 <code>REDO</code> 开始，将会不停的自增，可以理解为数据表的主键一样，插入一条新的数据的 <code>自增ID</code> 变化情况。<code>InnoDB</code> 会有一个全局变量，专门用于记录这个值变化到哪个数据点，不过他不是从 <code>0</code> 开始而是从 <code>8704</code> 开始，也就是规定一条 <code>重做LOG</code> 都没有的情况下，这个 <code>全局变量</code> 的值就是 <code>8704</code>。</p>
+<p>而 <code>LSN</code> 的增长，是会加上 <code>重做LOG页</code> 的头部和尾部的，就是说当一个 <code>MiniTransaction</code> 跨越几个区的时候，那这个值里面就包含了覆盖到的 <code>HEADER</code> 和 <code>FOOTER</code> 值。  <img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103525.jpeg"></p>
+<h3 id="8-4-日志缓冲数据刷盘"><a href="#8-4-日志缓冲数据刷盘" class="headerlink" title="8.4 日志缓冲数据刷盘"></a>8.4 日志缓冲数据刷盘</h3><p>由于需要刷盘，并且记录哪些数据已经被刷新到硬盘了，这样才能够释放内存空间让后面的 <code>重做LOG</code> 来用。所以上面提到的 <code>LSN</code> 就开始有用处了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103511.jpeg"></p>
+<p>这时候，<code>InnoDB</code> 中又出现了几个全局变量（可以理解为指针）：</p>
+<ol>
+<li><code>buf_next_to_write</code>：此指针之前的数据表示已经准备刷盘的日志数据，这部分的日志数据已经可以被复用的；</li>
+<li><code>flushed_to_disk_lsn</code>：系统已经返回刷新成功的 <code>LSN</code> 的值；</li>
+<li><code>buf_free</code>：此指针之后的内存空间表示是空闲的，如果有新的日志要进来，就需要追加到后面的内存中去，这个值其实就是跟上面提到的 <code>LSN</code> 一样的值。</li>
+</ol>
+<p>那 <code>buf_next_to_write</code> 到 <code>buf_free</code> 中间的数据就是已经存在于 <code>内存中的</code>，但是 <code>还没有提交刷入硬盘的请求给系统的数据</code>。</p>
+<blockquote>
+<p>刷新硬盘：我们需要将文件写入硬盘的时候，其实是提交请求给系统，系统将数据放入数据缓冲区，在某个时刻被刷盘，只有调用了 <code>fsync函数</code> 之后，数据才是真正的进入硬盘。所以这时候需要两个变量来弄清楚哪些数据已经提交给系统，哪些数据已经完完整整落在硬盘上的，就分别对应 <code>buf_next_to_write</code> 和 <code>flushed_to_disk_lsn</code> 两个变量参数。</p>
+</blockquote>
+<p>那我们就可以知道，刚开机的时候，<code>LSN</code> 的值和上面三个全局变量其实应该是相等的，随着系统的运行，<code>SQL</code> 不断的请求，这时候 <code>buf_free</code> 一定会跑得比别的参数快，然后随着写入硬盘的请求逐步完成，当四个值都相等的时候，就表示所有的日志已经刷入硬盘了。</p>
+<h3 id="8-5-flush链表和LSN"><a href="#8-5-flush链表和LSN" class="headerlink" title="8.5 flush链表和LSN"></a>8.5 flush链表和LSN</h3><blockquote>
+<p>flush链表：</p>
+<p><code>flush链表</code> 主要是用来管理 <code>BufferPool</code> 中已经被修改的数据页，因为此时内存中的数据页已经发生修改，和硬盘上原有的数据页不同，所以就需要在某个时刻由 <code>后台线程</code> 刷新到硬盘上去。</p>
+<p>但是，这个时候总不可能去循环所有数据页，然后判断是不是脏页吧，所以又有一条链表产生，就是 <code>flush链表</code>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103515.jpeg"></p>
+</blockquote>
+<p>我们在对数据进行修改的时候，一直处于 <code>重做LOG缓冲区</code> 的视觉，现在需要将视觉切换到 <code>BufferPool</code> 中去，<code>BufferPool</code> 还有个东西，叫做 <code>flush链表</code>，为了回忆我已经将上次写的东西放在了上面。</p>
+<p>那我们需要结合 <code>MiniTransaction</code> 来说，每个控制块里面有两个属性，一个叫做 <code>oldest_modification</code> 一个叫做 <code>newest_modification</code>。<code>oldest_modification</code> 会记录在开始做修改时 <code>LSN</code> 的值，修改完成后，<code>newest_modification</code> 记录修改后的 <code>LSN</code> 的值。</p>
+<p>那 <code>flush链表</code> 会发生哪些变化，我直接画个动态图来说吧：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103527.gif"></p>
+<p>最后的状态：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103537.jpeg"></p>
+<p>归纳几个特点：</p>
+<ol>
+<li>最新被修改的数据页，总是会被移动到链表的开始；</li>
+<li>链表的尾部是比较早些时候发生修改的数据页；</li>
+<li>如果一个数据页发生过修改已经存在于 <code>flush链表</code> 中的话，如果又有新的修改，<code>om</code> 保持不变，<code>nm</code> 会被修改成新的 <code>LSN</code> 值。</li>
+</ol>
+<h3 id="8-6-Checkpoint"><a href="#8-6-Checkpoint" class="headerlink" title="8.6 Checkpoint"></a>8.6 Checkpoint</h3><p>在 <code>第七节</code> 的时候说过：</p>
+<blockquote>
+<p>那 <code>InnoDB</code> 在写 <code>重做LOG</code> 的时候就从编号 <code>0</code> 开始，写到最后一个。如果到了最后一个并且已经用完了所有空间了，那就重新从 <code>0</code> 开始，依次类推循环的写入硬盘。</p>
+</blockquote>
+<p>所以我们的两个日志文件 <code>ib_logfile0</code> 和 <code>ib_logfile1</code> ，<code>ib_logfile1</code> 在写到结尾的时候，会重新回到 <code>ib_logfile0</code> 开始写，那么 <code>Checkpoint</code> 的提出就是为了解决在回去写 <code>ib_logfile0</code> 的时候是否可以覆盖前面的日志的问题。</p>
+<p>结合上面说的 <code>flush链表</code>，那就可以说了，<code>InnoDB</code> 只需要判断前面的 <code>重做LOG</code> 对应的数据页是否存在 <code>flush链表</code>，如果不存在，则表示这些数据页已经顺利写到数据页中去，也就表明前面的 <code>重做LOG</code> 已经可以覆盖掉了。</p>
+<p>所以，<code>InnoDB</code> 又用了一个全局的变量 <code>checkpoint_lsn</code> 来表示数据页刷新到哪个 <code>LSN</code> 了，而这个值每次在脏页被写入硬盘的时候就会被修改成当前脏页的 <code>newest_modification</code>。也是下一个脏页的 <code>oldest_modification</code>。那么 <code>重做LOG</code> 刚开始的日志 <code>LSN</code> 如果小于这个 <code>checkpoint_lsn</code> 的话，表示这些日志已经没用了，可以被覆盖掉。而每进行一次 <code>checkpoint</code> 后，<code>checkpoint_lsn</code> 的值就会被写入日志实体文件的管理信息里面，就是下面蓝色部分：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WeidanLi/image/20231205103523.jpeg"></p>
+<p>那这时候我们就可以来说说管理信息中两个 <code>Checkpoint</code> 块信息的事情了。</p>
+<p><code>LOG_CHECKPOINT_NO</code> 是服务器做 <code>Checkpoint</code> 的次数，这个变量有个全局变量，每做一次，此变量就会自增加1，然后被一起写入到这个管理信息块中去。而 <code>LOG_CHECKPOINT_OFFSET</code> 则对应的日志数据的偏移量。那这个偏移量前面的数据就是可以丢弃的。而放入那个 <code>Checkpoint块</code> 中，<code>InnoDB</code> 会判断 <code>LOG_CHECKPOINT_NO</code>，如果这个数是 <code>偶数</code> 就写入 <code>第一个</code> 块中，如果是 <code>奇数</code> 就写入 <code>第二个</code> 块中。</p>
+<h2 id="九-崩溃重做数据页"><a href="#九-崩溃重做数据页" class="headerlink" title="九.崩溃重做数据页"></a>九.崩溃重做数据页</h2><p><code>第八节</code> 说了这么多记录重做的事情，那如果系统发生崩溃需要重做，这时候 <code>重做LOG</code> 就发挥用处了。</p>
+<p>那硬盘中的 <code>重做文件</code> 的 <code>头信息</code> 将起到计算从哪里开始恢复的作用：</p>
+<ol>
+<li>先读取两个文件的所有管理块信息；</li>
+<li>从所有管理块信息中的两个 <code>Checkpoint</code> 信息中，确定哪个信息的 <code>checkpoint_no</code> 比较大，则表示上次 <code>checkpoint</code> 做到哪个信息中，这时候就可以顺势拿出 <code>checkpoint_log_offset</code> 之后的日志数据了，那这一步就可以确定恢复的日志起点；</li>
+<li>确定哪个 <code>重做LOG数据页</code> 的 <code>BODY</code> 没有被写满，则这个地方就是最后需要恢复的地方了；</li>
+<li>然后先排序所有的 <code>重做LOG</code> 数据，然后将相同 <code>表空间ID</code> 和 <code>页号</code> 的重做数据放在一起（<code>Hash</code> 的方式，可以想象成 <code>Map&lt;TableIdAndPage, List&lt;Log&gt;&gt;</code> 的结构）；</li>
+<li>由于后台线程在不停的刷新脏页，可能发生数据页已经刷盘但是还没来得及写 <code>checkpoint</code> 的情况，所以现在所有日志并不是都需要重做一次，如果出现数据页结构中的 <code>File Header</code> 的 <code>FIL_PAGE_LSN</code> 值大于 <code>checkpoint_lsn</code> 的话，说明数据已经刷入硬盘了，就不需要再重做。否则，将 <code>重做LOG</code> 中的修改某某地方为某个值重新按顺序执行一遍，就可以恢复到奔溃前的数据了。</li>
+</ol>
+<h2 id="十-配置重做日志的级别"><a href="#十-配置重做日志的级别" class="headerlink" title="十.配置重做日志的级别"></a>十.配置重做日志的级别</h2><p>重做日志是为了 <code>持久化</code>，那总有一些业务要求的持久化没那么强烈。</p>
+<p>如果不需要在每次提交的时候就刷新到硬盘的话，可以修改 <code>innodb_flush_log_at_trx_commit</code> 的值：</p>
+<ul>
+<li><code>0</code>：表示提交的时候不立即刷新日志，交给后台系统循环去刷新；</li>
+<li><code>1</code>：默认值，表示每次提交需要同步到硬盘；</li>
+<li><code>2</code>：表示提交加入 <code>系统缓冲区</code>，交给系统去刷新，这种情况下如果数据库挂了系统没挂的话，那日志一般不会丢失。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/mysql/" rel="tag"># mysql</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%B8%83-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E4%BB%8B%E7%BB%8D/index.html" rel="prev" title="【聊聊MySQL】七.MySQL-InnoDB的数据库事务介绍">
+                  <i class="fa fa-chevron-left"></i> 【聊聊MySQL】七.MySQL-InnoDB的数据库事务介绍
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/mysql/%E3%80%90%E8%81%8A%E8%81%8Amysql%E3%80%91%E4%B9%9D-mysql-innodb%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B9%8Bundo-log/index.html" rel="next" title="【聊聊MySQL】九.MySQL-InnoDB的数据库事务的执行之UNDO_LOG">
+                  【聊聊MySQL】九.MySQL-InnoDB的数据库事务的执行之UNDO_LOG <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weidan</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">188k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:22</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"liweidan-cn","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

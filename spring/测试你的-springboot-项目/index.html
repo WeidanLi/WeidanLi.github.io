@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="codeva-18Edjlpyk5">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weidanli.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1}},"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="一. 简述测试用例，在日常开发来说，可能刚开始写代码的小厂不会在乎，不过也有很多公司根本就没有测试用例，开发的时候一直写下去。写完一部分，直接启动项目，调用接口进行 debug 调试，然后修改报错的地方。等到了所有功能都实现了以后，就可以合并分支并且发布给测试环境去测试了。 以前刚开始我也是没有写测试用例的习惯，慢慢的接触了 TDD 开发模式，简直被深深吸引住了。测试驱动开发的步骤简单的说就是先写">
+<meta property="og:type" content="article">
+<meta property="og:title" content="测试你的 springboot 项目">
+<meta property="og:url" content="http://weidanli.github.io/spring/%E6%B5%8B%E8%AF%95%E4%BD%A0%E7%9A%84-springboot-%E9%A1%B9%E7%9B%AE/index.html">
+<meta property="og:site_name" content="DanZ&#39;s Blog">
+<meta property="og:description" content="一. 简述测试用例，在日常开发来说，可能刚开始写代码的小厂不会在乎，不过也有很多公司根本就没有测试用例，开发的时候一直写下去。写完一部分，直接启动项目，调用接口进行 debug 调试，然后修改报错的地方。等到了所有功能都实现了以后，就可以合并分支并且发布给测试环境去测试了。 以前刚开始我也是没有写测试用例的习惯，慢慢的接触了 TDD 开发模式，简直被深深吸引住了。测试驱动开发的步骤简单的说就是先写">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-01-25T13:03:08.000Z">
+<meta property="article:modified_time" content="2023-02-02T16:47:20.690Z">
+<meta property="article:author" content="Weidan">
+<meta property="article:tag" content="spring-boot">
+<meta property="article:tag" content="junit">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://weidanli.github.io/spring/%E6%B5%8B%E8%AF%95%E4%BD%A0%E7%9A%84-springboot-%E9%A1%B9%E7%9B%AE/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":"","permalink":"http://weidanli.github.io/spring/%E6%B5%8B%E8%AF%95%E4%BD%A0%E7%9A%84-springboot-%E9%A1%B9%E7%9B%AE/index.html","path":"/spring/测试你的-springboot-项目/index.html","title":"测试你的 springboot 项目"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>测试你的 springboot 项目 | DanZ's Blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DanZ's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">a normal developer daily blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E7%AE%80%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">一. 简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E5%BC%80%E5%8F%91"><span class="nav-number">2.</span> <span class="nav-text">二. 开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BC%95%E5%85%A5%E6%B5%8B%E8%AF%95%E5%BA%93"><span class="nav-number">2.1.</span> <span class="nav-text">1. 引入测试库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%87%86%E5%A4%87%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%9A%E5%8A%A1%E7%8E%AF%E5%A2%83"><span class="nav-number">2.2.</span> <span class="nav-text">2. 准备简单的业务环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%BC%80%E5%A7%8B%E6%B5%8B%E8%AF%95"><span class="nav-number">2.3.</span> <span class="nav-text">3. 开始测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%EF%BC%89%E7%BC%96%E5%86%99%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">2.3.1.</span> <span class="nav-text">1）编写测试环境的配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%EF%BC%89%E7%BC%96%E5%86%99%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%B1%BB"><span class="nav-number">2.3.2.</span> <span class="nav-text">2）编写测试基类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%EF%BC%89%E6%B5%8B%E8%AF%95%E4%B8%9A%E5%8A%A1%E5%B1%82"><span class="nav-number">2.3.3.</span> <span class="nav-text">3）测试业务层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%EF%BC%89%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3%E5%B1%82"><span class="nav-number">2.3.4.</span> <span class="nav-text">4）测试接口层</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">三. 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Weidan</p>
+  <div class="site-description" itemprop="description">计算机基础 计算机网络 Java Vue 前端 后端</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WeidanLi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WeidanLi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:toweidan@126.com" title="E-Mail → mailto:toweidan@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/WeidanLi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://weidanli.github.io/spring/%E6%B5%8B%E8%AF%95%E4%BD%A0%E7%9A%84-springboot-%E9%A1%B9%E7%9B%AE/index.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Weidan">
+      <meta itemprop="description" content="计算机基础 计算机网络 Java Vue 前端 后端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DanZ's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          测试你的 springboot 项目
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-01-25 21:03:08" itemprop="dateCreated datePublished" datetime="2019-01-25T21:03:08+08:00">2019-01-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-02-03 00:47:20" itemprop="dateModified" datetime="2023-02-03T00:47:20+08:00">2023-02-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E8%83%BD/" itemprop="url" rel="index"><span itemprop="name">技能</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E8%83%BD/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E8%83%BD/Java/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
+        </span>
+    </span>
+
+  
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>10 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="一-简述"><a href="#一-简述" class="headerlink" title="一. 简述"></a>一. 简述</h2><p>测试用例，在日常开发来说，可能刚开始写代码的小厂不会在乎，不过也有很多公司根本就没有测试用例，开发的时候一直写下去。写完一部分，直接启动项目，调用接口进行 <code>debug</code> 调试，然后修改报错的地方。等到了所有功能都实现了以后，就可以合并分支并且发布给测试环境去测试了。 以前刚开始我也是没有写测试用例的习惯，慢慢的接触了 <code>TDD</code> 开发模式，简直被深深吸引住了。测试驱动开发的步骤简单的说就是先写出来你期待的功能，期待的返回值，然后开始启动项目进行运行，由程序自动识别返回的结果是否是错误的。小步开发，一直到功能完成为止。<br>乍一听好像没什么用处，但是好处还在后面，当部门经理提出来这个功能需要加入新的需求的时候，这时候测试用例就是开发人员的利器了。在开始加入新功能之前，保证测试用例正常通过，然后开始小步加入新的需求，修改新需求结果的用例，知道满足新的需求为止。这个过程开发体验是及其舒服的，测试用例可以保证程序的正常运行，及早发现漏洞和错误。暂时把新加入需求这一项放一边，在后面看到这段代码想要重构的时候，测试用例就是心中的奠基石，修改代码的结果，然后运行测试用例，顺利通过，心情愉悦的提交代码。 ok，说了这么多测试的好处，那就要看看怎么实施了，怎么结合 <code>springboot</code> 来编写运行我们的测试用例。<code>web</code> 的测试来说，应该是要复杂一点，应为涉及到容器的启动以及正确初始化，常规的整合 <code>spring</code> 框架那么自动化注入也是测试中的一部分，所以不妨每次测试用例开始的时候，运行 <code>spring</code> 让其正确的进行运行，再测试我们的业务代码，岂不美哉。 <strong>示例代码：spring-boot-test</strong> <strong>项目地址：<a target="_blank" rel="noopener" href="https://github.com/WeidanLi/spring-boot-tutorial/">https://github.com/WeidanLi/spring-boot-tutorial/</a></strong></p>
+<a id="more"></a>
+<h2 id="二-开发"><a href="#二-开发" class="headerlink" title="二. 开发"></a>二. 开发</h2><h3 id="1-引入测试库"><a href="#1-引入测试库" class="headerlink" title="1. 引入测试库"></a>1. 引入测试库</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- springboot web starter --&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- SpringBoot 测试 --&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">        &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="2-准备简单的业务环境"><a href="#2-准备简单的业务环境" class="headerlink" title="2. 准备简单的业务环境"></a>2. 准备简单的业务环境</h3><p><code>UserDo</code> 类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserDo</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String uuid;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 省略 getter and setter</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>UserService</code> 类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, UserDo&gt; userDB = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">create</span><span class="params">(UserDo userDo)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (StringUtils.isEmpty(userDo.getUuid())) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;用户uuid不能为空&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (StringUtils.isEmpty(userDo.getName())) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;用户姓名不能为空&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        userDB.put(userDo.getUuid(), userDo);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> UserDo <span class="title function_">findByUID</span><span class="params">(String UID)</span> &#123;</span><br><span class="line">        <span class="type">UserDo</span> <span class="variable">userDo</span> <span class="operator">=</span> userDB.get(UID);</span><br><span class="line">        <span class="keyword">if</span> (Objects.isNull(userDo)) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;用户不存在&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> userDo;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>UserEndpoint</code> 接口类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserEndpoint</span> &#123;                                                              ··`</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">create</span><span class="params">(<span class="meta">@RequestBody</span> UserDo userDo)</span> &#123;</span><br><span class="line">        userService.create(userDo);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;&#123;userUID&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> UserDo <span class="title function_">findById</span><span class="params">(<span class="meta">@PathVariable(&quot;userUID&quot;)</span> String userUID)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> userService.findByUID(userUID);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简单的说就是实现了两个接口，一个是新增用户的接口，如果用户的两个属性有一个为空，将会抛出错误参数的属性。另外一个是查询，如果查询不到也会抛出错误参数的信息（此步日常中应该是 <code>NotFoundException</code> ）。</p>
+<h3 id="3-开始测试"><a href="#3-开始测试" class="headerlink" title="3. 开始测试"></a>3. 开始测试</h3><h4 id="1）编写测试环境的配置文件"><a href="#1）编写测试环境的配置文件" class="headerlink" title="1）编写测试环境的配置文件"></a>1）编写测试环境的配置文件</h4><p>我们知道，<code>mvn</code> 或 <code>gradle</code> 提供了测试包的 <code>resources</code> 可以隔离生产环境的配置文件，当然如果觉得生产环境的配置文件已经配置了一些测试的配置，此处可以略过，因为如果读取不到测试包下的 <code>resources</code> ，测试会自动读取生产下的 <code>resources</code> 。这里为了省时省力，也好像没什么需要特别指出的，我就不写了（主要还是因为懒…） 哎呀不行不行，还是要简单说下配置吧。像 <code>springboot</code> 测试环境下的配置，我觉得几点是我踩坑来的。比如当前项目调用了第三方项目，可以在测试配置里面写打桩的配置（比如使用了 <code>spring-cloud-contract</code> ），数据库的配置可以直接连接内存数据库，一来呢比较快，二来呢也不会存储测试过的垃圾数据（就是说会影响下一次测试的数据）。当然像连接第三方中间件的方式，目前来说，Emm，好像还没什么比较好的解决方案，就是直接连接真实存在的链接。所以我们公司在开发的时候，测试的流程中基本连接公司本地的测试服务器的中间件。</p>
+<h4 id="2）编写测试基类"><a href="#2）编写测试基类" class="headerlink" title="2）编写测试基类"></a>2）编写测试基类</h4><p>测试基类呢，主要是关于配置，关于测试前需要准备的数据，每个测试用例过后需要清理动作的抽象，由子测试类继承，拥有基类的配置以及常用的数据。 我这里就是简单的装配一些套件，当测试的一个范围里面总是需要一部分测试数据的时候，可以在这里进行装配。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Description：测试基类</span></span><br><span class="line"><span class="comment"> * 测试基类在类级别上主要定义了测试基类的安装（一般就是 SpringBootTest 的一些注解）</span></span><br><span class="line"><span class="comment"> * 安装数据</span></span><br><span class="line"><span class="comment"> * 清理数据等等</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> liweidan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019/1/25 7:34 PM</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@email</span> toweidan@126.com</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@SpringBootTest(classes = TestApplication.class)</span> <span class="comment">// 定义这个类是一个 SpringBoot 项目的测试，指定启动器（当然只有一个的话不指定也是可以的）</span></span><br><span class="line"><span class="meta">@RunWith(SpringRunner.class)</span> <span class="comment">// 使用 SpringRunner 进行运行，常规写法，照抄就可以了</span></span><br><span class="line"><span class="meta">@Transactional</span> <span class="comment">// 测试过后是否回滚数据，这么写是会自动回滚的，如果不想要回滚，可以省略该注解</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">BaseTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试是否按需抛出异常</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Rule</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="type">ExpectedException</span> <span class="variable">thrown</span> <span class="operator">=</span> ExpectedException.none();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试mvn层接口套件</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> WebApplicationContext context;</span><br><span class="line">    <span class="keyword">private</span> MockMvc mvc;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Before</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUp</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 在测试用来开始的时候装配 MockMvc 套件</span></span><br><span class="line">        mvc = MockMvcBuilders.webAppContextSetup(context).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3）测试业务层"><a href="#3）测试业务层" class="headerlink" title="3）测试业务层"></a>3）测试业务层</h4><p>OK，那么我们现在可以开始编写我们自己代码的测试用例了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * describe: 用户业务层的测试</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> liweidan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019/1/25 7:44 PM</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@email</span> toweidan@126.com</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserServiceTest</span> <span class="keyword">extends</span> <span class="title class_">BaseTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">create</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 测试传递空数据的时候是否正常抛出异常，首先传递想要出现的异常</span></span><br><span class="line">        thrown.expect(IllegalArgumentException.class);</span><br><span class="line">        <span class="comment">// 调用实例</span></span><br><span class="line">        userService.create(<span class="keyword">new</span> <span class="title class_">UserDo</span>());</span><br><span class="line">        <span class="comment">// 如果没有抛出异常，代码走到这里，将会直接抛出错误（因为不应该会走到这里来的）</span></span><br><span class="line">        fail();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 可以逐个缺少参数进行测试但好像没这个必要，毕竟业务开发时间不允许那么长时间花在编写测试上面</span></span><br><span class="line">        <span class="comment">// 不过话说回来，这里缺失的在后面如果对参数验证进行重构的话，绝对需要补上来的</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 编写一个正确的参数传递进去，然后需要回过头来查询插入的数据是否存在</span></span><br><span class="line">        <span class="type">UserDo</span> <span class="variable">userDo</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UserDo</span>();</span><br><span class="line">        userDo.setUuid(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">        userDo.setName(<span class="string">&quot;Adan&quot;</span>);</span><br><span class="line">        userService.create(userDo);</span><br><span class="line">        <span class="comment">// 查询是否存在，当实际项目中这里是使用仓库进行存储的时候，理应应该使用仓库进行查询</span></span><br><span class="line">        <span class="type">UserDo</span> <span class="variable">dbUserDo</span> <span class="operator">=</span> userService.findByUID(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">        assertNotNull(<span class="string">&quot;用户信息不应该为null&quot;</span>, dbUserDo);</span><br><span class="line">        assertTrue(<span class="string">&quot;用户uuid不应为空&quot;</span>, !StringUtils.isEmpty(dbUserDo.getUuid()));</span><br><span class="line">        assertTrue(<span class="string">&quot;用户name不应为空&quot;</span>, !StringUtils.isEmpty(dbUserDo.getName()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">findByUID</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 这里的测试步骤基本和上面差不多，不过反过来的，先使用findByUID查询，期望为找不到，</span></span><br><span class="line">        thrown.expect(IllegalArgumentException.class);</span><br><span class="line">        userService.findByUID(<span class="string">&quot;999&quot;</span>);</span><br><span class="line">        fail();</span><br><span class="line">        <span class="comment">// 再插入再查询，期望不为空</span></span><br><span class="line">        <span class="type">UserDo</span> <span class="variable">userDo</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UserDo</span>();</span><br><span class="line">        userDo.setUuid(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">        userDo.setName(<span class="string">&quot;Adan&quot;</span>);</span><br><span class="line">        userService.create(userDo);</span><br><span class="line">        <span class="type">UserDo</span> <span class="variable">dbUserDo</span> <span class="operator">=</span> userService.findByUID(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">        assertNotNull(<span class="string">&quot;用户信息不应该为null&quot;</span>, dbUserDo);</span><br><span class="line">        assertTrue(<span class="string">&quot;用户uuid不应为空&quot;</span>, !StringUtils.isEmpty(dbUserDo.getUuid()));</span><br><span class="line">        assertTrue(<span class="string">&quot;用户name不应为空&quot;</span>, !StringUtils.isEmpty(dbUserDo.getName()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试用例其实也不怎么难吧，其实可以说一种心理来编写是最好的，就是你别当做代码是你自己写的，你当做是别人写的，然后你现在要找茬，为难这个方法调用，写出来的测试用例就有用多了。 还有一点，有些同事喜欢直接打印出来结果，然后用肉眼去看。其实我刚开始也是，不过这种方式很痛苦，你需要在控制台一个一个去寻找，然后在脑袋里面去判断这个值是否正确。那为什么不解放你的脑袋，让程序来做呢，这就是 <code>Assert.assertXXX</code> 的用途了，使用他来判断，测试运行的时候，完全可以当成放松自己的脑袋。当所有测试用例慢慢的一个一个通过的时候，全部绿色，那就皆大欢喜了，有红色了，一个一个来修正然后重复运行。直到所有测试用例通过。说实在的，我很享受全部绿色给我的那种激励感，完全可以让我更有信心的去做另外一个任务了。</p>
+<h4 id="4）测试接口层"><a href="#4）测试接口层" class="headerlink" title="4）测试接口层"></a>4）测试接口层</h4><p>老实讲，我很少测试接口层，因为公司的需求就是只要请求到达我们的服务的时候，都是需要返回 <code>200</code> 状态码的，那么这个时候，运行测试用例来测试控制器层，对于我来说只会加大我的判断力度，我需要拿到结果再去判断我们的业务代码，所以显得有点多余了。 那么如果你们公司使用的是 <code>RESTful</code> 规范的时候，那么恭喜你，这个测试你完全可以写的很舒适。我就简单演示一下接口层的测试吧。 因为只是简单的演示项目，所以测试接口显得有点吃力。比如，查找不到数据的时候应该返回 <code>404</code> 但是我这里没做接口层的监听，所以根本做不了。按照现在来看，接口层的测试一般是测试状态码是否正常返回，以及数据是否正常的返回。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserEndpointTest</span> <span class="keyword">extends</span> <span class="title class_">BaseTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">findById</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">UserDo</span> <span class="variable">userDo</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UserDo</span>();</span><br><span class="line">        userDo.setUuid(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">        userDo.setName(<span class="string">&quot;Adan&quot;</span>);</span><br><span class="line">        userService.create(userDo);</span><br><span class="line"></span><br><span class="line">        <span class="type">ObjectMapper</span> <span class="variable">mapper</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectMapper</span>();</span><br><span class="line">        mvc.perform(MockMvcRequestBuilders.get(<span class="string">&quot;/1&quot;</span>)</span><br><span class="line">                .contentType(MediaType.APPLICATION_JSON_UTF8)</span><br><span class="line">                .accept(MediaType.APPLICATION_JSON))</span><br><span class="line">                .andExpect(MockMvcResultMatchers.status().isOk())</span><br><span class="line">                .andExpect(mvcResult -&gt; &#123;</span><br><span class="line">                    <span class="type">String</span> <span class="variable">contentAsString</span> <span class="operator">=</span> mvcResult.getResponse().getContentAsString();</span><br><span class="line">                    <span class="type">UserDo</span> <span class="variable">respUserDo</span> <span class="operator">=</span> mapper.readValue(contentAsString, UserDo.class);</span><br><span class="line">                    assertNotNull(<span class="string">&quot;用户信息不能为空&quot;</span>, respUserDo);</span><br><span class="line">                &#125;)</span><br><span class="line">                .andDo(MockMvcResultHandlers.print());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三-总结"><a href="#三-总结" class="headerlink" title="三. 总结"></a>三. 总结</h2><p>编写项目的代码的同时，可以结合测试驱动开发编写代码，先写测试用例再写代码体，逐步让测试用例通过，这时候测试用例将变得很强大还完善，代码也不会再是孤单存在着。测试用例完善了，重构起来就显得特别方便。 在我心中完整的测试应该是项目中分层，每一层都有自己独特的测试用例，下层暴露给上层接口，这时候接口都是被测试过的，所以不害怕被调用。但是可能因为项目开发的时间并不多，所以我使用起来还是蛮吃力的。只能在业务层上做测试。不过按照日常贫血性开发，下一层也并没有东西可以测试了，项目最主要的逻辑都落在了业务层，所以好像并没有什么毛病。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/spring-boot/" rel="tag"># spring-boot</a>
+              <a href="/tags/junit/" rel="tag"># junit</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/spring/springboot-%E4%B8%8E-redis-%E5%A4%84%E7%90%86%E7%BC%93%E5%AD%98/index.html" rel="prev" title="springboot 与 redis 处理缓存">
+                  <i class="fa fa-chevron-left"></i> springboot 与 redis 处理缓存
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/spring/springboot-%E7%9B%91%E6%8E%A7-%E7%BB%93%E5%90%88-spring-boot-admin-%E5%AE%9E%E7%8E%B0%E9%A1%B9%E7%9B%AE%E7%9B%91%E6%8E%A7/index.html" rel="next" title="springboot 监控 结合 spring-boot-admin 实现项目监控">
+                  springboot 监控 结合 spring-boot-admin 实现项目监控 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weidan</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">188k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:22</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"liweidan-cn","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
